@@ -49,6 +49,8 @@ def search_amazon_products(query):
                 and "app" not in title.lower()
                 and "software" not in title.lower()
                 and "digital" not in title.lower()
+                and "ebook" not in title.lower()
+                and "online" not in title.lower()
             ):
                 products.append({
                     "Title": title,
@@ -68,6 +70,13 @@ def search_amazon_products(query):
         if not products:
             flash(f"No physical products found for '{query}'. Please refine your search.", "error")
             return []
+
+        return products
+
+    except Exception as e:
+        print(f"Error making API request: {e}")
+        flash("Error: Unable to fetch products. Please check your internet connection or try again later.", "error")
+        return []
 
         return products
 
