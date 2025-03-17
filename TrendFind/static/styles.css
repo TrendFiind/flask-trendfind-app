@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #f8f9fa;
     color: #333;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -18,28 +18,17 @@ body.dark-mode {
     transition: background-color 0.3s ease;
 }
 
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: 600;
+.logo {
+    height: 50px; /* Adjust the height as needed */
 }
 
-/* Hero Section with Parallax Background */
+/* Hero Section with Background Image */
 .hero-section {
     position: relative;
     padding: 150px 0;
     overflow: hidden;
-    color: #fff;
-}
-
-.parallax-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
-    z-index: -1;
-    transform: translateZ(-1px) scale(2);
+    color: #000; /* Black text for better contrast */
+    background: url('{{ url_for('static', filename='10412350_13087.jpg') }}') no-repeat center center/cover;
 }
 
 .hero-content {
@@ -49,13 +38,15 @@ body.dark-mode {
 
 .hero-section h1 {
     font-size: 3rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
+    color: #000; /* Black text */
 }
 
 .hero-section p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+    color: #000; /* Black text */
 }
 
 .search-bar {
@@ -68,21 +59,22 @@ body.dark-mode {
     transform: scale(1.05);
 }
 
-/* Product Cards */
-.product-card {
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* About Section */
+.about-section {
+    padding: 80px 0;
 }
 
-.product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.about-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
 }
 
-.card-img-top {
-    height: 200px;
-    object-fit: cover;
+.about-section p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
 }
 
 /* Footer */
