@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash
-import requests
+from serpapi import GoogleSearch
 import os
 from dotenv import load_dotenv
 
@@ -23,22 +23,28 @@ def search_google_products(query):
         "api_key": SERPAPI_KEY,
         "engine": "google",
         "q": query + " buy",  # Add "buy" to the query for better shopping results
-        "tbm": "shop"  # Target Google Shopping results
+        "tbm": "shop",  # Target Google Shopping results
+        "location": "Austin, Texas, United States",
+        "google_domain": "google.com",
+        "gl": "us",
+        "hl": "en"
     }
 
     try:
-        response = requests.get("https://serpapi.com/search", params=params)
-        response.raise_for_status()
-        data = response.json()
-        print("API Response:", data)  # Debug print
+        # Make the API request using SerpAPI Python client
+        search = GoogleSearch(params)
+        results = search.get_dict()
+        print("API Response:", results)  # Debug print
 
-        if "shopping_results" not in data:
+        # Check if shopping_results exists in the response
+        if "shopping_results" not in results:
             print("No shopping results found in the API response.")
             flash("No products found. Please try a different search term.", "error")
             return []
 
+        # Extract product details
         products = []
-        for item in data.get("shopping_results", []):
+        for item in results.get("shopping_results", []):
             title = item.get("title", "N/A").lower()
             price = item.get("price", "N/A")
             rating = item.get("rating", "N/A")
@@ -56,7 +62,10 @@ def search_google_products(query):
                     "Image": image  # Add the image URL
                 })
 
+        # Sort products by number of ratings
         products.sort(key=lambda x: int(x["Ratings Total"]), reverse=True)
+
+        # Limit to 10 products
         products = products[:10]
 
         if not products:
@@ -65,13 +74,9 @@ def search_google_products(query):
 
         return products
 
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         print(f"Error making API request: {e}")
         flash("Error: Unable to fetch products. Please check your internet connection or try again later.", "error")
-        return []
-    except KeyError as e:
-        print(f"Error parsing API response: {e}")
-        flash("Error: The API response format is unexpected. Please try again.", "error")
         return []
 
 @app.route("/", methods=["GET", "POST"])
