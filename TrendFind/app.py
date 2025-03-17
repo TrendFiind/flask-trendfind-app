@@ -34,9 +34,11 @@ def search_google_products(query):
         # Make the API request using SerpAPI Python client
         search = GoogleSearch(params)
         results = search.get_dict()
+        print("API Response:", results)  # Debug print
 
         # Check if shopping_results exists in the response
         if "shopping_results" not in results:
+            print("No shopping results found in the API response.")  # Debug print
             flash("No products found. Please try a different search term.", "error")
             return []
 
