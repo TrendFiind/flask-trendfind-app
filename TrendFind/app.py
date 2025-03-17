@@ -22,24 +22,21 @@ def search_google_products(query):
     params = {
         "api_key": SERPAPI_KEY,
         "engine": "google",
-        "q": query + " buy",
-        "tbm": "shop"
+        "q": query + " buy",  # Add "buy" to the query for better shopping results
+        "tbm": "shop"  # Target Google Shopping results
     }
 
     try:
-        # Make the HTTP GET request to SerpAPI
         response = requests.get("https://serpapi.com/search", params=params)
         response.raise_for_status()
         data = response.json()
         print("API Response:", data)  # Debug print
 
-        # Check if shopping_results exists in the response
         if "shopping_results" not in data:
             print("No shopping results found in the API response.")
             flash("No products found. Please try a different search term.", "error")
             return []
 
-        # Extract product details
         products = []
         for item in data.get("shopping_results", []):
             title = item.get("title", "N/A").lower()
@@ -47,8 +44,8 @@ def search_google_products(query):
             rating = item.get("rating", "N/A")
             ratings_total = item.get("reviews", 0)
             link = item.get("link", "N/A")
+            image = item.get("thumbnail", "N/A")  # Use 'thumbnail' for the image URL
 
-            # Skip products with N/A in critical fields
             if "N/A" not in [title, price, link]:
                 products.append({
                     "Title": item.get("title", "N/A"),
@@ -56,12 +53,10 @@ def search_google_products(query):
                     "Rating": rating,
                     "Ratings Total": ratings_total,
                     "Link": link,
+                    "Image": image  # Add the image URL
                 })
 
-        # Sort products by number of ratings
         products.sort(key=lambda x: int(x["Ratings Total"]), reverse=True)
-
-        # Limit to 10 products
         products = products[:10]
 
         if not products:
