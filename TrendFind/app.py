@@ -78,13 +78,6 @@ def search_amazon_products(query):
         flash("Error: Unable to fetch products. Please check your internet connection or try again later.", "error")
         return []
 
-        return products
-
-    except Exception as e:
-        print(f"Error making API request: {e}")
-        flash("Error: Unable to fetch products. Please check your internet connection or try again later.", "error")
-        return []
-
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
