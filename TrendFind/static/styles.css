@@ -1,20 +1,20 @@
 /* General Styles */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    font-family: 'Poppins', sans-serif;
+    background-color: #e0f7fa;
+    color: #00695c;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark-mode {
-    background-color: #1a1a1a;
-    color: #f8f9fa;
+    background-color: #004d40;
+    color: #e0f7fa;
 }
 
 /* Navigation Bar */
 .navbar {
     padding: 1rem 0;
-    background-color: rgba(0, 0, 0, 0.7) !important;
+    background-color: rgba(0, 105, 92, 0.9) !important;
     transition: background-color 0.3s ease;
 }
 
@@ -40,11 +40,13 @@ body.dark-mode {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: #004d40;
 }
 
 .hero-section p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
+    color: #004d40;
 }
 
 .search-bar {
@@ -57,15 +59,32 @@ body.dark-mode {
     transform: scale(1.05);
 }
 
+.search-bar .form-control {
+    border-radius: 25px;
+    border: 2px solid #004d40;
+}
+
+.search-bar .btn-primary {
+    border-radius: 25px;
+    background-color: #004d40;
+    border: none;
+}
+
+.search-bar .btn-primary:hover {
+    background-color: #00695c;
+}
+
 /* About Section */
 .about-section {
     padding: 80px 0;
+    background-color: #b2dfdb;
 }
 
 .about-section h2 {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
+    color: #004d40;
 }
 
 .about-section p {
@@ -73,23 +92,24 @@ body.dark-mode {
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.8;
+    color: #004d40;
 }
 
 /* Footer */
 footer {
-    background-color: #343a40;
-    color: #fff;
+    background-color: #004d40;
+    color: #e0f7fa;
     padding: 20px 0;
 }
 
 .social-links a {
-    color: #fff;
+    color: #e0f7fa;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-    color: #2575fc;
+    color: #b2dfdb;
 }
 
 /* Dark Mode Toggle */
