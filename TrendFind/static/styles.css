@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px; /* Increased width for better spacing */
     margin: 0 auto;
     padding: 20px;
 }
@@ -13,8 +13,26 @@ body {
     max-width: 100px;
     height: auto;
     margin-top: 10px;
+    border-radius: 8px; /* Rounded corners for images */
 }
 
 .table-responsive {
+    margin-top: 20px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05); /* Light striped effect */
+}
+
+.btn-outline-primary {
+    transition: all 0.3s ease; /* Smooth hover effect */
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.alert {
     margin-top: 20px;
 }
