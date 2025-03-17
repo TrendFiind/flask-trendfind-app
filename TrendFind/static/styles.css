@@ -1,121 +1,226 @@
 /* General Styles */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #e0f7fa;
-    color: #00695c;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
 }
 
-body.dark-mode {
-    background-color: #004d40;
-    color: #e0f7fa;
+h1, h2 {
+    font-family: 'Playfair Display', serif;
 }
 
-/* Navigation Bar */
-.navbar {
-    padding: 1rem 0;
-    background-color: rgba(0, 105, 92, 0.9) !important;
-    transition: background-color 0.3s ease;
+/* Logo Container */
+.logo-container {
+    text-align: center; /* Center the logo horizontally */
+    padding: 20px 0; /* Add some padding */
+    background-color: #fff; /* Optional: Add a background color */
 }
 
+/* Logo Styling */
 .logo {
-    height: 50px; /* Adjust the height as needed */
+    height: 150px; /* Increase the height of the logo */
+    width: auto; /* Maintain aspect ratio */
 }
 
-/* Hero Section with Background Image */
+/* Responsive Logo */
+@media (max-width: 768px) {
+    .logo {
+        height: 100px; /* Smaller logo for mobile devices */
+    }
+}
+
+/* Bold Heading */
+h1 strong {
+    font-weight: bold; /* Make the heading bold */
+}
+
+/* Hero Section */
 .hero-section {
-    position: relative;
-    padding: 150px 0;
-    overflow: hidden;
-    color: #fff;
-    background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center/cover;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
+    background-image: url('https://via.placeholder.com/1500x800'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+    text-align: center;
+    color: #000; /* Black text color */
 }
 
 .hero-section h1 {
     font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #004d40;
+    margin-bottom: 20px;
+    color: #000; /* Ensure the heading is black */
 }
 
 .hero-section p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-    color: #004d40;
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: #000; /* Ensure the paragraph is black */
 }
 
-.search-bar {
+/* Search Form in Hero Section */
+.search-form .input-group {
     max-width: 600px;
     margin: 0 auto;
-    transition: transform 0.3s ease;
 }
 
-.search-bar:hover {
-    transform: scale(1.05);
+.search-form .form-control {
+    height: 50px;
+    border-radius: 25px 0 0 25px;
 }
 
-.search-bar .form-control {
-    border-radius: 25px;
-    border: 2px solid #004d40;
-}
-
-.search-bar .btn-primary {
-    border-radius: 25px;
-    background-color: #004d40;
-    border: none;
-}
-
-.search-bar .btn-primary:hover {
-    background-color: #00695c;
+.search-form .btn {
+    height: 50px;
+    border-radius: 0 25px 25px 0;
 }
 
 /* About Section */
 .about-section {
     padding: 80px 0;
-    background-color: #b2dfdb;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    flex: 1; /* Allow the section to grow and push the footer to the bottom */
+    color: #fff; /* White text for better contrast */
 }
 
 .about-section h2 {
     font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #004d40;
+    margin-bottom: 30px;
 }
 
 .about-section p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.8;
-    color: #004d40;
+    margin: 0 auto 20px;
+}
+
+/* Results Section */
+.results-section {
+    background-image: url("{{ url_for('static', filename='images/flower-67839_1920.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0;
+    color: #000; /* Black text for better contrast */
+}
+
+.results-section h1 {
+    color: #000; /* Black text for the heading */
+}
+
+.results-section .refresh-text {
+    color: #000; /* Black text for the refresh message */
+}
+
+/* Search Bar in Results Page */
+.search-bar-container {
+    max-width: 600px;
+    margin: 0 auto 40px auto; /* Center the search bar and add margin */
+}
+
+.search-bar-container .form-control {
+    height: 50px;
+    border-radius: 25px 0 0 25px;
+}
+
+.search-bar-container .btn {
+    height: 50px;
+    border-radius: 0 25px 25px 0;
 }
 
 /* Footer */
-footer {
-    background-color: #004d40;
-    color: #e0f7fa;
+.footer {
+    background-color: #343a40;
+    color: #fff;
     padding: 20px 0;
+    text-align: center;
+    margin-top: auto; /* Push the footer to the bottom */
 }
 
-.social-links a {
-    color: #e0f7fa;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.footer p {
+    margin: 0;
 }
 
-.social-links a:hover {
-    color: #b2dfdb;
+/* Table Styling */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark Mode Toggle */
-#dark-mode-toggle {
-    border: none;
-    background: none;
-    color: inherit;
-    cursor: pointer;
+.table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.product-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333; /* Dark gray for product titles */
+}
+
+.btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Fade-In Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover Effects */
+.btn-primary:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect for Table Rows */
+.table-striped tbody tr {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.table-striped tbody tr:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
