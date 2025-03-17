@@ -43,6 +43,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Image</th> <!-- New Image Column -->
                             <th>Products</th>
                             <th>Price</th>
                             <th>Rating</th>
@@ -54,6 +55,9 @@
                         {% for product in products %}
                             <tr>
                                 <td>{{ loop.index }}</td>
+                                <td>
+                                    <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
+                                </td>
                                 <td>
                                     <div class="product-title">{{ product.Title }}</div>
                                 </td>
