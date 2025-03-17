@@ -1,65 +1,55 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
-from serpapi import GoogleSearch
+import requests
 import os
+from flask import Flask, render_template, request, flash, redirect, url_for
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
 # Check if required environment variables are set
-if not os.getenv("SERPAPI_KEY"):
-    raise ValueError("SERPAPI_KEY is not set in the environment variables.")
+if not os.getenv("RAPIDAPI_KEY"):
+    raise ValueError("RAPIDAPI_KEY is not set in the environment variables.")
 if not os.getenv("FLASK_SECRET_KEY"):
     raise ValueError("FLASK_SECRET_KEY is not set in the environment variables.")
 
-# SerpAPI configuration
-SERPAPI_KEY = os.getenv("SERPAPI_KEY")
+# RapidAPI configuration
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")  # Required for flash messages
 
-def search_google_products(query):
-    params = {
-        "api_key": SERPAPI_KEY,
-        "engine": "google",
-        "q": query + " buy",  # Add "buy" to the query for better shopping results
-        "tbm": "shop",  # Target Google Shopping results
-        "location": "Austin, Texas, United States",
-        "google_domain": "google.com",
-        "gl": "us",
-        "hl": "en"
+def search_amazon_products(query):
+    url = "https://real-time-amazon-data.p.rapidapi.com/search"
+    querystring = {"query": query, "page": "1", "country": "US"}
+    headers = {
+        "X-RapidAPI-Key": RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com"
     }
 
     try:
-        # Make the API request using SerpAPI Python client
-        search = GoogleSearch(params)
-        results = search.get_dict()
+        response = requests.get(url, headers=headers, params=querystring)
+        response.raise_for_status()  # Raise an error for bad responses
+        results = response.json()
         print("API Response:", results)  # Debug print
-
-        # Check if shopping_results exists in the response
-        if "shopping_results" not in results:
-            print("No shopping results found in the API response.")  # Debug print
-            flash("No products found. Please try a different search term.", "error")
-            return []
 
         # Extract product details
         products = []
-        for item in results.get("shopping_results", []):
-            title = item.get("title", "N/A").lower()
-            price = item.get("price", "N/A")
-            rating = item.get("rating", "N/A")
-            ratings_total = item.get("reviews", 0)
-            link = item.get("link", "N/A")
-            image = item.get("thumbnail", "N/A")  # Use 'thumbnail' for the image URL
+        for item in results.get("data", {}).get("products", []):
+            title = item.get("product_title", "N/A")
+            price = item.get("product_price", "N/A")
+            rating = item.get("product_star_rating", "N/A")
+            ratings_total = item.get("product_num_ratings", 0)
+            link = item.get("product_url", "N/A")
+            image = item.get("product_photo", "N/A")
 
             if "N/A" not in [title, price, link]:
                 products.append({
-                    "Title": item.get("title", "N/A"),
+                    "Title": title,
                     "Price": price,
                     "Rating": rating,
                     "Ratings Total": ratings_total,
                     "Link": link,
-                    "Image": image  # Add the image URL
+                    "Image": image
                 })
 
         # Sort products by number of ratings
@@ -94,7 +84,7 @@ def home():
 @app.route("/results")
 def results():
     query = request.args.get("query")
-    products = search_google_products(query)
+    products = search_amazon_products(query)  # Use the new function
     return render_template("results.html", products=products, query=query)
 
 if __name__ == "__main__":
