@@ -1,4 +1,4 @@
- scripts.js
+// scripts.js
 document.getElementById('dark-mode-toggle').addEventListener('click', function () {
     document.body.classList.toggle('dark-mode');
     const icon = this.querySelector('i');
