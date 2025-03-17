@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 from serpapi import GoogleSearch
 import os
 from dotenv import load_dotenv
@@ -90,13 +90,17 @@ def home():
         
         products = search_google_products(query)
         if products:
-            print("Products to be displayed:", products)  # Debug print
-            return render_template("results.html", products=products)
+            return redirect(url_for("results", query=query))
         else:
-            flash("No products found. Please try a different search term.", "error")
             return render_template("index.html")
     
     return render_template("index.html")
+
+@app.route("/results")
+def results():
+    query = request.args.get("query")
+    products = search_google_products(query)
+    return render_template("results.html", products=products, query=query)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
