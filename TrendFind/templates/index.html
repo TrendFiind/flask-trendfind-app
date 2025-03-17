@@ -3,19 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrendFind - Search</title>
+    <title>TrendFind - Discover Trending Products</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center my-4">TrendFind</h1>
-        <form method="POST" action="/">
-            <div class="input-group mb-3">
-                <input type="text" name="query" class="form-control" placeholder="Enter a product name..." required>
-                <button type="submit" class="btn btn-primary">Search</button>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">TrendFind</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
             </div>
-        </form>
-    </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4">Discover Trending Products</h1>
+            <p class="lead">Find the best products with real-time data and reviews.</p>
+            <form method="POST" action="/" class="d-flex justify-content-center">
+                <div class="input-group w-75">
+                    <input type="text" name="query" class="form-control" placeholder="Search for a product..." required>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">About TrendFind</h2>
+            <p class="text-center">TrendFind helps you discover the most popular and trending products across various categories. Our platform provides real-time data, reviews, and prices to help you make informed decisions.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Contact Us</h2>
+            <p class="text-center">Have questions or feedback? Reach out to us at <a href="mailto:support@trendfind.com">support@trendfind.com</a>.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
