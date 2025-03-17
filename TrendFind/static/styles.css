@@ -39,14 +39,72 @@ h1 strong {
     font-weight: bold; /* Make the heading bold */
 }
 
+/* Hero Section */
+.hero-section {
+    background-image: url('https://via.placeholder.com/1500x800'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+    text-align: center;
+    color: #000; /* Black text color */
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #000; /* Ensure the heading is black */
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: #000; /* Ensure the paragraph is black */
+}
+
+/* Search Form in Hero Section */
+.search-form .input-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-form .form-control {
+    height: 50px;
+    border-radius: 25px 0 0 25px;
+}
+
+.search-form .btn {
+    height: 50px;
+    border-radius: 0 25px 25px 0;
+}
+
+/* About Section */
+.about-section {
+    padding: 80px 0;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    flex: 1; /* Allow the section to grow and push the footer to the bottom */
+    color: #fff; /* White text for better contrast */
+}
+
+.about-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.about-section p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
 /* Results Section */
 .results-section {
-    background-image: url("{{ url_for('static', filename='images/10412350_13087.jpg') }}");
+    background-image: url("{{ url_for('static', filename='images/flower-67839_1920.jpg') }}");
     background-size: cover;
     background-position: center;
     padding: 80px 0;
     color: #000; /* Black text for better contrast */
-    flex: 1; /* Allow the section to grow and push the footer to the bottom */
 }
 
 .results-section h1 {
@@ -73,6 +131,19 @@ h1 strong {
     border-radius: 0 25px 25px 0;
 }
 
+/* Footer */
+.footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto; /* Push the footer to the bottom */
+}
+
+.footer p {
+    margin: 0;
+}
+
 /* Table Styling */
 .table {
     background-color: white;
@@ -87,12 +158,6 @@ h1 strong {
 
 .table td {
     vertical-align: middle;
-}
-
-.product-image {
-    max-width: 100px;
-    height: auto;
-    border-radius: 8px;
 }
 
 .product-title {
@@ -124,6 +189,22 @@ h1 strong {
     transform: translateY(0);
 }
 
+/* Hover Effects */
+.btn-primary:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect for Table Rows */
+.table-striped tbody tr {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.table-striped tbody tr:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
 /* Loading Spinner */
 .loading-spinner {
     display: none; /* Hidden by default */
@@ -142,17 +223,4 @@ h1 strong {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Footer */
-.footer {
-    background-color: #343a40;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    margin-top: auto; /* Push the footer to the bottom */
-}
-
-.footer p {
-    margin: 0;
 }
