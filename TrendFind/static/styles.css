@@ -1,38 +1,120 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: #f8f9fa;
+    color: #333;
 }
 
-.container {
-    max-width: 1200px;
+/* Navigation Bar */
+.navbar {
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.hero-section .input-group {
+    max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
 }
 
-.product-image {
-    max-width: 100px;
-    height: auto;
-    margin-top: 10px;
-    border-radius: 8px;
+/* About Section */
+.about-section {
+    padding: 80px 0;
 }
 
-.table-responsive {
-    margin-top: 20px;
+.about-section h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05);
+.about-section p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.btn-outline-primary {
-    transition: all 0.3s ease;
+/* Contact Section */
+.contact-section {
+    padding: 80px 0;
 }
 
-.btn-outline-primary:hover {
-    background-color: #0d6efd;
-    color: white;
+.contact-section h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
 }
 
-.alert {
-    margin-top: 20px;
+.contact-section a {
+    color: #2575fc;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+/* Results Section */
+.results-section {
+    padding: 80px 0;
+}
+
+.results-section h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
 }
