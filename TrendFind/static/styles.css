@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-    max-width: 1200px; /* Increased width for better spacing */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -13,7 +13,7 @@ body {
     max-width: 100px;
     height: auto;
     margin-top: 10px;
-    border-radius: 8px; /* Rounded corners for images */
+    border-radius: 8px;
 }
 
 .table-responsive {
@@ -21,11 +21,11 @@ body {
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05); /* Light striped effect */
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .btn-outline-primary {
-    transition: all 0.3s ease; /* Smooth hover effect */
+    transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
