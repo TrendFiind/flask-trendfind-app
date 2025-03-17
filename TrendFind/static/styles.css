@@ -27,8 +27,8 @@ body.dark-mode {
     position: relative;
     padding: 150px 0;
     overflow: hidden;
-    color: #000; /* Black text for better contrast */
-    background: url('{{ url_for('static', filename='10412350_13087.jpg') }}') no-repeat center center/cover;
+    color: #fff;
+    background: url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center/cover;
 }
 
 .hero-content {
@@ -40,13 +40,11 @@ body.dark-mode {
     font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #000; /* Black text */
 }
 
 .hero-section p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    color: #000; /* Black text */
 }
 
 .search-bar {
