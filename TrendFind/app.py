@@ -42,7 +42,14 @@ def search_amazon_products(query):
             link = item.get("product_url", "N/A")
             image = item.get("product_photo", "N/A")
 
-            if "N/A" not in [title, price, link]:
+            # Filter out non-physical products (e.g., subscriptions, apps)
+            if (
+                "N/A" not in [title, price, link]
+                and "subscription" not in title.lower()
+                and "app" not in title.lower()
+                and "software" not in title.lower()
+                and "digital" not in title.lower()
+            ):
                 products.append({
                     "Title": title,
                     "Price": price,
@@ -59,7 +66,7 @@ def search_amazon_products(query):
         products = products[:10]
 
         if not products:
-            flash(f"No products found for '{query}'. Please refine your search.", "error")
+            flash(f"No physical products found for '{query}'. Please refine your search.", "error")
             return []
 
         return products
