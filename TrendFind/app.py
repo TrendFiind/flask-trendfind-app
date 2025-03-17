@@ -34,11 +34,9 @@ def search_google_products(query):
         # Make the API request using SerpAPI Python client
         search = GoogleSearch(params)
         results = search.get_dict()
-        print("API Response:", results)  # Debug print
 
         # Check if shopping_results exists in the response
         if "shopping_results" not in results:
-            print("No shopping results found in the API response.")
             flash("No products found. Please try a different search term.", "error")
             return []
 
@@ -69,7 +67,7 @@ def search_google_products(query):
         products = products[:10]
 
         if not products:
-            flash(f"Error: No products found for '{query}'. Please refine your search.", "error")
+            flash(f"No products found for '{query}'. Please refine your search.", "error")
             return []
 
         return products
@@ -83,16 +81,11 @@ def search_google_products(query):
 def home():
     if request.method == "POST":
         query = request.form.get("query")
-        print("Search Query:", query)  # Debug print
         if not query or query.strip() == "":
-            flash("Error: Please enter a search term.", "error")
-            return render_template("index.html")
+            flash("Please enter a search term.", "error")
+            return redirect(url_for("home"))
         
-        products = search_google_products(query)
-        if products:
-            return redirect(url_for("results", query=query))
-        else:
-            return render_template("index.html")
+        return redirect(url_for("results", query=query))
     
     return render_template("index.html")
 
@@ -104,4 +97,4 @@ def results():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
-    app.run(host="0.0.0.0", port=port)  # Run on all available IPs
+    app.run(host="0.0.0.0", port=port)
