@@ -36,7 +36,7 @@
                                 <td>{{ product["Ratings Total"] }}</td>
                                 <td>
                                     <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                        View on Store
+                                        View on Amazon
                                     </a>
                                 </td>
                             </tr>
@@ -45,7 +45,7 @@
                 </table>
             {% else %}
                 <div class="alert alert-warning">
-                    No products found. Please try a different search term.
+                    No products found for "{{ query }}". Please try a different search term.
                 </div>
             {% endif %}
         </div>
