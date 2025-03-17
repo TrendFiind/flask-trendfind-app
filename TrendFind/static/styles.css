@@ -160,6 +160,13 @@ h1 strong {
     vertical-align: middle;
 }
 
+/* Product Image Styling */
+.product-image {
+    max-width: 80px; /* Reduced size for product images */
+    height: auto;
+    border-radius: 8px;
+}
+
 .product-title {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
