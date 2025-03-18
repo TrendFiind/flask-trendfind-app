@@ -1,4 +1,4 @@
-import requests
+this is my app.py: import requests
 import os
 from flask import Flask, render_template, request, flash, redirect, url_for
 from dotenv import load_dotenv
@@ -42,25 +42,16 @@ def search_amazon_products(query):
             link = item.get("product_url", "N/A")
             image = item.get("product_photo", "N/A")
 
-            # Keywords to identify non-physical products
-            non_physical_keywords = [
-                "video", "youtube", "prime", "subscription", "app", "software", 
-                "digital", "ebook", "online", "streaming", "movie", "music", 
-                "game", "episode", "season", "tv", "show", "series", "audiobook", 
-                "kindle", "mp3", "mp4", "download", "virtual", "cloud", "service",
-                "prime video", "prime membership", "appstore", "google play", "netflix",
-                "hulu", "disney+", "streaming service", "digital download"
-            ]
-
-            # Check if the product is physical
-            is_physical = True
-            for keyword in non_physical_keywords:
-                if keyword in title.lower():
-                    is_physical = False
-                    break
-
-            # Add the product to the list if it's physical
-            if is_physical and "N/A" not in [title, price, link]:
+            # Filter out non-physical products (e.g., subscriptions, apps)
+            if (
+                "N/A" not in [title, price, link]
+                and "subscription" not in title.lower()
+                and "app" not in title.lower()
+                and "software" not in title.lower()
+                and "digital" not in title.lower()
+                and "ebook" not in title.lower()
+                and "online" not in title.lower()
+            ):
                 products.append({
                     "Title": title,
                     "Price": price,
