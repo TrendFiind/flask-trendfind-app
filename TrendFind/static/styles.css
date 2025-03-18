@@ -3,7 +3,7 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('/static/images/Index.jpg'); /* Set background image */
+    background-image: url('/static/images/Index.jpg'); /* Background for index.html */
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* Ensure the background stays fixed */
@@ -108,9 +108,10 @@ h1 strong {
 
 /* Results Section */
 .results-section {
-    background-image: url("{{ url_for('static', filename='images/flower-67839_1920.jpg') }}");
+    background-image: url('/static/images/10412350_13087.jpg'); /* Background for results.html */
     background-size: cover;
     background-position: center;
+    background-attachment: fixed; /* Ensure the background stays fixed */
     padding: 80px 0;
     color: #000; /* Black text for better contrast */
 }
