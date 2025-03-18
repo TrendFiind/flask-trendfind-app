@@ -11,18 +11,18 @@
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="background-image: url('{{ url_for('static', filename='images/Index.jpg') }}'); background-size: cover; background-position: center;">
     <!-- Logo at the Top Middle -->
     <div class="logo-container">
         <a href="/">
-            <img src="{{ url_for('static', filename='images/Untitled_design-removebg-preview.jpg') }}" alt="TrendFind Logo" class="logo">
+            <img src="{{ url_for('static', filename='images/Untitled_design-removebg-preview.jpg') }}" alt="TrendFind Logo" class="logo" style="height: 100px;"> <!-- Smaller logo -->
         </a>
     </div>
 
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="container">
-            <h1>Discover the Next Best-Selling Products</h1>
+            <h1 style="font-size: 2.5rem;">Discover the Next Best-Selling Products</h1> <!-- Smaller header -->
             <p>AI-Powered Precision for Dropshippers and Resellers</p>
             <!-- Search Form -->
             <form method="POST" action="/" class="search-form">
