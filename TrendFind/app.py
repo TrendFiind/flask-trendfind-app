@@ -98,11 +98,4 @@ def results():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
-    app.run(host="0.0.0.0", port=port)  now add my ebay key so it can grab the results from ebay aswell: App ID (Client ID)
-jordanku-TrendFin-SBX-68c4184bf-b0d27889
-User Tokens|Notifications
-Dev ID
-4124f658-f97b-4b1e-8a15-685450bd613d
-Cert ID (Client Secret)
-SBX-8c4184bf6fad-2c93-449c-bdcc-809f
-Rotate (Reset) Cert ID
+    app.run(host="0.0.0.0", port=port)
