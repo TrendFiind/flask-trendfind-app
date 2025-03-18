@@ -38,6 +38,7 @@ def search_ebay_products(query):
         # Extract product details
         products = []
         for item in results.get("findItemsByKeywordsResponse", [{}])[0].get("searchResult", [{}])[0].get("item", []):
+            item_id = item.get("itemId", ["N/A"])[0]
             title = item.get("title", ["N/A"])[0]
             price = item.get("sellingStatus", [{}])[0].get("currentPrice", [{}])[0].get("__value__", "N/A")
             link = item.get("viewItemURL", ["N/A"])[0]
@@ -45,8 +46,8 @@ def search_ebay_products(query):
             condition = item.get("condition", [{}])[0].get("conditionDisplayName", ["N/A"])[0]
             shipping_cost = item.get("shippingInfo", [{}])[0].get("shippingServiceCost", [{}])[0].get("__value__", "N/A")
 
-            # Simulate a description (eBay API does not provide descriptions in the search results)
-            description = f"{title} is a high-quality product with excellent features and specifications. It is in {condition} condition and ships for ${shipping_cost}."
+            # Fetch product description using Shopping API
+            description = get_ebay_product_description(item_id)
 
             # Add the product to the list
             products.append({
@@ -69,6 +70,28 @@ def search_ebay_products(query):
         print(f"Error making eBay API request: {e}")
         flash("Error: Unable to fetch products. Please check your internet connection or try again later.", "error")
         return []
+
+def get_ebay_product_description(item_id):
+    url = "https://open.api.sandbox.ebay.com/shopping"
+    params = {
+        "callname": "GetSingleItem",
+        "responseencoding": "JSON",
+        "appid": EBAY_APP_ID,
+        "siteid": "0",  # US site
+        "version": "967",
+        "ItemID": item_id,
+        "IncludeSelector": "Description"
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        results = response.json()
+        description = results.get("Item", {}).get("Description", "No description available.")
+        return description
+    except Exception as e:
+        print(f"Error fetching product description: {e}")
+        return "No description available."
 
 @app.route("/", methods=["GET", "POST"])
 def home():
