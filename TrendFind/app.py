@@ -47,7 +47,9 @@ def search_amazon_products(query):
                 "video", "youtube", "prime", "subscription", "app", "software", 
                 "digital", "ebook", "online", "streaming", "movie", "music", 
                 "game", "episode", "season", "tv", "show", "series", "audiobook", 
-                "kindle", "mp3", "mp4", "download", "virtual", "cloud", "service"
+                "kindle", "mp3", "mp4", "download", "virtual", "cloud", "service",
+                "prime video", "prime membership", "appstore", "google play", "netflix",
+                "hulu", "disney+", "streaming service", "digital download"
             ]
 
             # Check if the product is physical
