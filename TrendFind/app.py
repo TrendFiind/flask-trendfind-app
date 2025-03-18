@@ -41,6 +41,7 @@ def search_amazon_products(query):
             ratings_total = item.get("product_num_ratings", 0)
             link = item.get("product_url", "N/A")
             image = item.get("product_photo", "N/A")
+            product_id = item.get("product_id", "N/A")  # Unique product ID
 
             # Filter out non-physical products (e.g., subscriptions, apps)
             if (
@@ -58,7 +59,8 @@ def search_amazon_products(query):
                     "Rating": rating,
                     "Ratings Total": ratings_total,
                     "Link": link,
-                    "Image": image
+                    "Image": image,
+                    "ID": product_id  # Add product ID for details page
                 })
 
         # Sort products by number of ratings
@@ -95,6 +97,23 @@ def results():
     query = request.args.get("query")
     products = search_amazon_products(query)  # Use the new function
     return render_template("results.html", products=products, query=query)
+
+@app.route("/product/<product_id>")
+def product_details(product_id):
+    # Fetch detailed product information using the product_id
+    # For now, we'll simulate some details
+    product = {
+        "Title": "Sample Product",
+        "Price": "$19.99",
+        "Rating": "4.5",
+        "Ratings Total": "1000",
+        "Link": "https://www.amazon.com/sample-product",
+        "Image": "https://via.placeholder.com/150",
+        "Description": "This is a detailed description of the product. It includes features, specifications, and other relevant information.",
+        "Profit Margin": "30%",  # Simulated profit margin
+        "Source": "Amazon"  # Simulated source
+    }
+    return render_template("product_details.html", product=product)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
