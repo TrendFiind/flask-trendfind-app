@@ -49,6 +49,7 @@
                             <th>Rating</th>
                             <th>Ratings</th>
                             <th>Link</th>
+                            <th>Details</th> <!-- New column for details -->
                         </tr>
                     </thead>
                     <tbody>
@@ -67,6 +68,11 @@
                                 <td>
                                     <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                         <i class="fas fa-external-link-alt"></i> View on Amazon
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('product_details', product_id=product.ID) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-info-circle"></i> View Details
                                     </a>
                                 </td>
                             </tr>
