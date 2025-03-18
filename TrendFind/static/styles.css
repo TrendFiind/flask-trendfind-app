@@ -3,7 +3,10 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    background-image: url('/static/images/Index.jpg'); /* Set background image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Ensure the background stays fixed */
     color: #333;
     display: flex;
     flex-direction: column;
@@ -18,19 +21,19 @@ h1, h2 {
 .logo-container {
     text-align: center; /* Center the logo horizontally */
     padding: 20px 0; /* Add some padding */
-    background-color: #fff; /* Optional: Add a background color */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better contrast */
 }
 
 /* Logo Styling */
 .logo {
-    height: 150px; /* Increase the height of the logo */
+    height: 120px; /* Slightly smaller logo */
     width: auto; /* Maintain aspect ratio */
 }
 
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        height: 100px; /* Smaller logo for mobile devices */
+        height: 80px; /* Smaller logo for mobile devices */
     }
 }
 
@@ -41,23 +44,26 @@ h1 strong {
 
 /* Hero Section */
 .hero-section {
-    background-image: url('https://via.placeholder.com/1500x800'); /* Replace with your image */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     background-size: cover;
     background-position: center;
-    padding: 100px 0;
+    padding: 80px 0; /* Reduced padding */
     text-align: center;
     color: #000; /* Black text color */
+    border-radius: 10px; /* Rounded corners */
+    margin: 20px auto; /* Center the section */
+    max-width: 800px; /* Limit width */
 }
 
 .hero-section h1 {
-    font-size: 3rem;
+    font-size: 2.5rem; /* Smaller header */
     margin-bottom: 20px;
     color: #000; /* Ensure the heading is black */
 }
 
 .hero-section p {
-    font-size: 1.5rem;
-    margin-bottom: 40px;
+    font-size: 1.2rem; /* Smaller text */
+    margin-bottom: 30px; /* Reduced margin */
     color: #000; /* Ensure the paragraph is black */
 }
 
@@ -79,21 +85,25 @@ h1 strong {
 
 /* About Section */
 .about-section {
-    padding: 80px 0;
+    padding: 60px 0; /* Reduced padding */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     background-size: cover;
     background-position: center;
     text-align: center;
     flex: 1; /* Allow the section to grow and push the footer to the bottom */
-    color: #fff; /* White text for better contrast */
+    color: #333; /* Dark text for better contrast */
+    border-radius: 10px; /* Rounded corners */
+    margin: 20px auto; /* Center the section */
+    max-width: 800px; /* Limit width */
 }
 
 .about-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
+    font-size: 2rem; /* Smaller header */
+    margin-bottom: 20px; /* Reduced margin */
 }
 
 .about-section p {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Smaller text */
     max-width: 800px;
     margin: 0 auto 20px;
 }
@@ -133,7 +143,7 @@ h1 strong {
 
 /* Footer */
 .footer {
-    background-color: #343a40;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
     color: #fff;
     padding: 20px 0;
     text-align: center;
