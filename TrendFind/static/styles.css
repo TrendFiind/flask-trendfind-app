@@ -45,14 +45,12 @@ h1 strong {
 /* Hero Section */
 .hero-section {
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-    background-size: cover;
-    background-position: center;
     padding: 80px 0; /* Reduced padding */
     text-align: center;
     color: #000; /* Black text color */
-    border-radius: 10px; /* Rounded corners */
     margin: 20px auto; /* Center the section */
     max-width: 800px; /* Limit width */
+    border-radius: 10px; /* Rounded corners */
 }
 
 .hero-section h1 {
@@ -85,16 +83,15 @@ h1 strong {
 
 /* About Section */
 .about-section {
-    padding: 60px 0; /* Reduced padding */
+    padding: 60px 20px; /* Reduced padding */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-    background-size: cover;
-    background-position: center;
     text-align: center;
     flex: 1; /* Allow the section to grow and push the footer to the bottom */
     color: #333; /* Dark text for better contrast */
-    border-radius: 10px; /* Rounded corners */
     margin: 20px auto; /* Center the section */
     max-width: 800px; /* Limit width */
+    border: 2px solid #007bff; /* Add a box border */
+    border-radius: 10px; /* Rounded corners */
 }
 
 .about-section h2 {
