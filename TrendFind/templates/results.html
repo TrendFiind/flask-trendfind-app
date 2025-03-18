@@ -37,11 +37,11 @@
                 <div class="loading-spinner" id="search-bar-spinner"></div>
             </div>
 
-            <!-- Cost Price Input -->
+            <!-- Sell Price Input -->
             <div class="cost-price-container mb-4">
                 <form method="POST" action="{{ url_for('results', query=query) }}" class="cost-price-form">
                     <div class="input-group">
-                        <input type="text" id="cost_price" name="cost_price" class="form-control" placeholder="Enter Cost Price (e.g., $50)" required>
+                        <input type="text" id="cost_price" name="cost_price" class="form-control" placeholder="Enter Sell Price (e.g., $50)" required>
                         <button type="submit" class="btn btn-secondary">Calculate Profit Margin</button>
                     </div>
                 </form>
