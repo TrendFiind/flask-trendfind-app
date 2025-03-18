@@ -84,25 +84,26 @@ h1 strong {
 /* About Section */
 .about-section {
     padding: 60px 20px; /* Reduced padding */
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     text-align: center;
     flex: 1; /* Allow the section to grow and push the footer to the bottom */
-    color: #333; /* Dark text for better contrast */
+    color: #fff; /* White text for better contrast */
     margin: 20px auto; /* Center the section */
     max-width: 800px; /* Limit width */
-    border: 2px solid #007bff; /* Add a box border */
-    border-radius: 10px; /* Rounded corners */
 }
 
 .about-section h2 {
     font-size: 2rem; /* Smaller header */
     margin-bottom: 20px; /* Reduced margin */
+    color: #fff; /* White text for better contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
 }
 
 .about-section p {
     font-size: 1rem; /* Smaller text */
     max-width: 800px;
     margin: 0 auto 20px;
+    color: #fff; /* White text for better contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
 }
 
 /* Results Section */
