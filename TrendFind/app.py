@@ -41,29 +41,24 @@ def search_amazon_products(query):
             ratings_total = item.get("product_num_ratings", 0)
             link = item.get("product_url", "N/A")
             image = item.get("product_photo", "N/A")
-            description = item.get("product_description", "No description available.")  # Simulated description
-            profit_margin = "30%"  # Simulated profit margin
 
-            # Filter out non-physical products (e.g., subscriptions, apps)
-            if (
-                "N/A" not in [title, price, link]
-                and "subscription" not in title.lower()
-                and "app" not in title.lower()
-                and "software" not in title.lower()
-                and "digital" not in title.lower()
-                and "ebook" not in title.lower()
-                and "online" not in title.lower()
-            ):
-                products.append({
-                    "Title": title,
-                    "Price": price,
-                    "Rating": rating,
-                    "Ratings Total": ratings_total,
-                    "Link": link,
-                    "Image": image,
-                    "Description": description,
-                    "Profit Margin": profit_margin
-                })
+            # Skip products with no price or invalid price
+            if price == "N/A" or price is None or not price.replace("$", "").replace(".", "").isdigit():
+                continue
+
+            # Simulate a description (since the API doesn't provide one)
+            description = f"This is a detailed description of {title}. It includes features, specifications, and other relevant information."
+
+            # Add the product to the list
+            products.append({
+                "Title": title,
+                "Price": price,
+                "Rating": rating,
+                "Ratings Total": ratings_total,
+                "Link": link,
+                "Image": image,
+                "Description": description
+            })
 
         # Sort products by number of ratings
         products.sort(key=lambda x: int(x["Ratings Total"]), reverse=True)
@@ -94,28 +89,27 @@ def home():
     
     return render_template("index.html")
 
-@app.route("/results")
+@app.route("/results", methods=["GET", "POST"])
 def results():
     query = request.args.get("query")
-    products = search_amazon_products(query)  # Use the new function
-    return render_template("results.html", products=products, query=query)
+    products = search_amazon_products(query)  # Fetch products
 
-@app.route("/product/<product_id>")
-def product_details(product_id):
-    # Fetch detailed product information using the product_id
-    # For now, we'll simulate some details
-    product = {
-        "Title": "Sample Product",
-        "Price": "$19.99",
-        "Rating": "4.5",
-        "Ratings Total": "1000",
-        "Link": "https://www.amazon.com/sample-product",
-        "Image": "https://via.placeholder.com/150",
-        "Description": "This is a detailed description of the product. It includes features, specifications, and other relevant information.",
-        "Profit Margin": "30%",  # Simulated profit margin
-        "Source": "Amazon"  # Simulated source
-    }
-    return render_template("product_details.html", product=product)
+    if request.method == "POST":
+        cost_price = request.form.get("cost_price")
+        if not cost_price or not cost_price.replace("$", "").replace(".", "").isdigit():
+            flash("Please enter a valid cost price.", "error")
+            return redirect(url_for("results", query=query))
+
+        cost_price = float(cost_price.replace("$", ""))
+
+        # Calculate profit margin for each product
+        for product in products:
+            selling_price = float(product["Price"].replace("$", ""))
+            profit = selling_price - cost_price
+            profit_margin = (profit / selling_price) * 100
+            product["Profit Margin"] = f"{profit_margin:.2f}%"
+
+    return render_template("results.html", products=products, query=query)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
