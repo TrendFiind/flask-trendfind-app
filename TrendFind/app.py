@@ -41,7 +41,8 @@ def search_amazon_products(query):
             ratings_total = item.get("product_num_ratings", 0)
             link = item.get("product_url", "N/A")
             image = item.get("product_photo", "N/A")
-            product_id = item.get("product_id", "N/A")  # Unique product ID
+            description = item.get("product_description", "No description available.")  # Simulated description
+            profit_margin = "30%"  # Simulated profit margin
 
             # Filter out non-physical products (e.g., subscriptions, apps)
             if (
@@ -60,7 +61,8 @@ def search_amazon_products(query):
                     "Ratings Total": ratings_total,
                     "Link": link,
                     "Image": image,
-                    "ID": product_id  # Add product ID for details page
+                    "Description": description,
+                    "Profit Margin": profit_margin
                 })
 
         # Sort products by number of ratings
