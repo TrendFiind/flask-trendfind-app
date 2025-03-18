@@ -37,6 +37,16 @@
                 <div class="loading-spinner" id="search-bar-spinner"></div>
             </div>
 
+            <!-- Cost Price Input -->
+            <div class="cost-price-container mb-4">
+                <form method="POST" action="{{ url_for('results', query=query) }}" class="cost-price-form">
+                    <div class="input-group">
+                        <input type="text" id="cost_price" name="cost_price" class="form-control" placeholder="Enter Cost Price (e.g., $50)" required>
+                        <button type="submit" class="btn btn-secondary">Calculate Profit Margin</button>
+                    </div>
+                </form>
+            </div>
+
             <!-- Results Table -->
             <div class="table-responsive fade-in">
                 <table class="table table-striped">
@@ -49,7 +59,7 @@
                             <th>Rating</th>
                             <th>Ratings</th>
                             <th>Link</th>
-                            <th>Details</th> <!-- New column for details -->
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +93,9 @@
                                         <div class="card card-body">
                                             <h5>Product Description</h5>
                                             <p>{{ product.Description }}</p>
-                                            <p><strong>Profit Margin:</strong> {{ product["Profit Margin"] }}</p>
+                                            {% if "Profit Margin" in product %}
+                                                <p><strong>Profit Margin:</strong> {{ product["Profit Margin"] }}</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </td>
