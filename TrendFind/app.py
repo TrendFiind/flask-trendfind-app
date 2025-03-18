@@ -1,4 +1,4 @@
-this is my app.py: import requests
+import requests
 import os
 from flask import Flask, render_template, request, flash, redirect, url_for
 from dotenv import load_dotenv
