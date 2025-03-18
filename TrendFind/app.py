@@ -47,7 +47,7 @@ def search_amazon_products(query):
                 continue
 
             # Simulate a description (since the API doesn't provide one)
-            description = f"This is a detailed description of {title}. It includes features, specifications, and other relevant information."
+            description = f"{title} is a high-quality product with excellent features and specifications. It is highly rated by customers and offers great value for money."
 
             # Add the product to the list
             products.append({
@@ -105,9 +105,16 @@ def results():
         # Calculate profit margin for each product
         for product in products:
             selling_price = float(product["Price"].replace("$", ""))
+            if selling_price <= 0:
+                product["Profit Margin"] = "N/A"
+                continue
+
             profit = selling_price - cost_price
-            profit_margin = (profit / selling_price) * 100
-            product["Profit Margin"] = f"{profit_margin:.2f}%"
+            if profit < 0:
+                product["Profit Margin"] = "N/A (Loss)"
+            else:
+                profit_margin = (profit / selling_price) * 100
+                product["Profit Margin"] = f"{profit_margin:.2f}%"
 
     return render_template("results.html", products=products, query=query)
 
