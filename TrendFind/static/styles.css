@@ -20,7 +20,7 @@ h1, h2 {
 /* Logo Container */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
-    padding: 20px 0; /* Add some padding */
+    padding: 10px 0; /* Reduced padding (top and bottom) */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better contrast */
 }
 
