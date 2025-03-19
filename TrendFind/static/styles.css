@@ -37,20 +37,6 @@ h1, h2 {
     }
 }
 
-/* Hero Section Header */
-.hero-section h1 {
-    font-size: 2.2rem; /* Smaller header size */
-    margin-bottom: 20px;
-    color: #000; /* Ensure the heading is black */
-}
-
-/* Responsive Logo */
-@media (max-width: 768px) {
-    .logo {
-        height: 80px; /* Smaller logo for mobile devices */
-    }
-}
-
 /* Bold Heading */
 h1 strong {
     font-weight: bold; /* Make the heading bold */
@@ -68,7 +54,7 @@ h1 strong {
 }
 
 .hero-section h1 {
-    font-size: 2.5rem; /* Smaller header */
+    font-size: 2.2rem; /* Smaller header size */
     margin-bottom: 20px;
     color: #000; /* Ensure the heading is black */
 }
