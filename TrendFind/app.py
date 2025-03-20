@@ -61,7 +61,7 @@ def search_amazon_products(query):
             })
 
         # Block list for digital products
-        block_list = [
+        BLOCKED_CATEGORIES = [
     "Apps & Games",
     "Audible Books & Originals",
     "Digital Educational Resources",
@@ -122,7 +122,7 @@ def search_amazon_products(query):
     "Consulting Services",
     "Legal Document Templates",
     "AI Art Generators",
-    "Website Builder",
+    "Website Builder Subscriptions",
     "Cloud-Based Software",
     "Digital Gift Cards",
     "eGift Cards",
@@ -169,11 +169,20 @@ def search_amazon_products(query):
     "Custom AI Profile Pictures",
     "Deepfake Services",
     "AI Voice Cloning",
-    "Online Stock Analysis Tools"  # Replace this with your full block list
-        ]
+    "Online Stock Analysis Tools"
+]
 
-        # Filter out digital products
-        products = [product for product in products if not any(blocked in product.get("Title", "") for blocked in block_list)]
+def filter_out_digital_products(products):
+    """
+    Filters out digital products from the product list based on blocked keywords.
+    
+    :param products: List of product dictionaries containing 'Title' keys.
+    :return: List of filtered products containing only physical items.
+    """
+    return [
+        product for product in products
+        if product.get("Title") and not any(blocked.lower() in product["Title"].lower() for blocked in BLOCKED_CATEGORIES)
+    ]
 
 
         # Sort products by number of ratings
