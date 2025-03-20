@@ -12,32 +12,6 @@
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
 <body>
-    <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <ul>
-            <li><a href="#">Example 1</a></li>
-            <li><a href="#">Example 2</a></li>
-            <li><a href="#">Example 3</a></li>
-            <li><a href="#">Example 4</a></li>
-            <li><a href="#">Example 5</a></li>
-            <li><a href="#">Example 6</a></li>
-        </ul>
-    </div>
-
-    <!-- Logo at the Top Middle -->
-    <div class="logo-container">
-        <a href="/">
-            <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
-        </a>
-    </div>
-
     <!-- Results Section -->
     <div class="results-section">
         <div class="container mt-5 fade-in">
@@ -134,64 +108,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript for Sidebar Toggle -->
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-        }
-    </script>
-
-    <!-- JavaScript for Profit Margin Calculation -->
-    <script>
-        function calculateProfitMargin(index, productPrice) {
-            const sellPrice = parseFloat(document.getElementById(`sellPrice${index}`).value);
-            const price = parseFloat(productPrice.replace('$', ''));
-
-            if (isNaN(sellPrice)) {
-                alert("Please enter a valid sell price.");
-                return;
-            }
-
-            const profit = sellPrice - price;
-            const profitMargin = ((profit / sellPrice) * 100).toFixed(2);
-
-            document.getElementById(`profitMargin${index}`).textContent = `${profitMargin}%`;
-        }
-    </script>
-
-    <!-- JavaScript for Fade-In Animation -->
-    <script>
-        const fadeInElements = document.querySelectorAll('.fade-in');
-
-        const checkVisibility = () => {
-            fadeInElements.forEach((element) => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementBottom = element.getBoundingClientRect().bottom;
-
-                if (elementTop < window.innerHeight && elementBottom > 0) {
-                    element.classList.add('visible');
-                }
-            });
-        };
-
-        window.addEventListener('scroll', checkVisibility);
-        window.addEventListener('load', checkVisibility);
-    </script>
-
-    <!-- JavaScript for Search Bar Loading Spinner -->
-    <script>
-        const searchForm = document.querySelector('.search-form');
-        const searchBarSpinner = document.getElementById('search-bar-spinner');
-
-        searchForm.addEventListener('submit', () => {
-            searchBarSpinner.style.display = 'block'; // Show spinner
-        });
-
-        window.addEventListener('load', () => {
-            searchBarSpinner.style.display = 'none'; // Hide spinner
-        });
-    </script>
 </body>
 </html>
