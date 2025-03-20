@@ -170,7 +170,6 @@ def search_amazon_products(query):
     "Deepfake Services",
     "AI Voice Cloning",
     "Online Stock Analysis Tools"
-]
    
     return [
         product for product in products
