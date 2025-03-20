@@ -17,15 +17,6 @@ h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
-/* Logo container */
-.logo-container {
-    width: 100%;
-    background-color: white; /* White header background */
-    padding: 1px 0; /* Add padding for spacing */
-    text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-}
-
 /* Logo styling */
 .logo {
     width: 400px; /* Adjust width to make it bigger */
