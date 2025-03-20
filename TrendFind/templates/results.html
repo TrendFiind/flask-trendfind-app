@@ -38,38 +38,26 @@
         </a>
     </div>
 
-    <!-- Retailer Filter -->
-    <div class="retailer-filter">
-        <form method="GET" action="{{ url_for('results') }}">
-            <input type="hidden" name="query" value="{{ query }}">
-            <select name="retailer" onchange="this.form.submit()">
-                <option value="All" {% if retailer == "All" %}selected{% endif %}>All</option>
-                <option value="Amazon" {% if retailer == "Amazon" %}selected{% endif %}>Amazon</option>
-                <option value="Walmart" {% if retailer == "Walmart" %}selected{% endif %}>Walmart</option>
-                <option value="BestBuy" {% if retailer == "BestBuy" %}selected{% endif %}>BestBuy</option>
-                <option value="AliExpress" {% if retailer == "AliExpress" %}selected{% endif %}>AliExpress</option>
-            </select>
-        </form>
-    </div>
-
     <!-- Results Section -->
-    <div class="results-section" style="background-image: url('{{ url_for('static', filename='images/Index.jpg') }}');">
+    <div class="results-section">
         <div class="container mt-5 fade-in">
-            <div class="bg-white p-4 rounded shadow-sm"> <!-- White box -->
+            <div class="bg-white p-4 rounded shadow-sm" style="margin-top: -20px;"> <!-- Adjusted margin -->
                 <h1 class="text-center mb-4"><strong>Top Trending Products</strong></h1>
                 <p class="text-center mb-4 refresh-text">Refresh For Different Products!</p>
             </div>
 
-            <!-- Search Bar -->
-            <div class="search-bar-container mb-4">
-                <form method="POST" action="/" class="search-form">
-                    <div class="input-group">
-                        <input type="text" id="query" name="query" class="form-control" placeholder="Search For More Products..." required>
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+            <!-- Retailer Filter -->
+            <div class="retailer-filter">
+                <form method="GET" action="{{ url_for('results') }}">
+                    <input type="hidden" name="query" value="{{ query }}">
+                    <select name="retailer" onchange="this.form.submit()">
+                        <option value="All" {% if retailer == "All" %}selected{% endif %}>All</option>
+                        <option value="Amazon" {% if retailer == "Amazon" %}selected{% endif %}>Amazon</option>
+                        <option value="Walmart" {% if retailer == "Walmart" %}selected{% endif %}>Walmart</option>
+                        <option value="BestBuy" {% if retailer == "BestBuy" %}selected{% endif %}>BestBuy</option>
+                        <option value="AliExpress" {% if retailer == "AliExpress" %}selected{% endif %}>AliExpress</option>
+                    </select>
                 </form>
-                <!-- Loading Spinner -->
-                <div class="loading-spinner" id="search-bar-spinner"></div>
             </div>
 
             <!-- Results Table -->
@@ -206,5 +194,4 @@
         });
     </script>
 </body>
-</html>                                                    
-                                                                                                    
+</html>
