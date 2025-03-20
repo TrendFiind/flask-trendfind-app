@@ -29,7 +29,7 @@ h1, h2 {
 
 /* Logo Styling */
 .logo {
-    width: 150px; /* Smaller logo size */
+    width: 400px; /* Fixed logo size */
     height: auto; /* Maintain aspect ratio */
     max-width: 100%; /* Ensure responsiveness */
     transition: transform 0.3s ease-in-out;
@@ -42,15 +42,37 @@ h1, h2 {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        width: 120px; /* Slightly smaller logo for mobile */
+        width: 300px; /* Slightly smaller logo for mobile */
     }
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed; /* Fixed position */
+    top: 70px; /* Position below the white header */
+    left: 10px; /* Position from the left */
+    z-index: 1002; /* Ensure the button is above everything */
+    background-color: white; /* White background */
+    border: none; /* Remove border */
+    padding: 10px; /* Add padding */
+    cursor: pointer; /* Pointer cursor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.sidebar-toggle span {
+    display: block; /* Make each line a block */
+    width: 25px; /* Width of the lines */
+    height: 3px; /* Height of the lines */
+    background-color: #333; /* Dark color for the lines */
+    margin: 5px 0; /* Space between lines */
 }
 
 /* Sidebar Styles */
 .sidebar {
     width: 250px; /* Sidebar width */
     height: 100vh; /* Full height */
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
     position: fixed; /* Fixed position */
     top: 0;
     left: -250px; /* Hide sidebar by default */
@@ -67,6 +89,7 @@ h1, h2 {
     list-style: none; /* Remove bullet points */
     padding: 0;
     margin: 0;
+    margin-top: 80px; /* Space below the toggle button */
 }
 
 .sidebar ul li {
@@ -84,28 +107,6 @@ h1, h2 {
     color: #333; /* Dark text color */
     font-size: 1rem; /* Font size */
     display: block; /* Make the entire area clickable */
-}
-
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-    position: fixed; /* Fixed position */
-    top: 10px; /* Position from the top */
-    left: 10px; /* Position from the left */
-    z-index: 1002; /* Ensure the button is above everything */
-    background-color: white; /* White background */
-    border: none; /* Remove border */
-    padding: 10px; /* Add padding */
-    cursor: pointer; /* Pointer cursor */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-    border-radius: 5px; /* Rounded corners */
-}
-
-.sidebar-toggle span {
-    display: block; /* Make each line a block */
-    width: 25px; /* Width of the lines */
-    height: 3px; /* Height of the lines */
-    background-color: #333; /* Dark color for the lines */
-    margin: 5px 0; /* Space between lines */
 }
 
 /* Hero Section */
@@ -206,6 +207,18 @@ h1, h2 {
     border-radius: 0 25px 25px 0;
 }
 
+/* Table Header Bubbles */
+.table th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px; /* Add padding */
+    border-radius: 20px; /* Rounded corners for bubble effect */
+    text-align: center; /* Center text */
+    font-size: 1rem; /* Font size */
+    font-weight: bold; /* Bold text */
+    margin: 5px; /* Add margin between bubbles */
+}
+
 /* Footer */
 .footer {
     background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
@@ -224,11 +237,6 @@ h1, h2 {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.table th {
-    background-color: #007bff;
-    color: white;
 }
 
 .table td {
