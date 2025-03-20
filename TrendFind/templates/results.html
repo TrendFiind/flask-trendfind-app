@@ -39,10 +39,13 @@
     </div>
 
     <!-- Results Section -->
-    <div class="results-section">
+    <div class="results-section" style="background-image: url('{{ url_for('static', filename='images/Index.jpg') }}');">
         <div class="container mt-5 fade-in">
-            <h1 class="text-center mb-4"><strong>Top Trending Products</strong></h1>
-            <p class="text-center mb-4 refresh-text">Refresh For Different Products!</p>
+            <!-- White Box for Heading -->
+            <div class="bg-white p-4 rounded shadow-sm mb-4">
+                <h1 class="text-center mb-4"><strong>Top Trending Products</strong></h1>
+                <p class="text-center mb-4 refresh-text">Refresh For Different Products!</p>
+            </div>
 
             <!-- Search Bar -->
             <div class="search-bar-container mb-4">
@@ -102,9 +105,13 @@
                                         <div class="card card-body">
                                             <h5>Product Description</h5>
                                             <p>{{ product.Description }}</p>
-                                            {% if "Profit Margin" in product %}
-                                                <p><strong>Profit Margin:</strong> {{ product["Profit Margin"] }}</p>
-                                            {% endif %}
+                                            <!-- Profit Margin Calculator -->
+                                            <div class="profit-margin-container mt-3">
+                                                <label for="sellPrice{{ loop.index }}">Enter Sell Price:</label>
+                                                <input type="number" id="sellPrice{{ loop.index }}" class="form-control mb-2" placeholder="e.g., 40">
+                                                <button class="btn btn-sm btn-primary" onclick="calculateProfitMargin({{ loop.index }}, '{{ product.Price }}')">Calculate Profit Margin</button>
+                                                <p class="mt-2"><strong>Profit Margin:</strong> <span id="profitMargin{{ loop.index }}"></span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
@@ -133,6 +140,24 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
+        }
+    </script>
+
+    <!-- JavaScript for Profit Margin Calculation -->
+    <script>
+        function calculateProfitMargin(index, productPrice) {
+            const sellPrice = parseFloat(document.getElementById(`sellPrice${index}`).value);
+            const price = parseFloat(productPrice.replace('$', ''));
+
+            if (isNaN(sellPrice)) {
+                alert("Please enter a valid sell price.");
+                return;
+            }
+
+            const profit = sellPrice - price;
+            const profitMargin = ((profit / sellPrice) * 100).toFixed(2);
+
+            document.getElementById(`profitMargin${index}`).textContent = `${profitMargin}%`;
         }
     </script>
 
