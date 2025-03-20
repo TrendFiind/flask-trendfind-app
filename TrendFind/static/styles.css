@@ -48,16 +48,16 @@ h1, h2 {
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-    position: fixed; /* Fixed position */
-    top: 70px; /* Position below the white header */
-    left: 10px; /* Position from the left */
-    z-index: 1002; /* Ensure the button is above everything */
-    background-color: white; /* White background */
-    border: none; /* Remove border */
-    padding: 10px; /* Add padding */
-    cursor: pointer; /* Pointer cursor */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-    border-radius: 5px; /* Rounded corners */
+    position: fixed;
+    top: 70px; /* Below the white header */
+    right: 10px; /* Top-right corner */
+    z-index: 1002;
+    background-color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
 .sidebar-toggle span {
