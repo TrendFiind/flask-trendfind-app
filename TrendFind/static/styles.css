@@ -3,14 +3,14 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('/static/images/Index.jpg'); /* Background for index.html */
+    background-image: url('/static/images/Index.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Ensure the background stays fixed */
+    background-attachment: fixed;
     color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+    min-height: 100vh;
 }
 
 h1, h2 {
@@ -19,19 +19,19 @@ h1, h2 {
 
 /* Logo Container */
 .logo-container {
-    text-align: center; /* Center the logo horizontally */
-    padding: 5px 0; /* Very small padding (top and bottom) */
-    background-color: white; /* White background for the header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
-    position: relative; /* Ensure the header stays at the top */
-    z-index: 1000; /* Ensure the header is above other elements */
+    text-align: center;
+    padding: 5px 0;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1000;
 }
 
 /* Logo Styling */
 .logo {
-    width: 400px; /* Fixed logo size */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Ensure responsiveness */
+    width: 400px;
+    height: auto;
+    max-width: 100%;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -42,60 +42,17 @@ h1, h2 {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        width: 300px; /* Slightly smaller logo for mobile */
-    }
-}
-
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-    position: fixed; /* Fixed position */
-    top: 70px; /* Position below the white header */
-    left: 10px; /* Position from the left */
-    z-index: 1002; /* Ensure the button is above everything */
-    background-color: white; /* White background */
-    border: none; /* Remove border */
-    padding: 10px; /* Add padding */
-    cursor: pointer; /* Pointer cursor */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-    border-radius: 5px; /* Rounded corners */
-}
-
-.sidebar-toggle span {
-    display: block; /* Make each line a block */
-    width: 25px; /* Width of the lines */
-    height: 3px; /* Height of the lines */
-    background-color: #333; /* Dark color for the lines */
-    margin: 5px 0; /* Space between lines */
-}
-
-/* Sidebar Styles */
-.sidebar {
-    width: 250px; /* Desktop width */
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.95);
-    position: fixed;
-    top: 120px; /* Below the logo and white header */
-    left: -250px;
-    transition: left 0.3s ease-in-out;
-    z-index: 1001;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Mobile Sidebar */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 175px; /* 30% smaller */
-        top: 70px; /* Below the toggle button */
+        width: 300px;
     }
 }
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     position: fixed;
-    top: 70px; /* Below the white header */
-    right: 10px; /* Top-right corner */
+    top: 70px;
+    right: 10px;
     z-index: 1002;
-    background-color: white;
+    background-color: black; /* Black background */
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -104,162 +61,103 @@ h1, h2 {
 }
 
 .sidebar-toggle span {
-    display: block; /* Make each line a block */
-    width: 25px; /* Width of the lines */
-    height: 3px; /* Height of the lines */
-    background-color: #333; /* Dark color for the lines */
-    margin: 5px 0; /* Space between lines */
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white; /* White lines */
+    margin: 5px 0;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: black; /* Black background */
+    position: fixed;
+    top: 120px;
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+    z-index: 1001;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar.open {
-    left: 0; /* Show sidebar when open */
+    left: 0;
 }
 
 .sidebar ul {
-    list-style: none; /* Remove bullet points */
+    list-style: none;
     padding: 0;
     margin: 0;
-    margin-top: 80px; /* Space below the toggle button */
+    margin-top: 80px;
 }
 
 .sidebar ul li {
-    padding: 15px 20px; /* Add padding to each item */
-    border-bottom: 1px solid #eee; /* Add a subtle border between items */
+    padding: 15px 20px;
+    border-bottom: 1px solid #444; /* Darker border */
     transition: background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #f8f9fa; /* Light hover effect */
+    background-color: #333; /* Darker hover */
 }
 
 .sidebar ul li a {
-    text-decoration: none; /* Remove underline */
-    color: #333; /* Dark text color */
-    font-size: 1rem; /* Font size */
-    display: block; /* Make the entire area clickable */
+    text-decoration: none;
+    color: white; /* White text */
+    font-size: 1rem;
+    display: block;
 }
 
-/* Hero Section */
-.hero-section {
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-    padding: 80px 0; /* Reduced padding */
-    text-align: center;
-    color: #000; /* Black text color */
-    margin: 20px auto; /* Center the section */
-    max-width: 800px; /* Limit width */
-    border-radius: 10px; /* Rounded corners */
-}
-
-.hero-section h1 {
-    font-size: 2.2rem; /* Smaller header size */
+/* Retailer Filter */
+.retailer-filter {
     margin-bottom: 20px;
-    color: #000; /* Ensure the heading is black */
-}
-
-.hero-section p {
-    font-size: 1.2rem; /* Smaller text */
-    margin-bottom: 30px; /* Reduced margin */
-    color: #000; /* Ensure the paragraph is black */
-}
-
-/* Search Form in Hero Section */
-.search-form .input-group {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.search-form .form-control {
-    height: 50px;
-    border-radius: 25px 0 0 25px;
-}
-
-.search-form .btn {
-    height: 50px;
-    border-radius: 0 25px 25px 0;
-}
-
-/* About Section */
-.about-section {
-    padding: 60px 20px; /* Reduced padding */
     text-align: center;
-    flex: 1; /* Allow the section to grow and push the footer to the bottom */
-    color: #fff; /* White text for better contrast */
-    margin: 20px auto; /* Center the section */
-    max-width: 800px; /* Limit width */
 }
 
-.about-section h2 {
-    font-size: 2rem; /* Smaller header */
-    margin-bottom: 20px; /* Reduced margin */
-    color: #fff; /* White text for better contrast */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
+.retailer-filter select {
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #007bff;
+    background-color: white;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
 }
 
-.about-section p {
-    font-size: 1rem; /* Smaller text */
-    max-width: 800px;
-    margin: 0 auto 20px;
-    color: #fff; /* White text for better contrast */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
+.retailer-filter select:hover {
+    background-color: #f8f9fa;
 }
 
 /* Results Section */
 .results-section {
-    background-image: url('/static/images/10412350_13087.jpg'); /* Background for results.html */
+    background-image: url('/static/images/Index.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Ensure the background stays fixed */
+    background-attachment: fixed;
     padding: 80px 0;
-    color: #000; /* Black text for better contrast */
 }
 
 .results-section h1 {
-    color: #000; /* Black text for the heading */
+    color: #000;
 }
 
 .results-section .refresh-text {
-    color: #000; /* Black text for the refresh message */
-}
-
-/* Search Bar in Results Page */
-.search-bar-container {
-    max-width: 600px;
-    margin: 0 auto 40px auto; /* Center the search bar and add margin */
-}
-
-.search-bar-container .form-control {
-    height: 50px;
-    border-radius: 25px 0 0 25px;
-}
-
-.search-bar-container .btn {
-    height: 50px;
-    border-radius: 0 25px 25px 0;
+    color: #000;
 }
 
 /* Table Header Bubbles */
-.table th {
+.bubble-header {
     background-color: #007bff;
     color: white;
-    padding: 10px 15px; /* Add padding */
-    border-radius: 20px; /* Rounded corners for bubble effect */
-    text-align: center; /* Center text */
-    font-size: 1rem; /* Font size */
-    font-weight: bold; /* Bold text */
-    margin: 5px; /* Add margin between bubbles */
-}
-
-/* Footer */
-.footer {
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-    color: #fff;
-    padding: 20px 0;
+    padding: 10px 15px;
+    border-radius: 20px;
     text-align: center;
-    margin-top: auto; /* Push the footer to the bottom */
-}
-
-.footer p {
-    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 5px;
+    border: none;
 }
 
 /* Table Styling */
@@ -269,13 +167,13 @@ h1, h2 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.table td {
+.table th {
     vertical-align: middle;
 }
 
 /* Product Image Styling */
 .product-image {
-    max-width: 80px; /* Reduced size for product images */
+    max-width: 80px;
     height: auto;
     border-radius: 8px;
 }
@@ -284,7 +182,7 @@ h1, h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
     font-weight: bold;
-    color: #333; /* Dark gray for product titles */
+    color: #333;
 }
 
 .btn-outline-primary {
@@ -327,7 +225,7 @@ h1, h2 {
 
 /* Loading Spinner */
 .loading-spinner {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
