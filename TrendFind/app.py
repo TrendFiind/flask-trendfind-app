@@ -122,7 +122,7 @@ def search_amazon_products(query):
     "Consulting Services",
     "Legal Document Templates",
     "AI Art Generators",
-    "Website Builder
+    "Website Builder",
     "Cloud-Based Software",
     "Digital Gift Cards",
     "eGift Cards",
