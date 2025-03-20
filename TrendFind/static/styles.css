@@ -17,17 +17,25 @@ h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
-/* Logo Container */
+/* Logo container */
 .logo-container {
-    text-align: center; /* Center the logo horizontally */
-    padding: 5px 0; /* Very small padding (top and bottom) */
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better contrast */
+    width: 100%;
+    background-color: white; /* White header background */
+    padding: 10px 0; /* Add padding for spacing */
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
 
-/* Logo Styling */
+/* Logo styling */
 .logo {
-    height: 120px; /* Keep the logo size unchanged */
-    width: auto; /* Maintain aspect ratio */
+    width: 180px; /* Adjust width to make it bigger */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure responsiveness */
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 /* Responsive Logo */
