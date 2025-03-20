@@ -42,7 +42,7 @@ h1, h2 {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        width: 300px; /* Slightly smaller logo for mobile */
+        width: 120px; /* Slightly smaller logo for mobile */
     }
 }
 
