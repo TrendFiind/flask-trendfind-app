@@ -171,19 +171,11 @@ def search_amazon_products(query):
     "AI Voice Cloning",
     "Online Stock Analysis Tools"
 ]
-
-def filter_out_digital_products(products):
-    """
-    Filters out digital products from the product list based on blocked keywords.
-    
-    :param products: List of product dictionaries containing 'Title' keys.
-    :return: List of filtered products containing only physical items.
-    """
+   
     return [
         product for product in products
         if product.get("Title") and not any(blocked.lower() in product["Title"].lower() for blocked in BLOCKED_CATEGORIES)
     ]
-
 
         # Sort products by number of ratings
         products.sort(key=lambda x: int(x["Ratings Total"]), reverse=True)
