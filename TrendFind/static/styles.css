@@ -20,12 +20,16 @@ h1, h2 {
 /* Logo Container */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
+    padding: 5px 0; /* Very small padding (top and bottom) */
     background-color: white; /* White background for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    position: relative; /* Ensure the header stays at the top */
+    z-index: 1000; /* Ensure the header is above other elements */
 }
 
 /* Logo Styling */
 .logo {
-    width: 400px; /* Adjust width to make it bigger */
+    width: 150px; /* Smaller logo size */
     height: auto; /* Maintain aspect ratio */
     max-width: 100%; /* Ensure responsiveness */
     transition: transform 0.3s ease-in-out;
@@ -38,8 +42,70 @@ h1, h2 {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        width: 300px; /* Slightly smaller logo for mobile */
+        width: 120px; /* Slightly smaller logo for mobile */
     }
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px; /* Sidebar width */
+    height: 100vh; /* Full height */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: -250px; /* Hide sidebar by default */
+    transition: left 0.3s ease-in-out; /* Smooth transition */
+    z-index: 1001; /* Ensure sidebar is above other elements */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+.sidebar.open {
+    left: 0; /* Show sidebar when open */
+}
+
+.sidebar ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px; /* Add padding to each item */
+    border-bottom: 1px solid #eee; /* Add a subtle border between items */
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+    background-color: #f8f9fa; /* Light hover effect */
+}
+
+.sidebar ul li a {
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Dark text color */
+    font-size: 1rem; /* Font size */
+    display: block; /* Make the entire area clickable */
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: fixed; /* Fixed position */
+    top: 10px; /* Position from the top */
+    left: 10px; /* Position from the left */
+    z-index: 1002; /* Ensure the button is above everything */
+    background-color: white; /* White background */
+    border: none; /* Remove border */
+    padding: 10px; /* Add padding */
+    cursor: pointer; /* Pointer cursor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.sidebar-toggle span {
+    display: block; /* Make each line a block */
+    width: 25px; /* Width of the lines */
+    height: 3px; /* Height of the lines */
+    background-color: #333; /* Dark color for the lines */
+    margin: 5px 0; /* Space between lines */
 }
 
 /* Hero Section */
