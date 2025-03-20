@@ -70,29 +70,15 @@ h1, h2 {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px; /* Desktop width */
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.95);
-    position: fixed;
+    width: 250px; /* Sidebar width for desktop */
+    height: 100vh; /* Full height */
+    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
+    position: fixed; /* Fixed position */
     top: 0;
-    left: -250px;
-    transition: left 0.3s ease-in-out;
-    z-index: 1001;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Mobile Sidebar */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 175px; /* 30% smaller */
-    }
-}
-
-/* PC Sidebar */
-@media (min-width: 769px) {
-    .sidebar {
-        top: 120px; /* Below the logo and white header */
-    }
+    left: -250px; /* Hide sidebar by default */
+    transition: left 0.3s ease-in-out; /* Smooth transition */
+    z-index: 1001; /* Ensure sidebar is above other elements */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
 
 .sidebar.open {
@@ -121,6 +107,20 @@ h1, h2 {
     color: #333; /* Dark text color */
     font-size: 1rem; /* Font size */
     display: block; /* Make the entire area clickable */
+}
+
+/* Sidebar for Mobile Devices */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 175px; /* 30% smaller for mobile */
+    }
+}
+
+/* Sidebar for PC */
+@media (min-width: 769px) {
+    .sidebar {
+        top: 120px; /* Position below the logo and white header */
+    }
 }
 
 /* Hero Section */
@@ -189,7 +189,7 @@ h1, h2 {
 
 /* Results Section */
 .results-section {
-    background-image: url('/static/images/10412350_13087.jpg'); /* Background for results.html */
+    background-image: url('/static/images/Index.jpg'); /* Background for results.html */
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* Ensure the background stays fixed */
