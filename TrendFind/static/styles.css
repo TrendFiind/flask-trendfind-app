@@ -20,20 +20,20 @@ h1, h2 {
 /* Logo Container */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
-    padding: 10px 0; /* Reduced padding (top and bottom) */
+    padding: 5px 0; /* Very small padding (top and bottom) */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for better contrast */
 }
 
 /* Logo Styling */
 .logo {
-    height: 180px; /* Increased logo size for desktop */
+    height: 120px; /* Keep the logo size unchanged */
     width: auto; /* Maintain aspect ratio */
 }
 
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        height: 120px; /* Increased logo size for mobile */
+        height: 80px; /* Keep the logo size unchanged for mobile */
     }
 }
 
