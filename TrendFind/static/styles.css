@@ -1,4 +1,4 @@
-/* General Styles */
+/* General Styles (unchanged) */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -17,7 +17,7 @@ h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
-/* Logo Container */
+/* Logo Container (unchanged) */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
     padding: 5px 0; /* Very small padding (top and bottom) */
@@ -27,7 +27,7 @@ h1, h2 {
     z-index: 1000; /* Ensure the header is above other elements */
 }
 
-/* Logo Styling */
+/* Logo Styling (unchanged) */
 .logo {
     width: 400px; /* Fixed logo size */
     height: auto; /* Maintain aspect ratio */
@@ -39,14 +39,14 @@ h1, h2 {
     transform: scale(1.05);
 }
 
-/* Responsive Logo */
+/* Responsive Logo (unchanged) */
 @media (max-width: 768px) {
     .logo {
         width: 300px; /* Slightly smaller logo for mobile */
     }
 }
 
-/* Sidebar Toggle Button */
+/* Sidebar Toggle Button (unchanged) */
 .sidebar-toggle {
     position: fixed; /* Fixed position */
     top: 70px; /* Position below the white header */
@@ -68,7 +68,7 @@ h1, h2 {
     margin: 5px 0; /* Space between lines */
 }
 
-/* Sidebar Styles */
+/* Sidebar Styles (unchanged) */
 .sidebar {
     width: 250px; /* Sidebar width */
     height: 100vh; /* Full height */
@@ -109,7 +109,7 @@ h1, h2 {
     display: block; /* Make the entire area clickable */
 }
 
-/* Hero Section */
+/* Hero Section (unchanged) */
 .hero-section {
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     padding: 80px 0; /* Reduced padding */
@@ -132,7 +132,7 @@ h1, h2 {
     color: #000; /* Ensure the paragraph is black */
 }
 
-/* Search Form in Hero Section */
+/* Search Form in Hero Section (unchanged) */
 .search-form .input-group {
     max-width: 600px;
     margin: 0 auto;
@@ -148,7 +148,7 @@ h1, h2 {
     border-radius: 0 25px 25px 0;
 }
 
-/* About Section */
+/* About Section (unchanged) */
 .about-section {
     padding: 60px 20px; /* Reduced padding */
     text-align: center;
@@ -173,7 +173,7 @@ h1, h2 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
 }
 
-/* Results Section */
+/* Results Section (updated with old styles) */
 .results-section {
     background-image: url('/static/images/10412350_13087.jpg'); /* Background for results.html */
     background-size: cover;
@@ -191,23 +191,7 @@ h1, h2 {
     color: #000; /* Black text for the refresh message */
 }
 
-/* Search Bar in Results Page */
-.search-bar-container {
-    max-width: 600px;
-    margin: 0 auto 40px auto; /* Center the search bar and add margin */
-}
-
-.search-bar-container .form-control {
-    height: 50px;
-    border-radius: 25px 0 0 25px;
-}
-
-.search-bar-container .btn {
-    height: 50px;
-    border-radius: 0 25px 25px 0;
-}
-
-/* Table Header Bubbles */
+/* Table Header Bubbles (updated with old styles) */
 .table th {
     background-color: #007bff;
     color: white;
@@ -219,20 +203,7 @@ h1, h2 {
     margin: 5px; /* Add margin between bubbles */
 }
 
-/* Footer */
-.footer {
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-    margin-top: auto; /* Push the footer to the bottom */
-}
-
-.footer p {
-    margin: 0;
-}
-
-/* Table Styling */
+/* Table Styling (updated with old styles) */
 .table {
     background-color: white;
     border-radius: 8px;
@@ -243,7 +214,7 @@ h1, h2 {
     vertical-align: middle;
 }
 
-/* Product Image Styling */
+/* Product Image Styling (updated with old styles) */
 .product-image {
     max-width: 80px; /* Reduced size for product images */
     height: auto;
@@ -257,17 +228,7 @@ h1, h2 {
     color: #333; /* Dark gray for product titles */
 }
 
-.btn-outline-primary {
-    border-color: #007bff;
-    color: #007bff;
-}
-
-.btn-outline-primary:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-/* Fade-In Animation */
+/* Fade-In Animation (updated with old styles) */
 .fade-in {
     opacity: 0;
     transform: translateY(20px);
@@ -279,13 +240,7 @@ h1, h2 {
     transform: translateY(0);
 }
 
-/* Hover Effects */
-.btn-primary:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-}
-
-/* Hover Effect for Table Rows */
+/* Hover Effect for Table Rows (updated with old styles) */
 .table-striped tbody tr {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -295,7 +250,20 @@ h1, h2 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Loading Spinner */
+/* Footer (unchanged) */
+.footer {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto; /* Push the footer to the bottom */
+}
+
+.footer p {
+    margin: 0;
+}
+
+/* Loading Spinner (unchanged) */
 .loading-spinner {
     display: none; /* Hidden by default */
     position: fixed;
