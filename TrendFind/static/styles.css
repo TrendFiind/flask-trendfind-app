@@ -70,21 +70,20 @@ h1, h2 {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px; /* Sidebar width for desktop */
-    height: 100vh; /* Full height */
-    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white background */
-    position: fixed; /* Fixed position */
-    top: 0;
-    left: -250px; /* Hide sidebar by default */
-    transition: left 0.3s ease-in-out; /* Smooth transition */
-    z-index: 1001; /* Ensure sidebar is above other elements */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    width: 250px; /* Desktop width */
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.95);
+    position: fixed;
+    top: 120px; /* Below the logo and white header */
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+    z-index: 1001;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar.open {
     left: 0; /* Show sidebar when open */
 }
-
 .sidebar ul {
     list-style: none; /* Remove bullet points */
     padding: 0;
