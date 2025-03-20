@@ -26,20 +26,15 @@ h1, h2 {
 
 /* Logo Styling */
 .logo {
-    height: 150px; /* Increased logo size */
+    height: 180px; /* Increased logo size for desktop */
     width: auto; /* Maintain aspect ratio */
 }
 
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        height: 100px; /* Slightly larger logo for mobile devices */
+        height: 120px; /* Increased logo size for mobile */
     }
-}
-
-/* Bold Heading */
-h1 strong {
-    font-weight: bold; /* Make the heading bold */
 }
 
 /* Hero Section */
