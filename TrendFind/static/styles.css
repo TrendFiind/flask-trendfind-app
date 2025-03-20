@@ -19,16 +19,16 @@ h1, h2 {
 
 /* Logo container */
 .logo-container {
-    width: 50%;
+    width: 100%;
     background-color: white; /* White header background */
-    padding: 10px 0; /* Add padding for spacing */
+    padding: 1px 0; /* Add padding for spacing */
     text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
 }
 
 /* Logo styling */
 .logo {
-    width: 240px; /* Adjust width to make it bigger */
+    width: 400px; /* Adjust width to make it bigger */
     height: auto; /* Maintain aspect ratio */
     max-width: 100%; /* Ensure responsiveness */
     transition: transform 0.3s ease-in-out;
