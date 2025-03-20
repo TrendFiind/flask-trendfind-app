@@ -17,7 +17,15 @@ h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
-/* Logo styling */
+/* Logo Container */
+.logo-container {
+    text-align: center; /* Center the logo horizontally */
+    padding: 5px 0; /* Very small padding (top and bottom) */
+    background-color: white; /* White background for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+/* Logo Styling */
 .logo {
     width: 400px; /* Adjust width to make it bigger */
     height: auto; /* Maintain aspect ratio */
@@ -32,7 +40,7 @@ h1, h2 {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        height: 80px; /* Keep the logo size unchanged for mobile */
+        width: 300px; /* Slightly smaller logo for mobile */
     }
 }
 
