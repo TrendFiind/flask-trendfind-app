@@ -19,7 +19,7 @@ h1, h2 {
 
 /* Logo container */
 .logo-container {
-    width: 100%;
+    width: 50%;
     background-color: white; /* White header background */
     padding: 10px 0; /* Add padding for spacing */
     text-align: center;
@@ -28,7 +28,7 @@ h1, h2 {
 
 /* Logo styling */
 .logo {
-    width: 180px; /* Adjust width to make it bigger */
+    width: 240px; /* Adjust width to make it bigger */
     height: auto; /* Maintain aspect ratio */
     max-width: 100%; /* Ensure responsiveness */
     transition: transform 0.3s ease-in-out;
