@@ -70,7 +70,7 @@ h1, h2 {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 100px; /* Desktop width */
+    width: 250px; /* Desktop width */
     height: 100vh;
     background-color: rgba(255, 255, 255, 0.95);
     position: fixed;
@@ -84,7 +84,7 @@ h1, h2 {
 /* Mobile Sidebar */
 @media (max-width: 768px) {
     .sidebar {
-        width: 100px; /* 30% smaller */
+        width: 175px; /* 30% smaller */
         top: 70px; /* Below the toggle button */
     }
 }
