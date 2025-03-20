@@ -20,7 +20,7 @@ h1, h2 {
 /* Logo Container */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
-    padding: 5px 0; /* Very small padding (top and bottom) */
+    padding: 0px 0; /* Very small padding (top and bottom) */
     background-color: white; /* White background for the header */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }
