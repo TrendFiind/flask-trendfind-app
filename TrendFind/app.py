@@ -57,7 +57,8 @@ def search_amazon_products(query):
                 "Ratings Total": ratings_total,
                 "Link": link,
                 "Image": image,
-                "Description": description
+                "Description": description,
+                "Retailer": "Amazon"  # Add retailer name
             })
 
         # Block list for digital products
@@ -133,6 +134,149 @@ def search_amazon_products(query):
         flash("Error: Unable to fetch products. Please check your internet connection or try again later.", "error")
         return []
 
+def search_walmart_products(query):
+    url = "https://walmart-data.p.rapidapi.com/walmart-serp.php"
+    querystring = {"url": f"https://www.walmart.com/search?q={query}"}
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": "walmart-data.p.rapidapi.com"
+    }
+
+    try:
+        response = requests.get(url, headers=headers, params=querystring)
+        response.raise_for_status()
+        results = response.json()
+
+        # Extract product details
+        products = []
+        for item in results.get("items", []):
+            title = item.get("title", "N/A")
+            price = item.get("price", "N/A")
+            rating = item.get("rating", "N/A")
+            ratings_total = item.get("reviews_count", 0)
+            link = item.get("link", "N/A")
+            image = item.get("image", "N/A")
+
+            # Skip products with no price or invalid price
+            if price == "N/A" or price is None or not price.replace("$", "").replace(".", "").isdigit():
+                continue
+
+            # Simulate a description
+            description = f"{title} is a high-quality product with excellent features and specifications. It is highly rated by customers and offers great value for money."
+
+            # Add the product to the list
+            products.append({
+                "Title": title,
+                "Price": price,
+                "Rating": rating,
+                "Ratings Total": ratings_total,
+                "Link": link,
+                "Image": image,
+                "Description": description,
+                "Retailer": "Walmart"  # Add retailer name
+            })
+
+        return products
+
+    except Exception as e:
+        print(f"Error making Walmart API request: {e}")
+        return []
+
+def search_bestbuy_products(query):
+    url = "https://bestbuy-usa.p.rapidapi.com/categories/trending"
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": "bestbuy-usa.p.rapidapi.com"
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        results = response.json()
+
+        # Extract product details
+        products = []
+        for item in results.get("products", []):
+            title = item.get("name", "N/A")
+            price = item.get("price", "N/A")
+            rating = item.get("rating", "N/A")
+            ratings_total = item.get("reviews_count", 0)
+            link = item.get("url", "N/A")
+            image = item.get("image", "N/A")
+
+            # Skip products with no price or invalid price
+            if price == "N/A" or price is None or not price.replace("$", "").replace(".", "").isdigit():
+                continue
+
+            # Simulate a description
+            description = f"{title} is a high-quality product with excellent features and specifications. It is highly rated by customers and offers great value for money."
+
+            # Add the product to the list
+            products.append({
+                "Title": title,
+                "Price": price,
+                "Rating": rating,
+                "Ratings Total": ratings_total,
+                "Link": link,
+                "Image": image,
+                "Description": description,
+                "Retailer": "BestBuy"  # Add retailer name
+            })
+
+        return products
+
+    except Exception as e:
+        print(f"Error making BestBuy API request: {e}")
+        return []
+
+def search_aliexpress_products(query):
+    url = "https://aliexpress-datahub.p.rapidapi.com/item_search"
+    querystring = {"q": query}
+    headers = {
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": "aliexpress-datahub.p.rapidapi.com"
+    }
+
+    try:
+        response = requests.get(url, headers=headers, params=querystring)
+        response.raise_for_status()
+        results = response.json()
+
+        # Extract product details
+        products = []
+        for item in results.get("result", {}).get("items", []):
+            title = item.get("title", "N/A")
+            price = item.get("price", "N/A")
+            rating = item.get("rating", "N/A")
+            ratings_total = item.get("reviews_count", 0)
+            link = item.get("product_url", "N/A")
+            image = item.get("image", "N/A")
+
+            # Skip products with no price or invalid price
+            if price == "N/A" or price is None or not price.replace("$", "").replace(".", "").isdigit():
+                continue
+
+            # Simulate a description
+            description = f"{title} is a high-quality product with excellent features and specifications. It is highly rated by customers and offers great value for money."
+
+            # Add the product to the list
+            products.append({
+                "Title": title,
+                "Price": price,
+                "Rating": rating,
+                "Ratings Total": ratings_total,
+                "Link": link,
+                "Image": image,
+                "Description": description,
+                "Retailer": "AliExpress"  # Add retailer name
+            })
+
+        return products
+
+    except Exception as e:
+        print(f"Error making AliExpress API request: {e}")
+        return []
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -148,13 +292,29 @@ def home():
 @app.route("/results", methods=["GET", "POST"])
 def results():
     query = request.args.get("query")
-    products = search_amazon_products(query)  # Fetch products
+    retailer = request.args.get("retailer", "All")  # Default to "All"
+
+    # Fetch products based on the selected retailer
+    if retailer == "Amazon":
+        products = search_amazon_products(query)
+    elif retailer == "Walmart":
+        products = search_walmart_products(query)
+    elif retailer == "BestBuy":
+        products = search_bestbuy_products(query)
+    elif retailer == "AliExpress":
+        products = search_aliexpress_products(query)
+    else:  # "All"
+        amazon_products = search_amazon_products(query)
+        walmart_products = search_walmart_products(query)
+        bestbuy_products = search_bestbuy_products(query)
+        aliexpress_products = search_aliexpress_products(query)
+        products = amazon_products + walmart_products + bestbuy_products + aliexpress_products
 
     if request.method == "POST":
         cost_price = request.form.get("cost_price")
         if not cost_price or not cost_price.replace("$", "").replace(".", "").isdigit():
             flash("Please enter a valid cost price.", "error")
-            return redirect(url_for("results", query=query))
+            return redirect(url_for("results", query=query, retailer=retailer))
 
         cost_price = float(cost_price.replace("$", ""))
 
@@ -172,7 +332,7 @@ def results():
                 profit_margin = (profit / selling_price) * 100
                 product["Profit Margin"] = f"{profit_margin:.2f}%"
 
-    return render_template("results.html", products=products, query=query)
+    return render_template("results.html", products=products, query=query, retailer=retailer)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
