@@ -173,7 +173,8 @@ def search_amazon_products(query):
         ]
 
         # Filter out digital products
-         products = [product for product in products if not any(blocked in product.get("Title", "") for blocked in block_list]
+        products = [product for product in products if not any(blocked in product.get("Title", "") for blocked in block_list)]
+
 
         # Sort products by number of ratings
         products.sort(key=lambda x: int(x["Ratings Total"]), reverse=True)
