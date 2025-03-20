@@ -62,7 +62,6 @@ def search_amazon_products(query):
 
         # Block list for digital products
         block_list = [
-            " BLOCKED_CATEGORIES = [
     "Apps & Games",
     "Audible Books & Originals",
     "Digital Educational Resources",
