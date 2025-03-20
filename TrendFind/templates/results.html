@@ -60,27 +60,28 @@
             </div>
 
             <!-- Results Table -->
-            <div class="table-responsive fade-in">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Reviews</th>
-                            <th>Link</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>
-                                    <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
-                                </td>
+<div class="table-responsive fade-in">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="bubble-header">#</th>
+                <th class="bubble-header">Image</th>
+                <th class="bubble-header">Product</th>
+                <th class="bubble-header">Price</th>
+                <th class="bubble-header">Rating</th>
+                <th class="bubble-header">Reviews</th>
+                <th class="bubble-header">Link</th>
+                <th class="bubble-header">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 5 lines below -->
+            {% for product in products %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
+                    </td>
                                 <td>
                                     <div class="product-title">{{ product.Title }}</div>
                                 </td>
