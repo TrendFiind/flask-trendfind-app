@@ -38,6 +38,20 @@
         </a>
     </div>
 
+    <!-- Retailer Filter -->
+    <div class="retailer-filter">
+        <form method="GET" action="{{ url_for('results') }}">
+            <input type="hidden" name="query" value="{{ query }}">
+            <select name="retailer" onchange="this.form.submit()">
+                <option value="All" {% if retailer == "All" %}selected{% endif %}>All</option>
+                <option value="Amazon" {% if retailer == "Amazon" %}selected{% endif %}>Amazon</option>
+                <option value="Walmart" {% if retailer == "Walmart" %}selected{% endif %}>Walmart</option>
+                <option value="BestBuy" {% if retailer == "BestBuy" %}selected{% endif %}>BestBuy</option>
+                <option value="AliExpress" {% if retailer == "AliExpress" %}selected{% endif %}>AliExpress</option>
+            </select>
+        </form>
+    </div>
+
     <!-- Results Section -->
     <div class="results-section" style="background-image: url('{{ url_for('static', filename='images/Index.jpg') }}');">
         <div class="container mt-5 fade-in">
@@ -88,7 +102,7 @@
                                 <td>{{ product["Ratings Total"] }}</td>
                                 <td>
                                     <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-external-link-alt"></i> View on Amazon
+                                        <i class="fas fa-external-link-alt"></i> View on {{ product.Retailer }}
                                     </a>
                                 </td>
                                 <td>
@@ -192,4 +206,5 @@
         });
     </script>
 </body>
-</html>
+</html>                                                    
+                                                                                                    
