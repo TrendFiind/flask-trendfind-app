@@ -15,23 +15,24 @@
 </head>
 <body>
     <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
         <span></span>
         <span></span>
         <span></span>
     </button>
 
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
         <ul>
-            <li><a href="#">Example 1</a></li>
-            <li><a href="#">Example 2</a></li>
-            <li><a href="#">Example 3</a></li>
-            <li><a href="#">Example 4</a></li>
-            <li><a href="#">Example 5</a></li>
-            <li><a href="#">Example 6</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
         </ul>
-    </div>
+    </nav>
 
     <!-- Logo at the Top Middle -->
     <div class="logo-container">
