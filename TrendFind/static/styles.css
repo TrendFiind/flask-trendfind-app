@@ -11,34 +11,72 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition for dark mode */
 }
 
 h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
-/* Dark Theme */
+/* Dark Mode Styles */
 body.dark-mode {
     background-color: #121212;
     color: #ffffff;
 }
 
+body.dark-mode .header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .futuristic-box {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .futuristic-box h2,
+body.dark-mode .futuristic-box p {
+    color: #ffffff;
+}
+
+/* Header */
+.header {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 /* Logo Container */
 .logo-container {
-    text-align: center; /* Center the logo horizontally */
-    padding: 0; /* Remove padding */
-    background-color: transparent; /* Remove white background */
-    box-shadow: none; /* Remove shadow */
-    position: relative; /* Ensure the header stays at the top */
-    z-index: 1000; /* Ensure the header is above other elements */
-    height: auto; /* Let the height adjust based on the logo */
+    flex: 1;
+    text-align: center;
 }
 
 /* Logo Styling */
 .logo {
-    width: 400px; /* Fixed logo size */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Ensure responsiveness */
+    width: 150px;
+    height: auto;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -46,51 +84,66 @@ body.dark-mode {
     transform: scale(1.05);
 }
 
-/* Responsive Logo */
-@media (max-width: 768px) {
-    .logo {
-        width: 300px; /* Slightly smaller logo for mobile */
-    }
-}
-
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-    position: fixed;
-    top: 20px; /* Adjusted position */
-    right: 20px; /* Adjusted position */
-    z-index: 1002;
-    background-color: #007bff; /* Blue background */
+    background: transparent;
     border: none;
-    padding: 10px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .sidebar-toggle span {
     display: block;
     width: 25px;
     height: 3px;
-    background-color: white;
-    margin: 5px 0;
+    background-color: #007bff;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.sidebar-toggle:hover span {
+    background-color: #0056b3;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark-mode-toggle i {
+    color: #007bff;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.dark-mode-toggle:hover i {
+    color: #0056b3;
 }
 
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
-    background-color: rgba(255, 255, 255, 0.1); /* Glass morphism effect */
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     position: fixed;
-    top: 80px; /* Adjusted position */
-    right: 20px; /* Adjusted position */
+    top: 60px;
+    right: -250px;
+    height: 100%;
     z-index: 1001;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    display: none;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
 }
 
 .sidebar.open {
-    display: block;
+    right: 0;
 }
 
 .sidebar ul {
@@ -101,27 +154,27 @@ body.dark-mode {
 
 .sidebar ul li {
     padding: 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .sidebar ul li a {
     text-decoration: none;
-    color: white;
+    color: #333;
     font-size: 1rem;
     display: block;
 }
 
 /* Hero Section */
 .hero-section {
-    background: transparent; /* Remove gradient */
-    padding: 120px 0;
+    background: transparent;
+    padding: 150px 0 80px; /* Adjusted padding to account for the header */
     text-align: center;
-    color: #000; /* Black text for better contrast */
+    color: #000;
     position: relative;
     overflow: hidden;
 }
@@ -160,120 +213,51 @@ body.dark-mode {
     padding: 80px 0;
     text-align: center;
     flex: 1;
-    color: #000; /* Black text for better contrast */
+    color: #000;
     margin: 20px auto;
     max-width: 800px;
 }
 
 /* Futuristic Box */
 .futuristic-box {
-    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
-    backdrop-filter: blur(10px); /* Glass morphism effect */
-    border-radius: 15px; /* Rounded corners */
-    padding: 40px; /* Add padding */
-    border: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5), /* Outer glow */
-                inset 0 0 10px rgba(255, 255, 255, 0.2); /* Inner glow */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0; /* Start hidden */
-    transform: translateY(50px); /* Start slightly below */
+    opacity: 0;
+    transform: translateY(50px);
 }
 
-/* Animation when the box comes into view */
 .futuristic-box.visible {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* Hover Effects */
 .futuristic-box:hover {
-    transform: translateY(-10px); /* Lift effect on hover */
-    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8), /* Stronger outer glow on hover */
-                inset 0 0 15px rgba(255, 255, 255, 0.3); /* Stronger inner glow on hover */
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .futuristic-box h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #000; /* Black text for better contrast */
-    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Subtle text glow */
+    color: #000;
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
 
 .futuristic-box p {
     font-size: 1rem;
     max-width: 800px;
     margin: 0 auto 20px;
-    color: #333; /* Dark gray text for better contrast */
-}
-
-/* Results Section */
-.results-section {
-    position: relative;
-    padding: 80px 0;
-    color: #000;
-}
-
-/* Blurred Background Overlay */
-.results-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/static/images/Index.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    filter: blur(10px);
-    z-index: -1;
-}
-
-/* Table Styling */
-.table {
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.table th, .table td {
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-.table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-/* Product Image Styling */
-.product-image {
-    max-width: 80px;
-    height: auto;
-    border-radius: 8px;
-}
-
-.product-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    font-weight: bold;
     color: #333;
-}
-
-/* Fade-In Animation */
-.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Footer */
@@ -307,41 +291,4 @@ body.dark-mode {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Neon Buttons */
-.btn-neon {
-    background: transparent;
-    border: 2px solid #00bfff;
-    color: #00bfff;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
-}
-
-.btn-neon:hover {
-    background: #00bfff;
-    color: #fff;
-    box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff;
-}
-
-/* Dark Mode Toggle Button */
-.dark-mode-toggle {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: #007bff;
-    border: none;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.dark-mode-toggle i {
-    color: white;
-    font-size: 1.2rem;
 }
