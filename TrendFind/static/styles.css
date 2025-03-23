@@ -84,7 +84,7 @@ body.dark-mode .futuristic-box p {
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 20px 30px; /* Updated padding */
+    padding: 35px 45px; /* Updated padding */
     display: flex;
     justify-content: space-between; /* Keep existing alignment */
     align-items: center;
@@ -113,6 +113,7 @@ body.dark-mode .futuristic-box p {
     height: auto;
     position: absolute; /* Center the logo */
     left: 72%;
+    top: -5px;
     transform: translateX(-50%);
     transition: transform 0.3s ease-in-out;
 }
