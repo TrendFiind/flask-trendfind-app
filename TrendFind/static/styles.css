@@ -518,30 +518,20 @@ body.dark-mode .futuristic-box p {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Profile Page – The Digital Identity */
+/* Profile Page – Clean and Information-Based */
 .profile-section {
     padding: 100px 0;
     text-align: center;
-    color: #fff;
+    color: #333;
 }
 
 .profile-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
+    background: #fff;
     border-radius: 15px;
     padding: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 30px rgba(0, 123, 255, 0.5),
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
-    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
     margin: 0 auto;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.profile-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 40px rgba(0, 123, 255, 0.8),
-                inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .profile-header {
@@ -549,7 +539,6 @@ body.dark-mode .futuristic-box p {
 }
 
 .avatar-container {
-    position: relative;
     width: 120px;
     height: 120px;
     margin: 0 auto 20px;
@@ -559,36 +548,19 @@ body.dark-mode .futuristic-box p {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid #00ffea;
-    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
-}
-
-.avatar-hover-effect {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 255, 234, 0.3), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.avatar-container:hover .avatar-hover-effect {
-    opacity: 1;
+    border: 3px solid #007bff;
 }
 
 .profile-header h2 {
     font-size: 2rem;
     margin-bottom: 10px;
-    color: #00ffea;
-    text-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
+    color: #333;
 }
 
-.profile-header p {
+.profile-header .member-status {
     font-size: 1rem;
-    color: #ccc;
+    color: #007bff;
+    font-weight: 500;
 }
 
 .profile-details {
@@ -598,55 +570,62 @@ body.dark-mode .futuristic-box p {
 
 .profile-details .detail {
     margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
 .profile-details .label {
-    font-weight: bold;
-    color: #00ffea;
+    font-weight: 500;
+    color: #555;
 }
 
 .profile-details .value {
-    color: #fff;
+    color: #333;
+    font-weight: 400;
 }
 
-.progress-section {
+.activity-overview {
     margin-bottom: 30px;
 }
 
-.progress-section h3 {
+.activity-overview h3 {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    color: #00ffea;
-    text-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
+    color: #333;
 }
 
-.progress-bar-container {
-    margin-bottom: 15px;
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    position: relative;
-    overflow: hidden;
+.activity-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #00ffea, #007bff);
-    border-radius: 5px;
-    transition: width 1s ease;
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.progress-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 0.8rem;
+.activity-card i {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.activity-card p {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
 }
 
 .profile-actions {
@@ -656,16 +635,32 @@ body.dark-mode .futuristic-box p {
 }
 
 .profile-actions .btn {
-    background: rgba(0, 255, 234, 0.1);
-    border: 2px solid #00ffea;
-    color: #00ffea;
-    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
-.profile-actions .btn:hover {
-    background: #00ffea;
-    color: #000;
-    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+.profile-actions .btn-primary {
+    background: #007bff;
+    border: none;
+    color: #fff;
+}
+
+.profile-actions .btn-primary:hover {
+    background: #0056b3;
+}
+
+.profile-actions .btn-secondary {
+    background: #f8f9fa;
+    border: 1px solid #007bff;
+    color: #007bff;
+}
+
+.profile-actions .btn-secondary:hover {
+    background: #007bff;
+    color: #fff;
 }
 
 /* Saved Products – The Vault */
