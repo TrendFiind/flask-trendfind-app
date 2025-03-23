@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrendFind - AI-Powered Product Search</title>
-    <!-- Preload the background image for the index page -->
-    <link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image">
+    <title>TrendFind - Search Results</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@400;700&family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -53,36 +51,59 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
+    <!-- Results Section -->
+    <div class="results-section">
         <div class="container">
-            <h1 class="hero-title">
-                <span class="neon-text" id="hero-title"></span>
-            </h1>
-            <p class="hero-subtitle">
-                <span class="neon-text" id="hero-subtitle"></span>
-            </p>
-            <!-- Search Form -->
-            <form method="POST" action="/" class="search-form">
-                <div class="input-group">
-                    <input type="text" id="query" name="query" class="form-control" placeholder="Enter a product name..." required>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- About Section -->
-    <div class="about-section">
-        <div class="container">
-            <div class="futuristic-box">
-                <h2>About TrendFind</h2>
-                <p>
-                    TrendFind revolutionizes product trend analysis by scanning Amazon for the most promising, high-margin opportunities. Using advanced algorithms and real-time data insights, our system identifies emerging trends before they go mainstream—giving you the competitive edge you need in e-commerce.
-                </p>
-                <p>
-                    Whether you're a dropshipper, reseller, or entrepreneur, TrendFind eliminates the guesswork, providing you with accurate, data-backed recommendations for profitable products. Stay ahead of the market with technology built for success.
-                </p>
+            <h1 class="text-center mb-4">Search Results</h1>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                            <th>Ratings</th>
+                            <th>Link</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
+                            </td>
+                            <td>{{ product.Title }}</td>
+                            <td>{{ product.Price }}</td>
+                            <td>{{ product.Rating }}</td>
+                            <td>{{ product["Ratings Total"] }}</td>
+                            <td>
+                                <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-external-link-alt"></i> View
+                                </a>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}">
+                                    <i class="fas fa-info-circle"></i> Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" class="p-0">
+                                <div class="collapse" id="collapse{{ loop.index }}">
+                                    <div class="card card-body">
+                                        <h5>Product Description</h5>
+                                        <p>{{ product.Description }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -94,25 +115,12 @@
         </div>
     </footer>
 
-    <!-- Loading Spinner -->
-    <div class="loading-spinner"></div>
-
     <!-- JavaScript for Sidebar Toggle -->
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
-    </script>
-
-    <!-- JavaScript for Loading Spinner -->
-    <script>
-        const searchForm = document.querySelector('.search-form');
-        const loadingSpinner = document.querySelector('.loading-spinner');
-
-        searchForm.addEventListener('submit', () => {
-            loadingSpinner.style.display = 'block'; // Show spinner
-        });
     </script>
 
     <!-- JavaScript for Dark Mode Toggle -->
@@ -147,67 +155,6 @@
                 icon.classList.add('fa-moon');
             }
         });
-    </script>
-
-    <!-- JavaScript for Scroll and Hover Animations -->
-    <script>
-        // Function to check if an element is in the viewport
-        function isInViewport(element) {
-            const rect = element.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
-
-        // Function to handle scroll events
-        function handleScroll() {
-            const futuristicBox = document.querySelector('.futuristic-box');
-            if (isInViewport(futuristicBox)) {
-                futuristicBox.classList.add('visible');
-            }
-        }
-
-        // Add scroll event listener
-        window.addEventListener('scroll', handleScroll);
-
-        // Trigger the animation on page load if the box is already in view
-        document.addEventListener('DOMContentLoaded', handleScroll);
-    </script>
-
-    <!-- JavaScript for Typewriter Effect -->
-    <script>
-        const heroTitle = document.getElementById('hero-title');
-        const heroSubtitle = document.getElementById('hero-subtitle');
-
-        const titleText = "Discover the Next Best-Selling Products";
-        const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
-
-        let titleIndex = 0;
-        let subtitleIndex = 0;
-
-        function typeWriterTitle() {
-            if (titleIndex < titleText.length) {
-                heroTitle.textContent += titleText.charAt(titleIndex);
-                titleIndex++;
-                setTimeout(typeWriterTitle, 100); // Adjust typing speed
-            } else {
-                typeWriterSubtitle();
-            }
-        }
-
-        function typeWriterSubtitle() {
-            if (subtitleIndex < subtitleText.length) {
-                heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
-                subtitleIndex++;
-                setTimeout(typeWriterSubtitle, 100); // Adjust typing speed
-            }
-        }
-
-        // Start the typewriter effect
-        typeWriterTitle();
     </script>
 </body>
 </html>
