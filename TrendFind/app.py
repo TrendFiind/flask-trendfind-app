@@ -334,6 +334,31 @@ def results():
 
     return render_template("results.html", products=products, query=query, retailer=retailer)
 
+# Add routes for the new pages
+@app.route("/profile")
+def profile():
+    return render_template("profile.html")
+
+@app.route("/saved-products")
+def saved_products():
+    return render_template("saved-products.html")
+
+@app.route("/plan-details")
+def plan_details():
+    return render_template("plan-details.html")
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
+@app.route("/about-us")
+def about_us():
+    return render_template("about-us.html")
+
+@app.route("/contact-us")
+def contact_us():
+    return render_template("contact-us.html")
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use Heroku's PORT or default to 5000
     app.run(host="0.0.0.0", port=port)
