@@ -16,12 +16,29 @@
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
 <body>
-    <!-- Sidebar Toggle Button -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <!-- Sidebar Toggle Button -->
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Logo -->
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
@@ -35,18 +52,6 @@
             <li><a href="/contact-us">Contact Us</a></li>
         </ul>
     </nav>
-
-    <!-- Logo at the Top Middle -->
-    <div class="logo-container">
-        <a href="/">
-            <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
-        </a>
-    </div>
-
-    <!-- Dark Mode Toggle -->
-    <button id="dark-mode-toggle" class="dark-mode-toggle">
-        <i class="fas fa-moon"></i>
-    </button>
 
     <!-- Hero Section -->
     <div class="hero-section">
