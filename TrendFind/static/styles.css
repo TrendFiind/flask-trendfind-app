@@ -3,35 +3,41 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('/static/images/Index.jpg'); /* Background for both pages */
+    background-image: url('/static/images/Index.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Ensure the background stays fixed */
+    background-attachment: fixed;
     color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+    min-height: 100vh;
 }
 
 h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
+/* Dark Theme */
+body.dark-theme {
+    background-color: #121212;
+    color: #ffffff;
+}
+
 /* Logo Container */
 .logo-container {
-    text-align: center; /* Center the logo horizontally */
-    padding: 5px 0; /* Very small padding (top and bottom) */
-    background-color: white; /* White background for the header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
-    position: relative; /* Ensure the header stays at the top */
-    z-index: 1000; /* Ensure the header is above other elements */
+    text-align: center;
+    padding: 5px 0;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1000;
 }
 
 /* Logo Styling */
 .logo {
-    width: 400px; /* Fixed logo size */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Ensure responsiveness */
+    width: 400px;
+    height: auto;
+    max-width: 100%;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -42,93 +48,93 @@ h1, h2 {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        width: 300px; /* Slightly smaller logo for mobile */
+        width: 300px;
     }
 }
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-    position: fixed; /* Fixed position */
-    top: 70px; /* Position below the white header */
-    right: 10px; /* Position from the right */
-    z-index: 1002; /* Ensure the button is above everything */
-    background-color: black; /* Black background */
-    border: none; /* Remove border */
-    padding: 10px; /* Add padding */
-    cursor: pointer; /* Pointer cursor */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
-    border-radius: 5px; /* Rounded corners */
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    z-index: 1002;
+    background-color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
 .sidebar-toggle span {
-    display: block; /* Make each line a block */
-    width: 25px; /* Width of the lines */
-    height: 3px; /* Height of the lines */
-    background-color: white; /* White lines */
-    margin: 5px 0; /* Space between lines */
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
 }
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px; /* Sidebar width */
-    background-color: white; /* White background */
-    position: fixed; /* Fixed position */
-    top: 100px; /* Position below the toggle button */
-    right: 10px; /* Position from the right */
-    z-index: 1001; /* Ensure sidebar is above other elements */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-    border-radius: 5px; /* Rounded corners */
-    display: none; /* Hidden by default */
+    width: 250px;
+    background-color: white;
+    position: fixed;
+    top: 100px;
+    right: 10px;
+    z-index: 1001;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    display: none;
 }
 
 .sidebar.open {
-    display: block; /* Show sidebar when open */
+    display: block;
 }
 
 .sidebar ul {
-    list-style: none; /* Remove bullet points */
+    list-style: none;
     padding: 0;
     margin: 0;
 }
 
 .sidebar ul li {
-    padding: 15px 20px; /* Add padding to each item */
-    border-bottom: 1px solid #eee; /* Add a subtle border between items */
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
     transition: background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #f8f9fa; /* Light hover effect */
+    background-color: #f8f9fa;
 }
 
 .sidebar ul li a {
-    text-decoration: none; /* Remove underline */
-    color: black; /* Black text */
-    font-size: 1rem; /* Font size */
-    display: block; /* Make the entire area clickable */
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    display: block;
 }
 
 /* Hero Section */
 .hero-section {
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-    padding: 80px 0; /* Reduced padding */
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 80px 0;
     text-align: center;
-    color: #000; /* Black text color */
-    margin: 20px auto; /* Center the section */
-    max-width: 800px; /* Limit width */
-    border-radius: 10px; /* Rounded corners */
+    color: #000;
+    margin: 20px auto;
+    max-width: 800px;
+    border-radius: 10px;
 }
 
 .hero-section h1 {
-    font-size: 2.2rem; /* Smaller header size */
+    font-size: 2.2rem;
     margin-bottom: 20px;
-    color: #000; /* Ensure the heading is black */
+    color: #000;
 }
 
 .hero-section p {
-    font-size: 1.2rem; /* Smaller text */
-    margin-bottom: 30px; /* Reduced margin */
-    color: #000; /* Ensure the paragraph is black */
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #000;
 }
 
 /* Search Form in Hero Section */
@@ -149,27 +155,27 @@ h1, h2 {
 
 /* About Section */
 .about-section {
-    padding: 60px 20px; /* Reduced padding */
+    padding: 60px 20px;
     text-align: center;
-    flex: 1; /* Allow the section to grow and push the footer to the bottom */
-    color: #fff; /* White text for better contrast */
-    margin: 20px auto; /* Center the section */
-    max-width: 800px; /* Limit width */
+    flex: 1;
+    color: #fff;
+    margin: 20px auto;
+    max-width: 800px;
 }
 
 .about-section h2 {
-    font-size: 2rem; /* Smaller header */
-    margin-bottom: 20px; /* Reduced margin */
-    color: #fff; /* White text for better contrast */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .about-section p {
-    font-size: 1rem; /* Smaller text */
+    font-size: 1rem;
     max-width: 800px;
     margin: 0 auto 20px;
-    color: #fff; /* White text for better contrast */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Results Section */
@@ -187,24 +193,24 @@ h1, h2 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/static/images/Index.jpg'); /* Same background image */
+    background-image: url('/static/images/Index.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    filter: blur(10px); /* Apply blur effect */
-    z-index: -1; /* Move behind the content */
+    filter: blur(10px);
+    z-index: -1;
 }
 
 /* Table Header Bubbles */
 .table th {
     background-color: #007bff;
     color: white;
-    padding: 10px 15px; /* Add padding */
-    border-radius: 20px; /* Rounded corners for bubble effect */
-    text-align: center; /* Center text */
-    font-size: 1rem; /* Font size */
-    font-weight: bold; /* Bold text */
-    margin: 5px; /* Add margin between bubbles */
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 5px;
 }
 
 /* Table Styling */
@@ -220,7 +226,7 @@ h1, h2 {
 
 /* Product Image Styling */
 .product-image {
-    max-width: 80px; /* Reduced size for product images */
+    max-width: 80px;
     height: auto;
     border-radius: 8px;
 }
@@ -229,7 +235,7 @@ h1, h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
     font-weight: bold;
-    color: #333; /* Dark gray for product titles */
+    color: #333;
 }
 
 /* Fade-In Animation */
@@ -256,11 +262,11 @@ h1, h2 {
 
 /* Footer */
 .footer {
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
     padding: 20px 0;
     text-align: center;
-    margin-top: auto; /* Push the footer to the bottom */
+    margin-top: auto;
 }
 
 .footer p {
@@ -269,7 +275,7 @@ h1, h2 {
 
 /* Loading Spinner */
 .loading-spinner {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -321,4 +327,46 @@ h1, h2 {
 .profit-margin-container p {
     margin-top: 10px;
     font-weight: bold;
+}
+
+/* Glass Morphism Effect */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #007bff, #00bfff);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Neon Accents */
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #00bfff);
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
 }
