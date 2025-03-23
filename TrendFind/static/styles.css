@@ -227,13 +227,13 @@ body.dark-mode .futuristic-box p {
 
 /* Futuristic Box */
 .futuristic-box {
-    background: rgba(255, 255, 255, 0.95); /* White background */
-    backdrop-filter: blur(20px); /* Stronger blur */
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+    backdrop-filter: blur(20px); /* Strong blur for glass effect */
     border-radius: 15px;
     padding: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 30px rgba(0, 123, 255, 0.3), /* Softer shadow */
-                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Light border */
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.2), /* Outer glow */
+                inset 0 0 10px rgba(255, 255, 255, 0.2); /* Inner glow */
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -249,8 +249,8 @@ body.dark-mode .futuristic-box p {
 
 .futuristic-box:hover {
     transform: translateY(-10px);
-    box-shadow: 0 0 40px rgba(0, 123, 255, 0.5), /* Stronger shadow on hover */
-                inset 0 0 15px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 40px rgba(0, 123, 255, 0.4), /* Stronger outer glow on hover */
+                inset 0 0 15px rgba(255, 255, 255, 0.3); /* Stronger inner glow on hover */
 }
 
 .futuristic-box h2 {
