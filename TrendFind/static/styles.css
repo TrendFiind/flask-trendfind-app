@@ -302,7 +302,7 @@ body.dark-mode .futuristic-box p {
 .futuristic-box h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #000;
+    color: #ffffff; /* White text */
     text-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
 }
 
@@ -310,7 +310,7 @@ body.dark-mode .futuristic-box p {
     font-size: 1rem;
     max-width: 800px;
     margin: 0 auto 20px;
-    color: #333;
+    color: #ffffff; /* White text */
 }
 
 /* Footer */
