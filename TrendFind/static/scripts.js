@@ -41,6 +41,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// Typewriter Effect for Hero Title and Subtitle
 const heroTitle = document.getElementById('hero-title');
 const heroSubtitle = document.getElementById('hero-subtitle');
 
@@ -54,7 +55,7 @@ function typeWriterTitle() {
     if (titleIndex < titleText.length) {
         heroTitle.textContent += titleText.charAt(titleIndex);
         titleIndex++;
-        setTimeout(typeWriterTitle, 100); // Adjust typing speed
+        setTimeout(typeWriterTitle, 130); // Adjust typing speed
     } else {
         typeWriterSubtitle();
     }
