@@ -98,12 +98,25 @@ body.dark-mode .futuristic-box p {
     justify-content: space-between;
     width: 100%;
     max-width: 1200px; /* Adjust based on your design */
+    position: relative; /* Ensure relative positioning for child elements */
 }
 
 /* Logo Container */
 .logo-container {
-    flex: 1;
-    text-align: center; /* Center the logo */
+    position: absolute; /* Position the logo absolutely within the header */
+    left: 50%; /* Center the logo horizontally */
+    transform: translateX(-50%); /* Adjust for exact centering */
+}
+
+/* Logo Styling */
+.logo {
+    width: 200px; /* Ensure the logo retains its original size */
+    height: auto; /* Maintain aspect ratio */
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.05); /* Optional: Add a hover effect */
 }
 
 /* Sidebar Toggle Button */
@@ -158,14 +171,6 @@ body.dark-mode .futuristic-box p {
 
 .dark-mode-toggle:hover i {
     color: #0056b3; /* Match the hover color of the sidebar toggle spans */
-}
-
-/* Ensure the dark mode icon is centered */
-.dark-mode-toggle i.fa-moon,
-.dark-mode-toggle i.fa-sun {
-    display: block;
-    text-align: center;
-    line-height: 1; /* Ensure the icon is vertically centered */
 }
 
 /* Sidebar Styles */
