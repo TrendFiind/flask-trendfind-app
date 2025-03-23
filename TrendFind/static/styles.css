@@ -18,7 +18,7 @@ h1, h2 {
 }
 
 /* Dark Theme */
-body.dark-theme {
+body.dark-mode {
     background-color: #121212;
     color: #ffffff;
 }
@@ -209,6 +209,13 @@ body.dark-theme {
     color: #333; /* Dark gray text for better contrast */
 }
 
+/* Results Section */
+.results-section {
+    position: relative;
+    padding: 80px 0;
+    color: #000;
+}
+
 /* Blurred Background Overlay */
 .results-section::before {
     content: '';
@@ -318,4 +325,23 @@ body.dark-theme {
     background: #00bfff;
     color: #fff;
     box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode-toggle i {
+    color: white;
+    font-size: 1.2rem;
 }
