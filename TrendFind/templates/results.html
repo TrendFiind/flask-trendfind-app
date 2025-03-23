@@ -20,50 +20,89 @@
                 <p class="text-center mb-4 refresh-text">Refresh For Different Products!</p>
             </div>
 
+            <!-- Debug: Display the search query -->
+            <p class="text-center">Search Query: {{ query }}</p>
+
+            <!-- Debug: Display the number of products -->
+            <p class="text-center">Number of Products: {{ products | length }}</p>
+
             <!-- Results Table -->
             <div class="table-responsive fade-in">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="bubble-header">#</th>
-                            <th class="bubble-header">Image</th>
-                            <th class="bubble-header">Product</th>
-                            <th class="bubble-header">Price</th>
-                            <th class="bubble-header">Rating</th>
-                            <th class="bubble-header">Reviews</th>
-                            <th class="bubble-header">Link</th>
-                            <th class="bubble-header">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
+                {% if products %}
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>
-                                    <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
-                                </td>
-                                <td>
-                                    <div class="product-title">{{ product.Title }}</div>
-                                </td>
-                                <td>{{ product.Price }}</td>
-                                <td>{{ product.Rating }}</td>
-                                <td>{{ product["Ratings Total"] }}</td>
-                                <td>
-                                    <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-external-link-alt"></i> View on {{ product.Retailer }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
-                                        <i class="fas fa-info-circle"></i> View Description
-                                    </button>
-                                </td>
+                                <th class="bubble-header">#</th>
+                                <th class="bubble-header">Image</th>
+                                <th class="bubble-header">Product</th>
+                                <th class="bubble-header">Price</th>
+                                <th class="bubble-header">Rating</th>
+                                <th class="bubble-header">Reviews</th>
+                                <th class="bubble-header">Link</th>
+                                <th class="bubble-header">Details</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>
+                                        <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
+                                    </td>
+                                    <td>
+                                        <div class="product-title">{{ product.Title }}</div>
+                                    </td>
+                                    <td>{{ product.Price }}</td>
+                                    <td>{{ product.Rating }}</td>
+                                    <td>{{ product["Ratings Total"] }}</td>
+                                    <td>
+                                        <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-external-link-alt"></i> View on {{ product.Retailer }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                            <i class="fas fa-info-circle"></i> View Description
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Description Dropdown -->
+                                <tr>
+                                    <td colspan="8" class="p-0">
+                                        <div class="collapse" id="collapse{{ loop.index }}">
+                                            <div class="card card-body">
+                                                <h5>Product Description</h5>
+                                                <p>{{ product.Description }}</p>
+                                                <div class="profit-margin-container mt-3">
+                                                    <label for="sellPrice{{ loop.index }}">Enter Sell Price:</label>
+                                                    <input type="number" id="sellPrice{{ loop.index }}" class="form-control mb-2" placeholder="e.g., 40">
+                                                    <button class="btn btn-sm btn-primary" onclick="calculateProfitMargin({{ loop.index }}, '{{ product.Price }}')">Calculate Profit Margin</button>
+                                                    <p class="mt-2"><strong>Profit Margin:</strong> <span id="profitMargin{{ loop.index }}"></span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-center">No products found. Try a different search!</p>
+                {% endif %}
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
