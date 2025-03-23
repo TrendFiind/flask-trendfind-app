@@ -109,13 +109,16 @@ body.dark-mode .futuristic-box p {
 
 /* Logo Styling */
 .logo {
-    width: 150px; /* Updated logo size */
-    height: auto; /* Keep aspect ratio */
-    transition: transform 0.3s ease-in-out; /* Keep existing transition */
+    width: 180px; /* Increase logo size */
+    height: auto;
+    position: absolute; /* Center the logo */
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease-in-out;
 }
 
 .logo:hover {
-    transform: scale(1.05); /* Keep existing hover effect */
+    transform: translateX(-50%) scale(1.05); /* Hover effect */
 }
 
 /* Sidebar Toggle Button */
@@ -215,6 +218,25 @@ body.dark-mode .futuristic-box p {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
     transition: left 0.5s ease;
+}
+
+/* Sidebar for Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px; /* Reduce width for mobile */
+        height: auto; /* Adjust height dynamically */
+        background: rgba(255, 255, 255, 0.1); /* Glass gloss effect */
+        backdrop-filter: blur(10px); /* Frosted glass effect */
+        border-right: 1px solid rgba(255, 255, 255, 0.2); /* Neon border */
+    }
+
+    .sidebar ul {
+        padding: 10px 0; /* Reduce padding for mobile */
+    }
+
+    .sidebar ul li {
+        padding: 10px 15px; /* Reduce padding for mobile */
+    }
 }
 
 .sidebar ul li:hover::before {
@@ -355,6 +377,16 @@ body.dark-mode .futuristic-box p {
     max-width: 800px;
     margin: 0 auto 20px;
     color: #ffffff; /* White text */
+}
+
+/* Futuristic Box Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.futuristic-box {
+    animation: fadeIn 1s ease-in-out; /* Fade in on page load */
 }
 
 /* Footer */
