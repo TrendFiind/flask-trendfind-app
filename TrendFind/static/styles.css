@@ -177,25 +177,18 @@ body.dark-theme {
     position: relative;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0; /* Start hidden */
+    transform: translateY(50px); /* Start slightly below */
 }
 
-.futuristic-box::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, rgba(0, 123, 255, 0.2), rgba(255, 255, 255, 0.1));
-    animation: rotate 6s linear infinite;
-    z-index: -1;
+/* Animation when the box comes into view */
+.futuristic-box.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
+/* Hover Effects */
 .futuristic-box:hover {
     transform: translateY(-10px); /* Lift effect on hover */
     box-shadow: 0 0 30px rgba(0, 123, 255, 0.8), /* Stronger outer glow on hover */
@@ -214,13 +207,6 @@ body.dark-theme {
     max-width: 800px;
     margin: 0 auto 20px;
     color: #333; /* Dark gray text for better contrast */
-}
-
-/* Results Section */
-.results-section {
-    position: relative;
-    padding: 80px 0;
-    color: #000;
 }
 
 /* Blurred Background Overlay */
