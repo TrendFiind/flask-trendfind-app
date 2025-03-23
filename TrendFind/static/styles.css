@@ -518,40 +518,51 @@ body.dark-mode .futuristic-box p {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Profile Page Styles */
+/* Profile Page – The Digital Identity */
 .profile-section {
     padding: 100px 0;
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 .profile-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 15px;
     padding: 40px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.5),
                 inset 0 0 10px rgba(255, 255, 255, 0.2);
     max-width: 600px;
     margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 40px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .profile-header img {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     margin-bottom: 20px;
+    border: 2px solid #00ffea;
+    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
 }
 
 .profile-header h2 {
     font-size: 2rem;
     margin-bottom: 10px;
+    color: #00ffea;
+    text-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
 }
 
 .profile-header p {
     font-size: 1rem;
-    color: #666;
+    color: #ccc;
 }
 
 .profile-details {
@@ -565,11 +576,11 @@ body.dark-mode .futuristic-box p {
 
 .profile-details .label {
     font-weight: bold;
-    color: #007bff;
+    color: #00ffea;
 }
 
 .profile-details .value {
-    color: #333;
+    color: #fff;
 }
 
 .profile-actions {
@@ -578,13 +589,23 @@ body.dark-mode .futuristic-box p {
 
 .profile-actions .btn {
     margin: 0 10px;
+    background: rgba(0, 255, 234, 0.1);
+    border: 2px solid #00ffea;
+    color: #00ffea;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Saved Products Page Styles */
+.profile-actions .btn:hover {
+    background: #00ffea;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+}
+
+/* Saved Products – The Vault */
 .saved-products-section {
     padding: 100px 0;
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 .product-grid {
@@ -597,7 +618,7 @@ body.dark-mode .futuristic-box p {
 
 .product-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 15px;
     padding: 20px;
     border: 2px solid rgba(255, 255, 255, 0.2);
@@ -621,23 +642,34 @@ body.dark-mode .futuristic-box p {
 .product-card h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
+    color: #00ffea;
 }
 
 .product-card p {
     font-size: 1rem;
-    color: #666;
+    color: #ccc;
     margin-bottom: 15px;
 }
 
 .product-card .btn {
     width: 100%;
+    background: rgba(0, 255, 234, 0.1);
+    border: 2px solid #00ffea;
+    color: #00ffea;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Plan Details Page Styles */
+.product-card .btn:hover {
+    background: #00ffea;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+}
+
+/* Plan Details – The Subscription Hub */
 .plan-details-section {
     padding: 100px 0;
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 .plan-cards {
@@ -650,7 +682,7 @@ body.dark-mode .futuristic-box p {
 
 .plan-card {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 15px;
     padding: 40px;
     border: 2px solid rgba(255, 255, 255, 0.2);
@@ -668,11 +700,12 @@ body.dark-mode .futuristic-box p {
 .plan-card h3 {
     font-size: 1.5rem;
     margin-bottom: 20px;
+    color: #00ffea;
 }
 
 .plan-card p {
     font-size: 1.2rem;
-    color: #007bff;
+    color: #00ffea;
     margin-bottom: 20px;
 }
 
@@ -684,18 +717,28 @@ body.dark-mode .futuristic-box p {
 
 .plan-card ul li {
     margin-bottom: 10px;
-    color: #333;
+    color: #ccc;
 }
 
 .plan-card .btn {
     width: 100%;
+    background: rgba(0, 255, 234, 0.1);
+    border: 2px solid #00ffea;
+    color: #00ffea;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* FAQ Page Styles */
+.plan-card .btn:hover {
+    background: #00ffea;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+}
+
+/* FAQ – The Knowledge Nexus */
 .faq-section {
     padding: 100px 0;
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 .faq-accordion {
@@ -705,7 +748,7 @@ body.dark-mode .futuristic-box p {
 
 .accordion-item {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 15px;
     padding: 20px;
     border: 2px solid rgba(255, 255, 255, 0.2);
@@ -728,7 +771,7 @@ body.dark-mode .futuristic-box p {
     text-align: left;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #007bff;
+    color: #00ffea;
     cursor: pointer;
     padding: 10px;
 }
@@ -741,19 +784,19 @@ body.dark-mode .futuristic-box p {
 
 .accordion-content p {
     font-size: 1rem;
-    color: #333;
+    color: #ccc;
     margin-top: 10px;
 }
 
 .accordion-item.active .accordion-content {
-    max-height: 200px; /* Adjust based on content */
+    max-height: 200px;
 }
 
-/* About Us Page Styles */
+/* About Us – The Brand Story */
 .about-us-section {
     padding: 100px 0;
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 .about-content {
@@ -763,7 +806,7 @@ body.dark-mode .futuristic-box p {
 
 .about-content p {
     font-size: 1rem;
-    color: #333;
+    color: #ccc;
     margin-bottom: 20px;
 }
 
@@ -781,7 +824,7 @@ body.dark-mode .futuristic-box p {
 
 .team-member {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border-radius: 15px;
     padding: 20px;
     border: 2px solid rgba(255, 255, 255, 0.2);
@@ -805,18 +848,19 @@ body.dark-mode .futuristic-box p {
 .team-member h3 {
     font-size: 1.2rem;
     margin-bottom: 10px;
+    color: #00ffea;
 }
 
 .team-member p {
     font-size: 1rem;
-    color: #666;
+    color: #ccc;
 }
 
-/* Contact Us Page Styles */
+/* Contact Us – The Connection Hub */
 .contact-us-section {
     padding: 100px 0;
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 .contact-form {
@@ -833,7 +877,7 @@ body.dark-mode .futuristic-box p {
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #007bff;
+    color: #00ffea;
 }
 
 .contact-form input,
@@ -844,14 +888,14 @@ body.dark-mode .futuristic-box p {
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    color: #333;
+    color: #fff;
     font-size: 1rem;
     transition: border-color 0.3s ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-    border-color: #007bff;
+    border-color: #00ffea;
     outline: none;
 }
 
@@ -862,5 +906,14 @@ body.dark-mode .futuristic-box p {
 
 .contact-form .btn {
     width: 100%;
-    margin-top: 20px;
+    background: rgba(0, 255, 234, 0.1);
+    border: 2px solid #00ffea;
+    color: #00ffea;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form .btn:hover {
+    background: #00ffea;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
 }
