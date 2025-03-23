@@ -185,7 +185,7 @@ body.dark-mode .futuristic-box p {
 
 .sidebar ul li a {
     text-decoration: none;
-    color: #333;
+    color: #ffffff; /* White text */
     font-size: 1.1rem;
     display: block;
     transition: color 0.3s ease;
