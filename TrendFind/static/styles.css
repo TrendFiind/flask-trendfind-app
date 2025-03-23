@@ -292,11 +292,25 @@ body.dark-mode .futuristic-box p {
 /* Hero Section */
 .hero-section {
     text-align: center;
-    padding: 150px 20px; /* Adjust padding as needed */
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9)); /* Dark gradient background */
+    padding: 100px 20px; /* Adjusted padding for better balance */
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.9), /* Darker at the edges */
+        rgba(0, 0, 0, 0.7), /* Slightly lighter in the middle */
+        rgba(0, 0, 0, 0.9) /* Darker at the edges */
+    ), radial-gradient(
+        circle at center,
+        rgba(0, 255, 234, 0.1), /* Subtle neon glow in the center */
+        rgba(0, 0, 0, 0.9) /* Darker at the edges */
+    );
+    background-blend-mode: overlay; /* Blend the gradients for a dynamic effect */
     color: #fff;
     position: relative;
     overflow: hidden;
+    border-radius: 20px; /* Rounded corners for a modern look */
+    box-shadow: 0 0 30px rgba(0, 255, 234, 0.3); /* Neon glow shadow */
+    margin: 20px auto; /* Center the section with some margin */
+    max-width: 1200px; /* Limit the width for better readability */
 }
 
 /* Hero Title */
