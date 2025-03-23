@@ -305,14 +305,14 @@ body.dark-mode .futuristic-box p {
     font-size: 3.5rem; /* Large font size */
     font-weight: bold;
     margin-bottom: 20px;
-    animation: fadeIn 2s ease-in-out, glow 1.5s infinite alternate;
+    animation: fadeIn 2s ease-in-out;
 }
 
 /* Hero Subtitle */
 .hero-subtitle {
     font-family: 'Exo 2', sans-serif; /* Futuristic font */
     font-size: 1.8rem; /* Slightly smaller font size */
-    animation: fadeIn 2.5s ease-in-out, glow 1.5s infinite alternate;
+    animation: fadeIn 2.5s ease-in-out;
 }
 
 /* Neon Text Effect */
@@ -322,33 +322,25 @@ body.dark-mode .futuristic-box p {
         0 0 5px #00ffea,
         0 0 10px #00ffea,
         0 0 20px #00ffea,
-        0 0 40px #00ffea,
-        0 0 80px #00ffea;
-    animation: flicker 1.5s infinite alternate;
-}
-
-/* Flicker Animation for Neon Effect */
-@keyframes flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        text-shadow:
-            0 0 5px #00ffea,
-            0 0 10px #00ffea,
-            0 0 20px #00ffea,
-            0 0 40px #00ffea,
-            0 0 80px #00ffea;
-    }
-    20%, 24%, 55% {
-        text-shadow: none;
-    }
+        0 0 40px #00ffea;
+    animation: glow 2s infinite alternate;
 }
 
 /* Glow Animation */
 @keyframes glow {
     0% {
-        opacity: 0.8;
+        text-shadow:
+            0 0 5px #00ffea,
+            0 0 10px #00ffea,
+            0 0 20px #00ffea,
+            0 0 40px #00ffea;
     }
     100% {
-        opacity: 1;
+        text-shadow:
+            0 0 10px #00ffea,
+            0 0 20px #00ffea,
+            0 0 40px #00ffea,
+            0 0 80px #00ffea;
     }
 }
 
@@ -362,6 +354,59 @@ body.dark-mode .futuristic-box p {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Search Container */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); /* Glassmorphism effect */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+}
+
+/* Neon Input Field */
+.neon-input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #00ffea;
+    border-radius: 10px;
+    background: transparent;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neon-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.neon-input:focus {
+    outline: none;
+    border-color: #00ffea;
+    box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea;
+}
+
+/* Neon Button */
+.neon-button {
+    padding: 10px 20px;
+    border: 2px solid #00ffea;
+    border-radius: 10px;
+    background: transparent;
+    color: #00ffea;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neon-button:hover {
+    background: #00ffea;
+    color: #000;
+    box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea;
 }
 
 /* About Section */
