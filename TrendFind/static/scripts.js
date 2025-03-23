@@ -65,7 +65,7 @@ function typeWriterSubtitle() {
     if (subtitleIndex < subtitleText.length) {
         heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
         subtitleIndex++;
-        setTimeout(typeWriterSubtitle, 100); // Adjust typing speed
+        setTimeout(typeWriterSubtitle, 130); // Adjust typing speed
     }
 }
 
