@@ -172,7 +172,7 @@ body.dark-mode .futuristic-box p {
 /* Hero Section */
 .hero-section {
     background: transparent;
-    padding: 150px 0 80px; /* Adjusted padding to account for the header */
+    padding: 250px 0 80px; /* Adjusted padding to move it down */
     text-align: center;
     color: #000;
     position: relative;
