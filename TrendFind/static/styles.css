@@ -86,7 +86,7 @@ body.dark-mode .futuristic-box p {
     z-index: 1000;
     padding: 10px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center the header content */
     align-items: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -97,25 +97,13 @@ body.dark-mode .futuristic-box p {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; /* Adjust based on your design */
 }
 
 /* Logo Container */
 .logo-container {
     flex: 1;
-    text-align: center;
-}
-
-/* Logo Styling */
-.logo {
-    width: 150px; /* Adjust as needed */
-    height: auto;
-    transition: transform 0.3s ease-in-out;
-}
-
-.logo:hover {
-    transform: scale(1.05);
+    text-align: center; /* Center the logo */
 }
 
 /* Sidebar Toggle Button */
@@ -127,10 +115,10 @@ body.dark-mode .futuristic-box p {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    align-items: center;
-    justify-content: center;
-    width: 40px; /* Match the size of the dark mode button */
-    height: 40px; /* Match the size of the dark mode button */
+    position: fixed; /* Fix the sidebar toggle position */
+    left: 20px; /* Adjust based on your design */
+    top: 20px; /* Adjust based on your design */
+    z-index: 1001; /* Ensure it's above other elements */
 }
 
 .sidebar-toggle span {
@@ -152,20 +140,24 @@ body.dark-mode .futuristic-box p {
     cursor: pointer;
     padding: 10px;
     display: flex;
+    flex-direction: column;
+    gap: 5px; /* Match the gap between the sidebar toggle spans */
     align-items: center;
     justify-content: center;
-    width: 40px; /* Match the size of the sidebar toggle button */
-    height: 40px; /* Match the size of the sidebar toggle button */
+    position: fixed; /* Fix the dark mode toggle position */
+    right: 20px; /* Adjust based on your design */
+    top: 20px; /* Adjust based on your design */
+    z-index: 1001; /* Ensure it's above other elements */
 }
 
 .dark-mode-toggle i {
-    color: #007bff;
     font-size: 1.2rem; /* Match the size of the sidebar toggle spans */
+    color: #007bff; /* Match the color of the sidebar toggle spans */
     transition: color 0.3s ease;
 }
 
 .dark-mode-toggle:hover i {
-    color: #0056b3;
+    color: #0056b3; /* Match the hover color of the sidebar toggle spans */
 }
 
 /* Ensure the dark mode icon is centered */
@@ -174,32 +166,6 @@ body.dark-mode .futuristic-box p {
     display: block;
     text-align: center;
     line-height: 1; /* Ensure the icon is vertically centered */
-}
-
-/* Responsive Adjustments for Mobile */
-@media (max-width: 768px) {
-    .header {
-        padding: 10px;
-    }
-
-    .logo {
-        width: 120px; /* Smaller logo for mobile */
-    }
-
-    .sidebar-toggle,
-    .dark-mode-toggle {
-        width: 35px; /* Smaller buttons for mobile */
-        height: 35px;
-    }
-
-    .sidebar-toggle span {
-        width: 20px; /* Smaller spans for mobile */
-        height: 2px;
-    }
-
-    .dark-mode-toggle i {
-        font-size: 1rem; /* Smaller icon for mobile */
-    }
 }
 
 /* Sidebar Styles */
