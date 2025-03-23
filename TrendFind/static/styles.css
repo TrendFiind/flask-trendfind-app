@@ -91,10 +91,11 @@ body.dark-mode .futuristic-box p {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Header Content */
 .header-content {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -108,7 +109,7 @@ body.dark-mode .futuristic-box p {
 
 /* Logo Styling */
 .logo {
-    width: 200px;
+    width: 150px; /* Adjust as needed */
     height: auto;
     transition: transform 0.3s ease-in-out;
 }
@@ -126,6 +127,10 @@ body.dark-mode .futuristic-box p {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Match the size of the dark mode button */
+    height: 40px; /* Match the size of the dark mode button */
 }
 
 .sidebar-toggle span {
@@ -149,16 +154,52 @@ body.dark-mode .futuristic-box p {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 40px; /* Match the size of the sidebar toggle button */
+    height: 40px; /* Match the size of the sidebar toggle button */
 }
 
 .dark-mode-toggle i {
     color: #007bff;
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Match the size of the sidebar toggle spans */
     transition: color 0.3s ease;
 }
 
 .dark-mode-toggle:hover i {
     color: #0056b3;
+}
+
+/* Ensure the dark mode icon is centered */
+.dark-mode-toggle i.fa-moon,
+.dark-mode-toggle i.fa-sun {
+    display: block;
+    text-align: center;
+    line-height: 1; /* Ensure the icon is vertically centered */
+}
+
+/* Responsive Adjustments for Mobile */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .logo {
+        width: 120px; /* Smaller logo for mobile */
+    }
+
+    .sidebar-toggle,
+    .dark-mode-toggle {
+        width: 35px; /* Smaller buttons for mobile */
+        height: 35px;
+    }
+
+    .sidebar-toggle span {
+        width: 20px; /* Smaller spans for mobile */
+        height: 2px;
+    }
+
+    .dark-mode-toggle i {
+        font-size: 1rem; /* Smaller icon for mobile */
+    }
 }
 
 /* Sidebar Styles */
