@@ -6,11 +6,11 @@ body {
     background-image: url('/static/images/Index.jpg'); /* Background for both pages */
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Ensure the background stays fixed */
     color: #333;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
 }
 
 h1, h2 {
@@ -19,19 +19,19 @@ h1, h2 {
 
 /* Logo Container */
 .logo-container {
-    text-align: center;
-    padding: 5px 0;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 1000;
+    text-align: center; /* Center the logo horizontally */
+    padding: 5px 0; /* Very small padding (top and bottom) */
+    background-color: white; /* White background for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    position: relative; /* Ensure the header stays at the top */
+    z-index: 1000; /* Ensure the header is above other elements */
 }
 
 /* Logo Styling */
 .logo {
-    width: 400px;
-    height: auto;
-    max-width: 100%;
+    width: 400px; /* Fixed logo size */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure responsiveness */
     transition: transform 0.3s ease-in-out;
 }
 
@@ -39,73 +39,157 @@ h1, h2 {
     transform: scale(1.05);
 }
 
+/* Responsive Logo */
+@media (max-width: 768px) {
+    .logo {
+        width: 300px; /* Slightly smaller logo for mobile */
+    }
+}
+
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-    position: fixed;
-    top: 70px;
-    right: 10px;
-    z-index: 1002;
-    background-color: black;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    position: fixed; /* Fixed position */
+    top: 70px; /* Position below the white header */
+    right: 10px; /* Position from the right */
+    z-index: 1002; /* Ensure the button is above everything */
+    background-color: black; /* Black background */
+    border: none; /* Remove border */
+    padding: 10px; /* Add padding */
+    cursor: pointer; /* Pointer cursor */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+    border-radius: 5px; /* Rounded corners */
 }
 
 .sidebar-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 5px 0;
+    display: block; /* Make each line a block */
+    width: 25px; /* Width of the lines */
+    height: 3px; /* Height of the lines */
+    background-color: white; /* White lines */
+    margin: 5px 0; /* Space between lines */
 }
 
 /* Sidebar Styles */
 .sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: white;
-    position: fixed;
+    width: 250px; /* Sidebar width */
+    height: 100vh; /* Full height */
+    background-color: white; /* White background */
+    position: fixed; /* Fixed position */
     top: 0;
-    left: -250px;
-    transition: left 0.3s ease-in-out;
-    z-index: 1001;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    left: -250px; /* Hide sidebar by default */
+    transition: left 0.3s ease-in-out; /* Smooth transition */
+    z-index: 1001; /* Ensure sidebar is above other elements */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
 }
 
 .sidebar.open {
-    left: 0;
+    left: 0; /* Show sidebar when open */
 }
 
 .sidebar ul {
-    list-style: none;
+    list-style: none; /* Remove bullet points */
     padding: 0;
     margin: 0;
-    margin-top: 80px;
+    margin-top: 80px; /* Space below the toggle button */
 }
 
 .sidebar ul li {
-    padding: 15px 20px;
-    border-bottom: 1px solid #eee;
+    padding: 15px 20px; /* Add padding to each item */
+    border-bottom: 1px solid #eee; /* Add a subtle border between items */
     transition: background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #f8f9fa;
+    background-color: #f8f9fa; /* Light hover effect */
 }
 
 .sidebar ul li a {
-    text-decoration: none;
-    color: black;
-    font-size: 1rem;
-    display: block;
+    text-decoration: none; /* Remove underline */
+    color: black; /* Black text */
+    font-size: 1rem; /* Font size */
+    display: block; /* Make the entire area clickable */
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 80px 0; /* Reduced padding */
+    text-align: center;
+    color: #000; /* Black text color */
+    margin: 20px auto; /* Center the section */
+    max-width: 800px; /* Limit width */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.hero-section h1 {
+    font-size: 2.2rem; /* Smaller header size */
+    margin-bottom: 20px;
+    color: #000; /* Ensure the heading is black */
+}
+
+.hero-section p {
+    font-size: 1.2rem; /* Smaller text */
+    margin-bottom: 30px; /* Reduced margin */
+    color: #000; /* Ensure the paragraph is black */
+}
+
+/* Search Form in Hero Section */
+.search-form .input-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-form .form-control {
+    height: 50px;
+    border-radius: 25px 0 0 25px;
+}
+
+.search-form .btn {
+    height: 50px;
+    border-radius: 0 25px 25px 0;
+}
+
+/* About Section */
+.about-section {
+    padding: 60px 20px; /* Reduced padding */
+    text-align: center;
+    flex: 1; /* Allow the section to grow and push the footer to the bottom */
+    color: #fff; /* White text for better contrast */
+    margin: 20px auto; /* Center the section */
+    max-width: 800px; /* Limit width */
+}
+
+.about-section h2 {
+    font-size: 2rem; /* Smaller header */
+    margin-bottom: 20px; /* Reduced margin */
+    color: #fff; /* White text for better contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
+}
+
+.about-section p {
+    font-size: 1rem; /* Smaller text */
+    max-width: 800px;
+    margin: 0 auto 20px;
+    color: #fff; /* White text for better contrast */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow for vibrancy */
 }
 
 /* Results Section */
 .results-section {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     padding: 80px 0;
     color: #000;
+}
+
+/* Table Header Bubbles */
+.table th {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px; /* Add padding */
+    border-radius: 20px; /* Rounded corners for bubble effect */
+    text-align: center; /* Center text */
+    font-size: 1rem; /* Font size */
+    font-weight: bold; /* Bold text */
+    margin: 5px; /* Add margin between bubbles */
 }
 
 /* Table Styling */
@@ -121,7 +205,7 @@ h1, h2 {
 
 /* Product Image Styling */
 .product-image {
-    max-width: 80px;
+    max-width: 80px; /* Reduced size for product images */
     height: auto;
     border-radius: 8px;
 }
@@ -130,7 +214,7 @@ h1, h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
     font-weight: bold;
-    color: #333;
+    color: #333; /* Dark gray for product titles */
 }
 
 /* Fade-In Animation */
@@ -145,13 +229,23 @@ h1, h2 {
     transform: translateY(0);
 }
 
+/* Hover Effect for Table Rows */
+.table-striped tbody tr {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.table-striped tbody tr:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
 /* Footer */
 .footer {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
     color: #fff;
     padding: 20px 0;
     text-align: center;
-    margin-top: auto;
+    margin-top: auto; /* Push the footer to the bottom */
 }
 
 .footer p {
@@ -160,7 +254,7 @@ h1, h2 {
 
 /* Loading Spinner */
 .loading-spinner {
-    display: none;
+    display: none; /* Hidden by default */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -176,4 +270,40 @@ h1, h2 {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Profit Margin Calculator */
+.profit-margin-container {
+    margin-top: 20px;
+}
+
+.profit-margin-container label {
+    font-weight: bold;
+}
+
+.profit-margin-container input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.profit-margin-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.profit-margin-container button:hover {
+    background-color: #0056b3;
+}
+
+.profit-margin-container p {
+    margin-top: 10px;
+    font-weight: bold;
 }
