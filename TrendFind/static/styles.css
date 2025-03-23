@@ -165,21 +165,51 @@ body.dark-theme {
     max-width: 800px;
 }
 
-.about-box {
-    background: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+/* Futuristic Box */
+.futuristic-box {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
     backdrop-filter: blur(10px); /* Glass morphism effect */
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 15px; /* Rounded corners */
     padding: 40px; /* Add padding */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5), /* Outer glow */
+                inset 0 0 10px rgba(255, 255, 255, 0.2); /* Inner glow */
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.about-box h2 {
+.futuristic-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(0, 123, 255, 0.2), rgba(255, 255, 255, 0.1));
+    animation: rotate 6s linear infinite;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.futuristic-box:hover {
+    transform: translateY(-10px); /* Lift effect on hover */
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8), /* Stronger outer glow on hover */
+                inset 0 0 15px rgba(255, 255, 255, 0.3); /* Stronger inner glow on hover */
+}
+
+.futuristic-box h2 {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #000; /* Black text for better contrast */
+    text-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Subtle text glow */
 }
 
-.about-box p {
+.futuristic-box p {
     font-size: 1rem;
     max-width: 800px;
     margin: 0 auto 20px;
