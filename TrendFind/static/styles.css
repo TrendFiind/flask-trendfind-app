@@ -26,9 +26,9 @@ body.dark-theme {
 /* Logo Container */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
-    padding: 0px 0; /* Reduced padding (top and bottom) */
-    background-color: white; /* White background for the header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    padding: 0; /* Remove padding */
+    background-color: transparent; /* Remove white background */
+    box-shadow: none; /* Remove shadow */
     position: relative; /* Ensure the header stays at the top */
     z-index: 1000; /* Ensure the header is above other elements */
     height: auto; /* Let the height adjust based on the logo */
@@ -36,9 +36,9 @@ body.dark-theme {
 
 /* Logo Styling */
 .logo {
-    width: 400px;
-    height: auto;
-    max-width: 100%;
+    width: 400px; /* Fixed logo size */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure responsiveness */
     transition: transform 0.3s ease-in-out;
 }
 
@@ -49,17 +49,17 @@ body.dark-theme {
 /* Responsive Logo */
 @media (max-width: 768px) {
     .logo {
-        width: 300px;
+        width: 300px; /* Slightly smaller logo for mobile */
     }
 }
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     position: fixed;
-    top: 70px;
-    right: 10px;
+    top: 20px; /* Adjusted position */
+    right: 20px; /* Adjusted position */
     z-index: 1002;
-    background-color: black;
+    background-color: #007bff; /* Blue background */
     border: none;
     padding: 10px;
     cursor: pointer;
@@ -78,13 +78,14 @@ body.dark-theme {
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.1); /* Glass morphism effect */
+    backdrop-filter: blur(10px);
     position: fixed;
-    top: 100px;
-    right: 10px;
+    top: 80px; /* Adjusted position */
+    right: 20px; /* Adjusted position */
     z-index: 1001;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 10px;
     display: none;
 }
 
@@ -100,83 +101,111 @@ body.dark-theme {
 
 .sidebar ul li {
     padding: 15px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #f8f9fa;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar ul li a {
     text-decoration: none;
-    color: black;
+    color: white;
     font-size: 1rem;
     display: block;
 }
 
 /* Hero Section */
 .hero-section {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 80px 0;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 120px 0;
     text-align: center;
-    color: #000;
-    margin: 20px auto;
-    max-width: 800px;
-    border-radius: 10px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
 }
 
-.hero-section h1 {
-    font-size: 2.2rem;
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+    animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: bold;
     margin-bottom: 20px;
-    color: #000;
+    animation: fadeIn 2s ease-in-out;
 }
 
-.hero-section p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    color: #000;
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    animation: fadeIn 2.5s ease-in-out;
 }
 
-/* Search Form in Hero Section */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .search-form .input-group {
     max-width: 600px;
     margin: 0 auto;
+    animation: slideIn 3s ease-in-out;
 }
 
-.search-form .form-control {
-    height: 50px;
-    border-radius: 25px 0 0 25px;
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.search-form .btn {
-    height: 50px;
-    border-radius: 0 25px 25px 0;
+/* Feature Cards */
+.features-section {
+    padding: 80px 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
 }
 
-/* About Section */
-.about-section {
-    padding: 60px 20px;
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 30px;
     text-align: center;
-    flex: 1;
-    color: #fff;
-    margin: 20px auto;
-    max-width: 800px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.about-section h2 {
-    font-size: 2rem;
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card i {
+    font-size: 2.5rem;
     margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #007bff;
 }
 
-.about-section p {
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.feature-card p {
     font-size: 1rem;
-    max-width: 800px;
-    margin: 0 auto 20px;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #ccc;
 }
 
 /* Results Section */
@@ -202,27 +231,22 @@ body.dark-theme {
     z-index: -1;
 }
 
-/* Table Header Bubbles */
-.table th {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
-    margin: 5px;
-}
-
 /* Table Styling */
 .table {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.table td {
-    vertical-align: middle;
+.table th, .table td {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 /* Product Image Styling */
@@ -249,16 +273,6 @@ body.dark-theme {
 .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-/* Hover Effect for Table Rows */
-.table-striped tbody tr {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.table-striped tbody tr:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
@@ -294,80 +308,20 @@ body.dark-theme {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Profit Margin Calculator */
-.profit-margin-container {
-    margin-top: 20px;
-}
-
-.profit-margin-container label {
-    font-weight: bold;
-}
-
-.profit-margin-container input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.profit-margin-container button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
+/* Neon Buttons */
+.btn-neon {
+    background: transparent;
+    border: 2px solid #00bfff;
+    color: #00bfff;
+    padding: 10px 20px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
 }
 
-.profit-margin-container button:hover {
-    background-color: #0056b3;
-}
-
-.profit-margin-container p {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-/* Glass Morphism Effect */
-.glass-morphism {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Floating Action Button (FAB) */
-.fab {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, #007bff, #00bfff);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    color: white;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Neon Accents */
-.btn-primary {
-    background: linear-gradient(135deg, #007bff, #00bfff);
-    border: none;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-}
-
-.btn-primary:hover {
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.8);
+.btn-neon:hover {
+    background: #00bfff;
+    color: #fff;
+    box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff;
 }
