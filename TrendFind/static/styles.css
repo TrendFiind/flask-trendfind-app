@@ -31,8 +31,8 @@ body.dark-mode .header {
 }
 
 body.dark-mode .futuristic-box {
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); /* White transparent box */
+    border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
@@ -220,7 +220,7 @@ body.dark-mode .futuristic-box p {
 
 /* Futuristic Box */
 .futuristic-box {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); /* White transparent box */
     backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 40px;
@@ -291,4 +291,351 @@ body.dark-mode .futuristic-box p {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Profile Page Styles */
+.profile-section {
+    padding: 100px 0;
+    text-align: center;
+    color: #000;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.profile-header h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.profile-header p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.profile-details {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.profile-details .detail {
+    margin-bottom: 15px;
+}
+
+.profile-details .label {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.profile-details .value {
+    color: #333;
+}
+
+.profile-actions {
+    margin-top: 30px;
+}
+
+.profile-actions .btn {
+    margin: 0 10px;
+}
+
+/* Saved Products Page Styles */
+.saved-products-section {
+    padding: 100px 0;
+    text-align: center;
+    color: #000;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.product-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.product-card .btn {
+    width: 100%;
+}
+
+/* Plan Details Page Styles */
+.plan-details-section {
+    padding: 100px 0;
+    text-align: center;
+    color: #000;
+}
+
+.plan-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plan-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.plan-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.plan-card p {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.plan-card ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.plan-card ul li {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.plan-card .btn {
+    width: 100%;
+}
+
+/* FAQ Page Styles */
+.faq-section {
+    padding: 100px 0;
+    text-align: center;
+    color: #000;
+}
+
+.faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.accordion-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.accordion-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.accordion-button {
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.accordion-content p {
+    font-size: 1rem;
+    color: #333;
+    margin-top: 10px;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 200px; /* Adjust based on content */
+}
+
+/* About Us Page Styles */
+.about-us-section {
+    padding: 100px 0;
+    text-align: center;
+    color: #000;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-content p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.team-section {
+    margin-top: 40px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-member {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.team-member img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.team-member h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.team-member p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Contact Us Page Styles */
+.contact-us-section {
+    padding: 100px 0;
+    text-align: center;
+    color: #000;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #007bff;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    color: #333;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.contact-form .btn {
+    width: 100%;
+    margin-top: 20px;
 }
