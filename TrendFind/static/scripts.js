@@ -41,8 +41,8 @@ document.addEventListener('click', function(event) {
     }
 });
 
-const heroTitle = document.querySelector('.hero-title .neon-text');
-const heroSubtitle = document.querySelector('.hero-subtitle .neon-text');
+const heroTitle = document.getElementById('hero-title');
+const heroSubtitle = document.getElementById('hero-subtitle');
 
 const titleText = "Discover the Next Best-Selling Products";
 const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
