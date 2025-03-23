@@ -12,15 +12,34 @@
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
 <body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#">Example 1</a></li>
+            <li><a href="#">Example 2</a></li>
+            <li><a href="#">Example 3</a></li>
+            <li><a href="#">Example 4</a></li>
+            <li><a href="#">Example 5</a></li>
+            <li><a href="#">Example 6</a></li>
+        </ul>
+    </div>
+
     <!-- Logo at the Top Middle -->
     <div class="logo-container">
         <a href="/">
-            <img src="{{ url_for('static', filename='images/Untitled_design-removebg-preview.jpg') }}" alt="TrendFind Logo" class="logo">
+            <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
         </a>
     </div>
 
     <!-- Main Content -->
-    <div class="results-section" style="background-image: url('{{ url_for('static', filename='images/10412350_13087.jpg') }}');">
+    <div class="results-section" style="background-image: url('{{ url_for('static', filename='images/Index.jpg') }}');">
         <div class="container mt-5 fade-in">
             <h1 class="text-center mb-4"><strong>Top Trending Products</strong></h1>
             <p class="text-center mb-4 refresh-text">Refresh For Different Products!</p>
@@ -39,40 +58,67 @@
 
             <!-- Results Table -->
             <div class="table-responsive fade-in">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Ratings</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
+                {% if products %}
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>
-                                    <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
-                                </td>
-                                <td>
-                                    <div class="product-title">{{ product.Title }}</div>
-                                </td>
-                                <td>{{ product.Price }}</td>
-                                <td>{{ product.Rating }}</td>
-                                <td>{{ product["Ratings Total"] }}</td>
-                                <td>
-                                    <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-external-link-alt"></i> View on Amazon
-                                    </a>
-                                </td>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Rating</th>
+                                <th>Ratings</th>
+                                <th>Link</th>
+                                <th>Details</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>
+                                        <img src="{{ product.Image }}" alt="{{ product.Title }}" class="product-image">
+                                    </td>
+                                    <td>
+                                        <div class="product-title">{{ product.Title }}</div>
+                                    </td>
+                                    <td>{{ product.Price }}</td>
+                                    <td>{{ product.Rating }}</td>
+                                    <td>{{ product["Ratings Total"] }}</td>
+                                    <td>
+                                        <a href="{{ product.Link }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-external-link-alt"></i> View on Amazon
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                            <i class="fas fa-info-circle"></i> View Description
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Description Dropdown with Profit Margin Calculator -->
+                                <tr>
+                                    <td colspan="8" class="p-0">
+                                        <div class="collapse" id="collapse{{ loop.index }}">
+                                            <div class="card card-body">
+                                                <h5>Product Description</h5>
+                                                <p>{{ product.Description }}</p>
+                                                <div class="profit-margin-container mt-3">
+                                                    <label for="sellPrice{{ loop.index }}">Enter Sell Price:</label>
+                                                    <input type="number" id="sellPrice{{ loop.index }}" class="form-control mb-2" placeholder="e.g., 40">
+                                                    <button class="btn btn-sm btn-primary" onclick="calculateProfitMargin({{ loop.index }}, '{{ product.Price }}')">Calculate Profit Margin</button>
+                                                    <p class="mt-2"><strong>Profit Margin:</strong> <span id="profitMargin{{ loop.index }}"></span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="text-center">No products found. Try a different search!</p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -86,6 +132,34 @@
 
     <!-- Font Awesome Icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+    </script>
+
+    <!-- JavaScript for Profit Margin Calculation -->
+    <script>
+        function calculateProfitMargin(index, productPrice) {
+            const sellPrice = parseFloat(document.getElementById(`sellPrice${index}`).value);
+            const price = parseFloat(productPrice.replace('$', ''));
+
+            if (isNaN(sellPrice)) {
+                alert("Please enter a valid sell price.");
+                return;
+            }
+
+            const profit = sellPrice - price;
+            const profitMargin = ((profit / sellPrice) * 100).toFixed(2);
+
+            document.getElementById(`profitMargin${index}`).textContent = `${profitMargin}%`;
+        }
+    </script>
 
     <!-- JavaScript for Fade-In Animation -->
     <script>
