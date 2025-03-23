@@ -41,6 +41,39 @@ body.dark-mode .futuristic-box p {
     color: #ffffff;
 }
 
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Match the gap between the sidebar toggle spans */
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Match the width of the sidebar toggle */
+    height: 40px; /* Match the height of the sidebar toggle */
+}
+
+.dark-mode-toggle i {
+    font-size: 1.2rem; /* Match the size of the sidebar toggle spans */
+    color: #007bff; /* Match the color of the sidebar toggle spans */
+    transition: color 0.3s ease;
+}
+
+.dark-mode-toggle:hover i {
+    color: #0056b3; /* Match the hover color of the sidebar toggle spans */
+}
+
+/* Ensure the dark mode icon is centered */
+.dark-mode-toggle i.fa-moon,
+.dark-mode-toggle i.fa-sun {
+    display: block;
+    text-align: center;
+    line-height: 1; /* Ensure the icon is vertically centered */
+}
+
 /* Header */
 .header {
     background: rgba(255, 255, 255, 0.9);
