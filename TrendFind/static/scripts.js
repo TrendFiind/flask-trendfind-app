@@ -40,3 +40,33 @@ document.addEventListener('click', function(event) {
         sidebar.classList.remove('open');
     }
 });
+
+const heroTitle = document.getElementById('hero-title');
+const heroSubtitle = document.getElementById('hero-subtitle');
+
+const titleText = "Discover the Next Best-Selling Products";
+const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
+
+let titleIndex = 0;
+let subtitleIndex = 0;
+
+function typeWriterTitle() {
+    if (titleIndex < titleText.length) {
+        heroTitle.textContent += titleText.charAt(titleIndex);
+        titleIndex++;
+        setTimeout(typeWriterTitle, 100); // Adjust typing speed
+    } else {
+        typeWriterSubtitle();
+    }
+}
+
+function typeWriterSubtitle() {
+    if (subtitleIndex < subtitleText.length) {
+        heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+        subtitleIndex++;
+        setTimeout(typeWriterSubtitle, 100); // Adjust typing speed
+    }
+}
+
+// Start the typewriter effect
+typeWriterTitle();
