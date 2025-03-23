@@ -26,7 +26,7 @@ body.dark-theme {
 /* Logo Container */
 .logo-container {
     text-align: center; /* Center the logo horizontally */
-    padding: 2px 0; /* Reduced padding (top and bottom) */
+    padding: 0px 0; /* Reduced padding (top and bottom) */
     background-color: white; /* White background for the header */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
     position: relative; /* Ensure the header stays at the top */
