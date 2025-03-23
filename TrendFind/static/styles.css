@@ -76,19 +76,19 @@ body.dark-mode .futuristic-box p {
 
 /* Header */
 .header {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    position: fixed;
+    background: rgba(255, 255, 255, 0.9); /* Keep existing background */
+    backdrop-filter: blur(10px); /* Keep existing blur */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Keep existing border */
+    position: fixed; /* Keep existing positioning */
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 10px 20px;
+    padding: 10px 20px; /* Updated padding */
     display: flex;
-    justify-content: center; /* Center the header content */
+    justify-content: space-between; /* Keep existing alignment */
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Keep existing shadow */
 }
 
 /* Header Content */
@@ -103,20 +103,19 @@ body.dark-mode .futuristic-box p {
 
 /* Logo Container */
 .logo-container {
-    position: absolute; /* Position the logo absolutely within the header */
-    left: 50%; /* Center the logo horizontally */
-    transform: translateX(-50%); /* Adjust for exact centering */
+    flex: 1; /* Keep existing flex property */
+    text-align: center; /* Keep existing alignment */
 }
 
 /* Logo Styling */
 .logo {
-    width: 200px; /* Ensure the logo retains its original size */
-    height: auto; /* Maintain aspect ratio */
-    transition: transform 0.3s ease-in-out;
+    width: 150px; /* Updated logo size */
+    height: auto; /* Keep aspect ratio */
+    transition: transform 0.3s ease-in-out; /* Keep existing transition */
 }
 
 .logo:hover {
-    transform: scale(1.05); /* Optional: Add a hover effect */
+    transform: scale(1.05); /* Keep existing hover effect */
 }
 
 /* Sidebar Toggle Button */
