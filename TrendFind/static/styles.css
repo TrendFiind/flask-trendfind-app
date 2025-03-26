@@ -444,15 +444,6 @@ body.dark-mode .futuristic-box p {
                 inset 0 0 10px rgba(255, 255, 255, 0.2); /* Inner glow */
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0;
-    transform: translateY(50px);
-}
-
-.futuristic-box.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .futuristic-box:hover {
