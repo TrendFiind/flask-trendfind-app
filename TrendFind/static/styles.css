@@ -112,7 +112,7 @@ body.dark-mode .futuristic-box p {
     width: 250px; /* Increase logo size */
     height: auto;
     position: absolute; /* Center the logo */
-    left: 73%;
+    left: 73.7%;
     top: -72px;
     transform: translateX(-50%);
     transition: transform 0.3s ease-in-out;
