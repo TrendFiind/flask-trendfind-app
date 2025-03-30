@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrendFind - AI-Powered Product Search</title>
-    <!-- Preload the background image for the index page -->
-    <link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image">
+    <!-- Change this in your index.html -->
+<link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image" fetchpriority="high">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -165,36 +165,43 @@
         }
         
     <!-- JavaScript for Typewriter Effect -->
-    <script>
-        const heroTitle = document.getElementById('hero-title');
-        const heroSubtitle = document.getElementById('hero-subtitle');
-
-        const titleText = "Discover the Next Best-Selling Products";
-        const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
-
-        let titleIndex = 0;
-        let subtitleIndex = 0;
-
-        function typeWriterTitle() {
-            if (titleIndex < titleText.length) {
-                heroTitle.textContent += titleText.charAt(titleIndex);
-                titleIndex++;
-                setTimeout(typeWriterTitle, 100); // Adjust typing speed
-            } else {
-                typeWriterSubtitle();
-            }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const heroTitle = document.getElementById('hero-title');
+    const heroSubtitle = document.getElementById('hero-subtitle');
+    
+    // Clear any existing content
+    heroTitle.textContent = '';
+    heroSubtitle.textContent = '';
+    
+    const titleText = "Discover the Next Best-Selling Products";
+    const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
+    
+    let titleIndex = 0;
+    let subtitleIndex = 0;
+    const typingSpeed = 100; // milliseconds between characters
+    
+    function typeWriterTitle() {
+        if (titleIndex < titleText.length) {
+            heroTitle.textContent += titleText.charAt(titleIndex);
+            titleIndex++;
+            setTimeout(typeWriterTitle, typingSpeed);
+        } else {
+            typeWriterSubtitle();
         }
-
-        function typeWriterSubtitle() {
-            if (subtitleIndex < subtitleText.length) {
-                heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
-                subtitleIndex++;
-                setTimeout(typeWriterSubtitle, 100); // Adjust typing speed
-            }
+    }
+    
+    function typeWriterSubtitle() {
+        if (subtitleIndex < subtitleText.length) {
+            heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+            subtitleIndex++;
+            setTimeout(typeWriterSubtitle, typingSpeed);
         }
-
-        // Start the typewriter effect
-        typeWriterTitle();
-    </script>
+    }
+    
+    // Start the effect
+    typeWriterTitle();
+});
+</script>
 </body>
 </html>
