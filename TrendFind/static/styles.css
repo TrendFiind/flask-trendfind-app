@@ -315,18 +315,36 @@ body.dark-mode .futuristic-box p {
 
 /* Hero Title */
 .hero-title {
-    font-family: 'Orbitron', sans-serif; /* Futuristic font */
-    font-size: 3.5rem; /* Large font size */
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
     font-weight: bold;
     margin-bottom: 20px;
-    animation: fadeIn 2s ease-in-out;
+    /* Remove fadeIn animation since we're using typewriter */
 }
 
 /* Hero Subtitle */
 .hero-subtitle {
-    font-family: 'Exo 2', sans-serif; /* Futuristic font */
-    font-size: 1.8rem; /* Slightly smaller font size */
-    animation: fadeIn 2.5s ease-in-out;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.8rem;
+    /* Remove fadeIn animation since we're using typewriter */
+}
+
+/* ===== TYPEWRITER-SPECIFIC STYLES (ADD NEW) ===== */
+#hero-title, #hero-subtitle {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 3px solid #00ffea; /* Typing cursor */
+    white-space: nowrap;
+    letter-spacing: 1px;
+    animation: blink-caret 0.75s step-end infinite;
+    /* Preserve your neon effects: */
+    color: #fff;
+    text-shadow: 0 0 3px #00ffea, 0 0 6px #00ffea, 0 0 12px #00ffea;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00ffea; }
 }
 
 /* Neon Text Effect (Less Intense) */
