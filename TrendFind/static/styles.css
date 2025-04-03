@@ -805,6 +805,78 @@ body.dark-mode .futuristic-box p {
     box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
 }
 
+/* Auth Styles */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 40px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.3);
+}
+
+.auth-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #00ffea;
+}
+
+.btn-google {
+    width: 100%;
+    background: #db4437;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.btn-google:hover {
+    background: #c23321;
+    color: white;
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    color: #ccc;
+}
+
+.divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #ccc;
+}
+
+.auth-footer a {
+    color: #00ffea;
+}
+
 /* FAQ – The Knowledge Nexus */
 .faq-section {
     padding: 100px 0;
