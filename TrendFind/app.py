@@ -261,7 +261,8 @@ def login():
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["user_email"] = user["email"]
-            session["user_name"] = user.get("name", "User")
+            # Fixed: Access name directly from row instead of using .get()
+            session["user_name"] = user["name"] if user["name"] else "User"
             flash("Login successful!", "success")
             return redirect(url_for("profile"))
         
