@@ -205,77 +205,42 @@
     <div class="profile-section">
         <div class="container">
             <div class="profile-card">
-                <!-- Profile Header -->
                 <div class="profile-header text-center">
                     <div class="avatar-container">
-                        <img src="{{ url_for('static', filename='images/profile-pic.jpg') }}" alt="Profile Picture" class="profile-pic" id="profile-pic">
+                        <img src="{{ user.image or url_for('static', filename='images/default-profile.jpg') }}" 
+                             alt="Profile Picture" class="profile-pic" id="profile-pic">
                         <div class="edit-avatar" onclick="document.getElementById('avatar-upload').click()">
                             <i class="fas fa-camera"></i>
                             <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
                         </div>
                     </div>
-                    <h2 id="username-display">John Doe</h2>
-                    <span class="member-status">Premium Member</span>
+                    <h2 id="username-display">{{ user.name or 'User' }}</h2>
+                    <span class="member-status">Member since {{ user.created_at[:10] }}</span>
                 </div>
 
-                <!-- Profile Details -->
-                <div class="profile-details">
+                <form method="POST" action="{{ url_for('update_profile') }}" class="profile-details">
                     <div class="detail">
                         <span class="label">Full Name:</span>
-                        <div class="view-field" id="name-view">John Doe</div>
-                        <div class="edit-field">
-                            <input type="text" class="form-control neon-input" id="name-edit" value="John Doe">
-                        </div>
+                        <input type="text" name="name" class="form-control" value="{{ user.name or '' }}" required>
                     </div>
                     <div class="detail">
                         <span class="label">Email:</span>
-                        <div class="view-field" id="email-view">john.doe@example.com</div>
-                        <div class="edit-field">
-                            <input type="email" class="form-control neon-input" id="email-edit" value="john.doe@example.com">
-                        </div>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
                     </div>
                     <div class="detail">
                         <span class="label">Member Since:</span>
-                        <span class="value">January 15, 2023</span>
+                        <span class="value">{{ user.created_at[:10] }}</span>
                     </div>
-                    <div class="detail">
-                        <span class="label">Subscription:</span>
-                        <span class="value">Premium (expires 06/15/2025)</span>
+                    
+                    <div class="profile-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger">Log Out</a>
                     </div>
-                </div>
-
-                <!-- Activity Overview -->
-                <div class="activity-overview">
-                    <h3 class="text-center mb-4">Your Activity</h3>
-                    <div class="activity-grid">
-                        <div class="activity-card">
-                            <i class="fas fa-search"></i>
-                            <h4>1,234</h4>
-                            <p>Total Searches</p>
-                        </div>
-                        <div class="activity-card">
-                            <i class="fas fa-heart"></i>
-                            <h4>56</h4>
-                            <p>Saved Products</p>
-                        </div>
-                        <div class="activity-card">
-                            <i class="fas fa-chart-line"></i>
-                            <h4>32</h4>
-                            <p>Hot Trends Found</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Profile Actions -->
-                <div class="profile-actions">
-                    <button class="btn btn-edit" id="edit-profile-btn">Edit Profile</button>
-                    <button class="btn btn-primary btn-save" id="save-profile-btn">Save Changes</button>
-                    <button class="btn btn-secondary" onclick="changePassword()">Change Password</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
-
+    
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
