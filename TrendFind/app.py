@@ -255,18 +255,21 @@ def login():
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "").strip()
         
-        db = get_db()
-        user = db.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
-        
-        if user and check_password_hash(user["password"], password):
-            session["user_id"] = user["id"]
-            session["user_email"] = user["email"]
-            # Fixed: Access name directly from row instead of using .get()
-            session["user_name"] = user["name"] if user["name"] else "User"
-            flash("Login successful!", "success")
-            return redirect(url_for("profile"))
-        
-        flash("Invalid email or password", "error")
+        try:
+            db = get_db()
+            user = db.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
+            
+            if user and check_password_hash(user["password"], password):
+                session["user_id"] = user["id"]
+                session["user_email"] = user["email"]
+                session["user_name"] = user["name"] if "name" in user and user["name"] else "User"
+                flash("Login successful!", "success")
+                return redirect(url_for("profile"))
+            
+            flash("Invalid email or password", "error")
+        except Exception as e:
+            print(f"Login error: {e}")
+            flash("An error occurred during login", "error")
     
     return render_template("login.html")
 
@@ -339,9 +342,27 @@ def logout():
 @app.route("/profile")
 @login_required
 def profile():
-    db = get_db()
-    user = db.execute("SELECT * FROM users WHERE id = ?", (session["user_id"],)).fetchone()
-    return render_template("profile.html", user=user)
+    try:
+        db = get_db()
+        user = db.execute("SELECT * FROM users WHERE id = ?", (session["user_id"],)).fetchone()
+        
+        if not user:
+            flash("User not found", "error")
+            return redirect(url_for("login"))
+            
+        # Format the created_at date safely
+        created_at = user["created_at"] if "created_at" in user else "Unknown"
+        if isinstance(created_at, str) and len(created_at) >= 10:
+            created_at = created_at[:10]  # Get just the date part
+            
+        return render_template("profile.html", 
+                             user=user,
+                             created_at=created_at)
+        
+    except Exception as e:
+        print(f"Profile error: {e}")
+        flash("Error loading profile", "error")
+        return redirect(url_for("home"))
 
 @app.route("/profile/update", methods=["POST"])
 @login_required
