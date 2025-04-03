@@ -46,21 +46,32 @@
     <div class="saved-products-section">
         <div class="container">
             <h1 class="text-center mb-4">Saved Products</h1>
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="{{ url_for('static', filename='images/product1.jpg') }}" alt="Product 1">
-                    <h3>Product 1</h3>
-                    <p>$49.99</p>
-                    <button class="btn btn-danger">Remove</button>
+            
+            {% if not session.user_id %}
+                <div class="alert alert-warning text-center">
+                    You Must Sign In For This Page To Work!
+                    <a href="{{ url_for('login') }}" class="btn btn-primary mt-3">Sign In</a>
                 </div>
-                <div class="product-card">
-                    <img src="{{ url_for('static', filename='images/product2.jpg') }}" alt="Product 2">
-                    <h3>Product 2</h3>
-                    <p>$29.99</p>
-                    <button class="btn btn-danger">Remove</button>
-                </div>
-                <!-- Add more product cards as needed -->
-            </div>
+            {% else %}
+                {% if products %}
+                    <div class="product-grid">
+                        {% for product in products %}
+                        <div class="product-card">
+                            <img src="{{ product.image }}" alt="{{ product.title }}">
+                            <h3>{{ product.title }}</h3>
+                            <p>{{ product.price }}</p>
+                            <a href="{{ product.link }}" target="_blank" class="btn btn-primary">View</a>
+                            <a href="{{ url_for('remove_product', product_id=product.id) }}" 
+                               class="btn btn-danger">Remove</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info text-center">
+                        You haven't saved any products yet.
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 
