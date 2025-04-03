@@ -284,31 +284,44 @@ def google_login():
     redirect_uri = url_for("google_authorize", _external=True)
     return google.authorize_redirect(redirect_uri)
 
-@app.route("/login/google/authorize")
+@app.route('/login/google/authorize')
 def google_authorize():
     try:
         token = google.authorize_access_token()
-        user_info = google.get("userinfo").json()
+        if not token:
+            return "Access denied: Failed to obtain access token", 403
+            
+        # Get userinfo from Google
+        userinfo = google.parse_id_token(token)
+        if not userinfo:
+            return "Failed to fetch user information", 400
+            
+        # Extract user data
+        email = userinfo.get('email')
+        if not email:
+            return "Email not provided by Google", 400
+            
+        name = userinfo.get('name', 'User')
         
         db = get_db()
-        user = db.execute("SELECT * FROM users WHERE email = ?", (user_info["email"],)).fetchone()
+        user = db.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
         
         if not user:
-            db.execute("INSERT INTO users (email, name) VALUES (?, ?)", 
-                      (user_info["email"], user_info.get("name", "")))
+            db.execute('INSERT INTO users (email, name) VALUES (?, ?)', 
+                      (email, name))
             db.commit()
-            user = db.execute("SELECT * FROM users WHERE email = ?", (user_info["email"],)).fetchone()
+            user = db.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
         
-        session["user_id"] = user["id"]
-        session["user_email"] = user["email"]
-        session["user_name"] = user.get("name", "User")
-        return redirect(url_for("profile"))
-    
+        session['user_id'] = user['id']
+        session['user_email'] = user['email']
+        session['user_name'] = user.get('name', 'User')
+        return redirect(url_for('profile'))
+        
     except Exception as e:
-        print(f"Google auth error: {e}")
-        flash("Google login failed. Please try again.", "error")
-        return redirect(url_for("login"))
-
+        print(f"Google auth error: {str(e)}")
+        flash('Google authentication failed. Please try again.', 'error')
+        return redirect(url_for('login'))
+        
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
