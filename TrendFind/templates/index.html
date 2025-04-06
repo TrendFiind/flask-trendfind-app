@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrendFind - AI-Powered Product Search</title>
     <!-- Change this in your index.html -->
-<link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image" fetchpriority="high">
+    <link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image" fetchpriority="high">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -14,6 +14,55 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <style>
+        .glass-bg {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .vibrant-title {
+            color: #ff6f61; /* Vibrant color */
+            font-weight: bold;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .vibrant-title:hover {
+            color: #ff3b1f; /* Even more vibrant color on hover */
+            transform: scale(1.1);
+        }
+
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 0.15em solid orange;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: orange; }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .futuristic-box h2,
+            .futuristic-box p,
+            .futuristic-box h3,
+            .futuristic-box ul,
+            .futuristic-box li {
+                color: black !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -69,78 +118,47 @@
                         <input type="text" id="query" name="query" class="form-control neon-input" placeholder="Enter a product name..." required>
                         <button type="submit" class="btn neon-button">Search</button>
                     </div>
+                    <div class="typewriter" id="typewriter-text"></div>
                 </form>
             </div>
         </div>
     </div>
 
-<!-- About Section -->
-<div class="about-section py-5">
-    <div class="container">
-        <div class="futuristic-box p-4 glass-bg shadow-sm rounded">
-            <h2 class="mb-4" style="color: black;">About TrendFind</h2>
-            <p style="color: black;">
-                TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms analyze real-time data from Amazon and other major retailers to surface emerging trends with strong profit potential.
-            </p>
-            <h3 class="mt-4 vibrant-title">How It Works:</h3>
-            <ul class="list-unstyled" style="color: black;">
-                <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
-                <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
-                <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
-                <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
-            </ul>
-            <h3 class="mt-4 vibrant-title">Who It's For:</h3>
-            <ul class="list-unstyled" style="color: black;">
-                <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
-                <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
-                <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
-                <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
-            </ul>
-            <h3 class="mt-4 vibrant-title">Our Difference:</h3>
-            <ul class="list-unstyled" style="color: black;">
-                <li class="mb-2">Real-time sales data from multiple sources</li>
-                <li class="mb-2">Predictive analytics to spot trends early</li>
-                <li class="mb-2">Profitability calculators to estimate margins</li>
-                <li class="mb-2">Historical performance tracking</li>
-            </ul>
-            <p class="mt-4" style="color: black;">
-                Founded in 2025 by J.K, TrendFind has helped 1500+ sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce product research.
-            </p>
+    <!-- About Section -->
+    <div class="about-section py-5">
+        <div class="container">
+            <div class="futuristic-box p-4 glass-bg shadow-sm rounded">
+                <h2 class="mb-4" style="color: black;">About TrendFind</h2>
+                <p style="color: black;">
+                    TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms analyze real-time data from Amazon and other major retailers to surface emerging trends with strong profit potential.
+                </p>
+                <h3 class="mt-4 vibrant-title">How It Works:</h3>
+                <ul class="list-unstyled" style="color: black;">
+                    <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
+                    <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
+                    <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
+                    <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
+                </ul>
+                <h3 class="mt-4 vibrant-title">Who It's For:</h3>
+                <ul class="list-unstyled" style="color: black;">
+                    <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
+                    <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
+                    <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
+                    <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
+                </ul>
+                <h3 class="mt-4 vibrant-title">Our Difference:</h3>
+                <ul class="list-unstyled" style="color: black;">
+                    <li class="mb-2">Real-time sales data from multiple sources</li>
+                    <li class="mb-2">Predictive analytics to spot trends early</li>
+                    <li class="mb-2">Profitability calculators to estimate margins</li>
+                    <li class="mb-2">Historical performance tracking</li>
+                </ul>
+                <p class="mt-4" style="color: black;">
+                    Founded in [Year] by [Your Name], TrendFind has helped [Number] sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce product research.
+                </p>
+            </div>
         </div>
     </div>
-</div>
-
-<style>
-.glass-bg {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.vibrant-title {
-    color: #ff6f61; /* Vibrant color */
-    font-weight: bold;
-    font-size: 1.5em;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.vibrant-title:hover {
-    color: #ff3b1f; /* Even more vibrant color on hover */
-    transform: scale(1.1);
-}
-
-@media only screen and (max-width: 768px) {
-    .futuristic-box h2,
-    .futuristic-box p,
-    .futuristic-box h3,
-    .futuristic-box ul,
-    .futuristic-box li {
-        color: black !important;
-    }
-}
-</style>
     
     <!-- Footer -->
     <footer class="footer">
@@ -204,6 +222,26 @@
         });
     </script>
 
+    <!-- JavaScript for Typewriter Effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const typewriterText = document.getElementById('typewriter-text');
+            const text = "Discover Trending Products With AI Powered Precision, Integrated With Real Time Data";
+            let index = 0;
+            const typingSpeed = 100;
+
+            function typeWriter() {
+                if (index < text.length) {
+                    typewriterText.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, typingSpeed);
+                }
+            }
+
+            typeWriter();
+        });
+    </script>
+
     <!-- JavaScript for Scroll and Hover Animations -->
     <script>
         // Function to check if an element is in the viewport
@@ -216,9 +254,10 @@
                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
             );
         }
-        
+    </script>
+
     <!-- JavaScript for Typewriter Effect -->
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const heroTitle = document.getElementById('hero-title');
             const heroSubtitle = document.getElementById('hero-subtitle');
