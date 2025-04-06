@@ -127,7 +127,7 @@ body.dark-mode .futuristic-box p {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 10px;
+    padding: 1px;
     display: flex;
     flex-direction: column;
     gap: 5px;
