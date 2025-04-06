@@ -273,14 +273,14 @@ body.dark-mode .futuristic-box p {
   /* ===== 3. PERFECTLY CENTERED LOGO ===== */
   .logo-container {
     position: relative;
-    left: -8px; /* Fine-tune this for your exact logo */
+    left: -5px; /* Fine-tune this for your exact logo */
   }
 
   .logo {
     width: 190px;
     position: absolute;
     left: 50%;
-    top: -45px;
+    top: -50px;
     transform: translateX(-50%);
     transition: transform 0.3s ease;
   }
