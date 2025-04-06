@@ -263,40 +263,54 @@ body.dark-mode .futuristic-box p {
 }
 
 @media (max-width: 768px) {
-    /* Center the logo on mobile */
+    /* Adjust header width for mobile */
+    .header {
+        padding: 15px 10px; /* Reduce padding */
+        width: 100vw; /* Full viewport width */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+
+    /* Adjust logo container for mobile */
     .logo-container {
-        position: relative;
-        left: 0;
-        transform: none;
         width: 100%;
         text-align: center;
     }
-    
+
+    /* Adjust logo size for mobile */
     .logo {
+        width: 180px; /* Smaller logo for mobile */
+        height: auto;
         position: static;
-        left: auto;
-        top: auto;
         transform: none;
         margin: 0 auto;
         display: block;
     }
-    
-    /* Change sidebar colors for mobile */
+
+    /* Adjust sidebar width for mobile */
     .sidebar {
-        background: white !important; /* White background */
-        backdrop-filter: none !important; /* Remove blur effect */
+        width: 220px; /* Narrower sidebar */
+        transform: translateX(-220px); /* Match new width */
     }
-    
-    .sidebar ul li a {
-        color: black !important; /* Black text */
+
+    .sidebar.open {
+        transform: translateX(0);
     }
-    
-    .sidebar ul li:hover {
-        background-color: rgba(0, 0, 0, 0.1) !important; /* Light gray hover */
+
+    /* Keep text position the same while narrowing sidebar */
+    .sidebar ul {
+        padding-left: 0;
+        padding-right: 0;
     }
-    
-    .sidebar ul li:hover a {
-        color: #007bff !important; /* Blue text on hover */
+
+    .sidebar ul li {
+        padding: 15px 15px 15px 20px; /* Adjust padding to maintain text position */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+
+    /* Adjust toggle button position */
+    .sidebar-toggle {
+        left: 10px;
+        top: 15px;
     }
 }
 
