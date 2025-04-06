@@ -4,37 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrendFind - AI-Powered Product Search</title>
-    <!-- Change this in your index.html -->
-<link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image" fetchpriority="high">
-    <!-- Bootstrap CSS -->
+    <link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image" fetchpriority="high">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@400;700&family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
+        <div class="container d-flex justify-content-between align-items-center py-3">
             <!-- Sidebar Toggle Button -->
-            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+            <button class="sidebar-toggle btn btn-outline-primary" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <!-- Logo -->
             <div class="logo-container">
                 <a href="/">
-                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo img-fluid">
                 </a>
             </div>
-
             <!-- Dark Mode Toggle -->
-            <button id="dark-mode-toggle" class="dark-mode-toggle">
+            <button id="dark-mode-toggle" class="dark-mode-toggle btn btn-outline-primary">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
@@ -42,7 +35,7 @@
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-        <ul>
+        <ul class="list-unstyled">
             <li><a href="/">Home</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/saved-products">Saved Products</a></li>
@@ -54,78 +47,75 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="hero-section">
+    <div class="hero-section text-center py-5 bg-dark text-white">
         <div class="container">
-            <h1 class="hero-title">
+            <h1 class="hero-title display-4">
                 <span class="neon-text" id="hero-title"></span>
             </h1>
-            <p class="hero-subtitle">
+            <p class="hero-subtitle lead">
                 <span class="neon-text" id="hero-subtitle"></span>
             </p>
             <!-- Search Form -->
-            <div class="search-container">
+            <div class="search-container mt-4">
                 <form method="POST" action="/" class="search-form">
                     <div class="input-group">
                         <input type="text" id="query" name="query" class="form-control neon-input" placeholder="Enter a product name..." required>
-                        <button type="submit" class="btn neon-button">Search</button>
+                        <button type="submit" class="btn neon-button btn-primary">Search</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-<!-- About Section -->
-<div class="about-section py-5">
-    <div class="container">
-        <div class="futuristic-box p-4 bg-light shadow-sm rounded">
-            <h2 class="mb-4">About TrendFind</h2>
-            <p>
-                TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms analyze real-time data from Amazon and other major retailers to surface emerging trends with strong profit potential.
-            </p>
-            <h3 class="mt-4">How It Works:</h3>
-            <ul class="list-unstyled">
-                <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
-                <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
-                <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
-                <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
-            </ul>
-            <h3 class="mt-4">Who It's For:</h3>
-            <ul class="list-unstyled">
-                <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
-                <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
-                <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
-                <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
-            </ul>
-            <h3 class="mt-4">Our Difference:</h3>
-            <p>Unlike basic product research tools, TrendFind combines:</p>
-            <ul class="list-unstyled">
-                <li class="mb-2">Real-time sales data from multiple sources</li>
-                <li class="mb-2">Predictive analytics to spot trends early</li>
-                <li class="mb-2">Profitability calculators to estimate margins</li>
-                <li class="mb-2">Historical performance tracking</li>
-            </ul>
-            <p class="mt-4">
-                Founded in [Year] by [Your Name], TrendFind has helped [Number] sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce product research.
-            </p>
-            <p>
-                <a href="#" class="btn btn-outline-primary me-2">[Learn How It Works]</a> 
-                <a href="#" class="btn btn-outline-secondary">[View Sample Report]</a>
-            </p>
+    <!-- About Section -->
+    <div class="about-section py-5">
+        <div class="container">
+            <div class="futuristic-box p-4 bg-light shadow-sm rounded text-dark">
+                <h2 class="mb-4">About TrendFind</h2>
+                <p>
+                    TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms analyze real-time data from Amazon and other major retailers to surface emerging trends with strong profit potential.
+                </p>
+                <h3 class="mt-4">How It Works:</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
+                    <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
+                    <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
+                    <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
+                </ul>
+                <h3 class="mt-4">Who It's For:</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
+                    <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
+                    <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
+                    <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
+                </ul>
+                <h3 class="mt-4">Our Difference:</h3>
+                <p>Unlike basic product research tools, TrendFind combines:</p>
+                <ul class="list-unstyled">
+                    <li class="mb-2">Real-time sales data from multiple sources</li>
+                    <li class="mb-2">Predictive analytics to spot trends early</li>
+                    <li class="mb-2">Profitability calculators to estimate margins</li>
+                    <li class="mb-2">Historical performance tracking</li>
+                </ul>
+                <p class="mt-4">
+                    Founded in [Year] by [Your Name], TrendFind has helped [Number] sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce product research.
+                </p>
+                <p>
+                    <a href="/about-us" class="btn btn-outline-primary">[Learn How It Works]</a>
+                </p>
+            </div>
         </div>
     </div>
-</div>
-    
+
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
+    <footer class="footer py-3 bg-dark text-white">
+        <div class="container text-center">
             <p>&copy; 2025 TrendFind. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Loading Spinner -->
-    <div class="loading-spinner"></div>
+    <div class="loading-spinner d-none"></div>
 
-    <!-- JavaScript for Sidebar Toggle -->
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -133,7 +123,6 @@
         }
     </script>
 
-    <!-- JavaScript for Loading Spinner -->
     <script>
         const searchForm = document.querySelector('.search-form');
         const loadingSpinner = document.querySelector('.loading-spinner');
@@ -143,7 +132,6 @@
         });
     </script>
 
-    <!-- JavaScript for Dark Mode Toggle -->
     <script>
         document.getElementById('dark-mode-toggle').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
@@ -159,7 +147,6 @@
             }
         });
 
-        // Check for saved dark mode preference on page load
         document.addEventListener('DOMContentLoaded', function() {
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const icon = darkModeToggle.querySelector('i');
@@ -176,58 +163,41 @@
             }
         });
     </script>
-
-    <!-- JavaScript for Scroll and Hover Animations -->
     <script>
-        // Function to check if an element is in the viewport
-        function isInViewport(element) {
-            const rect = element.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-        }
-        
-    <!-- JavaScript for Typewriter Effect -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const heroTitle = document.getElementById('hero-title');
-    const heroSubtitle = document.getElementById('hero-subtitle');
-    
-    // Clear any existing content
-    heroTitle.textContent = '';
-    heroSubtitle.textContent = '';
-    
-    const titleText = "Discover the Next Best-Selling Products";
-    const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
-    
-    let titleIndex = 0;
-    let subtitleIndex = 0;
-    const typingSpeed = 100; // milliseconds between characters
-    
-    function typeWriterTitle() {
-        if (titleIndex < titleText.length) {
-            heroTitle.textContent += titleText.charAt(titleIndex);
-            titleIndex++;
-            setTimeout(typeWriterTitle, typingSpeed);
-        } else {
-            typeWriterSubtitle();
-        }
-    }
-    
-    function typeWriterSubtitle() {
-        if (subtitleIndex < subtitleText.length) {
-            heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
-            subtitleIndex++;
-            setTimeout(typeWriterSubtitle, typingSpeed);
-        }
-    }
-    
-    // Start the effect
-    typeWriterTitle();
-});
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroTitle = document.getElementById('hero-title');
+            const heroSubtitle = document.getElementById('hero-subtitle');
+            
+            heroTitle.textContent = '';
+            heroSubtitle.textContent = '';
+            
+            const titleText = "Discover the Next Best-Selling Products";
+            const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
+            
+            let titleIndex = 0;
+            let subtitleIndex = 0;
+            const typingSpeed = 100;
+            
+            function typeWriterTitle() {
+                if (titleIndex < titleText.length) {
+                    heroTitle.textContent += titleText.charAt(titleIndex);
+                    titleIndex++;
+                    setTimeout(typeWriterTitle, typingSpeed);
+                } else {
+                    typeWriterSubtitle();
+                }
+            }
+            
+            function typeWriterSubtitle() {
+                if (subtitleIndex < subtitleText.length) {
+                    heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+                    subtitleIndex++;
+                    setTimeout(typeWriterSubtitle, typingSpeed);
+                }
+            }
+            
+            typeWriterTitle();
+        });
+    </script>
 </body>
 </html>
