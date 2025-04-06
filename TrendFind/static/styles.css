@@ -224,7 +224,7 @@ body.dark-mode .futuristic-box p {
 /* Sidebar for Mobile */
 @media (max-width: 768px) {
     .sidebar {
-        width: 250px; /* Reduce width for mobile */
+        width: 100px; /* Reduce width for mobile */
         height: auto; /* Adjust height dynamically */
         background: rgba(255, 255, 255, 0.1); /* Glass gloss effect */
         backdrop-filter: blur(10px); /* Frosted glass effect */
@@ -232,7 +232,7 @@ body.dark-mode .futuristic-box p {
     }
 
     .sidebar ul {
-        padding: 10px 0; /* Reduce padding for mobile */
+        padding: 5px 0; /* Reduce padding for mobile */
     }
 
     .sidebar ul li {
@@ -252,7 +252,7 @@ body.dark-mode .futuristic-box p {
 
 .sidebar ul li a {
     text-decoration: none;
-    color: #ffffff; /* White text */
+    color: #000000; /* White text */
     font-size: 1.1rem;
     display: block;
     transition: color 0.3s ease;
@@ -260,58 +260,6 @@ body.dark-mode .futuristic-box p {
 
 .sidebar ul li a:hover {
     color: #007bff; /* Change color on hover */
-}
-
-@media (max-width: 768px) {
-    /* Adjust header width for mobile */
-    .header {
-        padding: 15px 10px; /* Reduce padding */
-        width: 100vw; /* Full viewport width */
-        box-sizing: border-box; /* Include padding in width calculation */
-    }
-
-    /* Adjust logo container for mobile */
-    .logo-container {
-        width: 100%;
-        text-align: center;
-    }
-
-    /* Adjust logo size for mobile */
-    .logo {
-        width: 180px; /* Smaller logo for mobile */
-        height: auto;
-        position: static;
-        transform: none;
-        margin: 0 auto;
-        display: block;
-    }
-
-    /* Adjust sidebar width for mobile */
-    .sidebar {
-        width: 220px; /* Narrower sidebar */
-        transform: translateX(-220px); /* Match new width */
-    }
-
-    .sidebar.open {
-        transform: translateX(0);
-    }
-
-    /* Keep text position the same while narrowing sidebar */
-    .sidebar ul {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .sidebar ul li {
-        padding: 15px 15px 15px 20px; /* Adjust padding to maintain text position */
-        white-space: nowrap; /* Prevent text wrapping */
-    }
-
-    /* Adjust toggle button position */
-    .sidebar-toggle {
-        left: 10px;
-        top: 15px;
-    }
 }
 
 /* Sidebar Toggle Button */
