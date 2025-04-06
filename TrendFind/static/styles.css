@@ -221,23 +221,114 @@ body.dark-mode .futuristic-box p {
     transition: left 0.5s ease;
 }
 
-/* Sidebar for Mobile */
 @media (max-width: 768px) {
-    .sidebar {
-        width: 200px; /* Reduce width for mobile */
-        height: auto; /* Adjust height dynamically */
-        background: rgba(255, 255, 255, 0.1); /* Glass gloss effect */
-        backdrop-filter: blur(10px); /* Frosted glass effect */
-        border-right: 1px solid rgba(255, 255, 255, 0.2); /* Neon border */
-    }
+  /* ===== 1. WHITE GLOSSY SIDEBAR ===== */
+  .sidebar {
+    width: 75vw;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 5px 0 30px rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-    .sidebar ul {
-        padding: 10px 0; /* Reduce padding for mobile */
-    }
+  .sidebar.open {
+    transform: translateX(0);
+  }
 
-    .sidebar ul li {
-        padding: 10px 15px; /* Reduce padding for mobile */
-    }
+  .sidebar ul li {
+    padding: 16px 20px;
+    margin: 6px 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar ul li:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateX(8px);
+  }
+
+  .sidebar ul li a {
+    color: #222;
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+
+  /* ===== 2. DARK MODE SUPPORT ===== */
+  body.dark-mode .sidebar {
+    background: rgba(25, 25, 25, 0.95);
+    border-right-color: rgba(255, 255, 255, 0.15);
+  }
+
+  body.dark-mode .sidebar ul li:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  body.dark-mode .sidebar ul li a {
+    color: #eee;
+  }
+
+  /* ===== 3. PERFECTLY CENTERED LOGO ===== */
+  .logo-container {
+    position: relative;
+    left: -8px; /* Fine-tune this for your exact logo */
+  }
+
+  .logo {
+    width: 170px;
+    position: absolute;
+    left: 50%;
+    top: -45px;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease;
+  }
+
+  .logo:hover {
+    transform: translateX(-50%) scale(1.05);
+  }
+
+  /* ===== 4. OPTIMIZED TOGGLE BUTTONS ===== */
+  .sidebar-toggle {
+    left: 18px;
+    top: 18px;
+    padding: 12px;
+  }
+
+  .sidebar-toggle span {
+    background: #333;
+    width: 26px;
+    height: 3px;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-toggle:hover span {
+    background: #000;
+  }
+
+  body.dark-mode .sidebar-toggle span {
+    background: #fff;
+  }
+
+  body.dark-mode .sidebar-toggle:hover span {
+    background: #ddd;
+  }
+
+  .dark-mode-toggle {
+    right: 18px;
+    top: 18px;
+    padding: 12px;
+  }
+
+  /* ===== 5. ENHANCED TOUCH TARGETS ===== */
+  .sidebar ul li:active {
+    transform: translateX(8px) scale(0.98);
+  }
+
+  .sidebar-toggle:active {
+    transform: scale(0.92);
+  }
 }
 
 .sidebar ul li:hover::before {
