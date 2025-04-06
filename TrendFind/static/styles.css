@@ -224,7 +224,7 @@ body.dark-mode .futuristic-box p {
 /* Sidebar for Mobile */
 @media (max-width: 768px) {
     .sidebar {
-        width: 100px; /* Reduce width for mobile */
+        width: 200px; /* Reduce width for mobile */
         height: auto; /* Adjust height dynamically */
         background: rgba(255, 255, 255, 0.1); /* Glass gloss effect */
         backdrop-filter: blur(10px); /* Frosted glass effect */
@@ -232,7 +232,7 @@ body.dark-mode .futuristic-box p {
     }
 
     .sidebar ul {
-        padding: 5px 0; /* Reduce padding for mobile */
+        padding: 10px 0; /* Reduce padding for mobile */
     }
 
     .sidebar ul li {
