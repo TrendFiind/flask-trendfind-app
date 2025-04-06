@@ -1158,9 +1158,9 @@ body.dark-mode .futuristic-box p {
     background: rgba(255, 255, 255, 0.9); /* White with glassy effect */
     backdrop-filter: blur(25px); /* Strong blur for glass effect */
     position: fixed;
-    top: 80px; /* Position below the header */
+    top: 75px; /* Position below the header */
     left: -300px; /* Start off-screen */
-    height: calc(100% - 80px); /* Full height minus header */
+    height: calc(100% - 75px); /* Full height minus header */
     z-index: 1001;
     box-shadow: 2px 0 30px rgba(255, 255, 255, 0.3); /* White glow */
     border-right: 2px solid rgba(255, 255, 255, 0.3); /* White border */
