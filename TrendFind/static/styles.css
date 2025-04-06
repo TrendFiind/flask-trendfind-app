@@ -1154,7 +1154,7 @@ body.dark-mode .futuristic-box p {
 
 /* Day Mode Sidebar Styles */
 .sidebar {
-    width: 300px; /* Wider sidebar */
+    width: 200px; /* Wider sidebar */
     background: rgba(255, 255, 255, 0.9); /* White with glassy effect */
     backdrop-filter: blur(25px); /* Strong blur for glass effect */
     position: fixed;
