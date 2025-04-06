@@ -127,7 +127,7 @@ body.dark-mode .futuristic-box p {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 1px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -260,6 +260,44 @@ body.dark-mode .futuristic-box p {
 
 .sidebar ul li a:hover {
     color: #007bff; /* Change color on hover */
+}
+
+@media (max-width: 768px) {
+    /* Center the logo on mobile */
+    .logo-container {
+        position: relative;
+        left: 0;
+        transform: none;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .logo {
+        position: static;
+        left: auto;
+        top: auto;
+        transform: none;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    /* Change sidebar colors for mobile */
+    .sidebar {
+        background: white !important; /* White background */
+        backdrop-filter: none !important; /* Remove blur effect */
+    }
+    
+    .sidebar ul li a {
+        color: black !important; /* Black text */
+    }
+    
+    .sidebar ul li:hover {
+        background-color: rgba(0, 0, 0, 0.1) !important; /* Light gray hover */
+    }
+    
+    .sidebar ul li:hover a {
+        color: #007bff !important; /* Blue text on hover */
+    }
 }
 
 /* Sidebar Toggle Button */
