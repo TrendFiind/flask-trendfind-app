@@ -1229,3 +1229,81 @@ body.dark-mode .sidebar {
 .sidebar ul li a:hover {
     color: #007bff; /* Change color on hover */
 }
+
+@media (max-width: 768px) {
+    .sidebar {
+    width: 200px; /* Wider sidebar */
+    background: rgba(255, 255, 255, 0.9); /* White with glassy effect */
+    backdrop-filter: blur(25px); /* Strong blur for glass effect */
+    position: fixed;
+    top: 70px; /* Position below the header */
+    left: -300px; /* Start off-screen */
+    height: calc(100% - 75px); /* Full height minus header */
+    z-index: 1001;
+    box-shadow: 2px 0 30px rgba(255, 255, 255, 0.3); /* White glow */
+    border-right: 2px solid rgba(255, 255, 255, 0.3); /* White border */
+    transition: left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smooth slide-in with bounce */
+}
+
+/* Night Mode Sidebar Styles */
+body.dark-mode .sidebar {
+    width: 200px; /* Maintain sidebar width */
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); /* Gradient background */
+    backdrop-filter: blur(25px); /* Same blur for glass effect */
+    box-shadow: 2px 0 30px rgba(0, 123, 255, 0.3); /* Neon glow */
+    border-right: 2px solid rgba(0, 123, 255, 0.3); /* Neon border */
+}
+
+/* Sidebar open state */
+.sidebar.open {
+    left: 0; /* Slide in from the left */
+}
+
+/* Other sidebar styles remain unchanged */
+.sidebar ul {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+    margin: 10px 0;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar ul li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.sidebar ul li:hover::before {
+    left: 100%; /* Animated glossy highlight */
+}
+
+.sidebar ul li:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Highlight on hover */
+    transform: translateX(10px); /* Slight slide effect */
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.2); /* Neon glow on hover */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #000000; /* White text */
+    font-size: 1.1rem;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    color: #007bff; /* Change color on hover */
+}
