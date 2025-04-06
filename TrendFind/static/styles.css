@@ -224,7 +224,7 @@ body.dark-mode .futuristic-box p {
 @media (max-width: 768px) {
   /* ===== 1. WHITE GLOSSY SIDEBAR ===== */
   .sidebar {
-    width: 50vw;
+    width: 200px; /* Adjusted width for mobile devices */
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
