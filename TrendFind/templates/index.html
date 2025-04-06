@@ -192,42 +192,40 @@
         
     <!-- JavaScript for Typewriter Effect -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const heroTitle = document.getElementById('hero-title');
-    const heroSubtitle = document.getElementById('hero-subtitle');
-    
-    // Clear any existing content
-    heroTitle.textContent = '';
-    heroSubtitle.textContent = '';
-    
-    const titleText = "Discover the Next Best-Selling Products";
-    const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
-    
-    let titleIndex = 0;
-    let subtitleIndex = 0;
-    const typingSpeed = 100; // milliseconds between characters
-    
-    function typeWriterTitle() {
-        if (titleIndex < titleText.length) {
-            heroTitle.textContent += titleText.charAt(titleIndex);
-            titleIndex++;
-            setTimeout(typeWriterTitle, typingSpeed);
-        } else {
-            typeWriterSubtitle();
-        }
-    }
-    
-    function typeWriterSubtitle() {
-        if (subtitleIndex < subtitleText.length) {
-            heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
-            subtitleIndex++;
-            setTimeout(typeWriterSubtitle, typingSpeed);
-        }
-    }
-    
-    // Start the effect
-    typeWriterTitle();
-});
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroTitle = document.getElementById('hero-title');
+            const heroSubtitle = document.getElementById('hero-subtitle');
+            
+            heroTitle.textContent = '';
+            heroSubtitle.textContent = '';
+            
+            const titleText = "Discover the Next Best-Selling Products";
+            const subtitleText = "AI-Powered Precision for Dropshippers and Resellers";
+            
+            let titleIndex = 0;
+            let subtitleIndex = 0;
+            const typingSpeed = 100;
+            
+            function typeWriterTitle() {
+                if (titleIndex < titleText.length) {
+                    heroTitle.textContent += titleText.charAt(titleIndex);
+                    titleIndex++;
+                    setTimeout(typeWriterTitle, typingSpeed);
+                } else {
+                    typeWriterSubtitle();
+                }
+            }
+            
+            function typeWriterSubtitle() {
+                if (subtitleIndex < subtitleText.length) {
+                    heroSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+                    subtitleIndex++;
+                    setTimeout(typeWriterSubtitle, typingSpeed);
+                }
+            }
+            
+            typeWriterTitle();
+        });
+    </script>
 </body>
 </html>
