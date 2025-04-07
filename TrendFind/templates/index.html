@@ -114,6 +114,13 @@
         .cta-button:hover {
             background-color: #ff3b1f;
         }
+
+        .header + .retailer-bar {
+            margin-top: 0;
+            position: relative;
+            top: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -138,297 +145,297 @@
     </div>
 </header>
 
-<!-- Move retailer bar here -->
+<!-- Retailer Bar -->
 <div class="retailer-bar">
     Sourced From: Amazon, Alibaba, Walmart, Temu, Best Buys, Etsy, and more!
 </div>
 
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <div class="container">
-            <h1 class="hero-title">
-                <span class="neon-text">Discover Trending Products</span>
-            </h1>
-            <p class="hero-subtitle">
-                <span class="neon-text">AI-Powered Precision for Ecommerce Sellers</span>
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">
+            <span class="neon-text">Discover Trending Products</span>
+        </h1>
+        <p class="hero-subtitle">
+            <span class="neon-text">AI-Powered Precision for Ecommerce Sellers</span>
+        </p>
+        
+        <!-- Typewriter Effect Container -->
+        <div class="typewriter-container">
+            <div class="typewriter-text" id="typewriter-text"></div>
+        </div>
+        
+        <!-- Search Form -->
+        <div class="search-container">
+            <form method="POST" action="/" class="search-form">
+                <div class="input-group">
+                    <input type="text" id="query" name="query" class="form-control neon-input" placeholder="Enter a product name..." required>
+                    <button type="submit" class="btn neon-button">Search</button>
+                </div>
+            </form>
+            <!-- CTA Button -->
+            <button class="cta-button">Try For Free!</button>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<div class="about-section py-5">
+    <div class="container">
+        <div class="futuristic-box p-4 glass-bg shadow-sm rounded">
+            <h2 class="mb-4" style="color: black;">About TrendFind</h2>
+            <p style="color: black;">
+                TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms scan thousands of products daily across multiple marketplaces, identifying items with rising demand and healthy profit margins (typically 35-60%). Using machine learning, we filter out overhyped or declining products, providing actionable insights on pricing, competition, and seasonal trends.
             </p>
-            
-            <!-- Typewriter Effect Container -->
-            <div class="typewriter-container">
-                <div class="typewriter-text" id="typewriter-text"></div>
-            </div>
-            
-            <!-- Search Form -->
-            <div class="search-container">
-                <form method="POST" action="/" class="search-form">
-                    <div class="input-group">
-                        <input type="text" id="query" name="query" class="form-control neon-input" placeholder="Enter a product name..." required>
-                        <button type="submit" class="btn neon-button">Search</button>
-                    </div>
-                </form>
-                <!-- CTA Button -->
-                <button class="cta-button">Try For Free!</button>
-            </div>
+            <h3 class="mt-4 vibrant-title">How It Works:</h3>
+            <ul class="list-unstyled" style="color: black;">
+                <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
+                <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
+                <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
+                <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
+            </ul>
+            <h3 class="mt-4 vibrant-title">Who It's For:</h3>
+            <ul class="list-unstyled" style="color: black;">
+                <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
+                <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
+                <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
+                <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
+            </ul>
+            <h3 class="mt-4 vibrant-title">Our Difference:</h3>
+            <ul class="list-unstyled" style="color: black;">
+                <li class="mb-2">Real-time sales data from multiple sources</li>
+                <li class="mb-2">Predictive analytics to spot trends early</li>
+                <li class="mb-2">Profitability calculators to estimate margins</li>
+                <li class="mb-2">Historical performance tracking</li>
+            </ul>
+            <p class="mt-4" style="color: black;">
+                Founded in 2024 by J.K, TrendFind has helped 15000+ sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce, empowering sellers to thrive in a competitive market.
+            </p>
         </div>
     </div>
-
-    <!-- About Section -->
-    <div class="about-section py-5">
-        <div class="container">
-            <div class="futuristic-box p-4 glass-bg shadow-sm rounded">
-                <h2 class="mb-4" style="color: black;">About TrendFind</h2>
-                <p style="color: black;">
-                    TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms[...]
-                </p>
-                <h3 class="mt-4 vibrant-title">How It Works:</h3>
-                <ul class="list-unstyled" style="color: black;">
-                    <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
-                    <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
-                    <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
-                    <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
-                </ul>
-                <h3 class="mt-4 vibrant-title">Who It's For:</h3>
-                <ul class="list-unstyled" style="color: black;">
-                    <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
-                    <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
-                    <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
-                    <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
-                </ul>
-                <h3 class="mt-4 vibrant-title">Our Difference:</h3>
-                <ul class="list-unstyled" style="color: black;">
-                    <li class="mb-2">Real-time sales data from multiple sources</li>
-                    <li class="mb-2">Predictive analytics to spot trends early</li>
-                    <li class="mb-2">Profitability calculators to estimate margins</li>
-                    <li class="mb-2">Historical performance tracking</li>
-                </ul>
-                <p class="mt-4" style="color: black;">
-                    Founded in 2024 by J.K, TrendFind has helped 15000+ sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecom[...]
-                </p>
-            </div>
-        </div>
+</div>
+ 
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 TrendFind. All rights reserved.</p>
     </div>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 TrendFind. All rights reserved.</p>
-        </div>
-    </footer>
+</footer>
 
-    <!-- Loading Spinner -->
-    <div class="loading-spinner"></div>
+<!-- Loading Spinner -->
+<div class="loading-spinner"></div>
 
-    <!-- JavaScript -->
-    <script>
-        // Sidebar Toggle
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-        }
-
-        // Loading Spinner
-        const searchForm = document.querySelector('.search-form');
-        const loadingSpinner = document.querySelector('.loading-spinner');
-        searchForm.addEventListener('submit', () => {
-            loadingSpinner.style.display = 'block';
-        });
-
-        // Dark Mode Toggle
-        document.getElementById('dark-mode-toggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            const icon = this.querySelector('i');
-            if (document.body.classList.contains('dark-mode')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-                localStorage.setItem('darkMode', 'enabled');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-                localStorage.setItem('darkMode', 'disabled');
-            }
-        });
-
-        // Check for saved dark mode preference
-        document.addEventListener('DOMContentLoaded', function() {
-            const darkModeToggle = document.getElementById('dark-mode-toggle');
-            const icon = darkModeToggle.querySelector('i');
-            const darkMode = localStorage.getItem('darkMode');
-
-            if (darkMode === 'enabled') {
-                document.body.classList.add('dark-mode');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                document.body.classList.remove('dark-mode');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
-
-        // Improved Typewriter Effect
-        document.addEventListener('DOMContentLoaded', function() {
-            const typewriterText = document.getElementById('typewriter-text');
-            const text = "Integrated With Real-Time Data From Multiple Marketplaces";
-            let index = 0;
-            const typingSpeed = 100;
-            const pauseAtEnd = 2000; // 2 second pause at end
-            const eraseSpeed = 50; // Faster erase
-
-            function typeWriter() {
-                if (index < text.length) {
-                    typewriterText.textContent += text.charAt(index);
-                    index++;
-                    setTimeout(typeWriter, typingSpeed);
-                } else {
-                    setTimeout(eraseText, pauseAtEnd);
-                }
-            }
-
-            function eraseText() {
-                if (index > 0) {
-                    typewriterText.textContent = text.substring(0, index-1);
-                    index--;
-                    setTimeout(eraseText, eraseSpeed);
-                } else {
-                    setTimeout(typeWriter, typingSpeed);
-                }
-            }
-
-            typeWriter();
-        });
-    </script>
-
-    <style id="mobile-optimization">
-    @media only screen and (max-width: 768px) {
-        /* Hero Section Scaling */
-        .hero-section {
-            padding: 20px 0;
-            height: auto;
-            min-height: 60vh;
-        }
-
-        .hero-title {
-            font-size: 1.8rem !important;
-            margin-bottom: 10px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem !important;
-            margin-bottom: 20px;
-        }
-
-        /* Search Container */
-        .search-container {
-            transform: scale(0.85);
-            transform-origin: top center;
-            width: 100%;
-            padding: 0 15px;
-            margin: 0 auto;
-        }
-
-        .neon-input {
-            font-size: 0.9rem;
-            padding: 10px 12px;
-        }
-
-        .neon-button {
-            padding: 10px 15px;
-            font-size: 0.9rem;
-        }
-
-        /* Typewriter Effect */
-        .typewriter-container {
-            margin: 10px auto;
-            width: 90%;
-        }
-
-        .typewriter-text {
-            font-size: 1rem;
-            white-space: normal;
-            text-align: center;
-            border-right: none;
-            animation: none;
-            display: block;
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 30px 0;
-        }
-
-        .futuristic-box {
-            padding: 20px !important;
-            margin: 0 10px;
-        }
-
-        .vibrant-title {
-            font-size: 1.2rem !important;
-        }
-
-        /* Header Adjustments */
-        .header {
-            padding: 15px 0;
-        }
-
-        .logo {
-            width: 160px !important;
-            top: -50px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 80vw;
-            top: 70px;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 15px 0;
-            font-size: 0.9rem;
-        }
+<!-- JavaScript -->
+<script>
+    // Sidebar Toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('open');
     }
-    </style>
 
-    <script>
-    // Mobile-specific JavaScript
-    document.addEventListener('DOMContentLoaded', function() {
-        if (window.innerWidth <= 768px) {
-            // Simplify typewriter effect for mobile
-            const typewriterText = document.getElementById('typewriter-text');
-            typewriterText.textContent = "Integrated With Real-Time Market Data";
-            typewriterText.style.animation = 'none';
-            typewriterText.style.borderRight = 'none';
+    // Loading Spinner
+    const searchForm = document.querySelector('.search-form');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    searchForm.addEventListener('submit', () => {
+        loadingSpinner.style.display = 'block';
+    });
 
-            // Adjust form submission for mobile
-            const searchForm = document.querySelector('.search-form');
-            searchForm.addEventListener('submit', function(e) {
-                const input = this.querySelector('input');
-                if (input.value.trim() === '') {
-                    e.preventDefault();
-                    input.focus();
-                    input.placeholder = "Please enter a product...";
-                    input.style.borderColor = "#ff3b1f";
-                    setTimeout(() => {
-                        input.style.borderColor = "";
-                    }, 2000);
-                }
-            });
-
-            // Touch-friendly hover effects
-            document.querySelectorAll('.vibrant-title').forEach(title => {
-                title.addEventListener('touchstart', function() {
-                    this.style.color = "#ff3b1f";
-                    this.style.transform = "scale(1.1)";
-                });
-                title.addEventListener('touchend', function() {
-                    this.style.color = "";
-                    this.style.transform = "";
-                });
-            });
+    // Dark Mode Toggle
+    document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        const icon = this.querySelector('i');
+        if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+            localStorage.setItem('darkMode', 'disabled');
         }
     });
-    </script>
+
+    // Check for saved dark mode preference
+    document.addEventListener('DOMContentLoaded', function() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const icon = darkModeToggle.querySelector('i');
+        const darkMode = localStorage.getItem('darkMode');
+
+        if (darkMode === 'enabled') {
+            document.body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            document.body.classList.remove('dark-mode');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    });
+
+    // Improved Typewriter Effect
+    document.addEventListener('DOMContentLoaded', function() {
+        const typewriterText = document.getElementById('typewriter-text');
+        const text = "Integrated With Real-Time Data From Multiple Marketplaces";
+        let index = 0;
+        const typingSpeed = 100;
+        const pauseAtEnd = 2000; // 2 second pause at end
+        const eraseSpeed = 50; // Faster erase
+
+        function typeWriter() {
+            if (index < text.length) {
+                typewriterText.textContent += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, typingSpeed);
+            } else {
+                setTimeout(eraseText, pauseAtEnd);
+            }
+        }
+
+        function eraseText() {
+            if (index > 0) {
+                typewriterText.textContent = text.substring(0, index-1);
+                index--;
+                setTimeout(eraseText, eraseSpeed);
+            } else {
+                setTimeout(typeWriter, typingSpeed);
+            }
+        }
+
+        typeWriter();
+    });
+</script>
+
+<style id="mobile-optimization">
+@media only screen and (max-width: 768px) {
+    /* Hero Section Scaling */
+    .hero-section {
+        padding: 20px 0;
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .hero-title {
+        font-size: 1.8rem !important;
+        margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem !important;
+        margin-bottom: 20px;
+    }
+
+    /* Search Container */
+    .search-container {
+        transform: scale(0.85);
+        transform-origin: top center;
+        width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+    }
+
+    .neon-input {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }
+
+    .neon-button {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    /* Typewriter Effect */
+    .typewriter-container {
+        margin: 10px auto;
+        width: 90%;
+    }
+
+    .typewriter-text {
+        font-size: 1rem;
+        white-space: normal;
+        text-align: center;
+        border-right: none;
+        animation: none;
+        display: block;
+    }
+
+    /* About Section */
+    .about-section {
+        padding: 30px 0;
+    }
+
+    .futuristic-box {
+        padding: 20px !important;
+        margin: 0 10px;
+    }
+
+    .vibrant-title {
+        font-size: 1.2rem !important;
+    }
+
+    /* Header Adjustments */
+    .header {
+        padding: 15px 0;
+    }
+
+    .logo {
+        width: 160px !important;
+        top: -50px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 80vw;
+        top: 70px;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 15px 0;
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<script>
+// Mobile-specific JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768px) {
+        // Simplify typewriter effect for mobile
+        const typewriterText = document.getElementById('typewriter-text');
+        typewriterText.textContent = "Integrated With Real-Time Market Data";
+        typewriterText.style.animation = 'none';
+        typewriterText.style.borderRight = 'none';
+
+        // Adjust form submission for mobile
+        const searchForm = document.querySelector('.search-form');
+        searchForm.addEventListener('submit', function(e) {
+            const input = this.querySelector('input');
+            if (input.value.trim() === '') {
+                e.preventDefault();
+                input.focus();
+                input.placeholder = "Please enter a product...";
+                input.style.borderColor = "#ff3b1f";
+                setTimeout(() => {
+                    input.style.borderColor = "";
+                }, 2000);
+            }
+        });
+
+        // Touch-friendly hover effects
+        document.querySelectorAll('.vibrant-title').forEach(title => {
+            title.addEventListener('touchstart', function() {
+                this.style.color = "#ff3b1f";
+                this.style.transform = "scale(1.1)";
+            });
+            title.addEventListener('touchend', function() {
+                this.style.color = "";
+                this.style.transform = "";
+            });
+        });
+    }
+});
+</script>
 </body>
 </html>
