@@ -78,9 +78,50 @@
                 max-width: 95%;
             }
         }
+
+        /* New Styles */
+        .retailer-bar {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 50px 20px;
+            border-radius: 10px;
+        }
+
+        .cta-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff3b1f;
+        }
     </style>
 </head>
 <body>
+    <!-- Retailer Bar -->
+    <div class="retailer-bar">
+        We scan: Amazon, Alibaba, Walmart, Temu, Best Buys, Etsy, and more!
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -138,6 +179,8 @@
                         <button type="submit" class="btn neon-button">Search</button>
                     </div>
                 </form>
+                <!-- CTA Button -->
+                <button class="cta-button">Start Scanning Now</button>
             </div>
         </div>
     </div>
@@ -148,7 +191,7 @@
             <div class="futuristic-box p-4 glass-bg shadow-sm rounded">
                 <h2 class="mb-4" style="color: black;">About TrendFind</h2>
                 <p style="color: black;">
-                    TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms analyze real-time data from Amazon and other major retailers to surface emerging trends with strong profit potential.
+                    TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms anal[...]
                 </p>
                 <h3 class="mt-4 vibrant-title">How It Works:</h3>
                 <ul class="list-unstyled" style="color: black;">
@@ -172,7 +215,7 @@
                     <li class="mb-2">Historical performance tracking</li>
                 </ul>
                 <p class="mt-4" style="color: black;">
-                    Founded in 2024 by J.K, TrendFind has helped 15000+ sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce product research.
+                    Founded in 2024 by J.K, TrendFind has helped 15000+ sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce[...]
                 </p>
             </div>
         </div>
