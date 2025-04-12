@@ -87,6 +87,16 @@
             font-size: 1rem;
             font-weight: bold;
             color: #333;
+            width: 100%;
+            position: relative; /* Changed from fixed to relative */
+            margin-top: 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .retailer-bar {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .hero-section {
@@ -115,11 +125,37 @@
             background-color: #ff3b1f;
         }
 
-        .header + .retailer-bar {
-            margin-top: 0;
+        /* Logo Positioning Fix */
+        .header-content {
             position: relative;
-            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             width: 100%;
+        }
+
+        .logo-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+        }
+
+        .logo {
+            width: 100%;
+            height: auto;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Header buttons positioning */
+        .sidebar-toggle, .dark-mode-toggle {
+            position: relative;
+            z-index: 1001;
         }
     </style>
 </head>
@@ -145,11 +181,12 @@
     </div>
 </header>
 
-<!-- Retailer Bar -->
+<!-- Retailer Bar - Now properly connected below header -->
 <div class="retailer-bar">
     Sourced From: Amazon, Alibaba, Walmart, Temu, Best Buys, Etsy, and more!
 </div>
 
+<!-- [REST OF YOUR ORIGINAL CONTENT REMAINS EXACTLY THE SAME] -->
 <!-- Hero Section -->
 <div class="hero-section">
     <div class="container">
@@ -307,6 +344,27 @@
 
 <style id="mobile-optimization">
 @media only screen and (max-width: 768px) {
+    /* Header Adjustments */
+    .header {
+        padding: 15px 0;
+        height: 70px;
+    }
+
+    .logo-container {
+        width: 180px;
+        top: -10px;
+    }
+
+    .logo {
+        width: 100%;
+    }
+
+    /* Retailer Bar */
+    .retailer-bar {
+        font-size: 0.9rem;
+        padding: 8px 0;
+    }
+
     /* Hero Section Scaling */
     .hero-section {
         padding: 20px 0;
@@ -370,18 +428,6 @@
 
     .vibrant-title {
         font-size: 1.2rem !important;
-    }
-
-    /* Header Adjustments */
-    .header {
-        padding: 15px 0;
-    }
-
-    .logo {
-        width: 160px !important;
-        top: -50px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
     }
 
     /* Sidebar */
