@@ -1351,3 +1351,82 @@ body.dark-mode .sidebar {
 .faq-section h1 {
     margin-bottom: 40px;
 }
+
+/* ===== SIDEBAR STANDARDIZATION ===== */
+.sidebar {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 70px;
+    left: -250px;
+    height: calc(100% - 70px);
+    z-index: 1001;
+    transition: left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 12px 20px;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar ul li:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.sidebar ul li a {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500; /* Medium weight */
+    font-size: 1rem;
+    color: #333; /* Dark text in light mode */
+    text-decoration: none;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    color: #007bff;
+}
+
+/* Dark Mode Sidebar */
+body.dark-mode .sidebar {
+    background: rgba(30, 30, 30, 0.9);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .sidebar ul li a {
+    color: #fff; /* White text in dark mode */
+}
+
+body.dark-mode .sidebar ul li:hover {
+    background-color: rgba(0, 123, 255, 0.2);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+        top: 60px;
+        height: calc(100% - 60px);
+    }
+    
+    .sidebar ul li {
+        padding: 10px 15px;
+    }
+    
+    .sidebar ul li a {
+        font-size: 0.95rem;
+    }
+}
