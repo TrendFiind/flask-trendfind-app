@@ -1319,24 +1319,35 @@ body.dark-mode .sidebar {
     color: #007bff; /* Change color on hover */
 }
 
-/* Sidebar - Match index page styling */
+/* Standardize Sidebar Across All Pages */
+.sidebar ul li a {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700; /* Bold text */
+    font-size: 1.1rem;
+    color: #000; /* Black in light mode */
+}
+
+body.dark-mode .sidebar ul li a {
+    color: #fff; /* White in dark mode */
+}
+
+/* Match sidebar width and styling to index page */
 .sidebar {
-    width: 250px; /* Match index page width */
-    background: rgba(255, 255, 255, 0.9); /* Match index page */
-    backdrop-filter: blur(10px); /* Match index page */
-    border-right: 1px solid rgba(0, 0, 0, 0.1); /* Match index page */
+    width: 250px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode .sidebar {
-    background: rgba(30, 30, 30, 0.9); /* Match index page dark mode */
-    border-right: 1px solid rgba(255, 255, 255, 0.1); /* Match index page */
+    background: rgba(30, 30, 30, 0.9);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Adjust FAQ title spacing */
 .faq-section {
-    padding: 120px 0 100px; /* Added 20px more top padding */
+    padding: 120px 0 100px; /* Added top padding */
 }
 
 .faq-section h1 {
-    margin-bottom: 40px; /* Reduced from 50px for better balance */
+    margin-bottom: 40px;
 }
