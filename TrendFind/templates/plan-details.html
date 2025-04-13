@@ -3,12 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Details - TrendFind</title>
+    <title>Premium Plans - TrendFind</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
-        /* Header Styles (copied from index) */
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f8f9fa;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('/static/images/plan-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        body.light-mode {
+            background-color: var(--light);
+            color: var(--text-dark);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(0, 123, 255, 0.2);
+        }
+
+        /* Header (from index page) */
         .header {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -107,72 +143,37 @@
             color: #0056b3;
         }
 
-        /* Dark Mode Header Styles */
         body.dark-mode .header {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Original Plan Details Styles */
-        :root {
-            --primary-color: #00ffea;
-            --secondary-color: #007bff;
-            --dark-bg: #121212;
-            --light-bg: #f8f9fa;
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --text-light: #ffffff;
-            --text-dark: #333333;
-        }
-
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            transition: all 0.3s ease;
-        }
-
-        body.light-mode {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-        }
-
-        body.light-mode .plan-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        body.light-mode .plan-card.featured {
-            border: 2px solid var(--secondary-color);
-            box-shadow: 0 0 30px rgba(0, 123, 255, 0.3);
-        }
-
-        body.light-mode .plan-card .price {
-            color: var(--secondary-color);
-        }
-
-        body.light-mode .feature-badge {
-            background: var(--secondary-color);
-            color: white;
-        }
-
-        /* Plan Details Section */
-        .plan-details-section {
-            padding: 100px 0;
+        /* Premium Plan Section */
+        .premium-plans {
+            padding: 150px 0 80px;
             position: relative;
             overflow: hidden;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
         }
 
         .section-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
+            font-size: 3rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 50px;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             position: relative;
             display: inline-block;
         }
@@ -180,39 +181,51 @@
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary-color);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
-        .section-title:hover::after {
-            transform: scaleX(1);
-        }
-
-        .plan-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
+        .section-subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
             margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.light-mode .section-subtitle {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .plans-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
         }
 
         .plan-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 40px 30px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(0, 255, 234, 0.3),
-                        inset 0 0 10px rgba(255, 255, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 360px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
         .plan-card::before {
@@ -222,134 +235,29 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         .plan-card.featured {
-            transform: scale(1.05);
-            border: 2px solid var(--primary-color);
-            box-shadow: 0 0 30px rgba(0, 255, 234, 0.5),
-                        inset 0 0 15px rgba(255, 255, 255, 0.3);
+            transform: translateY(-20px);
+            border: 1px solid var(--primary);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.3);
         }
 
         .plan-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 0 40px rgba(0, 255, 234, 0.5),
-                        inset 0 0 20px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.4);
         }
 
         .plan-card.featured:hover {
-            transform: translateY(-10px) scale(1.05);
+            transform: translateY(-30px);
         }
 
-        .plan-name {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        .price span {
-            font-size: 1rem;
-            font-weight: 400;
-        }
-
-        .plan-features {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 30px;
-        }
-
-        .plan-features li {
-            padding: 8px 0;
-            position: relative;
-            padding-left: 25px;
-        }
-
-        .plan-features li::before {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: var(--primary-color);
-        }
-
-        .plan-features li.disabled {
-            opacity: 0.5;
-        }
-
-        .plan-features li.disabled::before {
-            content: '\f00d';
-            color: #ff3b1f;
-        }
-
-        .btn-subscribe {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: #000;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .btn-subscribe::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-            z-index: -1;
-        }
-
-        .btn-subscribe:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary-color);
-            color: #000;
-            box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
-        }
-
-        .feature-badge {
+        .plan-badge {
             position: absolute;
             top: 20px;
             right: 20px;
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #000;
             padding: 5px 15px;
             border-radius: 20px;
@@ -365,49 +273,483 @@
             100% { transform: scale(1); }
         }
 
-        .comparison-table {
+        .plan-header {
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .plan-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .plan-icon i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .plan-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .plan-description {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        body.light-mode .plan-description {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        body.light-mode .plan-price span {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            position: relative;
+            padding-left: 30px;
+            font-size: 1rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .plan-features li {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .plan-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .plan-features li.disabled {
+            opacity: 0.5;
+        }
+
+        .plan-features li.disabled::before {
+            content: '\f00d';
+            color: #ff3b1f;
+        }
+
+        .btn-plan {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary-plan {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+        }
+
+        .btn-outline-plan {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-plan::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn-plan:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary-plan:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline-plan:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Feature Comparison */
+        .feature-comparison {
             margin-top: 80px;
-            background: var(--card-bg);
+            padding: 60px 0;
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+            border-top: 1px solid rgba(0, 255, 234, 0.1);
+            border-bottom: 1px solid rgba(0, 255, 234, 0.1);
+        }
+
+        body.light-mode .feature-comparison {
+            background: rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(0, 123, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 123, 255, 0.1);
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .comparison-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-collapse: separate;
+            border-spacing: 0 15px;
         }
 
         .comparison-table th {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--primary);
             text-transform: uppercase;
             letter-spacing: 1px;
+            padding: 15px;
+            text-align: left;
+            background: rgba(0, 255, 234, 0.1);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        body.light-mode .comparison-table th {
+            background: rgba(0, 123, 255, 0.1);
         }
 
         .comparison-table td {
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .comparison-table tr:last-child td {
-            border-bottom: none;
+        body.light-mode .comparison-table td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(0, 255, 234, 0.05);
+        }
+
+        body.light-mode .comparison-table tr:hover td {
+            background: rgba(0, 123, 255, 0.05);
+        }
+
+        .feature-name {
+            font-weight: 600;
         }
 
         .check-icon {
-            color: var(--primary-color);
+            color: var(--primary);
+            font-size: 1.2rem;
         }
 
         .times-icon {
             color: #ff3b1f;
+            font-size: 1.2rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .testimonial-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 255, 234, 0.2);
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px solid var(--primary);
+            object-fit: cover;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .testimonial-text::before {
+            top: -15px;
+            left: -10px;
+        }
+
+        .testimonial-text::after {
+            bottom: -25px;
+            right: -10px;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-role {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        body.light-mode .faq-section {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .faq-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            text-align: center;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 5px 20px rgba(0, 255, 234, 0.2);
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-question::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 20px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 20px 20px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.light-mode .cta-text {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .btn-cta {
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 234, 0.4);
         }
 
         /* Responsive Styles */
-        @media (max-width: 992px) {
-            .plan-cards {
-                grid-template-columns: 1fr;
-                max-width: 600px;
+        @media (max-width: 1200px) {
+            .plans-container {
+                flex-wrap: wrap;
+            }
+            
+            .plan-card {
+                max-width: 100%;
             }
             
             .plan-card.featured {
-                transform: scale(1);
+                transform: none;
             }
             
             .plan-card.featured:hover {
@@ -416,35 +758,58 @@
         }
 
         @media (max-width: 768px) {
-            .plan-details-section {
-                padding: 80px 20px;
+            .premium-plans {
+                padding: 120px 0 60px;
             }
             
             .section-title {
-                font-size: 1.8rem;
-                margin-bottom: 30px;
+                font-size: 2.2rem;
             }
             
             .plan-card {
-                padding: 30px 20px;
+                padding: 30px;
+            }
+            
+            .plan-name {
+                font-size: 1.5rem;
+            }
+            
+            .plan-price {
+                font-size: 2.5rem;
             }
             
             .comparison-table {
-                padding: 20px 15px;
+                display: block;
                 overflow-x: auto;
             }
+            
+            .cta-container {
+                padding: 40px 20px;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
 
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .plan-card {
+                padding: 25px;
+            }
+            
             .logo {
-                width: 160px !important;
-                top: -50px !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
+                width: 180px;
+                top: -50px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header (copied from index) -->
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
             <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
@@ -476,152 +841,234 @@
         </ul>
     </nav>
 
-    <!-- Plan Details Section -->
-    <section class="plan-details-section">
-        <div class="container">
-            <h1 class="text-center section-title">Choose Your Plan</h1>
-            
-            <div class="plan-cards">
-                <!-- Free Plan -->
-                <div class="plan-card">
-                    <h3 class="plan-name">Free</h3>
-                    <div class="price">$0 <span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>10 searches per day</li>
-                        <li>Basic trending data</li>
-                        <li>Limited retailer access</li>
-                        <li class="disabled">AI recommendations</li>
-                        <li class="disabled">Social media analysis</li>
-                        <li class="disabled">Profit margin forecasts</li>
-                    </ul>
-                    <button class="btn btn-subscribe btn-outline">Get Started</button>
+    <!-- Premium Plans Section -->
+    <section class="premium-plans">
+        <div class="section-header">
+            <h1 class="section-title">Choose Your Plan</h1>
+            <p class="section-subtitle">Select the perfect plan to supercharge your ecommerce business with our AI-powered product research tools</p>
+        </div>
+        
+        <div class="plans-container">
+            <!-- Starter Plan -->
+            <div class="plan-card">
+                <div class="plan-badge">Starter</div>
+                <div class="plan-header">
+                    <div class="plan-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="plan-name">Starter</h3>
+                    <p class="plan-description">Perfect for beginners testing the waters</p>
+                    <div class="plan-price">$0 <span>/month</span></div>
                 </div>
-                
-                <!-- Bronze Plan -->
-                <div class="plan-card">
-                    <div class="feature-badge">Popular</div>
-                    <h3 class="plan-name">Bronze</h3>
-                    <div class="price">$25 <span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>50 searches per day</li>
-                        <li>Basic analytics</li>
-                        <li>Supplier comparisons</li>
-                        <li>Limited AI recommendations</li>
-                        <li class="disabled">Social media analysis</li>
-                        <li class="disabled">Profit margin forecasts</li>
-                    </ul>
-                    <button class="btn btn-subscribe btn-primary">Subscribe Now</button>
-                </div>
-                
-                <!-- Silver Plan -->
-                <div class="plan-card featured">
-                    <div class="feature-badge">Best Value</div>
-                    <h3 class="plan-name">Silver</h3>
-                    <div class="price">$50 <span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>100 searches per day</li>
-                        <li>Advanced analytics</li>
-                        <li>Full supplier comparisons</li>
-                        <li>AI recommendations</li>
-                        <li>Social media analysis</li>
-                        <li class="disabled">Profit margin forecasts</li>
-                    </ul>
-                    <button class="btn btn-subscribe btn-primary">Subscribe Now</button>
-                </div>
-                
-                <!-- Gold Plan -->
-                <div class="plan-card">
-                    <h3 class="plan-name">Gold</h3>
-                    <div class="price">$75 <span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>Unlimited searches</li>
-                        <li>Advanced analytics</li>
-                        <li>Full supplier comparisons</li>
-                        <li>AI recommendations</li>
-                        <li>Social media analysis</li>
-                        <li>Profit margin forecasts</li>
-                    </ul>
-                    <button class="btn btn-subscribe btn-outline">Subscribe Now</button>
-                </div>
+                <ul class="plan-features">
+                    <li>10 daily searches</li>
+                    <li>Basic trending data</li>
+                    <li>Limited retailer access</li>
+                    <li class="disabled">AI recommendations</li>
+                    <li class="disabled">Social media analysis</li>
+                    <li class="disabled">Profit margin forecasts</li>
+                    <li class="disabled">Supplier comparisons</li>
+                    <li class="disabled">Country availability checks</li>
+                </ul>
+                <button class="btn-plan btn-outline-plan">Get Started Free</button>
             </div>
             
-            <!-- Feature Comparison Table -->
-            <div class="comparison-table mt-5">
-                <h3 class="text-center mb-4" style="color: var(--primary-color);">Plan Feature Comparison</h3>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Feature</th>
-                                <th>Free</th>
-                                <th>Bronze</th>
-                                <th>Silver</th>
-                                <th>Gold</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Daily Searches</td>
-                                <td>10</td>
-                                <td>50</td>
-                                <td>100</td>
-                                <td>Unlimited</td>
-                            </tr>
-                            <tr>
-                                <td>Retailer Access</td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Basic Analytics</td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Supplier Comparisons</td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>AI Recommendations</td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td>Limited</td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Social Media Analysis</td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Profit Margins Forecast</td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Country Availability Checks</td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-times times-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                                <td><i class="fas fa-check check-icon"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Pro Plan -->
+            <div class="plan-card featured">
+                <div class="plan-badge">Most Popular</div>
+                <div class="plan-header">
+                    <div class="plan-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="plan-name">Pro</h3>
+                    <p class="plan-description">For serious sellers scaling their business</p>
+                    <div class="plan-price">$29 <span>/month</span></div>
+                </div>
+                <ul class="plan-features">
+                    <li>100 daily searches</li>
+                    <li>Advanced analytics</li>
+                    <li>Full retailer access</li>
+                    <li>AI recommendations</li>
+                    <li>Social media analysis</li>
+                    <li>Profit margin forecasts</li>
+                    <li>Supplier comparisons</li>
+                    <li class="disabled">Country availability checks</li>
+                </ul>
+                <button class="btn-plan btn-primary-plan">Start 7-Day Free Trial</button>
+            </div>
+            
+            <!-- Enterprise Plan -->
+            <div class="plan-card">
+                <div class="plan-badge">Enterprise</div>
+                <div class="plan-header">
+                    <div class="plan-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3 class="plan-name">Enterprise</h3>
+                    <p class="plan-description">For high-volume sellers and agencies</p>
+                    <div class="plan-price">$99 <span>/month</span></div>
+                </div>
+                <ul class="plan-features">
+                    <li>Unlimited searches</li>
+                    <li>Advanced analytics</li>
+                    <li>Full retailer access</li>
+                    <li>AI recommendations</li>
+                    <li>Social media analysis</li>
+                    <li>Profit margin forecasts</li>
+                    <li>Supplier comparisons</li>
+                    <li>Country availability checks</li>
+                </ul>
+                <button class="btn-plan btn-outline-plan">Start 7-Day Free Trial</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Comparison -->
+    <section class="feature-comparison">
+        <div class="comparison-header">
+            <h2 class="comparison-title">Plan Feature Comparison</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Starter</th>
+                        <th>Pro</th>
+                        <th>Enterprise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Daily Searches</td>
+                        <td>10</td>
+                        <td>100</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">AI Recommendations</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Social Media Analysis</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Profit Margin Forecasts</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Supplier Comparisons</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Country Availability</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Priority Support</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">API Access</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="testimonial-title">What Our Customers Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/testimonial1.jpg') }}" alt="Sarah J." class="testimonial-avatar">
+                <p class="testimonial-text">TrendFind's Pro plan helped me identify 3 winning products in my first month. The AI recommendations are spot on!</p>
+                <h4 class="testimonial-author">Sarah J.</h4>
+                <p class="testimonial-role">Amazon FBA Seller</p>
+            </div>
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/testimonial2.jpg') }}" alt="Michael T." class="testimonial-avatar">
+                <p class="testimonial-text">The social media analysis feature saved me from investing in a product that was getting negative buzz on TikTok.</p>
+                <h4 class="testimonial-author">Michael T.</h4>
+                <p class="testimonial-role">Dropshipping Entrepreneur</p>
+            </div>
+            <div class="testimonial-card">
+                <img src="{{ url_for('static', filename='images/testimonial3.jpg') }}" alt="Lisa K." class="testimonial-avatar">
+                <p class="testimonial-text">As an agency managing multiple stores, the Enterprise plan gives me all the tools I need to keep my clients profitable.</p>
+                <h4 class="testimonial-author">Lisa K.</h4>
+                <p class="testimonial-role">Ecommerce Agency Owner</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What payment methods do you accept?</div>
+                <div class="faq-answer">
+                    <p>We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and cryptocurrency (Bitcoin, Ethereum). All payments are processed securely through our payment partners.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can I switch plans later?</div>
+                <div class="faq-answer">
+                    <p>Yes! You can upgrade or downgrade your plan at any time from your account settings. Changes take effect immediately, and you'll only pay the prorated difference for the current billing cycle.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Is there a contract or long-term commitment?</div>
+                <div class="faq-answer">
+                    <p>No, all our plans are month-to-month with no long-term contracts. You can cancel anytime with just a few clicks, no questions asked.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How does the free trial work?</div>
+                <div class="faq-answer">
+                    <p>Our 7-day free trial gives you full access to all Pro plan features. No credit card is required to start the trial. If you don't cancel before the trial ends, your chosen plan will automatically begin.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What if I need more than 100 daily searches?</div>
+                <div class="faq-answer">
+                    <p>Our Enterprise plan offers unlimited searches, perfect for high-volume users. If you're on the Pro plan and occasionally need more searches, you can purchase additional search packs or upgrade temporarily.</p>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Find Your Next Winning Product?</h2>
+            <p class="cta-text">Join thousands of successful ecommerce sellers who trust TrendFind to uncover profitable products before they go mainstream.</p>
+            <button class="btn-cta">Start Your Free Trial Today</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
+    </footer>
 
     <!-- JavaScript -->
     <script>
@@ -633,16 +1080,17 @@
 
         // Dark Mode Toggle
         document.getElementById('dark-mode-toggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
             const icon = this.querySelector('i');
-            if (document.body.classList.contains('dark-mode')) {
+            
+            if (document.body.classList.contains('light-mode')) {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-                localStorage.setItem('darkMode', 'enabled');
+                localStorage.setItem('darkMode', 'disabled');
             } else {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
-                localStorage.setItem('darkMode', 'disabled');
+                localStorage.setItem('darkMode', 'enabled');
             }
         });
 
@@ -652,29 +1100,52 @@
             const icon = darkModeToggle.querySelector('i');
             const darkMode = localStorage.getItem('darkMode');
 
-            if (darkMode === 'enabled') {
-                document.body.classList.add('dark-mode');
+            if (darkMode === 'disabled') {
+                document.body.classList.add('light-mode');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-            } else {
-                document.body.classList.remove('dark-mode');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
             }
         });
 
-        // Plan card hover effects
-        document.querySelectorAll('.plan-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px)';
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+                
+                // Close other open items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
             });
-            
-            card.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('featured')) {
-                    this.style.transform = 'translateY(0)';
-                } else {
-                    this.style.transform = 'translateY(-10px) scale(1.05)';
+        });
+
+        // Animate plan cards on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
                 }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
