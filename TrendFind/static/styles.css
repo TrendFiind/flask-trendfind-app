@@ -998,6 +998,7 @@ body.dark-mode .futuristic-box p {
                 inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
+/* Default styles (light mode - moon icon visible) */
 .accordion-button {
     background: transparent;
     border: none;
@@ -1005,14 +1006,15 @@ body.dark-mode .futuristic-box p {
     text-align: left;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #000; /* Changed to black for light mode */
+    color: #000; /* Black text when moon icon is shown (light mode) */
     cursor: pointer;
     padding: 10px;
     transition: color 0.3s ease;
 }
 
+/* Dark mode styles (sun icon visible) */
 body.dark-mode .accordion-button {
-    color: #00ffea; /* Teal color for dark mode */
+    color: #00ffea; /* Teal text when sun icon is shown (dark mode) */
 }
 
 .accordion-content {
@@ -1021,14 +1023,16 @@ body.dark-mode .accordion-button {
     transition: max-height 0.3s ease;
 }
 
+/* Light mode content */
 .accordion-content p {
     font-size: 1rem;
-    color: #333; /* Dark gray for light mode */
+    color: #333; /* Dark gray text when moon icon is shown (light mode) */
     margin-top: 10px;
 }
 
+/* Dark mode content */
 body.dark-mode .accordion-content p {
-    color: #ccc; /* Light gray for dark mode */
+    color: #ccc; /* Light gray text when sun icon is shown (dark mode) */
 }
 
 .accordion-item.active .accordion-content {
