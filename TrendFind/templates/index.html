@@ -227,11 +227,16 @@
 
 <!-- JavaScript -->
 <script>
-    // Sidebar Toggle
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.toggle('open');
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.querySelector('.sidebar-toggle');
+    
+    if (sidebar && toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+        });
     }
+});
 
     // Loading Spinner
     const searchForm = document.querySelector('.search-form');
