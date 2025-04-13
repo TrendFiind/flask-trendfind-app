@@ -1005,9 +1005,14 @@ body.dark-mode .futuristic-box p {
     text-align: left;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #00ffea;
+    color: #000; /* Changed to black for light mode */
     cursor: pointer;
     padding: 10px;
+    transition: color 0.3s ease;
+}
+
+body.dark-mode .accordion-button {
+    color: #00ffea; /* Teal color for dark mode */
 }
 
 .accordion-content {
@@ -1018,8 +1023,12 @@ body.dark-mode .futuristic-box p {
 
 .accordion-content p {
     font-size: 1rem;
-    color: #ccc;
+    color: #333; /* Dark gray for light mode */
     margin-top: 10px;
+}
+
+body.dark-mode .accordion-content p {
+    color: #ccc; /* Light gray for dark mode */
 }
 
 .accordion-item.active .accordion-content {
