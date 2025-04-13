@@ -154,17 +154,19 @@
     </div>
 </header>
 
-<nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/saved-products">Saved Products</a></li>
-        <li><a href="/plan-details">Plan Details</a></li>
-        <li><a href="/faq">FAQ</a></li>
-        <li><a href="/about-us">About Us</a></li>
-        <li><a href="/contact-us">Contact Us</a></li>
-    </ul>
-</nav>
+<!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
     
 <!-- Retailer Bar -->
 <div class="retailer-bar">
@@ -248,11 +250,12 @@
 
 <!-- JavaScript -->
 <script>
-    // Sidebar Toggle
-   function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        if (sidebar) sidebar.classList.toggle('open');
-    }
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
 
     // Loading Spinner
     const searchForm = document.querySelector('.search-form');
