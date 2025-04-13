@@ -227,19 +227,6 @@
 <!-- Loading Spinner -->
 <div class="loading-spinner"></div>
 
-<!-- JavaScript -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.querySelector('.sidebar-toggle');
-    
-    if (sidebar && toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('open');
-        });
-    }
-});
-
     // Loading Spinner
     const searchForm = document.querySelector('.search-form');
     const loadingSpinner = document.querySelector('.loading-spinner');
@@ -430,7 +417,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Touch-friendly hover effects
+        // Sidebar Toggle Fix (ADD THIS NEW CODE)
+        const toggleBtn = document.querySelector('.sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        if (toggleBtn && sidebar) {
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+        }
+
+        // Existing touch-friendly hover effects (KEEP THIS)
         document.querySelectorAll('.vibrant-title').forEach(title => {
             title.addEventListener('touchstart', function() {
                 this.style.color = "#ff3b1f";
