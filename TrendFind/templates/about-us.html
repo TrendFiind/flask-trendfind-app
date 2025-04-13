@@ -5,10 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - TrendFind</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <style>
+        /* About Us Specific Styles */
+        .about-us-section {
+            padding: 100px 0;
+            color: #333;
+        }
+        
+        body.dark-mode .about-us-section {
+            color: #eee;
+        }
+        
+        .about-header {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #000;
+        }
+        
+        body.dark-mode .about-header {
+            color: #00ffea;
+            text-shadow: 0 0 8px rgba(0, 255, 234, 0.3);
+        }
+        
+        .mission-statement {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        body.dark-mode .mission-statement {
+            background: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 255, 234, 0.1);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        body.dark-mode .feature-card {
+            background: rgba(30, 30, 30, 0.9);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        
+        body.dark-mode .feature-icon {
+            color: #00ffea;
+        }
+        
+        .team-section {
+            margin-top: 80px;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #007bff;
+            margin-bottom: 20px;
+        }
+        
+        body.dark-mode .team-member img {
+            border-color: #00ffea;
+        }
+        
+        .team-member h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        
+        .stats-container {
+            margin: 60px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007bff;
+        }
+        
+        body.dark-mode .stat-number {
+            color: #00ffea;
+        }
+        
+        @media (max-width: 768px) {
+            .about-us-section {
+                padding: 60px 0;
+            }
+            
+            .mission-statement {
+                padding: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -46,30 +169,85 @@
     <!-- About Us Section -->
     <div class="about-us-section">
         <div class="container">
-            <h1 class="text-center mb-4">About Us</h1>
-            <div class="about-content">
-                <p>TrendFind revolutionizes product trend analysis by scanning Amazon for the most promising, high-margin opportunities. Using advanced algorithms and real-time data insights, our system identifies emerging trends before they go mainstream—giving you the competitive edge you need in e-commerce.</p>
-                <p>Whether you're a dropshipper, reseller, or entrepreneur, TrendFind eliminates the guesswork, providing you with accurate, data-backed recommendations for profitable products. Stay ahead of the market with technology built for success.</p>
+            <h1 class="about-header">About TrendFind</h1>
+            
+            <div class="mission-statement">
+                <h2 class="text-center mb-4">Our Mission</h2>
+                <p class="text-center lead">We empower e-commerce entrepreneurs with AI-driven insights to discover trending products before they go mainstream, saving you time and maximizing your profits.</p>
             </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Real-Time Data</h3>
+                        <p>Our system scans multiple retailers every 15 minutes to deliver the most current market trends and product opportunities.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI Analysis</h3>
+                        <p>Advanced machine learning algorithms analyze product viability, competition, and profit potential to recommend only the best opportunities.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Profit Focused</h3>
+                        <p>We focus on products with 35-60% profit margins, helping you build a sustainable e-commerce business.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="row">
+                    <div class="col-md-3 col-6 stat-item">
+                        <div class="stat-number">15,000+</div>
+                        <p>Successful Sellers</p>
+                    </div>
+                    <div class="col-md-3 col-6 stat-item">
+                        <div class="stat-number">24/7</div>
+                        <p>Data Monitoring</p>
+                    </div>
+                    <div class="col-md-3 col-6 stat-item">
+                        <div class="stat-number">10+</div>
+                        <p>Marketplaces Tracked</p>
+                    </div>
+                    <div class="col-md-3 col-6 stat-item">
+                        <div class="stat-number">50K</div>
+                        <p>Products Analyzed Daily</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="team-section">
-                <h2 class="text-center mb-4">Our Team</h2>
-                <div class="team-grid">
-                    <div class="team-member">
-                        <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Team Member 1">
-                        <h3>John Doe</h3>
-                        <p>CEO & Founder</p>
+                <h2 class="about-header">Meet The Team</h2>
+                <div class="row">
+                    <div class="col-md-4 team-member">
+                        <img src="{{ url_for('static', filename='images/team1.jpg') }}" alt="Founder">
+                        <h3>J.K</h3>
+                        <p>Founder & CEO</p>
+                        <p>E-commerce veteran with 10+ years experience in product research and trend analysis.</p>
                     </div>
-                    <div class="team-member">
-                                <img src="{{ url_for('static', filename='images/team2.jpg') }}" alt="Team Member 2">
-                        <h3>Jane Smith</h3>
+                    <div class="col-md-4 team-member">
+                        <img src="{{ url_for('static', filename='images/team2.jpg') }}" alt="Lead Developer">
+                        <h3>Alex Chen</h3>
                         <p>Lead Data Scientist</p>
+                        <p>Machine learning expert specializing in predictive analytics for e-commerce.</p>
                     </div>
-                    <div class="team-member">
-                        <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Team Member 3">
-                        <h3>Alex Johnson</h3>
+                    <div class="col-md-4 team-member">
+                        <img src="{{ url_for('static', filename='images/team3.jpg') }}" alt="Product Manager">
+                        <h3>Maria Rodriguez</h3>
                         <p>Product Manager</p>
+                        <p>Ensures our tools meet the real-world needs of dropshippers and resellers.</p>
                     </div>
-                    <!-- Add more team members as needed -->
                 </div>
             </div>
         </div>
