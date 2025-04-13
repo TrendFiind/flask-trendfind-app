@@ -968,11 +968,10 @@ body.dark-mode .futuristic-box p {
     color: #00ffea;
 }
 
-/* FAQ – The Knowledge Nexus */
+/* FAQ Section Styling */
 .faq-section {
     padding: 100px 0;
     text-align: center;
-    color: #fff;
 }
 
 .faq-accordion {
@@ -992,13 +991,7 @@ body.dark-mode .futuristic-box p {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.accordion-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
-                inset 0 0 15px rgba(255, 255, 255, 0.3);
-}
-
-/* Default styles (light mode - moon icon visible) */
+/* Light mode styles */
 .accordion-button {
     background: transparent;
     border: none;
@@ -1006,33 +999,38 @@ body.dark-mode .futuristic-box p {
     text-align: left;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #000; /* Black text when moon icon is shown (light mode) */
+    color: #000; /* Black text in light mode */
     cursor: pointer;
     padding: 10px;
     transition: color 0.3s ease;
 }
 
-/* Dark mode styles (sun icon visible) */
+.accordion-content p {
+    font-size: 1rem;
+    color: #333; /* Dark gray for content in light mode */
+    margin-top: 10px;
+}
+
+/* Dark mode overrides */
 body.dark-mode .accordion-button {
-    color: #00ffea; /* Teal text when sun icon is shown (dark mode) */
+    color: #00ffea; /* Teal text in dark mode */
+}
+
+body.dark-mode .accordion-content p {
+    color: #ccc; /* Light gray text in dark mode */
+}
+
+/* Rest of your existing styles */
+.accordion-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8),
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .accordion-content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-}
-
-/* Light mode content */
-.accordion-content p {
-    font-size: 1rem;
-    color: #333; /* Dark gray text when moon icon is shown (light mode) */
-    margin-top: 10px;
-}
-
-/* Dark mode content */
-body.dark-mode .accordion-content p {
-    color: #ccc; /* Light gray text when sun icon is shown (dark mode) */
 }
 
 .accordion-item.active .accordion-content {
