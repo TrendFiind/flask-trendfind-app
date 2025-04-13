@@ -8,6 +8,102 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+        <style>
+        /* Enhanced FAQ Styles */
+        .faq-section {
+            padding: 100px 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .accordion-item {
+            position: relative;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        }
+        
+        .accordion-button {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #007bff;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .accordion-button::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: calc(100% - 40px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.5), transparent);
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-button.active::after {
+            opacity: 0;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            position: relative;
+        }
+        
+        .accordion-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 20px;
+            width: calc(100% - 40px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.3), transparent);
+        }
+        
+        .accordion-content p {
+            padding: 20px;
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Dark Mode Support */
+        body.dark-mode .faq-section {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        body.dark-mode .accordion-item {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.dark-mode .accordion-button {
+            color: #00ffea;
+        }
+        
+        body.dark-mode .accordion-button::after,
+        body.dark-mode .accordion-content::before {
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.5), transparent);
+        }
+        
+        body.dark-mode .accordion-content p {
+            color: #eee;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -42,7 +138,7 @@
         </ul>
     </nav>
 
-    <!-- FAQ Section -->
+   <!-- Enhanced FAQ Section -->
     <div class="faq-section">
         <div class="container">
             <h1 class="text-center mb-4">Frequently Asked Questions</h1>
