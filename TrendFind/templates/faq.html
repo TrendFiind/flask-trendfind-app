@@ -5,23 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - TrendFind</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- New tech-inspired fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
+        /* Base font family */
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
+        }
+        
         /* FAQ Section Styling */
         .faq-section {
             padding: 100px 0;
         }
         
         .faq-section h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Orbitron', sans-serif;
             margin-bottom: 50px;
             color: #333;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
         body.dark-mode .faq-section h1 {
             color: #fff;
+            text-shadow: 0 0 8px rgba(0, 255, 234, 0.3);
         }
         
         /* Accordion Styling */
@@ -32,6 +43,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
         }
         
         body.dark-mode .accordion-item {
@@ -44,19 +56,22 @@
             padding: 20px;
             text-align: left;
             font-weight: 600;
-            color: #000; /* Pure black text for questions */
+            color: #000;
             background: transparent;
             border: none;
             cursor: pointer;
             position: relative;
             font-size: 1.1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         
         body.dark-mode .accordion-button {
             color: #fff;
         }
         
-        /* Solid black divider line (light mode) */
+        /* Tech-inspired hover effect */
         .accordion-button::after {
             content: "";
             position: absolute;
@@ -64,17 +79,16 @@
             left: 20px;
             right: 20px;
             height: 1px;
-            background: #000; /* Solid black line */
+            background: linear-gradient(90deg, transparent, #000, transparent);
             transition: all 0.3s ease;
             opacity: 0;
         }
         
-        /* Solid cyan divider (dark mode) */
+        /* Cyan gradient for dark mode */
         body.dark-mode .accordion-button::after {
-            background: #00ffea; /* Solid cyan line */
+            background: linear-gradient(90deg, transparent, #00ffea, transparent);
         }
         
-        /* Show divider on hover */
         .accordion-button:hover::after {
             opacity: 1;
         }
@@ -90,23 +104,27 @@
             margin: 0;
             color: #555;
             line-height: 1.6;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 400;
         }
         
         body.dark-mode .accordion-content p {
             color: #eee;
         }
         
-        /* Active State - Hide divider */
+        /* Active State */
         .accordion-item.active .accordion-button::after {
             opacity: 0 !important;
         }
         
         .accordion-item.active {
             box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+            border-left: 4px solid #007bff;
         }
         
         body.dark-mode .accordion-item.active {
             box-shadow: 0 5px 15px rgba(0, 255, 234, 0.1);
+            border-left: 4px solid #00ffea;
         }
     </style>
 </head>
