@@ -8,100 +8,108 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
-        <style>
-        /* Enhanced FAQ Styles */
+    <style>
+        /* FAQ Section Styling */
         .faq-section {
             padding: 100px 0;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
         }
         
+        .faq-section h1 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        
+        body.dark-mode .faq-section h1 {
+            color: #fff;
+        }
+        
+        /* Accordion Styling */
         .accordion-item {
-            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
             margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
-        .accordion-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        body.dark-mode .accordion-item {
+            background: rgba(30, 30, 30, 0.9);
+            border-color: rgba(255, 255, 255, 0.1);
         }
         
         .accordion-button {
             width: 100%;
-            text-align: left;
             padding: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #007bff;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
             background: transparent;
             border: none;
             cursor: pointer;
             position: relative;
+            font-size: 1.1rem;
         }
         
+        body.dark-mode .accordion-button {
+            color: #fff;
+        }
+        
+        /* Improved Divider Line */
         .accordion-button::after {
             content: "";
             position: absolute;
             bottom: 0;
             left: 20px;
-            width: calc(100% - 40px);
+            right: 20px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.5), transparent);
+            background: linear-gradient(to right, 
+                          transparent 0%, 
+                          rgba(0, 123, 255, 0.5) 20%, 
+                          rgba(0, 123, 255, 0.7) 50%, 
+                          rgba(0, 123, 255, 0.5) 80%, 
+                          transparent 100%);
             transition: all 0.3s ease;
         }
         
-        .accordion-button.active::after {
-            opacity: 0;
+        body.dark-mode .accordion-button::after {
+            background: linear-gradient(to right, 
+                          transparent 0%, 
+                          rgba(0, 255, 234, 0.5) 20%, 
+                          rgba(0, 255, 234, 0.7) 50%, 
+                          rgba(0, 255, 234, 0.5) 80%, 
+                          transparent 100%);
         }
         
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            position: relative;
-        }
-        
-        .accordion-content::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 20px;
-            width: calc(100% - 40px);
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.3), transparent);
         }
         
         .accordion-content p {
             padding: 20px;
             margin: 0;
-            color: #333;
+            color: #555;
             line-height: 1.6;
-        }
-        
-        /* Dark Mode Support */
-        body.dark-mode .faq-section {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        
-        body.dark-mode .accordion-item {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        body.dark-mode .accordion-button {
-            color: #00ffea;
-        }
-        
-        body.dark-mode .accordion-button::after,
-        body.dark-mode .accordion-content::before {
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.5), transparent);
         }
         
         body.dark-mode .accordion-content p {
             color: #eee;
+        }
+        
+        /* Active State */
+        .accordion-item.active .accordion-button::after {
+            opacity: 0;
+        }
+        
+        .accordion-item.active {
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+        }
+        
+        body.dark-mode .accordion-item.active {
+            box-shadow: 0 5px 15px rgba(0, 255, 234, 0.1);
         }
     </style>
 </head>
@@ -138,24 +146,35 @@
         </ul>
     </nav>
 
-   <!-- Enhanced FAQ Section -->
+    <!-- FAQ Section -->
     <div class="faq-section">
         <div class="container">
-            <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+            <h1 class="text-center">Frequently Asked Questions</h1>
             <div class="faq-accordion">
                 <div class="accordion-item">
                     <button class="accordion-button">What is TrendFind?</button>
                     <div class="accordion-content">
-                        <p style="color: black;">TrendFind is an AI-powered tool that helps dropshippers and resellers discover trending products with high profit margins.</p>
+                        <p>TrendFind is an AI-powered tool that helps dropshippers and resellers discover trending products with high profit margins.</p>
                     </div>
                 </div>
                 <div class="accordion-item">
                     <button class="accordion-button">How does TrendFind work?</button>
                     <div class="accordion-content">
-                        <p style="color: black;">TrendFind scans multiple retailers and analyzes product data to identify emerging trends and profitable opportunities.</p>
+                        <p>TrendFind scans multiple retailers and analyzes product data to identify emerging trends and profitable opportunities.</p>
                     </div>
                 </div>
-                <!-- Add more FAQ items as needed -->
+                <div class="accordion-item">
+                    <button class="accordion-button">How often is the data updated?</button>
+                    <div class="accordion-content">
+                        <p>Our data is updated in real-time, with complete refreshes occurring every 24 hours to ensure you have the latest market information.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-button">Is there a mobile app available?</button>
+                    <div class="accordion-content">
+                        <p>Yes! TrendFind is available as a progressive web app that works on all mobile devices with full functionality.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -169,11 +188,13 @@
 
     <!-- JavaScript -->
     <script>
+        // Sidebar Toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
 
+        // Dark Mode Toggle
         document.getElementById('dark-mode-toggle').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
             const icon = this.querySelector('i');
@@ -188,6 +209,7 @@
             }
         });
 
+        // Check for saved dark mode preference
         document.addEventListener('DOMContentLoaded', function() {
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const icon = darkModeToggle.querySelector('i');
@@ -197,22 +219,29 @@
                 document.body.classList.add('dark-mode');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-            } else {
-                document.body.classList.remove('dark-mode');
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
             }
         });
 
-        const accordionButtons = document.querySelectorAll('.accordion-button');
-        accordionButtons.forEach(button => {
+        // Accordion Functionality
+        document.querySelectorAll('.accordion-button').forEach(button => {
             button.addEventListener('click', () => {
-                button.classList.toggle('active');
+                const item = button.parentElement;
                 const content = button.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
+                
+                // Close all other items
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+                if (item.classList.contains('active')) {
                     content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = null;
                 }
             });
         });
