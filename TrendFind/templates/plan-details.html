@@ -115,7 +115,7 @@
             background-color: #0056b3;
         }
 
-  /* Sidebar Font Weight Fix */
+        /* Sidebar Font Weight Fix */
         .sidebar ul li a {
             font-weight: 700 !important; /* Bold for all sidebar links */
         }
@@ -566,12 +566,7 @@
         }
 
         .testimonial-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            border: 3px solid var(--primary);
-            object-fit: cover;
+            display: none; /* Removed testimonial images */
         }
 
         .testimonial-text {
@@ -882,6 +877,30 @@
                 <button class="btn-plan btn-outline-plan">Get Started Free</button>
             </div>
             
+            <!-- Standard Plan -->
+            <div class="plan-card">
+                <div class="plan-badge">Standard</div>
+                <div class="plan-header">
+                    <div class="plan-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="plan-name">Standard</h3>
+                    <p class="plan-description">Great for growing businesses</p>
+                    <div class="plan-price">$10 <span>/month</span></div>
+                </div>
+                <ul class="plan-features">
+                    <li>50 daily searches</li>
+                    <li>Basic trending data</li>
+                    <li>Limited retailer access</li>
+                    <li>AI recommendations</li>
+                    <li class="disabled">Social media analysis</li>
+                    <li>Profit margin forecasts</li>
+                    <li class="disabled">Supplier comparisons</li>
+                    <li class="disabled">Country availability checks</li>
+                </ul>
+                <button class="btn-plan btn-outline-plan">Start 7-Day Free Trial</button>
+            </div>
+            
             <!-- Pro Plan -->
             <div class="plan-card featured">
                 <div class="plan-badge">Most Popular</div>
@@ -943,6 +962,7 @@
                     <tr>
                         <th>Feature</th>
                         <th>Starter</th>
+                        <th>Standard</th>
                         <th>Pro</th>
                         <th>Enterprise</th>
                     </tr>
@@ -951,6 +971,7 @@
                     <tr>
                         <td class="feature-name">Daily Searches</td>
                         <td>10</td>
+                        <td>50</td>
                         <td>100</td>
                         <td>Unlimited</td>
                     </tr>
@@ -959,9 +980,11 @@
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
                     </tr>
                     <tr>
                         <td class="feature-name">Social Media Analysis</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
@@ -971,9 +994,11 @@
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
+                        <td><i class="fas fa-check check-icon"></i></td>
                     </tr>
                     <tr>
                         <td class="feature-name">Supplier Comparisons</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
@@ -982,16 +1007,19 @@
                         <td class="feature-name">Country Availability</td>
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-times times-icon"></i></td>
+                        <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                     </tr>
                     <tr>
                         <td class="feature-name">Priority Support</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
                     </tr>
                     <tr>
                         <td class="feature-name">API Access</td>
+                        <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-times times-icon"></i></td>
                         <td><i class="fas fa-check check-icon"></i></td>
@@ -1006,19 +1034,16 @@
         <h2 class="testimonial-title">What Our Customers Say</h2>
         <div class="testimonial-grid">
             <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/testimonial1.jpg') }}" alt="Sarah J." class="testimonial-avatar">
                 <p class="testimonial-text">TrendFind's Pro plan helped me identify 3 winning products in my first month. The AI recommendations are spot on!</p>
                 <h4 class="testimonial-author">Sarah J.</h4>
                 <p class="testimonial-role">Amazon FBA Seller</p>
             </div>
             <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/testimonial2.jpg') }}" alt="Michael T." class="testimonial-avatar">
                 <p class="testimonial-text">The social media analysis feature saved me from investing in a product that was getting negative buzz on TikTok.</p>
                 <h4 class="testimonial-author">Michael T.</h4>
                 <p class="testimonial-role">Dropshipping Entrepreneur</p>
             </div>
             <div class="testimonial-card">
-                <img src="{{ url_for('static', filename='images/testimonial3.jpg') }}" alt="Lisa K." class="testimonial-avatar">
                 <p class="testimonial-text">As an agency managing multiple stores, the Enterprise plan gives me all the tools I need to keep my clients profitable.</p>
                 <h4 class="testimonial-author">Lisa K.</h4>
                 <p class="testimonial-role">Ecommerce Agency Owner</p>
