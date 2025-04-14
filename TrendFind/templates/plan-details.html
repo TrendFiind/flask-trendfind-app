@@ -9,19 +9,19 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00ffea;
-            --primary-dark: #00c9b7;
-            --secondary: #007bff;
-            --dark: #121212;
-            --darker: #0a0a0a;
-            --light: #f8f9fa;
-            --card-bg: rgba(30, 30, 30, 0.7);
-            --card-border: rgba(0, 255, 234, 0.2);
-            --text-light: #ffffff;
-            --text-dark: #333333;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+    :root {
+        --primary: #00ffea;
+        --primary-dark: #00c9b7;
+        --secondary: #007bff;
+        --dark: #121212;
+        --darker: #0a0a0a;
+        --light: #ffffff; /* Changed from #f8f9fa to pure white */
+        --card-bg: rgba(30, 30, 30, 0.7);
+        --card-border: rgba(0, 255, 234, 0.2);
+        --text-light: #ffffff;
+        --text-dark: #333333;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
         body {
             font-family: 'Rajdhani', sans-serif;
@@ -37,13 +37,23 @@
             overflow-x: hidden;
         }
 
-        body.light-mode {
-            background-color: var(--light);
-            color: var(--text-dark);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --card-border: rgba(0, 123, 255, 0.2);
-        }
+    /* Updated light mode styles */
+    body.light-mode {
+        background-color: var(--light); /* Now pure white */
+        color: var(--text-dark);
+        --card-bg: rgba(30, 30, 30, 0.7); /* Keep cards black in light mode */
+        --card-border: rgba(0, 123, 255, 0.2);
+    
+}
 
+    /* Darker gradient for feature comparison in light mode */
+    body.light-mode .feature-comparison {
+        background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)) !important;
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(0, 123, 255, 0.2);
+        border-bottom: 1px solid rgba(0, 123, 255, 0.2);
+    }
+        
         /* Header (from index page) */
         .header {
             background: rgba(255, 255, 255, 0.9);
@@ -449,11 +459,12 @@
             border-bottom: 1px solid rgba(0, 255, 234, 0.1);
         }
 
-        body.light-mode .feature-comparison {
-            background: rgba(255, 255, 255, 0.3);
-            border-top: 1px solid rgba(0, 123, 255, 0.1);
-            border-bottom: 1px solid rgba(0, 123, 255, 0.1);
-        }
+    body.light-mode .feature-comparison {
+        background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)) !important;
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(0, 123, 255, 0.2);
+        border-bottom: 1px solid rgba(0, 123, 255, 0.2);
+    }
 
         .comparison-header {
             text-align: center;
@@ -1058,7 +1069,7 @@
             <div class="faq-item">
                 <div class="faq-question">What payment methods do you accept?</div>
                 <div class="faq-answer">
-                    <p>We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and cryptocurrency (Bitcoin, Ethereum). All payments are processed securely through our payment partners.</p>
+                    <p>We accept all major credit cards (Visa, Mastercard, American Express), PayPal. All payments are processed securely through our payment partners.</p>
                 </div>
             </div>
             <div class="faq-item">
