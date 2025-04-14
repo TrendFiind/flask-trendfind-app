@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Plans - TrendFind</title>
+    <title>Plan Details - TrendFind</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
-    :root {
-        --primary: #00ffea;
-        --primary-dark: #00c9b7;
-        --secondary: #007bff;
-        --dark: #121212;
-        --darker: #0a0a0a;
-        --light: #ffffff; /* Changed from #f8f9fa to pure white */
-        --card-bg: rgba(30, 30, 30, 0.7);
-        --card-border: rgba(0, 255, 234, 0.2);
-        --text-light: #ffffff;
-        --text-dark: #333333;
-        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
         body {
             font-family: 'Rajdhani', sans-serif;
@@ -37,24 +37,7 @@
             overflow-x: hidden;
         }
 
-    /* Updated light mode styles */
-    body.light-mode {
-        background-color: var(--light); /* Now pure white */
-        color: var(--text-dark);
-        --card-bg: rgba(30, 30, 30, 0.7); /* Keep cards black in light mode */
-        --card-border: rgba(0, 123, 255, 0.2);
-    
-}
-
-    /* Darker gradient for feature comparison in light mode */
-    body.light-mode .feature-comparison {
-        background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)) !important;
-        backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(0, 123, 255, 0.2);
-        border-bottom: 1px solid rgba(0, 123, 255, 0.2);
-    }
-        
-        /* Header (from index page) */
+        /* Header */
         .header {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -71,101 +54,14 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1200px;
-            position: relative;
-        }
-
-        .logo-container {
-            flex: 1;
-            text-align: center;
-        }
-
         .logo {
             width: 250px;
             height: auto;
-            position: absolute;
-            left: 73.7%;
-            top: -72px;
-            transform: translateX(-50%);
             transition: transform 0.3s ease-in-out;
         }
 
         .logo:hover {
-            transform: translateX(-50%) scale(1.05);
-        }
-
-        .sidebar-toggle {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            z-index: 1001;
-        }
-
-        .sidebar-toggle span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: #007bff;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .sidebar-toggle:hover span {
-            background-color: #0056b3;
-        }
-
-        /* Sidebar Font Weight Fix */
-        .sidebar ul li a {
-            font-weight: 700 !important; /* Bold for all sidebar links */
-        }
-
-        body.dark-mode .sidebar ul li a {
-            color: #fff !important; /* White in dark mode */
-        }
-    
-        .dark-mode-toggle {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            position: fixed;
-            right: 20px;
-            top: 20px;
-            z-index: 1001;
-        }
-
-        .dark-mode-toggle i {
-            font-size: 1.2rem;
-            color: #007bff;
-            transition: color 0.3s ease;
-        }
-
-        .dark-mode-toggle:hover i {
-            color: #0056b3;
-        }
-
-        body.dark-mode .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
         }
 
         /* Premium Plan Section */
@@ -216,10 +112,7 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        body.light-mode .section-subtitle {
-            color: rgba(0, 0, 0, 0.7);
-        }
-
+        /* Plan Cards */
         .plans-container {
             display: flex;
             justify-content: center;
@@ -331,10 +224,6 @@
             margin-bottom: 20px;
         }
 
-        body.light-mode .plan-description {
-            color: rgba(0, 0, 0, 0.7);
-        }
-
         .plan-price {
             font-size: 3rem;
             font-weight: 700;
@@ -350,10 +239,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        body.light-mode .plan-price span {
-            color: rgba(0, 0, 0, 0.7);
-        }
-
         .plan-features {
             list-style: none;
             padding: 0;
@@ -366,10 +251,6 @@
             padding-left: 30px;
             font-size: 1rem;
             border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-        }
-
-        body.light-mode .plan-features li {
-            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
         }
 
         .plan-features li:last-child {
@@ -394,6 +275,7 @@
             color: #ff3b1f;
         }
 
+        /* Buttons */
         .btn-plan {
             width: 100%;
             padding: 15px;
@@ -459,13 +341,6 @@
             border-bottom: 1px solid rgba(0, 255, 234, 0.1);
         }
 
-    body.light-mode .feature-comparison {
-        background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)) !important;
-        backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(0, 123, 255, 0.2);
-        border-bottom: 1px solid rgba(0, 123, 255, 0.2);
-    }
-
         .comparison-header {
             text-align: center;
             margin-bottom: 40px;
@@ -501,26 +376,14 @@
             border-bottom: 2px solid var(--primary);
         }
 
-        body.light-mode .comparison-table th {
-            background: rgba(0, 123, 255, 0.1);
-        }
-
         .comparison-table td {
             padding: 15px;
             background: var(--card-bg);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        body.light-mode .comparison-table td {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
         .comparison-table tr:hover td {
             background: rgba(0, 255, 234, 0.05);
-        }
-
-        body.light-mode .comparison-table tr:hover td {
-            background: rgba(0, 123, 255, 0.05);
         }
 
         .feature-name {
@@ -576,10 +439,6 @@
             box-shadow: 0 10px 30px rgba(0, 255, 234, 0.2);
         }
 
-        .testimonial-avatar {
-            display: none; /* Removed testimonial images */
-        }
-
         .testimonial-text {
             font-style: italic;
             margin-bottom: 20px;
@@ -620,10 +479,6 @@
             padding: 80px 0;
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
-        }
-
-        body.light-mode .faq-section {
-            background: rgba(255, 255, 255, 0.3);
         }
 
         .faq-title {
@@ -731,10 +586,6 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        body.light-mode .cta-text {
-            color: rgba(0, 0, 0, 0.8);
-        }
-
         .btn-cta {
             padding: 15px 40px;
             border-radius: 50px;
@@ -815,11 +666,6 @@
             .plan-card {
                 padding: 25px;
             }
-            
-            .logo {
-                width: 180px;
-                top: -50px;
-            }
         }
     </style>
 </head>
@@ -837,6 +683,10 @@
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
                 </a>
             </div>
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
     </header>
 
     <!-- Sidebar -->
