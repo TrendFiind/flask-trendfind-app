@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         :root {
             --primary: #00ffea;
@@ -31,16 +32,16 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            overflow-x: hidden;
         }
 
-        /* Modern Header */
+        /* Header */
         .contact-header {
             background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.85) 100%);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--primary);
-            padding: 1.5rem 0;
-            position: relative;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
             z-index: 1000;
         }
 
@@ -67,7 +68,6 @@
         .contact-hero {
             padding: 8rem 0 4rem;
             position: relative;
-            overflow: hidden;
         }
 
         .contact-grid {
@@ -91,11 +91,6 @@
             height: 100%;
         }
 
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 60px rgba(0, 255, 234, 0.15);
-        }
-
         .section-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
@@ -107,17 +102,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
 
         /* Contact Methods */
@@ -140,17 +124,6 @@
             border: 2px solid var(--primary);
             margin-right: 1.5rem;
             flex-shrink: 0;
-            transition: var(--transition);
-        }
-
-        .contact-icon:hover {
-            background: rgba(0, 255, 234, 0.2);
-            transform: rotate(10deg);
-        }
-
-        .contact-icon i {
-            font-size: 1.5rem;
-            color: var(--primary);
         }
 
         .contact-details h3 {
@@ -160,17 +133,14 @@
             color: var(--primary);
         }
 
-        .contact-details p, 
         .contact-details a {
             color: rgba(255, 255, 255, 0.8);
-            margin: 0;
             text-decoration: none;
             transition: var(--transition);
         }
 
         .contact-details a:hover {
             color: var(--primary);
-            text-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
         }
 
         /* Interactive Map */
@@ -180,22 +150,15 @@
             overflow: hidden;
             margin-top: 2rem;
             border: 1px solid var(--card-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .contact-map iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
 
         /* Modern Form */
-        .contact-form .form-group {
+        .form-group {
             margin-bottom: 1.5rem;
             position: relative;
         }
 
-        .contact-form .form-control {
+        .form-control {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
@@ -203,16 +166,14 @@
             padding: 1rem 1.5rem;
             width: 100%;
             transition: var(--transition);
-            font-size: 1rem;
         }
 
-        .contact-form .form-control:focus {
+        .form-control:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 0.25rem rgba(0, 255, 234, 0.25);
-            background: rgba(0, 0, 0, 0.5);
         }
 
-        .contact-form textarea.form-control {
+        textarea.form-control {
             min-height: 180px;
             resize: vertical;
         }
@@ -249,22 +210,8 @@
             transition: var(--transition);
             width: 100%;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
             position: relative;
             overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-submit::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-            z-index: -1;
         }
 
         .btn-submit:hover {
@@ -272,8 +219,9 @@
             box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
         }
 
-        .btn-submit:hover::before {
-            left: 100%;
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         /* Success Message */
@@ -285,12 +233,6 @@
             padding: 2rem;
             margin-top: 2rem;
             text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .success-icon {
@@ -306,14 +248,17 @@
             100% { transform: scale(1); }
         }
 
+        /* Error Message */
+        .alert-error {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid #ff3232;
+            color: #ff6b6b;
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .contact-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .contact-hero {
-                padding: 6rem 0 3rem;
             }
         }
 
@@ -335,16 +280,6 @@
             
             .contact-icon {
                 margin: 0 auto 1rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-                text-align: center;
-            }
-            
-            .section-title::after {
-                left: 50%;
-                transform: translateX(-50%);
             }
         }
     </style>
@@ -399,7 +334,8 @@
                 </div>
                 
                 <div class="contact-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.158170833949!2d-122.4036659241364!3d37.78799997185599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085807f10f5a0a5%3A0xd8756d0a366a0a6c!2sTech%20Park!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.158170833949!2d-122.4036659241364!3d37.78799997185599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085807f10f5a0a5%3A0xd8756d0a366a0a6c!2sTech%20Park!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" 
+                            allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
             
@@ -407,7 +343,19 @@
             <div class="contact-card">
                 <h2 class="section-title">Send a Message</h2>
                 
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'error' if category == 'error' else 'success' }} mb-4">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
                 <form method="POST" action="{{ url_for('contact_us') }}" id="contactForm" class="contact-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
                     <div class="form-group">
                         <input type="text" class="form-control" id="name" name="name" placeholder=" " required>
                         <label for="name" class="form-label">Your Name</label>
@@ -428,7 +376,15 @@
                         <label for="message" class="form-label">Your Message</label>
                     </div>
                     
-                    <button type="submit" class="btn-submit">Send Message</button>
+                    <!-- reCAPTCHA -->
+                    <div class="g-recaptcha mb-4" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+                    
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span id="submitText">Send Message</span>
+                        <span id="submitSpinner" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sending...
+                        </span>
+                    </button>
                     
                     <div class="success-message" id="successMessage">
                         <div class="success-icon">
@@ -451,45 +407,69 @@
 
     <!-- JavaScript -->
     <script>
-        // Form submission handling
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            const successMessage = document.getElementById('successMessage');
             
-            // Simulate form submission (replace with actual AJAX in production)
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'block';
-                this.reset();
-                
-                // Scroll to success message
-                document.getElementById('successMessage').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
+            // Disable button and show spinner
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            submitSpinner.style.display = 'inline-block';
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 });
-            }, 800);
-            
-            // In production, use:
-            // fetch(this.action, {
-            //     method: 'POST',
-            //     body: new FormData(this)
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     if(data.success) {
-            //         showSuccess();
-            //     }
-            // })
-            // .catch(error => console.error('Error:', error));
+                
+                if (response.ok) {
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    form.reset();
+                    
+                    // Reset floating labels
+                    document.querySelectorAll('.form-label').forEach(label => {
+                        label.style.top = '1rem';
+                        label.style.left = '1.5rem';
+                        label.style.fontSize = '1rem';
+                        label.style.background = 'transparent';
+                    });
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to send message');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was a problem sending your message. Please try again.');
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline-block';
+                submitSpinner.style.display = 'none';
+            }
         });
 
-        // Floating label enhancement
+        // Enhance floating labels
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
-                this.nextElementSibling.style.color = 'var(--primary)';
+                const label = this.nextElementSibling;
+                label.style.color = 'var(--primary)';
             });
             
             input.addEventListener('blur', function() {
+                const label = this.nextElementSibling;
                 if(!this.value) {
-                    this.nextElementSibling.style.color = 'rgba(255,255,255,0.6)';
+                    label.style.color = 'rgba(255,255,255,0.6)';
                 }
             });
         });
