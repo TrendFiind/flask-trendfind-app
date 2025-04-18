@@ -614,7 +614,7 @@ def contact_us():
             app.logger.error(f"Contact form error: {str(e)}")
             flash('Failed to send message. Please try again later.', 'error')
     
-    return render_template('contact-us.html', csrf_token=generate_csrf())
+    return render_template('contact-us.html')
 
 # --- Other Pages ---
 @app.route("/about-us")
