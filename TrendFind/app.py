@@ -530,7 +530,6 @@ def contact_us():
             message = clean(form.message.data.strip())
             ip_address = request.remote_addr
 
-
             if not all([name, email, message]):
                 flash('Name, email and message are required', 'error')
                 return redirect(url_for('contact_us'))
@@ -567,7 +566,7 @@ def contact_us():
             flash('Your message has been sent! We\'ll contact you soon.', 'success')
             return redirect(url_for('contact_us'))
             
-       except Exception as e:
+        except Exception as e:
             app.logger.error(f"Contact form error: {str(e)}")
             flash('Failed to send message. Please try again later.', 'error')
     
