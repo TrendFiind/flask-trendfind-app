@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h1>CSRF Verification Failed</h1>
+    <p>Your form submission could not be verified. Please try again.</p>
+    <a href="{{ url_for('home') }}">Go to homepage</a>
+</div>
+{% endblock %}
