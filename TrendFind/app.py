@@ -13,7 +13,7 @@ from datetime import timedelta
 import logging
 from logging.handlers import RotatingFileHandler
 from bleach import clean
-from flask_wtf.csrf import CSRFProtect, CSRFError  # Add CSRFError to the import
+from flask_wtf.csrf import CSRFProtect, CSRFError, generate_csrf  # Add CSRFError to the import
 
 # Load environment variables
 load_dotenv()
