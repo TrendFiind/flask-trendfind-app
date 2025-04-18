@@ -34,7 +34,6 @@
             background-attachment: fixed;
         }
 
-        /* Header */
         .contact-header {
             background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.85) 100%);
             backdrop-filter: blur(12px);
@@ -64,7 +63,6 @@
             filter: drop-shadow(0 0 8px rgba(0, 255, 234, 0.6));
         }
 
-        /* Main Content */
         .contact-hero {
             padding: 8rem 0 4rem;
             position: relative;
@@ -79,7 +77,6 @@
             padding: 0 2rem;
         }
 
-        /* Contact Card */
         .contact-card {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -104,7 +101,6 @@
             color: transparent;
         }
 
-        /* Contact Methods */
         .contact-method {
             display: flex;
             align-items: center;
@@ -143,7 +139,6 @@
             color: var(--primary);
         }
 
-        /* Interactive Map */
         .contact-map {
             height: 300px;
             border-radius: 15px;
@@ -152,7 +147,6 @@
             border: 1px solid var(--card-border);
         }
 
-        /* Modern Form */
         .form-group {
             margin-bottom: 1.5rem;
             position: relative;
@@ -197,7 +191,6 @@
             color: var(--primary);
         }
 
-        /* Submit Button */
         .btn-submit {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #000;
@@ -224,7 +217,6 @@
             cursor: not-allowed;
         }
 
-        /* Success Message */
         .success-message {
             display: none;
             background: rgba(0, 255, 234, 0.1);
@@ -248,14 +240,19 @@
             100% { transform: scale(1); }
         }
 
-        /* Error Message */
         .alert-error {
             background: rgba(255, 50, 50, 0.2);
             border: 1px solid #ff3232;
             color: #ff6b6b;
         }
 
-        /* Responsive Design */
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
         @media (max-width: 992px) {
             .contact-grid {
                 grid-template-columns: 1fr;
@@ -357,27 +354,36 @@
                     {{ form.hidden_tag() }}
                     
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder=" " required>
-                        <label for="name" class="form-label">Your Name</label>
+                        {{ form.name(class="form-control", placeholder=" ", required=True) }}
+                        {{ form.name.label(class="form-label") }}
+                        {% for error in form.name.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" name="email" placeholder=" " required>
-                        <label for="email" class="form-label">Email Address</label>
+                        {{ form.email(class="form-control", placeholder=" ", required=True) }}
+                        {{ form.email.label(class="form-label") }}
+                        {% for error in form.email.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" class="form-control" id="subject" name="subject" placeholder=" ">
-                        <label for="subject" class="form-label">Subject (Optional)</label>
+                        {{ form.subject(class="form-control", placeholder=" ") }}
+                        {{ form.subject.label(class="form-label") }}
                     </div>
                     
                     <div class="form-group">
-                        <textarea class="form-control" id="message" name="message" placeholder=" " required></textarea>
-                        <label for="message" class="form-label">Your Message</label>
+                        {{ form.message(class="form-control", placeholder=" ", required=True) }}
+                        {{ form.message.label(class="form-label") }}
+                        {% for error in form.message.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     
                     <!-- reCAPTCHA -->
-                    <div class="g-recaptcha mb-4" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+                    <div class="g-recaptcha mb-4" data-sitekey="{{ config.RECAPTCHA_SITE_KEY }}"></div>
                     
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <span id="submitText">Send Message</span>
@@ -407,72 +413,52 @@
 
     <!-- JavaScript -->
     <script>
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const form = e.target;
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
             const submitBtn = document.getElementById('submitBtn');
             const submitText = document.getElementById('submitText');
             const submitSpinner = document.getElementById('submitSpinner');
-            const successMessage = document.getElementById('successMessage');
             
             // Disable button and show spinner
             submitBtn.disabled = true;
             submitText.style.display = 'none';
             submitSpinner.style.display = 'inline-block';
             
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    // Show success message
-                    successMessage.style.display = 'block';
-                    form.reset();
-                    
-                    // Reset floating labels
-                    document.querySelectorAll('.form-label').forEach(label => {
-                        label.style.top = '1rem';
-                        label.style.left = '1.5rem';
-                        label.style.fontSize = '1rem';
-                        label.style.background = 'transparent';
-                    });
-                    
-                    // Scroll to success message
-                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to send message');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('There was a problem sending your message. Please try again.');
-            } finally {
-                // Re-enable button
-                submitBtn.disabled = false;
-                submitText.style.display = 'inline-block';
-                submitSpinner.style.display = 'none';
-            }
+            // Form will submit normally, let Flask handle the response
         });
 
         // Enhance floating labels
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
                 const label = this.nextElementSibling;
-                label.style.color = 'var(--primary)';
+                if (label.classList.contains('form-label')) {
+                    label.style.color = 'var(--primary)';
+                }
             });
             
             input.addEventListener('blur', function() {
                 const label = this.nextElementSibling;
-                if(!this.value) {
+                if (label.classList.contains('form-label') && !this.value) {
                     label.style.color = 'rgba(255,255,255,0.6)';
                 }
             });
+
+            // Initialize labels for pre-filled values
+            if (input.value) {
+                const label = input.nextElementSibling;
+                if (label.classList.contains('form-label')) {
+                    label.style.top = '-0.8rem';
+                    label.style.left = '1rem';
+                    label.style.fontSize = '0.8rem';
+                    label.style.background = 'var(--dark)';
+                    label.style.color = 'var(--primary)';
+                }
+            }
         });
+
+        // Show success message if URL has success parameter
+        if (window.location.search.includes('success=true')) {
+            document.getElementById('successMessage').style.display = 'block';
+        }
     </script>
 </body>
 </html>
