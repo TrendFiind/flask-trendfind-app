@@ -9,6 +9,9 @@ from dotenv import load_dotenv
 from functools import wraps
 from flask_wtf.csrf import CSRFProtect, CSRFError, generate_csrf
 from flask_limiter import Limiter
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField
+from wtforms.validators import DataRequired, Email
 from flask_limiter.util import get_remote_address
 from datetime import timedelta
 import logging
@@ -21,6 +24,13 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
+# ==================== FORM CLASSES ====================
+class ContactForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    subject = StringField('Subject')
+    message = TextAreaField('Message', validators=[DataRequired()])
 
 # ==================== SECURITY CONFIGURATIONS ====================
 app.config.update(
@@ -511,13 +521,15 @@ def remove_product(product_id):
 @app.route("/contact-us", methods=["GET", "POST"])
 @limiter.limit("5 per minute")
 def contact_us():
-    if request.method == "POST":
+    form = ContactForm()
+    if form.validate_on_submit():
         try:
-            name = clean(request.form.get("name", "").strip())
-            email = clean(request.form.get("email", "").strip())
-            subject = clean(request.form.get("subject", "").strip())
-            message = clean(request.form.get("message", "").strip())
+            name = clean(form.name.data.strip())
+            email = clean(form.email.data.strip())
+            subject = clean(form.subject.data.strip())
+            message = clean(form.message.data.strip())
             ip_address = request.remote_addr
+
 
             if not all([name, email, message]):
                 flash('Name, email and message are required', 'error')
@@ -555,11 +567,11 @@ def contact_us():
             flash('Your message has been sent! We\'ll contact you soon.', 'success')
             return redirect(url_for('contact_us'))
             
-        except Exception as e:
+       except Exception as e:
             app.logger.error(f"Contact form error: {str(e)}")
             flash('Failed to send message. Please try again later.', 'error')
     
-    return render_template('contact-us.html')
+    return render_template('contact-us.html', form=form)
 
 # ==================== OTHER PAGES ====================
 @app.route("/about-us")
