@@ -1,5 +1,5 @@
-workers = 4
-worker_class = 'gevent'
-bind = '0.0.0.0:5000'
-timeout = 120
-keepalive = 5
+# gunicorn_config.py
+workers = 2
+bind = "0.0.0.0:$PORT"
+worker_class = "sync"
+timeout = 30
