@@ -14,6 +14,7 @@ from datetime import timedelta
 import logging
 from logging.handlers import RotatingFileHandler
 from bleach import clean
+from flask_wtf.csrf import CSRFProtect, CSRFError  # Add CSRFError to the import
 
 # Load environment variables
 load_dotenv()
