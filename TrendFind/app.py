@@ -522,53 +522,58 @@ def remove_product(product_id):
 @limiter.limit("5 per minute")
 def contact_us():
     form = ContactForm()
+    
     if form.validate_on_submit():
         try:
-            name = clean(form.name.data.strip())
-            email = clean(form.email.data.strip())
-            subject = clean(form.subject.data.strip())
-            message = clean(form.message.data.strip())
+            # Sanitize inputs
+            name = bleach.clean(form.name.data.strip())
+            email = bleach.clean(form.email.data.strip())
+            subject = bleach.clean(form.subject.data.strip()) if form.subject.data else None
+            message = bleach.clean(form.message.data.strip())
             ip_address = request.remote_addr
 
-            if not all([name, email, message]):
-                flash('Name, email and message are required', 'error')
-                return redirect(url_for('contact_us'))
-
-            # Save to database
+            # Save to database (this should work even if email fails)
             db = get_db()
             db.execute(
                 """INSERT INTO contact_submissions 
-                (name, email, subject, message, ip_address)
-                VALUES (?, ?, ?, ?, ?)""",
-                (name, email, subject, message, ip_address)
+                (name, email, subject, message, ip_address, status)
+                VALUES (?, ?, ?, ?, ?, ?)""",
+                (name, email, subject, message, ip_address, 'pending')
             )
             db.commit()
 
-            # Send email notification
-            msg = Message(
-                subject=f"New Contact Submission: {subject or 'No Subject'}",
-                sender=os.getenv("MAIL_USERNAME"),
-                recipients=[os.getenv("MAIL_USERNAME")],
-                body=f"""
-                New contact form submission:
-                
-                Name: {name}
-                Email: {email}
-                Subject: {subject or 'None'}
-                IP Address: {ip_address}
-                
-                Message:
-                {message}
-                """
-            )
-            mail.send(msg)
+            # Try to send email
+            try:
+                msg = Message(
+                    subject=f"New Contact: {subject or 'No Subject'}",
+                    sender=app.config['MAIL_DEFAULT_SENDER'],
+                    recipients=[app.config['MAIL_USERNAME']],
+                    body=f"""
+                    New contact form submission:
+                    
+                    Name: {name}
+                    Email: {email}
+                    Subject: {subject or 'None'}
+                    IP: {ip_address}
+                    
+                    Message:
+                    {message}
+                    """
+                )
+                mail.send(msg)
+                # Update status if email succeeds
+                db.execute("UPDATE contact_submissions SET status = 'sent' WHERE email = ? AND submitted_at = (SELECT MAX(submitted_at) FROM contact_submissions)", (email,))
+                db.commit()
+                flash('Your message has been sent successfully!', 'success')
+            except Exception as e:
+                app.logger.error(f"Email sending failed: {str(e)}")
+                flash('Your message was received but we couldn\'t send a confirmation email. We\'ll still get your message!', 'warning')
 
-            flash('Your message has been sent! We\'ll contact you soon.', 'success')
             return redirect(url_for('contact_us'))
             
         except Exception as e:
             app.logger.error(f"Contact form error: {str(e)}")
-            flash('Failed to send message. Please try again later.', 'error')
+            flash('Failed to process your message. Please try again later.', 'error')
     
     return render_template('contact-us.html', form=form)
 
