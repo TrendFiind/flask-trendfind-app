@@ -1,12 +1,19 @@
 import os
 import requests
 import sqlite3
-from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify, g
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from functools import wraps
+from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from datetime import timedelta
+import logging
+from logging.handlers import RotatingFileHandler
+from bleach import clean
 
 # Load environment variables
 load_dotenv()
@@ -15,16 +22,45 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
+# Security configurations
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    PERMANENT_SESSION_LIFETIME=timedelta(hours=1),
+    TEMPLATES_AUTO_RELOAD=True
+)
+
+# CSRF Protection
+csrf = CSRFProtect(app)
+app.config['WTF_CSRF_ENABLED'] = True
+app.config['WTF_CSRF_SECRET_KEY'] = os.getenv("FLASK_SECRET_KEY")
+
+# Rate Limiting
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
+
 # Configuration checks
-required_vars = ["RAPIDAPI_KEY", "FLASK_SECRET_KEY"]
+required_vars = ["FLASK_SECRET_KEY", "MAIL_USERNAME", "MAIL_PASSWORD", "RAPIDAPI_KEY"]
 if not all(os.getenv(var) for var in required_vars):
     raise ValueError("Missing required environment variables")
 
-# Database setup
+# Database setup with connection pooling
 def get_db():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+    if 'db' not in g:
+        g.db = sqlite3.connect('database.db')
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+@app.teardown_appcontext
+def close_db(e=None):
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
 
 def init_db():
     with app.app_context():
@@ -58,6 +94,19 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users (id)
             )
         ''')
+        # Contact submissions table
+        db.execute('''
+            CREATE TABLE IF NOT EXISTS contact_submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                subject TEXT,
+                message TEXT NOT NULL,
+                ip_address TEXT,
+                submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                status TEXT DEFAULT 'pending'
+            )
+        ''')
         db.commit()
 
 init_db()
@@ -68,6 +117,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_USERNAME")
 mail = Mail(app)
 
 # OAuth configuration
@@ -79,12 +129,45 @@ google = oauth.register(
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={
         'scope': 'openid email profile',
-        'prompt': 'select_account'  # Optional: forces account selection
+        'prompt': 'select_account'
     },
     authorize_url='https://accounts.google.com/o/oauth2/v2/auth',
     access_token_url='https://oauth2.googleapis.com/token',
     api_base_url='https://www.googleapis.com/oauth2/v3/'
 )
+
+# Logging configuration
+if not app.debug:
+    file_handler = RotatingFileHandler('error.log', maxBytes=10240, backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+
+# Security headers middleware
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    return response
+
+# Error handlers
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    app.logger.error(f"500 Error: {str(e)}")
+    return render_template('500.html'), 500
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error(e):
+    app.logger.warning(f"CSRF Error: {str(e)}")
+    return render_template('csrf_error.html'), 400
 
 # Authentication decorator
 def login_required(f):
@@ -478,33 +561,60 @@ def remove_product(product_id):
     flash("Product removed from saved items", "success")
     return redirect(url_for("saved-products"))
 
-# --- Contact Form ---
+# Enhanced Contact Us Route
 @app.route("/contact-us", methods=["GET", "POST"])
+@limiter.limit("5 per minute")
 def contact_us():
     if request.method == "POST":
         try:
-            name = request.form.get("name", "").strip()
-            email = request.form.get("email", "").strip()
-            message = request.form.get("message", "").strip()
+            name = clean(request.form.get("name", "").strip())
+            email = clean(request.form.get("email", "").strip())
+            subject = clean(request.form.get("subject", "").strip())
+            message = clean(request.form.get("message", "").strip())
+            ip_address = request.remote_addr
 
+            # Validate required fields
             if not all([name, email, message]):
-                flash("All fields are required", "error")
-                return redirect(url_for("contact-us"))
+                flash('Name, email and message are required', 'error')
+                return redirect(url_for('contact_us'))
 
+            # Save to database
+            db = get_db()
+            db.execute(
+                """INSERT INTO contact_submissions 
+                (name, email, subject, message, ip_address)
+                VALUES (?, ?, ?, ?, ?)""",
+                (name, email, subject, message, ip_address)
+            )
+            db.commit()
+
+            # Send email notification
             msg = Message(
-                subject=f"New contact from {name} - TrendFind",
+                subject=f"New Contact Submission: {subject or 'No Subject'}",
                 sender=os.getenv("MAIL_USERNAME"),
-                recipients=["Kichkooffical@gmail.com"],
-                body=f"From: {name} <{email}>\n\n{message}"
+                recipients=[os.getenv("MAIL_USERNAME")],
+                body=f"""
+                New contact form submission:
+                
+                Name: {name}
+                Email: {email}
+                Subject: {subject or 'None'}
+                IP Address: {ip_address}
+                
+                Message:
+                {message}
+                """
             )
             mail.send(msg)
-            flash("Your message has been sent!", "success")
-        except Exception as e:
-            print(f"Error sending email: {e}")
-            flash("Failed to send message. Please try again later.", "error")
-        return redirect(url_for("contact-us"))
 
-    return render_template("contact-us.html")
+            flash('Your message has been sent! We\'ll contact you soon.', 'success')
+            return redirect(url_for('contact_us'))
+            
+        except Exception as e:
+            app.logger.error(f"Contact form error: {str(e)}")
+            flash('Failed to send message. Please try again later.', 'error')
+    
+    return render_template('contact-us.html', csrf_token=generate_csrf())
 
 # --- Other Pages ---
 @app.route("/about-us")
@@ -521,4 +631,4 @@ def plan_details():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port)
