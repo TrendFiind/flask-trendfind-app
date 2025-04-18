@@ -354,7 +354,7 @@
                 {% endwith %}
                 
                 <form method="POST" action="{{ url_for('contact_us') }}" id="contactForm" class="contact-form">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    {{ form.hidden_tag() }}
                     
                     <div class="form-group">
                         <input type="text" class="form-control" id="name" name="name" placeholder=" " required>
