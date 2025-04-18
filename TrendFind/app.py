@@ -1,6 +1,7 @@
 import os
 import requests
 import sqlite3
+import bleach
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify, g
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
@@ -525,20 +526,20 @@ def contact_us():
     
     if form.validate_on_submit():
         try:
-            # Sanitize inputs
-            name = bleach.clean(form.name.data.strip())
-            email = bleach.clean(form.email.data.strip())
-            subject = bleach.clean(form.subject.data.strip()) if form.subject.data else None
-            message = bleach.clean(form.message.data.strip())
+            # Sanitize inputs using bleach
+            name = clean(form.name.data.strip())
+            email = clean(form.email.data.strip())
+            subject = clean(form.subject.data.strip()) if form.subject.data else None
+            message = clean(form.message.data.strip())
             ip_address = request.remote_addr
 
-            # Save to database (this should work even if email fails)
+            # Save to database
             db = get_db()
             db.execute(
                 """INSERT INTO contact_submissions 
-                (name, email, subject, message, ip_address, status)
-                VALUES (?, ?, ?, ?, ?, ?)""",
-                (name, email, subject, message, ip_address, 'pending')
+                (name, email, subject, message, ip_address)
+                VALUES (?, ?, ?, ?, ?)""",
+                (name, email, subject, message, ip_address)
             )
             db.commit()
 
@@ -546,7 +547,7 @@ def contact_us():
             try:
                 msg = Message(
                     subject=f"New Contact: {subject or 'No Subject'}",
-                    sender=app.config['MAIL_DEFAULT_SENDER'],
+                    sender=app.config['MAIL_USERNAME'],
                     recipients=[app.config['MAIL_USERNAME']],
                     body=f"""
                     New contact form submission:
@@ -554,20 +555,17 @@ def contact_us():
                     Name: {name}
                     Email: {email}
                     Subject: {subject or 'None'}
-                    IP: {ip_address}
+                    IP Address: {ip_address}
                     
                     Message:
                     {message}
                     """
                 )
                 mail.send(msg)
-                # Update status if email succeeds
-                db.execute("UPDATE contact_submissions SET status = 'sent' WHERE email = ? AND submitted_at = (SELECT MAX(submitted_at) FROM contact_submissions)", (email,))
-                db.commit()
                 flash('Your message has been sent successfully!', 'success')
             except Exception as e:
                 app.logger.error(f"Email sending failed: {str(e)}")
-                flash('Your message was received but we couldn\'t send a confirmation email. We\'ll still get your message!', 'warning')
+                flash('Your message was received but we couldn\'t send a confirmation email.', 'warning')
 
             return redirect(url_for('contact_us'))
             
@@ -576,7 +574,6 @@ def contact_us():
             flash('Failed to process your message. Please try again later.', 'error')
     
     return render_template('contact-us.html', form=form)
-
 # ==================== OTHER PAGES ====================
 @app.route("/about-us")
 def about_us():
