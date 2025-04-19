@@ -126,6 +126,7 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')  # App password (not re
 app.config['MAIL_USE_SSL'] = False  # TLS is True, so SSL should be False
 app.config['MAIL_DEBUG'] = True  # For debugging
 app.config['MAIL_SUPPRESS_SEND'] = False  # Ensure sending is not suppressed
+app.config['MAIL_TIMEOUT'] = 10  # seconds
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 mail = Mail(app)
 
