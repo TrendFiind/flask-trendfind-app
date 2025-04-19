@@ -398,6 +398,8 @@ def logout():
     flash("You have been logged out", "success")
     return redirect(url_for("home"))
 
+
+
 # ==================== PROFILE ROUTES ====================
 @app.route("/profile")
 @login_required
@@ -466,20 +468,6 @@ def saved_products():
         (session["user_id"],)
     ).fetchall()
     return render_template("saved-products.html", products=products)
-
-@app.route('/test-email')
-def test_email():
-    try:
-        msg = Message(
-            subject="Test Email",
-            sender=app.config['MAIL_USERNAME'],
-            recipients=[app.config['MAIL_USERNAME']],
-            body="This is a test email from your Flask application."
-        )
-        mail.send(msg)
-        return "Email sent successfully!"
-    except Exception as e:
-        return f"Failed to send email: {str(e)}", 500
 
 @app.route("/save-product", methods=["POST"])
 @login_required
@@ -563,29 +551,34 @@ def contact_us():
 
             # Try to send email
             try:
-        msg = Message(
-        subject=f"New Contact: {subject or 'No Subject'}",
-        sender=app.config['MAIL_USERNAME'],
-        recipients=[app.config['MAIL_USERNAME']],
-        body=f"""New contact form submission:
-        
-        Name: {name}
-        Email: {email}
-        Subject: {subject or 'None'}
-        IP Address: {ip_address}
-        
-        Message:
-        {message}
-        """
-    )
-    mail.send(msg)
-    app.logger.info("Email sent successfully")
-    flash('Your message has been sent successfully!', 'success')
-except Exception as e:
-    app.logger.error(f"Email sending failed. Error type: {type(e)}. Error details: {str(e)}")
-    app.logger.error(f"Mail server config: {app.config['MAIL_SERVER']}:{app.config['MAIL_PORT']}")
-    app.logger.error(f"Using TLS: {app.config['MAIL_USE_TLS']}")
-    flash('Your message was received but we couldn\'t send a confirmation email.', 'warning')
+                msg = Message(
+                    subject=f"New Contact: {subject or 'No Subject'}",
+                    sender=app.config['MAIL_USERNAME'],
+                    recipients=[app.config['MAIL_USERNAME']],
+                    body=f"""
+                    New contact form submission:
+                    
+                    Name: {name}
+                    Email: {email}
+                    Subject: {subject or 'None'}
+                    IP Address: {ip_address}
+                    
+                    Message:
+                    {message}
+                    """
+                )
+                mail.send(msg)
+                app.logger.info("Email sent successfully")
+                flash('Your message has been sent successfully!', 'success')
+            except Exception as e:
+                app.logger.error(f"Email sending failed: {str(e)}")
+                flash('Your message was received but we couldn\'t send a confirmation email.', 'warning')
+
+            return redirect(url_for('contact_us'))
+            
+        except Exception as e:
+            app.logger.error(f"Contact form error: {str(e)}")
+            flash('Failed to process your message. Please try again later.', 'error')
     
     return render_template('contact-us.html', form=form)
 # ==================== OTHER PAGES ====================
