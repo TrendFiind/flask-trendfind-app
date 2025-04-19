@@ -44,13 +44,30 @@
             z-index: 1000;
         }
 
-        .header-container {
+  /* Header (from index page) */
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 35px 45px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            position: relative;
         }
 
         .contact-logo {
