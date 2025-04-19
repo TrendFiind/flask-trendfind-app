@@ -34,7 +34,7 @@
             background-attachment: fixed;
         }
 
-        /* Header Styles (matches plan-details) */
+        /* Header (matches plan-details exactly) */
         .header {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -106,7 +106,7 @@
             background-color: #0056b3;
         }
 
-        /* Sidebar Styles */
+        /* Sidebar (identical to plan-details) */
         .sidebar {
             width: 280px;
             background: rgba(255, 255, 255, 0.95);
@@ -118,7 +118,7 @@
             z-index: 1000;
             padding: 80px 20px 20px;
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         .sidebar.open {
@@ -147,11 +147,28 @@
             padding: 12px 20px;
             border-radius: 5px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .sidebar a:hover {
             background-color: rgba(0, 123, 255, 0.1);
             transform: translateX(5px);
+        }
+
+        .sidebar a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .sidebar a:hover::before {
+            left: 100%;
         }
 
         /* Dark Mode Sidebar */
@@ -280,7 +297,7 @@
 
         /* Map Container */
         .contact-map {
-            height: 20%;
+            height: 100%;
             border-radius: 15px;
             overflow: hidden;
             margin-top: 2rem;
@@ -434,10 +451,13 @@
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
                 </a>
             </div>
+            <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
     </header>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (identical to plan-details) -->
     <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
         <ul>
             <li><a href="/">Home</a></li>
@@ -463,7 +483,7 @@
                     </div>
                     <div class="contact-details">
                         <h3>Our Headquarters</h3>
-                        <p>Coming Soon!<br>Perth, WA 6000</p>
+                        <p>123 Tech Innovation Drive<br>Perth, WA 6000</p>
                     </div>
                 </div>
                 
@@ -473,8 +493,8 @@
                     </div>
                     <div class="contact-details">
                         <h3>Direct Line</h3>
-                        <a href="tel:+61812345678">+466 518 364</a>
-                        <p>Mon-Fri: 9am-2pm AWST</p>
+                        <a href="tel:+61812345678">+61 8 1234 5678</a>
+                        <p>Mon-Fri: 9am-5pm AWST</p>
                     </div>
                 </div>
                 
@@ -484,8 +504,8 @@
                     </div>
                     <div class="contact-details">
                         <h3>Email Support</h3>
-                        <a href="mailto:support@trendfind.com">kichkooffical@gmail.com</a>
-                        <p>Quick response times</p>
+                        <a href="mailto:support@trendfind.com">support@trendfind.com</a>
+                        <p>24-hour response time</p>
                     </div>
                 </div>
                 
@@ -570,13 +590,54 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- JavaScript (matches plan-details functionality) -->
     <script>
-        // Sidebar Toggle
+        // Sidebar Toggle (identical to plan-details)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
+            
+            // Animate hamburger icon
+            const spans = document.querySelectorAll('.sidebar-toggle span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
         }
+
+        // Dark Mode Toggle (identical to plan-details)
+        document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-mode');
+            const icon = this.querySelector('i');
+            
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'disabled');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        });
+
+        // Check for saved dark mode preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const icon = darkModeToggle.querySelector('i');
+            const darkMode = localStorage.getItem('darkMode');
+
+            if (darkMode === 'disabled') {
+                document.body.classList.add('light-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
 
         // Form Submission Handling
         document.getElementById('contactForm').addEventListener('submit', function(e) {
