@@ -311,24 +311,20 @@
 </head>
 <body>
     
-<!-- Premium Header -->
-<header class="header">
-    <div class="header-content">
-        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="logo-container">
-            <a href="/">
-                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
-            </a>
-        </div>
-        <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
-</header>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+    </header>
     
     <!-- Main Content -->
     <main class="contact-hero">
