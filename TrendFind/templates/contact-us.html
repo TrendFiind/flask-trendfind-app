@@ -34,17 +34,7 @@
             background-attachment: fixed;
         }
 
-        .contact-header {
-            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.85) 100%);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--primary);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-        }
-
-  /* Header (from index page) */
+        /* Header Styles (matches plan-details) */
         .header {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -66,20 +56,119 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 300px;
+            max-width: 1200px;
+            margin: 0 auto;
             position: relative;
         }
 
-        .contact-logo {
-            height: 40px;
-            transition: var(--transition);
+        .logo-container {
+            flex: 1;
+            text-align: center;
         }
 
-        .contact-logo:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 8px rgba(0, 255, 234, 0.6));
+        .logo {
+            width: 250px;
+            height: auto;
+            position: absolute;
+            left: 50%;
+            top: -72px;
+            transform: translateX(-50%);
+            transition: transform 0.3s ease-in-out;
         }
 
+        .logo:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #007bff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar-toggle:hover span {
+            background-color: #0056b3;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            left: -280px;
+            height: 100vh;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #000;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        /* Dark Mode Sidebar */
+        body.dark-mode .sidebar {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .sidebar a {
+            color: white;
+        }
+
+        body.dark-mode .sidebar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content */
         .contact-hero {
             padding: 8rem 0 4rem;
             position: relative;
@@ -94,6 +183,13 @@
             padding: 0 2rem;
         }
 
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contact Cards */
         .contact-card {
             background: var(--card-bg);
             backdrop-filter: blur(16px);
@@ -103,6 +199,12 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
             height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .contact-card {
+                padding: 2rem;
+            }
         }
 
         .section-title {
@@ -118,12 +220,26 @@
             color: transparent;
         }
 
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Contact Methods */
         .contact-method {
             display: flex;
             align-items: center;
             margin-bottom: 2rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 576px) {
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         .contact-icon {
@@ -137,6 +253,12 @@
             border: 2px solid var(--primary);
             margin-right: 1.5rem;
             flex-shrink: 0;
+        }
+
+        @media (max-width: 576px) {
+            .contact-icon {
+                margin: 0 auto 1rem;
+            }
         }
 
         .contact-details h3 {
@@ -156,25 +278,27 @@
             color: var(--primary);
         }
 
-.contact-map {
-    height: 100%; /* Changed from fixed 300px to 100% */
-    border-radius: 15px;
-    overflow: hidden;
-    margin-top: 2rem;
-    border: 1px solid var(--card-border);
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-}
+        /* Map Container */
+        .contact-map {
+            height: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 2rem;
+            border: 1px solid var(--card-border);
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
 
         .contact-map iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
+        /* Form Styles */
         .form-group {
             margin-bottom: 1.5rem;
             position: relative;
@@ -219,6 +343,7 @@
             color: var(--primary);
         }
 
+        /* Button Styles */
         .btn-submit {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #000;
@@ -245,6 +370,7 @@
             cursor: not-allowed;
         }
 
+        /* Messages */
         .success-message {
             display: none;
             background: rgba(0, 255, 234, 0.1);
@@ -281,37 +407,21 @@
             display: block;
         }
 
-        @media (max-width: 992px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.8);
+            padding: 2rem 0;
+            text-align: center;
         }
 
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .contact-card {
-                padding: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .contact-method {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .contact-icon {
-                margin: 0 auto 1rem;
-            }
+        footer p {
+            color: rgba(255,255,255,0.6);
+            margin: 0;
         }
     </style>
 </head>
 <body>
-    
-    <!-- Header -->
+    <!-- Header (matches plan-details exactly) -->
     <header class="header">
         <div class="header-content">
             <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
@@ -321,11 +431,25 @@
             </button>
             <div class="logo-container">
                 <a href="/">
-                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
                 </a>
             </div>
+        </div>
     </header>
-    
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
     <!-- Main Content -->
     <main class="contact-hero">
         <div class="contact-grid">
@@ -339,7 +463,7 @@
                     </div>
                     <div class="contact-details">
                         <h3>Our Headquarters</h3>
-                        <p>Coming soon!</p>
+                        <p>123 Tech Innovation Drive<br>Perth, WA 6000</p>
                     </div>
                 </div>
                 
@@ -348,9 +472,9 @@
                         <i class="fas fa-phone-alt"></i>
                     </div>
                     <div class="contact-details">
-                        <h3>Support Line</h3>
-                        <a href="tel:+15551234567">+466 518 364</a>
-                        <p>Mon-Fri: 9am-2pm AWST</p>
+                        <h3>Direct Line</h3>
+                        <a href="tel:+61812345678">+61 8 1234 5678</a>
+                        <p>Mon-Fri: 9am-5pm AWST</p>
                     </div>
                 </div>
                 
@@ -360,8 +484,8 @@
                     </div>
                     <div class="contact-details">
                         <h3>Email Support</h3>
-                        <a href="mailto:support@trendfind.com">kichkooffical@gmail.com</a>
-                        <p>Quick response times!</p>
+                        <a href="mailto:support@trendfind.com">support@trendfind.com</a>
+                        <p>24-hour response time</p>
                     </div>
                 </div>
                 
@@ -440,14 +564,21 @@
     </main>
 
     <!-- Footer -->
-    <footer style="background: rgba(0,0,0,0.8); padding: 2rem 0; text-align: center;">
+    <footer>
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
-            <p style="color: rgba(255,255,255,0.6); margin: 0;">&copy; 2025 TrendFind. All rights reserved.</p>
+            <p>&copy; 2025 TrendFind. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- JavaScript -->
     <script>
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Form Submission Handling
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             const submitBtn = document.getElementById('submitBtn');
             const submitText = document.getElementById('submitText');
@@ -457,11 +588,14 @@
             submitBtn.disabled = true;
             submitText.style.display = 'none';
             submitSpinner.style.display = 'inline-block';
-            
-            // Form will submit normally, let Flask handle the response
         });
 
-        // Enhance floating labels
+        // Show success message if URL has success parameter
+        if (window.location.search.includes('success=true')) {
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        // Floating Labels Enhancement
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
                 const label = this.nextElementSibling;
@@ -489,11 +623,6 @@
                 }
             }
         });
-
-        // Show success message if URL has success parameter
-        if (window.location.search.includes('success=true')) {
-            document.getElementById('successMessage').style.display = 'block';
-        }
     </script>
 </body>
 </html>
