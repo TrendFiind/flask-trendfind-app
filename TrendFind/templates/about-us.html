@@ -102,7 +102,33 @@
             margin-top: 15px;
         }
 
-  /* Sidebar Font Weight Fix */
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #007bff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar-toggle:hover span {
+            background-color: #0056b3;
+        }
+
+        /* Sidebar Font Weight Fix */
         .sidebar ul li a {
             font-weight: 700 !important; /* Bold for all sidebar links */
         }
