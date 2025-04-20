@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrendFind - AI-Powered Product Research for Ecommerce</title>
-    <meta name="description" content="Discover trending products before they go viral with our AI-powered market research platform. Get real-time data from Amazon, Walmart, AliExpress and more.">
+    <meta name="description" content="Discover profitable products before they trend with our AI-powered research platform. Get real-time data from Amazon, Walmart, AliExpress and more.">
     
     <!-- Preload critical assets -->
-    <link rel="preload" href="{{ url_for('static', filename='images/hero-bg.mp4') }}" as="video" type="video/mp4">
+    <link rel="preload" href="{{ url_for('static', filename='images/hero-bg.mp4') }}" as="video">
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,6 +20,9 @@
     
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
@@ -36,133 +40,36 @@
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Base Styles */
         body {
             font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
             margin: 0;
             padding: 0;
-            color: var(--light);
-            background-color: var(--dark);
+            min-height: 100vh;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
+        /* Light mode styles */
+        body.light-mode {
+            background-color: #f8f9fa;
+            color: #333;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 123, 255, 0.2);
         }
 
-        /* Header Styles */
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 255, 234, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .header-scrolled {
-            background: rgba(0, 0, 0, 0.95);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            height: 40px;
-            transition: var(--transition);
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 8px rgba(0, 255, 234, 0.6));
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-link {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover:after {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #000;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition);
-            font-family: 'Rajdhani', sans-serif;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--light);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Hero Section */
-        .hero-section {
+        /* Video Background Hero */
+        .video-hero {
             position: relative;
             height: 100vh;
-            min-height: 800px;
+            min-height: 600px;
+            overflow: hidden;
             display: flex;
             align-items: center;
-            overflow: hidden;
+            justify-content: center;
         }
 
-        .hero-video {
+        .video-background {
             position: absolute;
             top: 0;
             left: 0;
@@ -179,143 +86,179 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.7) 100%);
             z-index: -1;
         }
 
         .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
             position: relative;
             z-index: 1;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             font-size: 4rem;
-            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            line-height: 1.2;
-            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+            animation: fadeInDown 1s ease-out;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
-            margin-bottom: 30px;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
             color: rgba(255, 255, 255, 0.9);
-            max-width: 700px;
+            animation: fadeIn 1.5s ease-out;
         }
 
-        .hero-search {
-            max-width: 700px;
-            position: relative;
-            margin-bottom: 40px;
+        body.light-mode .hero-subtitle {
+            color: rgba(0, 0, 0, 0.8);
         }
 
-        .hero-search input {
-            width: 100%;
-            padding: 20px 30px;
-            border-radius: 50px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
+        /* Search Form */
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .search-form {
+            display: flex;
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
-            color: var(--light);
-            font-size: 1.1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
             transition: var(--transition);
         }
 
-        .hero-search input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+        .search-form:hover {
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.3);
         }
 
-        .hero-search button {
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            bottom: 5px;
+        .search-input {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            background: transparent;
+            color: var(--light);
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        body.light-mode .search-input {
+            color: #333;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        body.light-mode .search-input::placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .search-btn {
             padding: 0 30px;
-            border-radius: 50px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #000;
             border: none;
             font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .hero-search button:hover {
-            transform: scale(1.05);
+        .search-btn:hover {
+            opacity: 0.9;
+            transform: translateX(3px);
         }
 
-        .retailer-ticker {
+        /* Retailer Marquee */
+        .retailer-marquee {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
             background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
             padding: 15px 0;
             overflow: hidden;
+            border-top: 1px solid var(--card-border);
         }
 
-        .ticker-container {
+        .marquee-content {
             display: flex;
             align-items: center;
             white-space: nowrap;
-            animation: ticker 30s linear infinite;
+            animation: marquee 30s linear infinite;
         }
 
-        .ticker-item {
+        .marquee-item {
             display: flex;
             align-items: center;
             margin: 0 40px;
-            font-size: 1.2rem;
+            color: var(--light);
             font-weight: 600;
         }
 
-        .ticker-item img {
+        .marquee-icon {
+            width: 30px;
             height: 30px;
-            margin-right: 15px;
-            filter: brightness(0) invert(1);
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            margin-right: 10px;
+            object-fit: contain;
         }
 
         /* Features Section */
         .features-section {
-            padding: 120px 0;
-            background: var(--darker);
+            padding: 100px 0;
+            background: var(--dark);
             position: relative;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             margin-bottom: 20px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-transform: uppercase;
         }
 
         .section-subtitle {
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
             max-width: 700px;
             margin: 0 auto;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.light-mode .section-subtitle {
+            color: rgba(0, 0, 0, 0.7);
         }
 
         .features-grid {
@@ -324,22 +267,23 @@
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 20px;
         }
 
         .feature-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 40px;
             border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
             text-align: center;
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.3);
         }
 
         .feature-icon {
@@ -360,133 +304,110 @@
         }
 
         .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             font-size: 1.5rem;
             margin-bottom: 15px;
-            color: var(--light);
+            color: var(--primary);
         }
 
         .feature-description {
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0;
         }
 
-        /* How It Works Section */
-        .how-it-works {
-            padding: 120px 0;
-            background: url('{{ url_for("static", filename="images/dots-bg.png") }}') center/cover;
+        body.light-mode .feature-description {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 20, 30, 0.8));
             position: relative;
+            overflow: hidden;
         }
 
-        .how-it-works::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 0;
-        }
-
-        .steps-container {
-            position: relative;
-            z-index: 1;
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 30px;
+            padding: 0 20px;
         }
 
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
+        .stat-card {
+            text-align: center;
+            padding: 30px;
             position: relative;
+            z-index: 1;
         }
 
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .step:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .step-number {
-            width: 80px;
-            height: 80px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 255, 234, 0.1);
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            font-size: 2rem;
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
             font-weight: 700;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .stat-number::after {
+            content: '+';
+            position: absolute;
+            right: -20px;
+            top: 0;
+            font-size: 2rem;
             color: var(--primary);
         }
 
-        .step-content {
-            flex: 1;
-        }
-
-        .step-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .step-description {
+        .stat-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 20px;
         }
 
-        .step-image {
-            flex: 1;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .step-image img {
-            width: 100%;
-            height: auto;
-            display: block;
+        body.light-mode .stat-label {
+            color: rgba(0, 0, 0, 0.8);
         }
 
         /* Testimonials Section */
         .testimonials-section {
-            padding: 120px 0;
-            background: var(--darker);
-        }
-
-        .testimonials-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
+            padding: 100px 0;
+            background: var(--dark);
         }
 
         .testimonials-slider {
+            max-width: 1000px;
+            margin: 0 auto;
             position: relative;
         }
 
         .testimonial-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 40px;
             border: 1px solid var(--card-border);
-            margin: 0 15px;
-            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 0 20px;
+            text-align: center;
         }
 
         .testimonial-text {
             font-size: 1.2rem;
             font-style: italic;
-            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
             position: relative;
+        }
+
+        body.light-mode .testimonial-text {
+            color: rgba(0, 0, 0, 0.9);
         }
 
         .testimonial-text::before,
@@ -500,232 +421,117 @@
 
         .testimonial-text::before {
             top: -20px;
-            left: -15px;
+            left: -10px;
         }
 
         .testimonial-text::after {
             bottom: -40px;
-            right: -15px;
+            right: -10px;
         }
 
         .testimonial-author {
-            display: flex;
-            align-items: center;
-        }
-
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-right: 20px;
-            object-fit: cover;
-            border: 2px solid var(--primary);
-        }
-
-        .author-info h4 {
+            font-weight: 700;
+            font-size: 1.2rem;
             margin-bottom: 5px;
-            color: var(--light);
         }
 
-        .author-info p {
-            color: rgba(255, 255, 255, 0.6);
-            margin: 0;
-        }
-
-        /* Pricing Section */
-        .pricing-section {
-            padding: 120px 0;
-            background: url('{{ url_for("static", filename="images/grid-bg.png") }}') center/cover;
-            position: relative;
-        }
-
-        .pricing-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 0;
-        }
-
-        .pricing-container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .pricing-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px 30px;
-            border: 1px solid var(--card-border);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .pricing-card.featured {
-            border: 1px solid var(--primary);
-            box-shadow: 0 0 30px rgba(0, 255, 234, 0.2);
-            transform: translateY(-20px);
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.2);
-        }
-
-        .pricing-card.featured:hover {
-            transform: translateY(-30px);
-        }
-
-        .pricing-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            background: var(--primary);
-            color: #000;
-            font-weight: 700;
-            border-radius: 30px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .pricing-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--light);
-        }
-
-        .pricing-price {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .testimonial-role {
             color: var(--primary);
-        }
-
-        .pricing-price span {
             font-size: 1rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .pricing-features {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 30px;
-        }
-
-        .pricing-features li {
-            padding: 10px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .pricing-features li:last-child {
-            border-bottom: none;
         }
 
         /* CTA Section */
         .cta-section {
             padding: 120px 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.9) 100%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 20, 30, 0.9));
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
         .cta-container {
+            position: relative;
+            z-index: 2;
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 30px;
-            position: relative;
-            z-index: 1;
+            padding: 60px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             font-size: 2.5rem;
             margin-bottom: 20px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--primary);
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .cta-text {
             font-size: 1.2rem;
+            margin-bottom: 30px;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
+        }
+
+        body.light-mode .cta-text {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .btn-cta {
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            display: inline-block;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 234, 0.4);
         }
 
         /* Footer */
-        .main-footer {
-            background: #000;
-            padding: 60px 0 30px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
+        .footer {
+            padding: 50px 0 20px;
+            background: var(--darker);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .footer-logo {
-            height: 40px;
+            width: 180px;
             margin-bottom: 20px;
-        }
-
-        .footer-about {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 20px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: var(--light);
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background: var(--primary);
-            color: #000;
-        }
-
-        .footer-title {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: var(--light);
         }
 
         .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-links h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .footer-links ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .footer-links li {
@@ -740,49 +546,78 @@
 
         .footer-links a:hover {
             color: var(--primary);
+            padding-left: 5px;
         }
 
-        .footer-bottom {
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
             text-align: center;
-            padding-top: 40px;
-            margin-top: 40px;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
+            margin-top: 40px;
         }
 
         /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
 
         /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+        }
+
         @media (max-width: 992px) {
             .hero-title {
                 font-size: 3rem;
             }
             
-            .step {
-                flex-direction: column !important;
-                gap: 30px;
+            .hero-subtitle {
+                font-size: 1.3rem;
             }
             
-            .step-image {
-                width: 100%;
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu-toggle {
-                display: block;
+            .video-hero {
+                height: auto;
+                min-height: 100vh;
+                padding: 120px 0 80px;
             }
             
             .hero-title {
@@ -790,338 +625,270 @@
             }
             
             .hero-subtitle {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                padding: 15px 20px;
+            }
+            
+            .search-btn {
+                padding: 15px;
+                width: 100%;
             }
             
             .section-title {
                 font-size: 2rem;
             }
             
-            .pricing-cards {
-                grid-template-columns: 1fr;
+            .feature-card {
+                padding: 30px;
             }
             
-            .pricing-card.featured {
-                transform: none;
+            .cta-container {
+                padding: 40px 20px;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 576px) {
             .hero-title {
                 font-size: 2rem;
+                letter-spacing: 1px;
             }
             
-            .hero-search input {
-                padding: 15px 20px;
+            .section-title {
+                font-size: 1.8rem;
             }
             
-            .hero-search button {
-                padding: 0 20px;
-            }
-            
-            .feature-card {
-                padding: 30px 20px;
+            .stats-container {
+                grid-template-columns: 1fr;
             }
             
             .testimonial-card {
-                padding: 30px;
+                padding: 30px 20px;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="main-header" id="mainHeader">
-        <div class="header-container">
-            <a href="/">
-                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
-            </a>
-            
-            <nav class="nav-links">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#how-it-works" class="nav-link">How It Works</a>
-                <a href="#pricing" class="nav-link">Pricing</a>
-                <a href="/login" class="nav-link">Login</a>
-                <a href="/register" class="cta-button">Start Free Trial</a>
-            </nav>
-            
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                <i class="fas fa-bars"></i>
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
             </button>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <video autoplay muted loop class="hero-video">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section with Video Background -->
+    <section class="video-hero">
+        <video autoplay muted loop playsinline class="video-background">
             <source src="{{ url_for('static', filename='images/hero-bg.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
         </video>
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <h1 class="hero-title">Discover Winning Products Before They Go Viral</h1>
-            <p class="hero-subtitle">Our AI-powered platform analyzes millions of data points to identify trending products with high profit potential before they become oversaturated.</p>
+            <h1 class="hero-title">Discover Profitable Products</h1>
+            <p class="hero-subtitle">AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated</p>
             
-            <div class="hero-search">
-                <form action="/search" method="GET">
-                    <input type="text" placeholder="Search for a product or niche..." name="query">
-                    <button type="submit"><i class="fas fa-search"></i> Search</button>
+            <div class="search-container">
+                <form method="POST" action="/" class="search-form">
+                    <input type="text" name="query" class="search-input" placeholder="Search for trending products..." required>
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
                 </form>
             </div>
-            
-            <a href="/register" class="cta-button">Try 7-Day Free Trial</a>
         </div>
         
-        <div class="retailer-ticker">
-            <div class="ticker-container">
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/amazon-logo.png') }}" alt="Amazon">
+        <!-- Retailer Marquee -->
+        <div class="retailer-marquee">
+            <div class="marquee-content">
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
                     <span>Amazon</span>
                 </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/walmart-logo.png') }}" alt="Walmart">
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
                     <span>Walmart</span>
                 </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/aliexpress-logo.png') }}" alt="AliExpress">
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
                     <span>AliExpress</span>
                 </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/ebay-logo.png') }}" alt="eBay">
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
                     <span>eBay</span>
                 </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/etsy-logo.png') }}" alt="Etsy">
-                    <span>Etsy</span>
-                </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/bestbuy-logo.png') }}" alt="Best Buy">
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/bestbuy-icon.png') }}" alt="Best Buy" class="marquee-icon">
                     <span>Best Buy</span>
                 </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/target-logo.png') }}" alt="Target">
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/etsy-icon.png') }}" alt="Etsy" class="marquee-icon">
+                    <span>Etsy</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/target-icon.png') }}" alt="Target" class="marquee-icon">
                     <span>Target</span>
                 </div>
-                <div class="ticker-item">
-                    <img src="{{ url_for('static', filename='images/wayfair-logo.png') }}" alt="Wayfair">
-                    <span>Wayfair</span>
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/temu-icon.png') }}" alt="Temu" class="marquee-icon">
+                    <span>Temu</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
+                    <span>Amazon</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
+                    <span>Walmart</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
+                    <span>AliExpress</span>
+                </div>
+                <div class="marquee-item">
+                    <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
+                    <span>eBay</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features-section" id="features">
+    <section class="features-section">
         <div class="section-header">
             <h2 class="section-title">Powerful Features</h2>
-            <p class="section-subtitle">Our platform combines cutting-edge AI with comprehensive market data to give you the competitive edge</p>
+            <p class="section-subtitle">Everything you need to find winning products and grow your ecommerce business</p>
         </div>
         
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card animate__animated animate__fadeInUp" data-delay="0.1s">
                 <div class="feature-icon">
                     <i class="fas fa-chart-line"></i>
                 </div>
                 <h3 class="feature-title">Trend Analysis</h3>
-                <p class="feature-description">Identify products with rising demand before they peak, giving you time to capitalize on emerging trends.</p>
+                <p class="feature-description">Identify products with rising demand before they become oversaturated. Our AI detects early signals of trending products.</p>
             </div>
             
-            <div class="feature-card">
+            <div class="feature-card animate__animated animate__fadeInUp" data-delay="0.2s">
                 <div class="feature-icon">
                     <i class="fas fa-robot"></i>
                 </div>
-                <h3 class="feature-title">AI Predictions</h3>
-                <p class="feature-description">Our machine learning models predict which products will trend next based on historical patterns.</p>
+                <h3 class="feature-title">AI Recommendations</h3>
+                <p class="feature-description">Get personalized product recommendations based on your niche, budget, and past performance.</p>
             </div>
             
-            <div class="feature-card">
+            <div class="feature-card animate__animated animate__fadeInUp" data-delay="0.3s">
                 <div class="feature-icon">
                     <i class="fas fa-percentage"></i>
                 </div>
                 <h3 class="feature-title">Profit Calculator</h3>
-                <p class="feature-description">Automatically calculate potential profit margins including all fees and shipping costs.</p>
+                <p class="feature-description">Calculate potential profit margins including all fees to ensure you're making money on every sale.</p>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3 class="feature-title">Real-time Data</h3>
-                <p class="feature-description">Get up-to-the-minute sales data from multiple marketplaces to make informed decisions.</p>
-            </div>
-            
-            <div class="feature-card">
+            <div class="feature-card animate__animated animate__fadeInUp" data-delay="0.4s">
                 <div class="feature-icon">
                     <i class="fas fa-users"></i>
                 </div>
                 <h3 class="feature-title">Competition Analysis</h3>
-                <p class="feature-description">See how many sellers are offering similar products and at what price points.</p>
+                <p class="feature-description">See how many sellers are offering similar products and identify gaps in the market.</p>
             </div>
             
-            <div class="feature-card">
+            <div class="feature-card animate__animated animate__fadeInUp" data-delay="0.5s">
                 <div class="feature-icon">
-                    <i class="fas fa-calendar-alt"></i>
+                    <i class="fas fa-bolt"></i>
                 </div>
-                <h3 class="feature-title">Seasonal Trends</h3>
-                <p class="feature-description">Plan ahead with insights into seasonal demand patterns for different product categories.</p>
+                <h3 class="feature-title">Real-time Data</h3>
+                <p class="feature-description">Get up-to-the-minute data from multiple marketplaces to make informed decisions.</p>
+            </div>
+            
+            <div class="feature-card animate__animated animate__fadeInUp" data-delay="0.6s">
+                <div class="feature-icon">
+                    <i class="fas fa-save"></i>
+                </div>
+                <h3 class="feature-title">Product Vault</h3>
+                <p class="feature-description">Save and organize potential products with notes and tags for easy reference.</p>
             </div>
         </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="steps-container">
-            <div class="section-header">
-                <h2 class="section-title">How It Works</h2>
-                <p class="section-subtitle">Get from idea to profitable product in just a few simple steps</p>
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" data-count="15000">0</div>
+                <div class="stat-label">Happy Sellers</div>
             </div>
             
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Search or Browse</h3>
-                        <p class="step-description">Start by searching for a product or browsing our database of trending items across multiple marketplaces.</p>
-                        <a href="/register" class="cta-button">Try It Now</a>
-                    </div>
-                    <div class="step-image">
-                        <img src="{{ url_for('static', filename='images/step1.jpg') }}" alt="Search or Browse">
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Analyze the Data</h3>
-                        <p class="step-description">Review detailed analytics including sales trends, competition levels, and profit potential.</p>
-                        <a href="/register" class="cta-button">See Examples</a>
-                    </div>
-                    <div class="step-image">
-                        <img src="{{ url_for('static', filename='images/step2.jpg') }}" alt="Analyze the Data">
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Source Suppliers</h3>
-                        <p class="step-description">Connect with verified suppliers or use our integrated sourcing tools to find the best prices.</p>
-                        <a href="/register" class="cta-button">Find Suppliers</a>
-                    </div>
-                    <div class="step-image">
-                        <img src="{{ url_for('static', filename='images/step3.jpg') }}" alt="Source Suppliers">
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Launch & Scale</h3>
-                        <p class="step-description">Use our optimization tools to create high-converting listings and scale your successful products.</p>
-                        <a href="/register" class="cta-button">Start Selling</a>
-                    </div>
-                    <div class="step-image">
-                        <img src="{{ url_for('static', filename='images/step4.jpg') }}" alt="Launch & Scale">
-                    </div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" data-count="250000">0</div>
+                <div class="stat-label">Products Analyzed</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number" data-count="95">0</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number" data-count="24">0</div>
+                <div class="stat-label">Hour Support</div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
     <section class="testimonials-section">
-        <div class="testimonials-container">
-            <div class="section-header">
-                <h2 class="section-title">Success Stories</h2>
-                <p class="section-subtitle">Hear from sellers who've transformed their businesses with TrendFind</p>
-            </div>
-            
-            <div class="testimonials-slider">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">TrendFind helped me identify a niche product that was just starting to trend. Within 3 months, I was making $25k/month in profit. The AI predictions are scarily accurate!</p>
-                    <div class="testimonial-author">
-                        <img src="{{ url_for('static', filename='images/testimonial1.jpg') }}" alt="Sarah J." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Sarah J.</h4>
-                            <p>Amazon FBA Seller</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">As a dropshipper, staying ahead of trends is everything. TrendFind's real-time data has helped me double my revenue while reducing returns and unhappy customers.</p>
-                    <div class="testimonial-author">
-                        <img src="{{ url_for('static', filename='images/testimonial2.jpg') }}" alt="Michael T." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Michael T.</h4>
-                            <p>Ecommerce Entrepreneur</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">The competition analysis tools saved me from entering oversaturated markets. I now focus on products with high demand and low competition thanks to TrendFind.</p>
-                    <div class="testimonial-author">
-                        <img src="{{ url_for('static', filename='images/testimonial3.jpg') }}" alt="Lisa K." class="author-avatar">
-                        <div class="author-info">
-                            <h4>Lisa K.</h4>
-                            <p>Shopify Store Owner</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="section-header">
+            <h2 class="section-title">Success Stories</h2>
+            <p class="section-subtitle">Don't just take our word for it - hear from our successful sellers</p>
         </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-        <div class="pricing-container">
-            <div class="section-header">
-                <h2 class="section-title">Simple Pricing</h2>
-                <p class="section-subtitle">Choose the plan that fits your business needs</p>
-            </div>
-            
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <div class="pricing-badge">Starter</div>
-                    <h3 class="pricing-title">Basic</h3>
-                    <div class="pricing-price">$0<span>/month</span></div>
-                    <ul class="pricing-features">
-                        <li>10 daily searches</li>
-                        <li>Basic trending data</li>
-                        <li>Limited retailer access</li>
-                        <li>Email support</li>
-                    </ul>
-                    <a href="/register" class="cta-button">Get Started</a>
-                </div>
-                
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">Most Popular</div>
-                    <h3 class="pricing-title">Pro</h3>
-                    <div class="pricing-price">$29<span>/month</span></div>
-                    <ul class="pricing-features">
-                        <li>100 daily searches</li>
-                        <li>Advanced analytics</li>
-                        <li>Full retailer access</li>
-                        <li>AI recommendations</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <a href="/register" class="cta-button">Start Free Trial</a>
-                </div>
-                
-                <div class="pricing-card">
-                    <div class="pricing-badge">Enterprise</div>
-                    <h3 class="pricing-title">Advanced</h3>
-                    <div class="pricing-price">$99<span>/month</span></div>
-                    <ul class="pricing-features">
-                        <li>Unlimited searches</li>
-                        <li>All Pro features</li>
-                        <li>API access</li>
-                        <li>Dedicated account manager</li>
-                        <li>Custom reports</li>
-                    </ul>
-                    <a href="/register" class="cta-button">Contact Sales</a>
-                </div>
+        
+        <div class="testimonials-slider">
+            <div class="testimonial-card">
+                <p class="testimonial-text">TrendFind helped me identify 3 winning products in my first month. The AI recommendations are spot on and the profit calculator saved me from making costly mistakes.</p>
+                <div class="testimonial-author">Sarah J.</div>
+                <div class="testimonial-role">Amazon FBA Seller</div>
             </div>
         </div>
     </section>
@@ -1131,147 +898,184 @@
         <div class="cta-container">
             <h2 class="cta-title">Ready to Find Your Next Winning Product?</h2>
             <p class="cta-text">Join thousands of successful ecommerce sellers who trust TrendFind to uncover profitable products before they go mainstream.</p>
-            <a href="/register" class="cta-button">Start Your Free Trial Today</a>
+            <a href="/plan-details" class="btn-cta">Start Your Free Trial</a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
-                <p class="footer-about">TrendFind uses advanced AI to help ecommerce sellers identify trending products with high profit potential before they become oversaturated.</p>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
+                    <p>AI-powered product research platform for ecommerce sellers.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="footer-links">
+                        <div>
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="/plan-details">Pricing</a></li>
+                                <li><a href="/features">Features</a></li>
+                                <li><a href="/integrations">Integrations</a></li>
+                                <li><a href="/updates">Updates</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="/about-us">About Us</a></li>
+                                <li><a href="/careers">Careers</a></li>
+                                <li><a href="/blog">Blog</a></li>
+                                <li><a href="/press">Press</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="/contact-us">Contact Us</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="/help-center">Help Center</a></li>
+                                <li><a href="/community">Community</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms of Service</a></li>
+                                <li><a href="/security">Security</a></li>
+                                <li><a href="/cookies">Cookie Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="footer-col">
-                <h3 class="footer-title">Product</h3>
-                <ul class="footer-links">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#how-it-works">How It Works</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="/faq">FAQ</a></li>
-                </ul>
+            <div class="copyright">
+                <p>&copy; 2025 TrendFind. All rights reserved.</p>
             </div>
-            
-            <div class="footer-col">
-                <h3 class="footer-title">Company</h3>
-                <ul class="footer-links">
-                    <li><a href="/about-us">About Us</a></li>
-                    <li><a href="/contact-us">Contact</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Careers</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h3 class="footer-title">Legal</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">GDPR</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 TrendFind. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuToggle.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-        
-        // Header Scroll Effect
-        const header = document.getElementById('mainHeader');
-        
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                header.classList.add('header-scrolled');
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Dark Mode Toggle
+        document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-mode');
+            const icon = this.querySelector('i');
+            
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'disabled');
             } else {
-                header.classList.remove('header-scrolled');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'enabled');
             }
         });
-        
-        // Smooth Scrolling for Anchor Links
+
+        // Check for saved dark mode preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const icon = darkModeToggle.querySelector('i');
+            const darkMode = localStorage.getItem('darkMode');
+
+            if (darkMode === 'disabled') {
+                document.body.classList.add('light-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+
+        // Animate stats counter
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-count');
+                const count = +counter.innerText;
+                const increment = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        }
+
+        // Initialize counters when stats section is in view
+        const statsSection = document.querySelector('.stats-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(statsSection);
+
+        // Animate features on scroll
+        const featureCards = document.querySelectorAll('.feature-card');
+        const featureObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.getAttribute('data-delay') || '0s';
+                    entry.target.style.animationDelay = delay;
+                    entry.target.classList.add('animate__fadeInUp');
+                    featureObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        featureCards.forEach(card => {
+            featureObserver.observe(card);
+        });
+
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    if (navLinks.style.display === 'flex') {
-                        navLinks.style.display = 'none';
-                    }
-                }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
-        
-        // Testimonial Slider
-        let currentTestimonial = 0;
-        const testimonials = document.querySelectorAll('.testimonial-card');
-        
-        function showTestimonial(index) {
-            testimonials.forEach((testimonial, i) => {
-                testimonial.style.display = i === index ? 'block' : 'none';
-            });
+
+        // Video fallback for mobile
+        function checkVideoSupport() {
+            const video = document.querySelector('.video-background');
+            if (window.innerWidth < 768 || !video.canPlayType('video/mp4')) {
+                video.style.display = 'none';
+                document.querySelector('.hero-overlay').style.background = 'linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.9) 100%)';
+            }
         }
-        
-        function nextTestimonial() {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            showTestimonial(currentTestimonial);
-        }
-        
-        // Auto-rotate testimonials every 5 seconds
-        showTestimonial(0);
-        setInterval(nextTestimonial, 5000);
-        
-        // Animate elements on scroll
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.feature-card, .step, .pricing-card');
-            
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const screenPosition = window.innerHeight / 1.2;
-                
-                if (elementPosition < screenPosition) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
-            });
-        };
-        
-        // Set initial state for animation
-        document.querySelectorAll('.feature-card, .step, .pricing-card').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        });
-        
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
+
+        window.addEventListener('load', checkVideoSupport);
+        window.addEventListener('resize', checkVideoSupport);
     </script>
 </body>
 </html>
