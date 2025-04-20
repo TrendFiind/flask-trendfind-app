@@ -1387,7 +1387,7 @@ body.dark-mode .sidebar {
 }
 
 .sidebar ul li a {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     font-weight: 500; /* Medium weight */
     font-size: 1rem;
     color: #333; /* Dark text in light mode */
@@ -1444,7 +1444,7 @@ body.dark-mode .sidebar ul li:hover {
     z-index: 1001;
     transition: left 0.3s ease;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
 }
 
 .sidebar.open {
