@@ -3,463 +3,1275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrendFind - AI-Powered Product Search</title>
-    <!-- Preload background image -->
-    <link rel="preload" href="{{ url_for('static', filename='images/Index.jpg') }}" as="image" fetchpriority="high">
+    <title>TrendFind - AI-Powered Product Research for Ecommerce</title>
+    <meta name="description" content="Discover trending products before they go viral with our AI-powered market research platform. Get real-time data from Amazon, Walmart, AliExpress and more.">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="{{ url_for('static', filename='images/hero-bg.mp4') }}" as="video" type="video/mp4">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" as="style">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
     <!-- Custom CSS -->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    
     <style>
-        .glass-bg {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .vibrant-title {
-            color: #ff6f61;
-            font-weight: bold;
-            font-size: 1.5em;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            transition: color 0.3s ease, transform 0.3s ease;
+        /* Base Styles */
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--light);
+            background-color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        .vibrant-title:hover {
-            color: #ff3b1f;
-            transform: scale(1.1);
-        }
-
-        /* Improved Typewriter Effect */
-        .typewriter-container {
-            width: 100%;
-            margin: 20px auto;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .typewriter-text {
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 0.15em solid orange;
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             letter-spacing: 1px;
-            max-width: 90%;
+        }
+
+        /* Header Styles */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            max-width: 1400px;
             margin: 0 auto;
-            text-overflow: ellipsis;
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+        .logo {
+            height: 40px;
+            transition: var(--transition);
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: orange; }
+        .logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(0, 255, 234, 0.6));
         }
 
-        @media only screen and (max-width: 768px) {
-            .futuristic-box h2,
-            .futuristic-box p,
-            .futuristic-box h3,
-            .futuristic-box ul,
-            .futuristic-box li {
-                color: black !important;
-            }
-            
-            .typewriter-text {
-                font-size: 1.2rem;
-                max-width: 95%;
-            }
+        .nav-links {
+            display: flex;
+            gap: 30px;
         }
 
-                /* Sidebar Font Weight Fix */
-        .sidebar ul li a {
-            font-weight: 700 !important; /* Bold for all sidebar links */
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: var(--transition);
         }
 
-        body.dark-mode .sidebar ul li a {
-            color: #fff !important; /* White in dark mode */
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
         }
 
-        /* New Styles */
-        .retailer-bar {
-            background-color: #f8f9fa;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #333;
+        .nav-link:hover:after {
+            width: 100%;
         }
 
-        .hero-section {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            padding: 50px 20px;
-            border-radius: 10px;
+        .nav-link:hover {
+            color: var(--primary);
         }
 
         .cta-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background-color: #ff6f61;
-            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
             border: none;
-            border-radius: 5px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            font-family: 'Rajdhani', sans-serif;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .cta-button:hover {
-            background-color: #ff3b1f;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
         }
 
-        .header + .retailer-bar {
-            margin-top: 0;
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero-section {
             position: relative;
+            height: 100vh;
+            min-height: 800px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
             top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+        }
+
+        .hero-search {
+            max-width: 700px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .hero-search input {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: var(--light);
+            font-size: 1.1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .hero-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.3);
+        }
+
+        .hero-search button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            bottom: 5px;
+            padding: 0 30px;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .hero-search button:hover {
+            transform: scale(1.05);
+        }
+
+        .retailer-ticker {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            overflow: hidden;
+        }
+
+        .ticker-container {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            margin: 0 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .ticker-item img {
+            height: 30px;
+            margin-right: 15px;
+            filter: brightness(0) invert(1);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 120px 0;
+            background: var(--darker);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.2);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 120px 0;
+            background: url('{{ url_for("static", filename="images/dots-bg.png") }}') center/cover;
+            position: relative;
+        }
+
+        .how-it-works::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 0;
+        }
+
+        .steps-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .step-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .step-image {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .step-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 120px 0;
+            background: var(--darker);
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .testimonials-slider {
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            margin: 0 15px;
+            transition: var(--transition);
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .testimonial-text::before {
+            top: -20px;
+            left: -15px;
+        }
+
+        .testimonial-text::after {
+            bottom: -40px;
+            right: -15px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+
+        .author-info p {
+            color: rgba(255, 255, 255, 0.6);
+            margin: 0;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 120px 0;
+            background: url('{{ url_for("static", filename="images/grid-bg.png") }}') center/cover;
+            position: relative;
+        }
+
+        .pricing-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 0;
+        }
+
+        .pricing-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .pricing-card.featured {
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 255, 234, 0.2);
+            transform: translateY(-20px);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.2);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-30px);
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--primary);
+            color: #000;
+            font-weight: 700;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .pricing-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.9) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: #000;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-logo {
+            height: 40px;
+            margin-bottom: 20px;
+        }
+
+        .footer-about {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .step {
+                flex-direction: column !important;
+                gap: 30px;
+            }
+            
+            .step-image {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-search input {
+                padding: 15px 20px;
+            }
+            
+            .hero-search button {
+                padding: 0 20px;
+            }
+            
+            .feature-card {
+                padding: 30px 20px;
+            }
+            
+            .testimonial-card {
+                padding: 30px;
+            }
         }
     </style>
 </head>
 <body>
-<!-- Header -->
-<header class="header">
-    <div class="header-content">
-        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
-        <div class="logo-container">
+    <!-- Header -->
+    <header class="main-header" id="mainHeader">
+        <div class="header-container">
             <a href="/">
-                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
             </a>
+            
+            <nav class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="/login" class="nav-link">Login</a>
+                <a href="/register" class="cta-button">Start Free Trial</a>
+            </nav>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
+    </header>
 
-        <button id="dark-mode-toggle" class="dark-mode-toggle">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
-</header>
-
-<!-- Sidebar -->
-    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/saved-products">Saved Products</a></li>
-            <li><a href="/plan-details">Plan Details</a></li>
-            <li><a href="/faq">FAQ</a></li>
-            <li><a href="/about-us">About Us</a></li>
-            <li><a href="/contact-us">Contact Us</a></li>
-        </ul>
-    </nav>
-
-    
-<!-- Retailer Bar -->
-<div class="retailer-bar">
-    Sourced From: Amazon, Alibaba, Walmart, Temu, Best Buys, Etsy, and more!
-</div>
-
-<!-- Hero Section -->
-<div class="hero-section">
-    <div class="container">
-        <h1 class="hero-title">
-            <span class="neon-text">Discover Trending Products</span>
-        </h1>
-        <p class="hero-subtitle">
-            <span class="neon-text">AI-Powered Precision for Ecommerce Sellers</span>
-        </p>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <video autoplay muted loop class="hero-video">
+            <source src="{{ url_for('static', filename='images/hero-bg.mp4') }}" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
         
-        <!-- Typewriter Effect Container -->
-        <div class="typewriter-container">
-            <div class="typewriter-text" id="typewriter-text"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Winning Products Before They Go Viral</h1>
+            <p class="hero-subtitle">Our AI-powered platform analyzes millions of data points to identify trending products with high profit potential before they become oversaturated.</p>
+            
+            <div class="hero-search">
+                <form action="/search" method="GET">
+                    <input type="text" placeholder="Search for a product or niche..." name="query">
+                    <button type="submit"><i class="fas fa-search"></i> Search</button>
+                </form>
+            </div>
+            
+            <a href="/register" class="cta-button">Try 7-Day Free Trial</a>
         </div>
         
-        <!-- Search Form -->
-        <div class="search-container">
-            <form method="POST" action="/" class="search-form">
-                <div class="input-group">
-                    <input type="text" id="query" name="query" class="form-control neon-input" placeholder="Enter a product name..." required>
-                    <button type="submit" class="btn neon-button">Search</button>
+        <div class="retailer-ticker">
+            <div class="ticker-container">
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/amazon-logo.png') }}" alt="Amazon">
+                    <span>Amazon</span>
                 </div>
-            </form>
-            <!-- CTA Button -->
-            <button class="cta-button">Try For Free!</button>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/walmart-logo.png') }}" alt="Walmart">
+                    <span>Walmart</span>
+                </div>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/aliexpress-logo.png') }}" alt="AliExpress">
+                    <span>AliExpress</span>
+                </div>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/ebay-logo.png') }}" alt="eBay">
+                    <span>eBay</span>
+                </div>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/etsy-logo.png') }}" alt="Etsy">
+                    <span>Etsy</span>
+                </div>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/bestbuy-logo.png') }}" alt="Best Buy">
+                    <span>Best Buy</span>
+                </div>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/target-logo.png') }}" alt="Target">
+                    <span>Target</span>
+                </div>
+                <div class="ticker-item">
+                    <img src="{{ url_for('static', filename='images/wayfair-logo.png') }}" alt="Wayfair">
+                    <span>Wayfair</span>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<!-- About Section -->
-<div class="about-section py-5">
-    <div class="container">
-        <div class="futuristic-box p-4 glass-bg shadow-sm rounded">
-            <h2 class="mb-4" style="color: black;">About TrendFind</h2>
-            <p style="color: black;">
-                TrendFind is an AI-powered product research platform that helps ecommerce sellers identify high-potential products before they become oversaturated. Our proprietary algorithms scan thousands of products daily across multiple marketplaces, identifying items with rising demand and healthy profit margins (typically 35-60%). Using machine learning, we filter out overhyped or declining products, providing actionable insights on pricing, competition, and seasonal trends.
-            </p>
-            <h3 class="mt-4 vibrant-title">How It Works:</h3>
-            <ul class="list-unstyled" style="color: black;">
-                <li class="mb-2">Scans thousands of products daily across multiple marketplaces</li>
-                <li class="mb-2">Identifies items with rising demand and healthy profit margins (typically 35-60%)</li>
-                <li class="mb-2">Filters out overhyped or declining products using machine learning</li>
-                <li class="mb-2">Provides actionable insights on pricing, competition, and seasonal trends</li>
-            </ul>
-            <h3 class="mt-4 vibrant-title">Who It's For:</h3>
-            <ul class="list-unstyled" style="color: black;">
-                <li class="mb-2">Amazon FBA sellers looking for their next winning product</li>
-                <li class="mb-2">Dropshippers wanting to stay ahead of market trends</li>
-                <li class="mb-2">Retail arbitrage specialists seeking undervalued items</li>
-                <li class="mb-2">Ecommerce entrepreneurs tired of guesswork in product selection</li>
-            </ul>
-            <h3 class="mt-4 vibrant-title">Our Difference:</h3>
-            <ul class="list-unstyled" style="color: black;">
-                <li class="mb-2">Real-time sales data from multiple sources</li>
-                <li class="mb-2">Predictive analytics to spot trends early</li>
-                <li class="mb-2">Profitability calculators to estimate margins</li>
-                <li class="mb-2">Historical performance tracking</li>
-            </ul>
-            <p class="mt-4" style="color: black;">
-                Founded in 2024 by J.K, TrendFind has helped 15000+ sellers discover profitable products and avoid costly mistakes. Our mission is to bring data-driven decision making to ecommerce, empowering sellers to thrive in a competitive market.
-            </p>
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle">Our platform combines cutting-edge AI with comprehensive market data to give you the competitive edge</p>
         </div>
-    </div>
-</div>
- 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <p>&copy; 2025 TrendFind. All rights reserved.</p>
-    </div>
-</footer>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="feature-title">Trend Analysis</h3>
+                <p class="feature-description">Identify products with rising demand before they peak, giving you time to capitalize on emerging trends.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3 class="feature-title">AI Predictions</h3>
+                <p class="feature-description">Our machine learning models predict which products will trend next based on historical patterns.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3 class="feature-title">Profit Calculator</h3>
+                <p class="feature-description">Automatically calculate potential profit margins including all fees and shipping costs.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Real-time Data</h3>
+                <p class="feature-description">Get up-to-the-minute sales data from multiple marketplaces to make informed decisions.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">Competition Analysis</h3>
+                <p class="feature-description">See how many sellers are offering similar products and at what price points.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="feature-title">Seasonal Trends</h3>
+                <p class="feature-description">Plan ahead with insights into seasonal demand patterns for different product categories.</p>
+            </div>
+        </div>
+    </section>
 
-<!-- Loading Spinner -->
-<div class="loading-spinner"></div>
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="steps-container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Get from idea to profitable product in just a few simple steps</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Search or Browse</h3>
+                        <p class="step-description">Start by searching for a product or browsing our database of trending items across multiple marketplaces.</p>
+                        <a href="/register" class="cta-button">Try It Now</a>
+                    </div>
+                    <div class="step-image">
+                        <img src="{{ url_for('static', filename='images/step1.jpg') }}" alt="Search or Browse">
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Analyze the Data</h3>
+                        <p class="step-description">Review detailed analytics including sales trends, competition levels, and profit potential.</p>
+                        <a href="/register" class="cta-button">See Examples</a>
+                    </div>
+                    <div class="step-image">
+                        <img src="{{ url_for('static', filename='images/step2.jpg') }}" alt="Analyze the Data">
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Source Suppliers</h3>
+                        <p class="step-description">Connect with verified suppliers or use our integrated sourcing tools to find the best prices.</p>
+                        <a href="/register" class="cta-button">Find Suppliers</a>
+                    </div>
+                    <div class="step-image">
+                        <img src="{{ url_for('static', filename='images/step3.jpg') }}" alt="Source Suppliers">
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Launch & Scale</h3>
+                        <p class="step-description">Use our optimization tools to create high-converting listings and scale your successful products.</p>
+                        <a href="/register" class="cta-button">Start Selling</a>
+                    </div>
+                    <div class="step-image">
+                        <img src="{{ url_for('static', filename='images/step4.jpg') }}" alt="Launch & Scale">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- JavaScript -->
-<script>
-        // Sidebar Toggle
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
-        }
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="testimonials-container">
+            <div class="section-header">
+                <h2 class="section-title">Success Stories</h2>
+                <p class="section-subtitle">Hear from sellers who've transformed their businesses with TrendFind</p>
+            </div>
+            
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">TrendFind helped me identify a niche product that was just starting to trend. Within 3 months, I was making $25k/month in profit. The AI predictions are scarily accurate!</p>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/testimonial1.jpg') }}" alt="Sarah J." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Sarah J.</h4>
+                            <p>Amazon FBA Seller</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">As a dropshipper, staying ahead of trends is everything. TrendFind's real-time data has helped me double my revenue while reducing returns and unhappy customers.</p>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/testimonial2.jpg') }}" alt="Michael T." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Michael T.</h4>
+                            <p>Ecommerce Entrepreneur</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The competition analysis tools saved me from entering oversaturated markets. I now focus on products with high demand and low competition thanks to TrendFind.</p>
+                    <div class="testimonial-author">
+                        <img src="{{ url_for('static', filename='images/testimonial3.jpg') }}" alt="Lisa K." class="author-avatar">
+                        <div class="author-info">
+                            <h4>Lisa K.</h4>
+                            <p>Shopify Store Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header">
+                <h2 class="section-title">Simple Pricing</h2>
+                <p class="section-subtitle">Choose the plan that fits your business needs</p>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-badge">Starter</div>
+                    <h3 class="pricing-title">Basic</h3>
+                    <div class="pricing-price">$0<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li>10 daily searches</li>
+                        <li>Basic trending data</li>
+                        <li>Limited retailer access</li>
+                        <li>Email support</li>
+                    </ul>
+                    <a href="/register" class="cta-button">Get Started</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <h3 class="pricing-title">Pro</h3>
+                    <div class="pricing-price">$29<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li>100 daily searches</li>
+                        <li>Advanced analytics</li>
+                        <li>Full retailer access</li>
+                        <li>AI recommendations</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="/register" class="cta-button">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-badge">Enterprise</div>
+                    <h3 class="pricing-title">Advanced</h3>
+                    <div class="pricing-price">$99<span>/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Unlimited searches</li>
+                        <li>All Pro features</li>
+                        <li>API access</li>
+                        <li>Dedicated account manager</li>
+                        <li>Custom reports</li>
+                    </ul>
+                    <a href="/register" class="cta-button">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    // Loading Spinner
-    const searchForm = document.querySelector('.search-form');
-    const loadingSpinner = document.querySelector('.loading-spinner');
-    searchForm.addEventListener('submit', () => {
-        loadingSpinner.style.display = 'block';
-    });
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Find Your Next Winning Product?</h2>
+            <p class="cta-text">Join thousands of successful ecommerce sellers who trust TrendFind to uncover profitable products before they go mainstream.</p>
+            <a href="/register" class="cta-button">Start Your Free Trial Today</a>
+        </div>
+    </section>
 
-    // Dark Mode Toggle
-    document.getElementById('dark-mode-toggle').addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        const icon = this.querySelector('i');
-        if (document.body.classList.contains('dark-mode')) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-            localStorage.setItem('darkMode', 'enabled');
-        } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-            localStorage.setItem('darkMode', 'disabled');
-        }
-    });
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
+                <p class="footer-about">TrendFind uses advanced AI to help ecommerce sellers identify trending products with high profit potential before they become oversaturated.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-title">Product</h3>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-title">Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/about-us">About Us</a></li>
+                    <li><a href="/contact-us">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-title">Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
+    </footer>
 
-    // Check for saved dark mode preference
-    document.addEventListener('DOMContentLoaded', function() {
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const icon = darkModeToggle.querySelector('i');
-        const darkMode = localStorage.getItem('darkMode');
-
-        if (darkMode === 'enabled') {
-            document.body.classList.add('dark-mode');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            document.body.classList.remove('dark-mode');
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-    });
-
-    // Improved Typewriter Effect
-    document.addEventListener('DOMContentLoaded', function() {
-        const typewriterText = document.getElementById('typewriter-text');
-        const text = "Integrated With Real-Time Data From Multiple Marketplaces";
-        let index = 0;
-        const typingSpeed = 100;
-        const pauseAtEnd = 2000; // 2 second pause at end
-        const eraseSpeed = 50; // Faster erase
-
-        function typeWriter() {
-            if (index < text.length) {
-                typewriterText.textContent += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, typingSpeed);
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Header Scroll Effect
+        const header = document.getElementById('mainHeader');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('header-scrolled');
             } else {
-                setTimeout(eraseText, pauseAtEnd);
+                header.classList.remove('header-scrolled');
             }
-        }
-
-        function eraseText() {
-            if (index > 0) {
-                typewriterText.textContent = text.substring(0, index-1);
-                index--;
-                setTimeout(eraseText, eraseSpeed);
-            } else {
-                setTimeout(typeWriter, typingSpeed);
-            }
-        }
-
-        typeWriter();
-    });
-</script>
-
-<style id="mobile-optimization">
-@media only screen and (max-width: 768px) {
-    /* Hero Section Scaling */
-    .hero-section {
-        padding: 20px 0;
-        height: auto;
-        min-height: 60vh;
-    }
-
-    .hero-title {
-        font-size: 1.8rem !important;
-        margin-bottom: 10px;
-    }
-
-    .hero-subtitle {
-        font-size: 1.1rem !important;
-        margin-bottom: 20px;
-    }
-
-    /* Search Container */
-    .search-container {
-        transform: scale(0.85);
-        transform-origin: top center;
-        width: 100%;
-        padding: 0 15px;
-        margin: 0 auto;
-    }
-
-    .neon-input {
-        font-size: 0.9rem;
-        padding: 10px 12px;
-    }
-
-    .neon-button {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-    }
-
-    /* Typewriter Effect */
-    .typewriter-container {
-        margin: 10px auto;
-        width: 90%;
-    }
-
-    .typewriter-text {
-        font-size: 1rem;
-        white-space: normal;
-        text-align: center;
-        border-right: none;
-        animation: none;
-        display: block;
-    }
-
-    /* About Section */
-    .about-section {
-        padding: 30px 0;
-    }
-
-    .futuristic-box {
-        padding: 20px !important;
-        margin: 0 10px;
-    }
-
-    .vibrant-title {
-        font-size: 1.2rem !important;
-    }
-
-    /* Header Adjustments */
-    .header {
-        padding: 15px 0;
-    }
-
-    .logo {
-        width: 160px !important;
-        top: -50px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        width: 80vw;
-        top: 70px;
-    }
-
-    /* Footer */
-    .footer {
-        padding: 15px 0;
-        font-size: 0.9rem;
-    }
-}
-</style>
-
-<script>
-// Mobile-specific JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    if (window.innerWidth <= 768px) {
-        // Simplify typewriter effect for mobile
-        const typewriterText = document.getElementById('typewriter-text');
-        typewriterText.textContent = "Integrated With Real-Time Market Data";
-        typewriterText.style.animation = 'none';
-        typewriterText.style.borderRight = 'none';
-
-        // Adjust form submission for mobile
-        const searchForm = document.querySelector('.search-form');
-        searchForm.addEventListener('submit', function(e) {
-            const input = this.querySelector('input');
-            if (input.value.trim() === '') {
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                input.focus();
-                input.placeholder = "Please enter a product...";
-                input.style.borderColor = "#ff3b1f";
-                setTimeout(() => {
-                    input.style.borderColor = "";
-                }, 2000);
-            }
-        });
-
-        // Touch-friendly hover effects
-        document.querySelectorAll('.vibrant-title').forEach(title => {
-            title.addEventListener('touchstart', function() {
-                this.style.color = "#ff3b1f";
-                this.style.transform = "scale(1.1)";
-            });
-            title.addEventListener('touchend', function() {
-                this.style.color = "";
-                this.style.transform = "";
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navLinks.style.display === 'flex') {
+                        navLinks.style.display = 'none';
+                    }
+                }
             });
         });
-    }
-});
-</script>
+        
+        // Testimonial Slider
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial-card');
+        
+        function showTestimonial(index) {
+            testimonials.forEach((testimonial, i) => {
+                testimonial.style.display = i === index ? 'block' : 'none';
+            });
+        }
+        
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }
+        
+        // Auto-rotate testimonials every 5 seconds
+        showTestimonial(0);
+        setInterval(nextTestimonial, 5000);
+        
+        // Animate elements on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature-card, .step, .pricing-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Set initial state for animation
+        document.querySelectorAll('.feature-card, .step, .pricing-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
 </body>
 </html>
