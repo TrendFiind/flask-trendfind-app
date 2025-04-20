@@ -58,6 +58,134 @@
             --card-border: rgba(0, 123, 255, 0.2);
         }
 
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-container {
+            flex: 1;
+            text-align: center;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 25px;
+            margin-right: 20px;
+        }
+
+        .quick-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .quick-links a:hover {
+            color: var(--primary);
+        }
+
+        .quick-links a i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 5px;
+        }
+
+        .dark-mode-toggle:hover {
+            color: var(--primary);
+            transform: rotate(20deg);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--darker);
+            z-index: 1001;
+            transition: var(--transition);
+            padding-top: 80px;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 25px;
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar a:hover {
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            background: rgba(0, 255, 234, 0.05);
+        }
+
         /* Video Background Hero */
         .video-hero {
             position: relative;
@@ -67,6 +195,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-top: 80px;
         }
 
         .video-background {
@@ -203,11 +332,16 @@
             border-top: 1px solid var(--card-border);
         }
 
+        .marquee-container {
+            display: flex;
+            width: 200%;
+            animation: marquee 20s linear infinite;
+        }
+
         .marquee-content {
             display: flex;
             align-items: center;
-            white-space: nowrap;
-            animation: marquee 30s linear infinite;
+            width: 50%;
         }
 
         .marquee-item {
@@ -375,15 +509,6 @@
             color: rgba(0, 0, 0, 0.8);
         }
 
-        /* Sidebar Font Weight Fix */
-        .sidebar ul li a {
-            font-weight: 700 !important; /* Bold for all sidebar links */
-        }
-
-        body.dark-mode .sidebar ul li a {
-            color: #fff !important; /* White in dark mode */
-        }
-        
         /* Testimonials Section */
         .testimonials-section {
             padding: 100px 0;
@@ -623,6 +748,18 @@
         }
 
         @media (max-width: 768px) {
+            .header-content {
+                padding: 0 15px;
+            }
+            
+            .quick-links {
+                display: none;
+            }
+            
+            .sidebar-toggle {
+                display: block;
+            }
+            
             .video-hero {
                 height: auto;
                 min-height: 100vh;
@@ -707,6 +844,13 @@
                 </a>
             </div>
 
+            <div class="quick-links">
+                <a href="/contact-us"><i class="fas fa-headset"></i> Support</a>
+                <a href="/plan-details"><i class="fas fa-tags"></i> Pricing</a>
+                <a href="/about-us"><i class="fas fa-question-circle"></i> How It Works</a>
+                <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+            </div>
+
             <button id="dark-mode-toggle" class="dark-mode-toggle">
                 <i class="fas fa-moon"></i>
             </button>
@@ -750,54 +894,74 @@
         
         <!-- Retailer Marquee -->
         <div class="retailer-marquee">
-            <div class="marquee-content">
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
-                    <span>Amazon</span>
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
+                        <span>Amazon</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
+                        <span>Walmart</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
+                        <span>AliExpress</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
+                        <span>eBay</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/bestbuy-icon.png') }}" alt="Best Buy" class="marquee-icon">
+                        <span>Best Buy</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/etsy-icon.png') }}" alt="Etsy" class="marquee-icon">
+                        <span>Etsy</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/target-icon.png') }}" alt="Target" class="marquee-icon">
+                        <span>Target</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/temu-icon.png') }}" alt="Temu" class="marquee-icon">
+                        <span>Temu</span>
+                    </div>
                 </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
-                    <span>Walmart</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
-                    <span>AliExpress</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
-                    <span>eBay</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/bestbuy-icon.png') }}" alt="Best Buy" class="marquee-icon">
-                    <span>Best Buy</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/etsy-icon.png') }}" alt="Etsy" class="marquee-icon">
-                    <span>Etsy</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/target-icon.png') }}" alt="Target" class="marquee-icon">
-                    <span>Target</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/temu-icon.png') }}" alt="Temu" class="marquee-icon">
-                    <span>Temu</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
-                    <span>Amazon</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
-                    <span>Walmart</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
-                    <span>AliExpress</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
-                    <span>eBay</span>
+                <div class="marquee-content">
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
+                        <span>Amazon</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
+                        <span>Walmart</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
+                        <span>AliExpress</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
+                        <span>eBay</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/bestbuy-icon.png') }}" alt="Best Buy" class="marquee-icon">
+                        <span>Best Buy</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/etsy-icon.png') }}" alt="Etsy" class="marquee-icon">
+                        <span>Etsy</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/target-icon.png') }}" alt="Target" class="marquee-icon">
+                        <span>Target</span>
+                    </div>
+                    <div class="marquee-item">
+                        <img src="{{ url_for('static', filename='images/temu-icon.png') }}" alt="Temu" class="marquee-icon">
+                        <span>Temu</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -865,7 +1029,7 @@
     <section class="stats-section">
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-number" data-count="2000">0</div>
+                <div class="stat-number" data-count="15000">0</div>
                 <div class="stat-label">Happy Sellers</div>
             </div>
             
@@ -880,8 +1044,8 @@
             </div>
             
             <div class="stat-card">
-                <div class="stat-number" data-count="2000">0</div>
-                <div class="stat-label">Wining Products Found</div>
+                <div class="stat-number" data-count="24">0</div>
+                <div class="stat-label">Hour Support</div>
             </div>
         </div>
     </section>
