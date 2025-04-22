@@ -64,7 +64,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 15px 0;
+            padding: 20px 0;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
             z-index: 1000;
@@ -79,7 +79,7 @@
             margin: 0 auto;
             padding: 0 20px;
         }
-
+        
         .header-left {
             display: flex;
             align-items: center;
@@ -87,13 +87,12 @@
         }
 
         .logo-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            flex: 1;
+            text-align: center;
         }
 
         .logo {
-            height: 35px;
+            height: 40px;
             width: auto;
         }
 
@@ -142,6 +141,7 @@
             background: none;
             border: none;
             color: var(--light);
+            font-size: 1.5rem;
             cursor: pointer;
             padding: 5px;
             display: flex;
@@ -152,9 +152,9 @@
         .sidebar-toggle span {
             display: block;
             width: 25px;
-            height: 2px;
+            height: 3px;
             background: var(--light);
-            margin: 3px 0;
+            margin: 4px 0;
             transition: var(--transition);
         }
 
@@ -768,6 +768,14 @@
         }
 
         @media (max-width: 768px) {
+            .header {
+                padding: 15px 0;
+            }
+            
+            .logo {
+                height: 35px;
+            }
+            
             .header-content {
                 padding: 0 15px;
             }
@@ -829,22 +837,6 @@
                 gap: 15px;
             }
         }
-
-        @media (max-width: 768px) {
-            .header-content {
-                padding: 0 15px;
-            }
-            
-            .quick-links {
-                display: none;
-            }
-            
-            .logo-container {
-                position: static;
-                transform: none;
-                margin-left: auto;
-                margin-right: auto;
-            }
         
         @media (max-width: 576px) {
             .hero-title {
@@ -874,20 +866,11 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="header-left">
-                <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
-                <div class="quick-links">
-                    <a href="/contact-us"><i class="fas fa-headset"></i> Support</a>
-                    <a href="/plan-details"><i class="fas fa-tags"></i> Pricing</a>
-                    <a href="/about-us"><i class="fas fa-question-circle"></i> How It Works</a>
-                    <a href="/profile"><i class="fas fa-user"></i> Profile</a>
-                </div>
-            </div>
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
             <div class="logo-container">
                 <a href="/">
