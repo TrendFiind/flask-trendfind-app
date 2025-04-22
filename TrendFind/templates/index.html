@@ -58,6 +58,43 @@
             --card-border: rgba(0, 123, 255, 0.2);
         }
 
+        /* Header styles for both modes */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .header {
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
         /* Video Background Hero */
         .video-hero {
             position: relative;
@@ -203,26 +240,40 @@
             border-top: 1px solid var(--card-border);
         }
 
+        .marquee-container {
+            display: flex;
+            width: 200%;
+            animation: marquee 30s linear infinite;
+        }
+
         .marquee-content {
             display: flex;
             align-items: center;
             white-space: nowrap;
-            animation: marquee 30s linear infinite;
+            flex: 1;
         }
 
         .marquee-item {
             display: flex;
             align-items: center;
             margin: 0 40px;
-            color: var(--light);
-            font-weight: 600;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
         }
 
-        .marquee-icon {
-            width: 30px;
-            height: 30px;
-            margin-right: 10px;
-            object-fit: contain;
+        .marquee-item::after {
+            content: "•";
+            position: absolute;
+            right: -30px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .marquee-item:last-child::after {
+            display: none;
         }
 
         /* Features Section */
@@ -321,11 +372,6 @@
             color: rgba(0, 0, 0, 0.7);
         }
 
-                /* Sidebar Font Weight Fix */
-        .sidebar ul li a {
-            font-weight: 700 !important; /* Bold for all sidebar links */
-        }
-
         /* Stats Section */
         .stats-section {
             padding: 80px 0;
@@ -386,10 +432,17 @@
             background: var(--dark);
         }
 
-        .testimonials-slider {
+        .testimonials-container {
             max-width: 1000px;
             margin: 0 auto;
             position: relative;
+            padding: 0 20px;
+        }
+
+        .testimonials-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .testimonial-card {
@@ -399,8 +452,12 @@
             padding: 40px;
             border: 1px solid var(--card-border);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin: 0 20px;
-            text-align: center;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.3);
         }
 
         .testimonial-text {
@@ -585,6 +642,119 @@
             margin-top: 40px;
         }
 
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            left: -280px;
+            height: 100vh;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        body.light-mode .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .sidebar a {
+            color: #000;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        body.light-mode .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        body.light-mode .sidebar-toggle span {
+            background-color: var(--secondary);
+        }
+
+        /* Dark Mode Toggle Button */
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.2rem;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .dark-mode-toggle i {
+            color: var(--secondary);
+        }
+
         /* Animations */
         @keyframes marquee {
             0% { transform: translateX(0); }
@@ -661,6 +831,16 @@
             .cta-title {
                 font-size: 2rem;
             }
+
+            .sidebar {
+                width: 250px;
+                padding-top: 70px;
+            }
+            
+            .sidebar a {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -683,6 +863,11 @@
             
             .footer-links {
                 grid-template-columns: 1fr;
+            }
+
+            .marquee-item {
+                font-size: 1rem;
+                margin: 0 20px;
             }
         }
     </style>
@@ -746,54 +931,30 @@
         
         <!-- Retailer Marquee -->
         <div class="retailer-marquee">
-            <div class="marquee-content">
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
-                    <span>Amazon</span>
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <div class="marquee-item">Amazon</div>
+                    <div class="marquee-item">Walmart</div>
+                    <div class="marquee-item">AliExpress</div>
+                    <div class="marquee-item">eBay</div>
+                    <div class="marquee-item">Best Buy</div>
+                    <div class="marquee-item">Etsy</div>
+                    <div class="marquee-item">Target</div>
+                    <div class="marquee-item">Temu</div>
+                    <div class="marquee-item">Wayfair</div>
+                    <div class="marquee-item">Shein</div>
                 </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
-                    <span>Walmart</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
-                    <span>AliExpress</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
-                    <span>eBay</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/bestbuy-icon.png') }}" alt="Best Buy" class="marquee-icon">
-                    <span>Best Buy</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/etsy-icon.png') }}" alt="Etsy" class="marquee-icon">
-                    <span>Etsy</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/target-icon.png') }}" alt="Target" class="marquee-icon">
-                    <span>Target</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/temu-icon.png') }}" alt="Temu" class="marquee-icon">
-                    <span>Temu</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/amazon-icon.png') }}" alt="Amazon" class="marquee-icon">
-                    <span>Amazon</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/walmart-icon.png') }}" alt="Walmart" class="marquee-icon">
-                    <span>Walmart</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/aliexpress-icon.png') }}" alt="AliExpress" class="marquee-icon">
-                    <span>AliExpress</span>
-                </div>
-                <div class="marquee-item">
-                    <img src="{{ url_for('static', filename='images/ebay-icon.png') }}" alt="eBay" class="marquee-icon">
-                    <span>eBay</span>
+                <div class="marquee-content">
+                    <div class="marquee-item">Amazon</div>
+                    <div class="marquee-item">Walmart</div>
+                    <div class="marquee-item">AliExpress</div>
+                    <div class="marquee-item">eBay</div>
+                    <div class="marquee-item">Best Buy</div>
+                    <div class="marquee-item">Etsy</div>
+                    <div class="marquee-item">Target</div>
+                    <div class="marquee-item">Temu</div>
+                    <div class="marquee-item">Wayfair</div>
+                    <div class="marquee-item">Shein</div>
                 </div>
             </div>
         </div>
@@ -861,12 +1022,12 @@
     <section class="stats-section">
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-number" data-count="15K">0</div>
+                <div class="stat-number" data-count="15000">0</div>
                 <div class="stat-label">Happy Sellers</div>
             </div>
             
             <div class="stat-card">
-                <div class="stat-number" data-count="250k">0</div>
+                <div class="stat-number" data-count="250000">0</div>
                 <div class="stat-label">Products Analyzed</div>
             </div>
             
@@ -876,7 +1037,7 @@
             </div>
             
             <div class="stat-card">
-                <div class="stat-number" data-count="12">0</div>
+                <div class="stat-number" data-count="24">0</div>
                 <div class="stat-label">Hour Support</div>
             </div>
         </div>
@@ -889,11 +1050,67 @@
             <p class="section-subtitle">Don't just take our word for it - hear from our successful sellers</p>
         </div>
         
-        <div class="testimonials-slider">
-            <div class="testimonial-card">
-                <p class="testimonial-text">TrendFind helped me identify 3 winning products in my first month. The AI recommendations are spot on and the profit calculator saved me from making costly mistakes.</p>
-                <div class="testimonial-author">Sarah J.</div>
-                <div class="testimonial-role">Amazon FBA Seller</div>
+        <div class="testimonials-container">
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">TrendFind helped me identify 3 winning products in my first month. The AI recommendations are spot on and the profit calculator saved me from making costly mistakes.</p>
+                    <div class="testimonial-author">Sarah J.</div>
+                    <div class="testimonial-role">Amazon FBA Seller</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">I've tried several product research tools, but TrendFind's real-time data and competition analysis are unmatched. My store revenue has doubled since I started using it.</p>
+                    <div class="testimonial-author">Michael T.</div>
+                    <div class="testimonial-role">Shopify Store Owner</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The trend analysis feature helped me find a niche product before it went viral. I was able to establish my brand before the competition even knew it existed.</p>
+                    <div class="testimonial-author">Jessica L.</div>
+                    <div class="testimonial-role">Etsy Shop Owner</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">As a new seller, I was overwhelmed with product selection. TrendFind's AI recommendations gave me the confidence to choose products that actually sell.</p>
+                    <div class="testimonial-author">David K.</div>
+                    <div class="testimonial-role">Walmart Marketplace Seller</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The product vault is a game-changer. I can save potential products and compare them side by side. It's like having a personal research assistant.</p>
+                    <div class="testimonial-author">Emily R.</div>
+                    <div class="testimonial-role">Dropshipping Entrepreneur</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">I was skeptical about another product research tool, but TrendFind's accuracy in predicting trends has made it indispensable for my business.</p>
+                    <div class="testimonial-author">Robert P.</div>
+                    <div class="testimonial-role">Amazon Private Label Seller</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The competition analysis saved me from entering oversaturated markets. Now I only focus on products with real potential.</p>
+                    <div class="testimonial-author">Lisa M.</div>
+                    <div class="testimonial-role">E-commerce Consultant</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">TrendFind's real-time data from multiple marketplaces gives me a competitive edge. I can spot trends before my competitors even see them.</p>
+                    <div class="testimonial-author">James W.</div>
+                    <div class="testimonial-role">Multi-platform Seller</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">The profit calculator alone is worth the subscription. No more guessing about fees and margins - I know exactly what to expect.</p>
+                    <div class="testimonial-author">Olivia S.</div>
+                    <div class="testimonial-role">Handmade Goods Seller</div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-text">After 6 months using TrendFind, my product failure rate dropped from 50% to less than 10%. That's the power of data-driven decisions.</p>
+                    <div class="testimonial-author">Daniel H.</div>
+                    <div class="testimonial-role">E-commerce Veteran</div>
+                </div>
             </div>
         </div>
     </section>
@@ -980,6 +1197,18 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
+            
+            // Toggle the hamburger menu animation
+            const spans = document.querySelectorAll('.sidebar-toggle span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
         }
 
         // Dark Mode Toggle
