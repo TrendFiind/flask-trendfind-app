@@ -874,23 +874,25 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="header-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <div class="quick-links">
+                    <a href="/contact-us"><i class="fas fa-headset"></i> Support</a>
+                    <a href="/plan-details"><i class="fas fa-tags"></i> Pricing</a>
+                    <a href="/about-us"><i class="fas fa-question-circle"></i> How It Works</a>
+                    <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                </div>
+            </div>
 
             <div class="logo-container">
                 <a href="/">
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
                 </a>
-            </div>
-
-            <div class="quick-links">
-                <a href="/contact-us"><i class="fas fa-headset"></i> Support</a>
-                <a href="/plan-details"><i class="fas fa-tags"></i> Pricing</a>
-                <a href="/about-us"><i class="fas fa-question-circle"></i> How It Works</a>
-                <a href="/profile"><i class="fas fa-user"></i> Profile</a>
             </div>
 
             <button id="dark-mode-toggle" class="dark-mode-toggle">
