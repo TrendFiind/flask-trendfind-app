@@ -64,7 +64,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 20px 0;
+            padding: 15px 0;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
             z-index: 1000;
@@ -80,20 +80,26 @@
             padding: 0 20px;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
         .logo-container {
-            flex: 1;
-            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .logo {
-            height: 40px;
+            height: 35px;
             width: auto;
         }
 
         .quick-links {
             display: flex;
             gap: 25px;
-            margin-right: 20px;
         }
 
         .quick-links a {
@@ -131,17 +137,31 @@
             color: var(--primary);
             transform: rotate(20deg);
         }
-
+        
         .sidebar-toggle {
-            display: none;
             background: none;
             border: none;
             color: var(--light);
-            font-size: 1.5rem;
             cursor: pointer;
             padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--light);
+            margin: 3px 0;
+            transition: var(--transition);
+        }
+
+        .sidebar-toggle:hover span {
+            background: var(--primary);
+        }
+        
         /* Sidebar Styles */
         .sidebar {
             position: fixed;
@@ -804,6 +824,28 @@
             }
         }
 
+        @media (max-width: 992px) {
+            .quick-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 15px;
+            }
+            
+            .quick-links {
+                display: none;
+            }
+            
+            .logo-container {
+                position: static;
+                transform: none;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        
         @media (max-width: 576px) {
             .hero-title {
                 font-size: 2rem;
