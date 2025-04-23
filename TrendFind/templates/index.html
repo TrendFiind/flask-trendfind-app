@@ -58,41 +58,170 @@
             --card-border: rgba(0, 123, 255, 0.2);
         }
 
-        /* Header styles for both modes */
+        /* Header styles from plan-details */
         .header {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            padding: 15px 0;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        body.light-mode .header {
-            background: rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 35px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            position: relative;
+        }
+
+        .logo-container {
+            flex: 1;
+            text-align: center;
         }
 
         .logo {
-            height: 40px;
-            transition: all 0.3s ease;
+            width: 250px;
+            height: auto;
+            position: absolute;
+            left: 73.7%;
+            top: -72px;
+            transform: translateX(-50%);
+            transition: transform 0.3s ease-in-out;
         }
 
         .logo:hover {
-            transform: scale(1.05);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #007bff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar-toggle:hover span {
+            background-color: #0056b3;
+        }
+
+        /* Sidebar styles from plan-details */
+        .sidebar {
+            width: 280px;
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            left: -280px;
+            height: 100vh;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        body.light-mode .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .sidebar a {
+            color: #000;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        body.light-mode .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.2rem;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover i {
+            color: #0056b3;
+        }
+
+        body.dark-mode .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Video Background Hero */
@@ -227,7 +356,7 @@
             transform: translateX(3px);
         }
 
-        /* Retailer Marquee */
+        /* Retailer Marquee (removed Wayfair and Shein) */
         .retailer-marquee {
             position: absolute;
             bottom: 0;
@@ -330,6 +459,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
             text-align: center;
+            cursor: pointer;
         }
 
         .feature-card:hover {
@@ -426,7 +556,7 @@
             color: rgba(0, 0, 0, 0.8);
         }
 
-        /* Testimonials Section */
+        /* Testimonials Section - Modified to show one at a time */
         .testimonials-section {
             padding: 100px 0;
             background: var(--dark);
@@ -437,12 +567,7 @@
             margin: 0 auto;
             position: relative;
             padding: 0 20px;
-        }
-
-        .testimonials-slider {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            min-height: 300px;
         }
 
         .testimonial-card {
@@ -453,11 +578,14 @@
             border: 1px solid var(--card-border);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.3);
+        .testimonial-card.active {
+            opacity: 1;
         }
 
         .testimonial-text {
@@ -563,7 +691,7 @@
             box-shadow: 0 10px 30px rgba(0, 255, 234, 0.4);
         }
 
-        /* Footer */
+        /* Footer - Simplified version */
         .footer {
             padding: 50px 0 20px;
             background: var(--darker);
@@ -611,148 +739,11 @@
             padding-left: 5px;
         }
 
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            color: #000;
-            transform: translateY(-3px);
-        }
-
         .copyright {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 40px;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 280px;
-            background: rgba(30, 30, 30, 0.95);
-            backdrop-filter: blur(15px);
-            position: fixed;
-            top: 0;
-            left: -280px;
-            height: 100vh;
-            z-index: 1000;
-            padding: 80px 20px 20px;
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
-        body.light-mode .sidebar {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar a {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 12px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        body.light-mode .sidebar a {
-            color: #000;
-        }
-
-        .sidebar a:hover {
-            background-color: rgba(0, 123, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        body.light-mode .sidebar a:hover {
-            background-color: rgba(0, 123, 255, 0.1);
-        }
-
-        /* Sidebar Toggle Button */
-        .sidebar-toggle {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1001;
-        }
-
-        .sidebar-toggle span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: var(--primary);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        body.light-mode .sidebar-toggle span {
-            background-color: var(--secondary);
-        }
-
-        /* Dark Mode Toggle Button */
-        .dark-mode-toggle {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1001;
-        }
-
-        .dark-mode-toggle i {
-            font-size: 1.2rem;
-            color: var(--primary);
-            transition: color 0.3s ease;
-        }
-
-        body.light-mode .dark-mode-toggle i {
-            color: var(--secondary);
         }
 
         /* Animations */
@@ -873,7 +864,7 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header (from plan-details) -->
     <header class="header">
         <div class="header-content">
             <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
@@ -881,20 +872,18 @@
                 <span></span>
                 <span></span>
             </button>
-
             <div class="logo-container">
                 <a href="/">
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
                 </a>
             </div>
-
             <button id="dark-mode-toggle" class="dark-mode-toggle">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
     </header>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (from plan-details) -->
     <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
         <ul>
             <li><a href="/">Home</a></li>
@@ -929,7 +918,7 @@
             </div>
         </div>
         
-        <!-- Retailer Marquee -->
+        <!-- Retailer Marquee (removed Wayfair and Shein) -->
         <div class="retailer-marquee">
             <div class="marquee-container">
                 <div class="marquee-content">
@@ -941,8 +930,6 @@
                     <div class="marquee-item">Etsy</div>
                     <div class="marquee-item">Target</div>
                     <div class="marquee-item">Temu</div>
-                    <div class="marquee-item">Wayfair</div>
-                    <div class="marquee-item">Shein</div>
                 </div>
                 <div class="marquee-content">
                     <div class="marquee-item">Amazon</div>
@@ -953,15 +940,13 @@
                     <div class="marquee-item">Etsy</div>
                     <div class="marquee-item">Target</div>
                     <div class="marquee-item">Temu</div>
-                    <div class="marquee-item">Wayfair</div>
-                    <div class="marquee-item">Shein</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features-section">
+    <section class="features-section" id="features">
         <div class="section-header">
             <h2 class="section-title">Powerful Features</h2>
             <p class="section-subtitle">Everything you need to find winning products and grow your ecommerce business</p>
@@ -1043,7 +1028,7 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+    <!-- Testimonials Section (modified to show one at a time) -->
     <section class="testimonials-section">
         <div class="section-header">
             <h2 class="section-title">Success Stories</h2>
@@ -1051,66 +1036,64 @@
         </div>
         
         <div class="testimonials-container">
-            <div class="testimonials-slider">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">TrendFind helped me identify 3 winning products in my first month. The AI recommendations are spot on and the profit calculator saved me from making costly mistakes.</p>
-                    <div class="testimonial-author">Sarah J.</div>
-                    <div class="testimonial-role">Amazon FBA Seller</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">I've tried several product research tools, but TrendFind's real-time data and competition analysis are unmatched. My store revenue has doubled since I started using it.</p>
-                    <div class="testimonial-author">Michael T.</div>
-                    <div class="testimonial-role">Shopify Store Owner</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">The trend analysis feature helped me find a niche product before it went viral. I was able to establish my brand before the competition even knew it existed.</p>
-                    <div class="testimonial-author">Jessica L.</div>
-                    <div class="testimonial-role">Etsy Shop Owner</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">As a new seller, I was overwhelmed with product selection. TrendFind's AI recommendations gave me the confidence to choose products that actually sell.</p>
-                    <div class="testimonial-author">David K.</div>
-                    <div class="testimonial-role">Walmart Marketplace Seller</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">The product vault is a game-changer. I can save potential products and compare them side by side. It's like having a personal research assistant.</p>
-                    <div class="testimonial-author">Emily R.</div>
-                    <div class="testimonial-role">Dropshipping Entrepreneur</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">I was skeptical about another product research tool, but TrendFind's accuracy in predicting trends has made it indispensable for my business.</p>
-                    <div class="testimonial-author">Robert P.</div>
-                    <div class="testimonial-role">Amazon Private Label Seller</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">The competition analysis saved me from entering oversaturated markets. Now I only focus on products with real potential.</p>
-                    <div class="testimonial-author">Lisa M.</div>
-                    <div class="testimonial-role">E-commerce Consultant</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">TrendFind's real-time data from multiple marketplaces gives me a competitive edge. I can spot trends before my competitors even see them.</p>
-                    <div class="testimonial-author">James W.</div>
-                    <div class="testimonial-role">Multi-platform Seller</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">The profit calculator alone is worth the subscription. No more guessing about fees and margins - I know exactly what to expect.</p>
-                    <div class="testimonial-author">Olivia S.</div>
-                    <div class="testimonial-role">Handmade Goods Seller</div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-text">After 6 months using TrendFind, my product failure rate dropped from 50% to less than 10%. That's the power of data-driven decisions.</p>
-                    <div class="testimonial-author">Daniel H.</div>
-                    <div class="testimonial-role">E-commerce Veteran</div>
-                </div>
+            <div class="testimonial-card active">
+                <p class="testimonial-text">TrendFind helped me identify 3 winning products in my first month. The AI recommendations are spot on and the profit calculator saved me from making costly mistakes.</p>
+                <div class="testimonial-author">Sarah J.</div>
+                <div class="testimonial-role">Amazon FBA Seller</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">I've tried several product research tools, but TrendFind's real-time data and competition analysis are unmatched. My store revenue has doubled since I started using it.</p>
+                <div class="testimonial-author">Michael T.</div>
+                <div class="testimonial-role">Shopify Store Owner</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">The trend analysis feature helped me find a niche product before it went viral. I was able to establish my brand before the competition even knew it existed.</p>
+                <div class="testimonial-author">Jessica L.</div>
+                <div class="testimonial-role">Etsy Shop Owner</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">As a new seller, I was overwhelmed with product selection. TrendFind's AI recommendations gave me the confidence to choose products that actually sell.</p>
+                <div class="testimonial-author">David K.</div>
+                <div class="testimonial-role">Walmart Marketplace Seller</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">The product vault is a game-changer. I can save potential products and compare them side by side. It's like having a personal research assistant.</p>
+                <div class="testimonial-author">Emily R.</div>
+                <div class="testimonial-role">Dropshipping Entrepreneur</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">I was skeptical about another product research tool, but TrendFind's accuracy in predicting trends has made it indispensable for my business.</p>
+                <div class="testimonial-author">Robert P.</div>
+                <div class="testimonial-role">Amazon Private Label Seller</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">The competition analysis saved me from entering oversaturated markets. Now I only focus on products with real potential.</p>
+                <div class="testimonial-author">Lisa M.</div>
+                <div class="testimonial-role">E-commerce Consultant</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">TrendFind's real-time data from multiple marketplaces gives me a competitive edge. I can spot trends before my competitors even see them.</p>
+                <div class="testimonial-author">James W.</div>
+                <div class="testimonial-role">Multi-platform Seller</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">The profit calculator alone is worth the subscription. No more guessing about fees and margins - I know exactly what to expect.</p>
+                <div class="testimonial-author">Olivia S.</div>
+                <div class="testimonial-role">Handmade Goods Seller</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">After 6 months using TrendFind, my product failure rate dropped from 50% to less than 10%. That's the power of data-driven decisions.</p>
+                <div class="testimonial-author">Daniel H.</div>
+                <div class="testimonial-role">E-commerce Veteran</div>
             </div>
         </div>
     </section>
@@ -1124,19 +1107,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (simplified) -->
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
                     <p>AI-powered product research platform for ecommerce sellers.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
                 </div>
                 
                 <div class="col-md-8">
@@ -1146,8 +1123,6 @@
                             <ul>
                                 <li><a href="/plan-details">Pricing</a></li>
                                 <li><a href="/features">Features</a></li>
-                                <li><a href="/integrations">Integrations</a></li>
-                                <li><a href="/updates">Updates</a></li>
                             </ul>
                         </div>
                         
@@ -1155,9 +1130,6 @@
                             <h4>Company</h4>
                             <ul>
                                 <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/careers">Careers</a></li>
-                                <li><a href="/blog">Blog</a></li>
-                                <li><a href="/press">Press</a></li>
                             </ul>
                         </div>
                         
@@ -1166,8 +1138,6 @@
                             <ul>
                                 <li><a href="/contact-us">Contact Us</a></li>
                                 <li><a href="/faq">FAQ</a></li>
-                                <li><a href="/help-center">Help Center</a></li>
-                                <li><a href="/community">Community</a></li>
                             </ul>
                         </div>
                         
@@ -1176,8 +1146,6 @@
                             <ul>
                                 <li><a href="/privacy">Privacy Policy</a></li>
                                 <li><a href="/terms">Terms of Service</a></li>
-                                <li><a href="/security">Security</a></li>
-                                <li><a href="/cookies">Cookie Policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1193,7 +1161,7 @@
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Sidebar Toggle
+        // Sidebar Toggle (from plan-details)
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
@@ -1211,7 +1179,7 @@
             }
         }
 
-        // Dark Mode Toggle
+        // Dark Mode Toggle (from plan-details)
         document.getElementById('dark-mode-toggle').addEventListener('click', function() {
             document.body.classList.toggle('light-mode');
             const icon = this.querySelector('i');
@@ -1227,7 +1195,7 @@
             }
         });
 
-        // Check for saved dark mode preference
+        // Check for saved dark mode preference (from plan-details)
         document.addEventListener('DOMContentLoaded', function() {
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const icon = darkModeToggle.querySelector('i');
@@ -1288,6 +1256,39 @@
         featureCards.forEach(card => {
             featureObserver.observe(card);
         });
+
+        // Make feature cards clickable to scroll to features section
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.getElementById('features').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Testimonial rotation (show one at a time, change every 7 seconds)
+        function rotateTestimonials() {
+            const testimonials = document.querySelectorAll('.testimonial-card');
+            let currentIndex = 0;
+            
+            // Hide all testimonials except the first one
+            testimonials.forEach((testimonial, index) => {
+                testimonial.classList.remove('active');
+                if (index === 0) {
+                    testimonial.classList.add('active');
+                }
+            });
+            
+            // Set interval to rotate testimonials
+            setInterval(() => {
+                testimonials[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % testimonials.length;
+                testimonials[currentIndex].classList.add('active');
+            }, 7000);
+        }
+
+        // Initialize testimonial rotation
+        document.addEventListener('DOMContentLoaded', rotateTestimonials);
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
