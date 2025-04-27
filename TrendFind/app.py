@@ -360,7 +360,7 @@ def google_authorize():
         
         session['user_id'] = user['id']
         session['user_email'] = user['email']
-        session['user_name'] = user.get('name', 'User')
+        session['user_name'] = user['name'] if 'name' in user.keys() and user['name'] else 'User'
         return redirect(url_for('profile'))
         
     except Exception as e:
