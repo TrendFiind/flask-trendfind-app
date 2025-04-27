@@ -307,7 +307,7 @@ def login():
             db = get_db()
             user = db.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
             
-            if user and check_password_hash(user["password"], password):
+            if user and user["password"] and check_password_hash(user["password"], password):
                 session["user_id"] = user["id"]
                 session["user_email"] = user["email"]
                 session["user_name"] = user["name"] if "name" in user and user["name"] else "User"
@@ -320,6 +320,7 @@ def login():
             flash("An error occurred during login", "error")
     
     return render_template("login.html")
+
 
 @app.route("/login/google")
 def google_login():
