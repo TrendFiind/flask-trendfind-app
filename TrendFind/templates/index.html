@@ -131,7 +131,7 @@
             background-color: #0056b3;
         }
 
-        /* Sidebar from plan-details page */
+        /* Sidebar - Made identical to other pages */
         .sidebar {
             width: 280px;
             background: rgba(30, 30, 30, 0.95);
@@ -295,15 +295,16 @@
             font-size: 1.5rem;
             max-width: 800px;
             margin: 0 auto 2.5rem;
-            color: var(--primary); /* Changed to primary color for better visibility */
+            color: var(--primary);
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         body.light-mode .hero-subtitle {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #000 !important; /* Changed from red to black */
+            font-weight: 700; /* Made thicker */
             text-shadow: none;
         }
-
+        
         /* Search Form */
         .search-container {
             max-width: 700px;
@@ -446,12 +447,13 @@
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto;
-            color: var(--primary); /* Changed to primary color */
+            color: var(--primary);
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         body.light-mode .section-subtitle {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #000 !important; /* Changed from red to black */
+            font-weight: 700; /* Made thicker */
             text-shadow: none;
         }
 
@@ -512,7 +514,7 @@
         }
 
         body.light-mode .feature-description {
-            color: #333; /* Dark text in light mode */
+            color: #333;
         }
 
         /* Stats Section */
@@ -562,12 +564,13 @@
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--primary); /* Changed to primary color */
+            color: var(--primary);
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
 
         body.light-mode .stat-label {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #000 !important; /* Changed from red to black */
+            font-weight: 700; /* Made thicker */
             text-shadow: none;
         }
 
@@ -612,7 +615,7 @@
         }
 
         body.light-mode .testimonial-text {
-            color: #333; /* Dark text in light mode */
+            color: #333;
         }
 
         .testimonial-text::before,
@@ -642,7 +645,8 @@
         }
 
         body.light-mode .testimonial-author {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #000 !important; /* Changed from red to black */
+            font-weight: 700; /* Made thicker */
         }
 
         .testimonial-role {
@@ -651,7 +655,8 @@
         }
 
         body.light-mode .testimonial-role {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #000 !important; /* Changed from red to black */
+            font-weight: 700; /* Made thicker */
         }
 
         /* CTA Section */
@@ -694,7 +699,8 @@
         }
 
         body.light-mode .cta-text {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #000 !important; /* Changed from red to black */
+            font-weight: 700; /* Made thicker */
             text-shadow: none;
         }
 
@@ -717,11 +723,11 @@
             box-shadow: 0 10px 30px rgba(0, 255, 234, 0.4);
         }
 
-        /* Footer */
+        /* Footer - Made to remain unchanged in both modes */
         .footer {
             padding: 50px 0 20px;
-            background: var(--darker);
-            color: rgba(255, 255, 255, 0.7);
+            background: #f8f9fa;
+            color: #333;
         }
 
         .footer-logo {
@@ -741,11 +747,7 @@
             font-weight: 700;
             font-size: 1.2rem;
             margin-bottom: 20px;
-            color: var(--primary);
-        }
-
-        body.light-mode .footer-links h4 {
-            color: #d10000; /* Vibrant red in light mode */
+            color: #333;
         }
 
         .footer-links ul {
@@ -759,28 +761,20 @@
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
+            color: #333;
             text-decoration: none;
             transition: var(--transition);
         }
 
         .footer-links a:hover {
-            color: var(--primary);
+            color: #007bff;
             padding-left: 5px;
-        }
-
-        body.light-mode .footer-links a {
-            color: rgba(0, 0, 0, 0.7);
-        }
-
-        body.light-mode .footer-links a:hover {
-            color: #d10000; /* Vibrant red in light mode */
         }
 
         .copyright {
             text-align: center;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             margin-top: 40px;
         }
 
