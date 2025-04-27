@@ -5,121 +5,461 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - TrendFind</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #00a8ff;
-            --secondary-color: #0077b6;
-            --dark-bg: #121826;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text-light: #f8f9fa;
-            --text-muted: #adb5bd;
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --text-dark: #333333;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             --border-radius: 12px;
-            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--dark-bg);
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
             color: var(--text-light);
+            min-height: 100vh;
+            background-image: url('/static/images/profile-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        .profile-section {
-            padding: 80px 20px;
-            min-height: calc(100vh - 120px);
+        body.light-mode {
+            background-color: var(--light);
+            color: var(--text-dark);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 123, 255, 0.2);
+            --text-muted: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Header (consistent with other pages) */
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 35px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .header {
+            background: rgba(30, 30, 30, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
             display: flex;
             align-items: center;
-        }
-
-        .profile-container {
-            max-width: 800px;
-            margin: 0 auto;
+            justify-content: space-between;
             width: 100%;
-        }
-
-        .profile-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            box-shadow: var(--box-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .profile-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .avatar-container {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 20px;
+            max-width: 1200px;
             position: relative;
         }
 
-        .profile-pic {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 3px solid var(--primary-color);
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(0, 168, 255, 0.3);
+        .logo-container {
+            flex: 1;
+            text-align: center;
         }
 
-        .edit-avatar {
+        .logo {
+            width: 250px;
+            height: auto;
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: var(--primary-color);
+            left: 73.7%;
+            top: -72px;
+            transform: translateX(-50%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #007bff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar-toggle:hover span {
+            background-color: #0056b3;
+        }
+
+        /* Sidebar (consistent with other pages) */
+        .sidebar {
+            width: 280px;
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            left: -280px;
+            height: 100vh;
+            z-index: 1000;
+            padding: 80px 20px 20px;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        body.light-mode .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        body.light-mode .sidebar a {
+            color: #000;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        body.light-mode .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* Sidebar Font Weight Fix */
+        .sidebar ul li a {
+            font-weight: 700 !important;
+        }
+
+        body.dark-mode .sidebar ul li a {
+            color: #fff !important;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
             width: 40px;
             height: 40px;
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.2rem;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover i {
+            color: #0056b3;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            padding: 150px 20px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        /* Avatar Section */
+        .avatar-section {
+            flex: 0 0 280px;
+            position: relative;
+        }
+
+        .avatar-container {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 5px solid var(--primary);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 255, 234, 0.3);
+            transition: var(--transition);
+        }
+
+        .avatar-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 255, 234, 0.5);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-edit {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: white;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .edit-avatar:hover {
+        .avatar-edit:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+            background: var(--primary-dark);
         }
 
-        .profile-header h2 {
+        .avatar-edit i {
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        .avatar-upload {
+            display: none;
+        }
+
+        /* User Info Section */
+        .user-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .user-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .user-email {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .user-bio {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            min-width: 150px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--box-shadow);
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
             font-size: 2rem;
+            color: var(--primary);
             margin-bottom: 5px;
-            color: var(--text-light);
-            font-weight: 600;
         }
 
-        .member-status {
-            background: rgba(0, 168, 255, 0.1);
-            color: var(--primary-color);
-            padding: 6px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 0.85rem;
-            font-weight: 500;
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
         }
 
-        .profile-details {
-            background: rgba(0, 0, 0, 0.2);
+        /* Profile Content */
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Profile Card Styling */
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
             border-radius: var(--border-radius);
             padding: 30px;
-            margin: 30px 0;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .card-header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        /* Subscription Card */
+        .subscription-status {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-active {
+            background: rgba(40, 167, 69, 0.2);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background: rgba(220, 53, 69, 0.2);
+            color: var(--danger);
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: var(--warning);
+        }
+
+        .subscription-details {
+            margin-top: 20px;
         }
 
         .detail-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .detail-row {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
         }
 
         .detail-row:last-child {
@@ -127,71 +467,333 @@
         }
 
         .detail-label {
-            font-weight: 500;
+            font-weight: 600;
             color: var(--text-muted);
-            width: 120px;
-            flex-shrink: 0;
         }
 
         .detail-value {
-            font-weight: 400;
-            color: var(--text-light);
-            flex-grow: 1;
+            font-weight: 600;
             text-align: right;
         }
 
-        .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
+        .upgrade-btn {
+            width: 100%;
+            padding: 12px;
             border-radius: 8px;
-            padding: 10px 15px;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            margin-top: 20px;
         }
 
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(0, 168, 255, 0.25);
-            color: var(--text-light);
+        .upgrade-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
         }
 
-        .profile-actions {
+        /* Recent Activity */
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .activity-item {
             display: flex;
-            justify-content: center;
             gap: 15px;
-            margin-top: 30px;
+            padding: 15px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            padding: 10px 25px;
+        body.light-mode .activity-item {
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .activity-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Saved Products */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 168, 255, 0.3);
+        body.light-mode .product-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .btn-outline-danger {
-            padding: 10px 25px;
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .product-retailer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .product-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .view-btn {
+            background: rgba(0, 123, 255, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .remove-btn {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .product-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Settings Form */
+        .settings-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .settings-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .settings-form input,
+        .settings-form textarea,
+        .settings-form select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            color: var(--text-light);
+            transition: var(--transition);
         }
 
-        .btn-outline-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        body.light-mode .settings-form input,
+        body.light-mode .settings-form textarea,
+        body.light-mode .settings-form select {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
         }
 
-        /* Error message styling */
+        .settings-form input:focus,
+        .settings-form textarea:focus,
+        .settings-form select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 255, 234, 0.2);
+        }
+
+        .settings-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
+        }
+
+        /* Notification Toggle */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        body.light-mode .toggle-slider {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--text-light);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        body.light-mode .toggle-slider:before {
+            background-color: var(--text-dark);
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .user-stats {
+                justify-content: center;
+            }
+            
+            .avatar-section {
+                flex: 0 0 auto;
+            }
+            
+            .profile-container {
+                padding: 120px 15px 60px;
+            }
+            
+            .user-name {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stat-item {
+                min-width: 120px;
+                padding: 15px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Error Messages */
         .alert-container {
             position: fixed;
             top: 20px;
@@ -203,33 +805,6 @@
         .alert {
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .profile-card {
-                padding: 30px;
-            }
-            
-            .profile-details {
-                padding: 20px;
-            }
-            
-            .detail-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-            
-            .detail-value {
-                text-align: left;
-                width: 100%;
-            }
-            
-            .profile-actions {
-                flex-direction: column;
-                gap: 10px;
-            }
         }
     </style>
 </head>
@@ -283,45 +858,251 @@
         </ul>
     </nav>
 
-    <!-- Profile Section -->
-    <div class="profile-section">
-        <div class="profile-container">
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="avatar-container">
-                        <img src="{{ user.image or url_for('static', filename='images/default-profile.jpg') }}" 
-                             alt="Profile Picture" class="profile-pic" id="profile-pic">
-                        <div class="edit-avatar" onclick="document.getElementById('avatar-upload').click()">
-                            <i class="fas fa-camera"></i>
-                            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
-                        </div>
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="avatar-section">
+                <div class="avatar-container">
+                    <img src="{{ user.image or url_for('static', filename='images/default-profile.jpg') }}" 
+                         alt="Profile Picture" class="avatar-img" id="profile-avatar">
+                    <div class="avatar-edit" onclick="document.getElementById('avatar-upload').click()">
+                        <i class="fas fa-camera"></i>
                     </div>
-                    <h2 id="username-display">{{ user.name or 'User' }}</h2>
-                    <span class="member-status">Member since {{ user.created_at[:10] }}</span>
+                    <input type="file" id="avatar-upload" accept="image/*" class="avatar-upload">
                 </div>
-
-                <form method="POST" action="{{ url_for('update_profile') }}" class="profile-details">
+            </div>
+            
+            <div class="user-info">
+                <h1 class="user-name" id="username-display">{{ user.name or 'User' }}</h1>
+                <p class="user-email">{{ user.email }}</p>
+                <p class="user-bio" id="user-bio">
+                    {% if user.bio %}
+                        {{ user.bio }}
+                    {% else %}
+                        E-commerce enthusiast using TrendFind to discover profitable products before they trend.
+                        Member since {{ user.created_at[:10] }}.
+                    {% endif %}
+                </p>
+                
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">{{ user.saved_products|length or 0 }}</div>
+                        <div class="stat-label">Saved Products</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{ user.searches or 0 }}</div>
+                        <div class="stat-label">Total Searches</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{ user.member_days or 0 }}</div>
+                        <div class="stat-label">Days as Member</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">{{ user.plan_usage or '0%' }}</div>
+                        <div class="stat-label">Plan Usage</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Subscription Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h2 class="card-title">Subscription Plan</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                </div>
+                
+                <div class="subscription-details">
+                    <span class="subscription-status status-active">Active</span>
+                    
                     <div class="detail-row">
-                        <span class="detail-label">Full Name:</span>
-                        <input type="text" name="name" class="form-control" value="{{ user.name or '' }}" required>
+                        <span class="detail-label">Current Plan:</span>
+                        <span class="detail-value">Pro Monthly</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Email:</span>
-                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                        <span class="detail-label">Next Billing Date:</span>
+                        <span class="detail-value">June 15, 2025</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Member Since:</span>
-                        <span class="detail-value">{{ user.created_at[:10] }}</span>
+                        <span class="detail-label">Billing Amount:</span>
+                        <span class="detail-value">$29.00</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Payment Method:</span>
+                        <span class="detail-value">Visa ****4242</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Daily Searches:</span>
+                        <span class="detail-value">87/100</span>
                     </div>
                     
-                    <div class="profile-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i>Save Changes
-                        </button>
-                        <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">
-                            <i class="fas fa-sign-out-alt me-2"></i>Log Out
-                        </a>
+                    <button class="upgrade-btn" onclick="window.location.href='/plan-details'">
+                        <i class="fas fa-rocket me-2"></i>Upgrade Plan
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Activity</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
                     </div>
+                </div>
+                
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4 class="activity-title">Product Search</h4>
+                            <p class="activity-description">Searched for "fitness trackers" on Amazon</p>
+                            <p class="activity-time">2 hours ago</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-save"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4 class="activity-title">Product Saved</h4>
+                            <p class="activity-description">Saved "Wireless Earbuds" to your collection</p>
+                            <p class="activity-time">5 hours ago</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4 class="activity-title">Trend Alert</h4>
+                            <p class="activity-description">"Yoga Mats" trending with 45% increase</p>
+                            <p class="activity-time">1 day ago</p>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4 class="activity-title">Notification</h4>
+                            <p class="activity-description">New feature: Social media trend analysis</p>
+                            <p class="activity-time">2 days ago</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Saved Products -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h2 class="card-title">Saved Products</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71zny7BTRlL._AC_UL320_.jpg" alt="Product" class="product-image">
+                        <div class="product-info">
+                            <h4 class="product-title">Wireless Bluetooth Earbuds</h4>
+                            <div class="product-price">$29.99</div>
+                            <div class="product-retailer">
+                                <i class="fab fa-amazon"></i> Amazon
+                            </div>
+                            <div class="product-actions">
+                                <button class="product-btn view-btn">View</button>
+                                <button class="product-btn remove-btn">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/61L5QgPvgxL._AC_UL320_.jpg" alt="Product" class="product-image">
+                        <div class="product-info">
+                            <h4 class="product-title">Fitness Tracker Watch</h4>
+                            <div class="product-price">$49.99</div>
+                            <div class="product-retailer">
+                                <i class="fab fa-amazon"></i> Amazon
+                            </div>
+                            <div class="product-actions">
+                                <button class="product-btn view-btn">View</button>
+                                <button class="product-btn remove-btn">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71s1LRpaprL._AC_UL320_.jpg" alt="Product" class="product-image">
+                        <div class="product-info">
+                            <h4 class="product-title">Yoga Mat Non-Slip</h4>
+                            <div class="product-price">$24.95</div>
+                            <div class="product-retailer">
+                                <i class="fab fa-amazon"></i> Amazon
+                            </div>
+                            <div class="product-actions">
+                                <button class="product-btn view-btn">View</button>
+                                <button class="product-btn remove-btn">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="upgrade-btn mt-3" onclick="window.location.href='/saved-products'">
+                    <i class="fas fa-arrow-right me-2"></i>View All Saved Products
+                </button>
+            </div>
+            
+            <!-- Account Settings -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h2 class="card-title">Account Settings</h2>
+                    <div class="card-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+                
+                <form class="settings-form" method="POST" action="{{ url_for('update_profile') }}">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" value="{{ user.name or '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bio">Bio/Description</label>
+                        <textarea id="bio" name="bio" placeholder="Tell us about yourself...">{{ user.bio or '' }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Notification Preferences</label>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Email Notifications</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <span>Trend Alerts</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
                 </form>
             </div>
         </div>
@@ -341,41 +1122,54 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
+            
+            // Toggle the hamburger menu animation
+            const spans = document.querySelectorAll('.sidebar-toggle span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
         }
 
         // Dark Mode Toggle
         document.getElementById('dark-mode-toggle').addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
             const icon = this.querySelector('i');
-            if (document.body.classList.contains('dark-mode')) {
+            
+            if (document.body.classList.contains('light-mode')) {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-                localStorage.setItem('darkMode', 'enabled');
+                localStorage.setItem('darkMode', 'disabled');
             } else {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
-                localStorage.setItem('darkMode', 'disabled');
+                localStorage.setItem('darkMode', 'enabled');
             }
         });
 
-        // Check for saved dark mode preference on page load
+        // Check for saved dark mode preference
         document.addEventListener('DOMContentLoaded', function() {
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const icon = darkModeToggle.querySelector('i');
             const darkMode = localStorage.getItem('darkMode');
 
-            if (darkMode === 'enabled') {
-                document.body.classList.add('dark-mode');
+            if (darkMode === 'disabled') {
+                document.body.classList.add('light-mode');
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
             } else {
-                document.body.classList.remove('dark-mode');
+                document.body.classList.remove('light-mode');
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
         });
 
-        // Avatar upload functionality
+        // Avatar Upload Functionality
         document.getElementById('avatar-upload').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const file = e.target.files[0];
@@ -396,7 +1190,7 @@
                 const reader = new FileReader();
                 
                 reader.onload = function(event) {
-                    document.getElementById('profile-pic').src = event.target.result;
+                    document.getElementById('profile-avatar').src = event.target.result;
                     // Here you would typically upload the image to the server
                     // Example: uploadAvatar(file);
                     showSuccess('Profile picture updated successfully!');
@@ -411,7 +1205,7 @@
         });
 
         // Form validation
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.querySelector('.settings-form').addEventListener('submit', function(e) {
             const email = this.querySelector('input[name="email"]').value;
             const name = this.querySelector('input[name="name"]').value;
             
@@ -474,6 +1268,42 @@
                 alert.classList.remove('show');
                 setTimeout(() => alert.remove(), 150);
             }, 5000);
+        }
+
+        // Animate stats on scroll
+        const statsSection = document.querySelector('.profile-header');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(statsSection);
+
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-value');
+            const durations = [1000, 1200, 800, 1500];
+            
+            stats.forEach((stat, index) => {
+                const target = parseInt(stat.textContent);
+                const duration = durations[index];
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        clearInterval(timer);
+                        stat.textContent = target;
+                    } else {
+                        stat.textContent = Math.floor(current);
+                    }
+                }, 16);
+            });
         }
     </script>
 </body>
