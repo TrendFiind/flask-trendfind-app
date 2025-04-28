@@ -460,6 +460,114 @@ def update_profile():
     flash("Profile updated successfully", "success")
     return redirect(url_for("profile"))
 
+@app.route("/update-avatar", methods=["POST"])
+@login_required
+def update_avatar():
+    if 'avatar' not in request.files:
+        return jsonify({"success": False, "message": "No file uploaded"}), 400
+    
+    file = request.files['avatar']
+    
+    # Validate file
+    if file.filename == '':
+        return jsonify({"success": False, "message": "No selected file"}), 400
+    
+    allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+    if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+        return jsonify({"success": False, "message": "Invalid file type"}), 400
+    
+    # Check file size (max 2MB)
+    if file.content_length > 2 * 1024 * 1024:
+        return jsonify({"success": False, "message": "File too large (max 2MB)"}), 400
+    
+    try:
+        # Save the file
+        filename = f"user_{session['user_id']}.{file.filename.rsplit('.', 1)[1].lower()}"
+        filepath = os.path.join(app.root_path, 'static', 'uploads', 'avatars', filename)
+        file.save(filepath)
+        
+        # Update database
+        db = get_db()
+        db.execute("UPDATE users SET image = ? WHERE id = ?", 
+                  (f"uploads/avatars/{filename}", session['user_id']))
+        db.commit()
+        
+        return jsonify({"success": True, "message": "Avatar updated successfully"})
+    
+    except Exception as e:
+        app.logger.error(f"Error updating avatar: {e}")
+        return jsonify({"success": False, "message": "Error updating avatar"}), 500
+
+@app.route("/update-security", methods=["POST"])
+@login_required
+def update_security():
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
+    two_factor = request.form.get('two_factor')
+    
+    db = get_db()
+    user = db.execute("SELECT * FROM users WHERE id = ?", (session['user_id'],)).fetchone()
+    
+    # Validate current password if changing password
+    if new_password:
+        if not current_password:
+            flash('Current password is required to change password', 'error')
+            return redirect(url_for('profile'))
+        
+        if not check_password_hash(user['password'], current_password):
+            flash('Current password is incorrect', 'error')
+            return redirect(url_for('profile'))
+        
+        # Update password
+        hashed_password = generate_password_hash(new_password)
+        db.execute("UPDATE users SET password = ? WHERE id = ?", 
+                  (hashed_password, session['user_id']))
+    
+    # Update two-factor setting
+    db.execute("UPDATE users SET two_factor = ? WHERE id = ?", 
+              (two_factor, session['user_id']))
+    
+    db.commit()
+    flash('Security settings updated successfully', 'success')
+    return redirect(url_for('profile'))
+
+@app.route("/update-notifications", methods=["POST"])
+@login_required
+def update_notifications():
+    product_alerts = request.form.get('product_alerts')
+    trend_updates = request.form.get('trend_updates')
+    security_alerts = request.form.get('security_alerts')
+    marketing_comms = request.form.get('marketing_comms')
+    
+    db = get_db()
+    db.execute("""
+        UPDATE users 
+        SET product_alerts = ?, trend_updates = ?, security_alerts = ?, marketing_comms = ?
+        WHERE id = ?
+    """, (product_alerts, trend_updates, security_alerts, marketing_comms, session['user_id']))
+    db.commit()
+    
+    flash('Notification preferences updated successfully', 'success')
+    return redirect(url_for('profile'))
+
+@app.route("/update-preferences", methods=["POST"])
+@login_required
+def update_preferences():
+    language = request.form.get('language')
+    default_dashboard = request.form.get('default_dashboard')
+    do_not_disturb = request.form.get('do_not_disturb') == 'on'
+    
+    db = get_db()
+    db.execute("""
+        UPDATE users 
+        SET language = ?, default_dashboard = ?, do_not_disturb = ?
+        WHERE id = ?
+    """, (language, default_dashboard, do_not_disturb, session['user_id']))
+    db.commit()
+    
+    flash('Preferences updated successfully', 'success')
+    return redirect(url_for('profile'))
+
 # ==================== SAVED PRODUCTS ROUTES ====================
 @app.route("/saved-products")
 @login_required
