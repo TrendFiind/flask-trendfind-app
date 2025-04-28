@@ -1163,6 +1163,52 @@ body.dark-mode .accordion-content p {
     box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
 }
 
+.valid {
+    color: #28a745;
+    text-decoration: line-through;
+}
+
+.valid:before {
+    content: "✓ ";
+}
+
+.form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 100%;
+    transition: var(--transition);
+}
+
+body.light-mode .form-select {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 255, 234, 0.25);
+}
+
+body.light-mode .form-select:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+body.light-mode .form-check-input:checked {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+
 /* Day Mode Sidebar Styles */
 .sidebar {
     width: 300px; /* Wider sidebar */
