@@ -896,38 +896,38 @@
     </style>
 </head>
 <body>
-    <!-- Header (from plan-details) -->
-    <header class="header">
-        <div class="header-content">
-            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="logo-container">
-                <a href="/">
-                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
-                </a>
-            </div>
-            <button id="dark-mode-toggle" class="dark-mode-toggle">
-                <i class="fas fa-moon"></i>
-            </button>
+<!-- Header with Sidebar Toggle -->
+<header class="header">
+    <div class="header-content">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="logo-container">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+            </a>
         </div>
-    </header>
+        <button id="dark-mode-toggle" class="dark-mode-toggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</header>
 
-    <!-- Sidebar (from plan-details) -->
-    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/saved-products">Saved Products</a></li>
-            <li><a href="/plan-details">Plan Details</a></li>
-            <li><a href="/faq">FAQ</a></li>
-            <li><a href="/about-us">About Us</a></li>
-            <li><a href="/contact-us">Contact Us</a></li>
-        </ul>
-    </nav>
-
+<!-- Sidebar Navigation -->
+<nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/saved-products">Saved Products</a></li>
+        <li><a href="/plan-details">Plan Details</a></li>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/about-us">About Us</a></li>
+        <li><a href="/contact-us">Contact Us</a></li>
+    </ul>
+</nav>
+    
     <!-- Hero Section with Video Background -->
     <section class="video-hero">
         <video autoplay muted loop playsinline class="video-background">
