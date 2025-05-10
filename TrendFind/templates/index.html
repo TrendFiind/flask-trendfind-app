@@ -105,83 +105,42 @@
             transform: translateX(-50%) scale(1.05);
         }
 
-/* ===== SIDEBAR STYLES (Consistent Across All Pages) ===== */
-.sidebar {
-    width: 280px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    position: fixed;
-    top: 0;
-    left: -280px;
-    height: 100vh;
-    z-index: 1000;
-    padding: 80px 20px 20px;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
 
-body.dark-mode .sidebar {
-    background: rgba(0, 0, 0, 0.95);
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
-}
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #007bff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
 
-.sidebar.open {
-    left: 0;
-}
+        .sidebar-toggle:hover span {
+            background-color: #0056b3;
+        }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        /* Sidebar Font Weight Fix */
+        .sidebar ul li a {
+            font-weight: 700 !important; /* Bold for all sidebar links */
+        }
 
-.sidebar li {
-    margin-bottom: 15px;
-}
+        body.dark-mode .sidebar ul li a {
+            color: #fff !important; /* White in dark mode */
+        }
 
-.sidebar a {
-    display: block;
-    color: #000;
-    text-decoration: none;
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 12px 20px;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
 
-body.dark-mode .sidebar a {
-    color: white;
-}
-
-.sidebar a:hover {
-    background-color: rgba(0, 123, 255, 0.1);
-    transform: translateX(5px);
-}
-
-body.dark-mode .sidebar a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.sidebar a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
-    transition: 0.5s;
-}
-
-.sidebar a:hover::before {
-    left: 100%;
-}
 
 /* Header Styles */
 .header {
@@ -233,33 +192,6 @@ body.dark-mode .header {
 
 .logo:hover {
     transform: translateX(-50%) scale(1.05);
-}
-
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    z-index: 1001;
-}
-
-.sidebar-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: #007bff;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.sidebar-toggle:hover span {
-    background-color: #0056b3;
 }
 
 /* Dark Mode Toggle */
@@ -986,37 +918,37 @@ body.dark-mode .header {
     </style>
 </head>
 <body>
-<!-- Header with Sidebar Toggle -->
-<header class="header">
-    <div class="header-content">
-        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="logo-container">
-            <a href="/">
-                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
-            </a>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
-        <button id="dark-mode-toggle" class="dark-mode-toggle">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
-</header>
+    </header>
 
-<!-- Sidebar Navigation -->
-<nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/saved-products">Saved Products</a></li>
-        <li><a href="/plan-details">Plan Details</a></li>
-        <li><a href="/faq">FAQ</a></li>
-        <li><a href="/about-us">About Us</a></li>
-        <li><a href="/contact-us">Contact Us</a></li>
-    </ul>
-</nav>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
     
     <!-- Hero Section with Video Background -->
     <section class="video-hero">
