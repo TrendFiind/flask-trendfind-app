@@ -368,7 +368,7 @@
     </style>
 </head>
 <body>
-    <!-- Header (matches plan-details exactly) -->
+    <!-- Header -->
     <header class="header">
         <div class="header-content">
             <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
@@ -378,16 +378,16 @@
             </button>
             <div class="logo-container">
                 <a href="/">
-                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
                 </a>
             </div>
-            <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
     </header>
 
-    <!-- Sidebar (identical to plan-details) -->
+    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
         <ul>
             <li><a href="/">Home</a></li>
