@@ -1,4 +1,4 @@
-mport os
+import os
 import requests
 import sqlite3
 import bleach
@@ -695,6 +695,10 @@ def contact_us():
 @app.route("/about-us")
 def about_us():
     return render_template("about-us.html")
+
+@app.route("/tbot")
+def tbot():
+    return render_template("tbot.html")
 
 @app.route("/faq")
 def faq():
