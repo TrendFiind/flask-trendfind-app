@@ -1,11 +1,7 @@
 import os
-import asyncio
-import aiohttp
-import asyncpg
-from datetime import datetime
-import logging
-from solana.rpc.async_api import AsyncClient
-from solders.pubkey import Pubkey
+import requests
+import sqlite3
+import bleach
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify, g
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
@@ -19,8 +15,8 @@ from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, Email
 from flask_limiter.util import get_remote_address
 from datetime import timedelta
-import sqlite3
-import bleach
+import logging
+from logging.handlers import RotatingFileHandler
 from bleach import clean
 
 # Load environment variables
@@ -59,179 +55,6 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
-# ==================== SOLANA TRADING BOT CONFIG ====================
-SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com"
-JUPITER_API_URL = "https://price.jup.ag/v4/price"
-RAYDIUM_API_URL = "https://api.raydium.io/v2/main/price"
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("SolanaBot")
-
-class SolanaBot:
-    def __init__(self):
-        self.client = None
-        self.session = None
-        self.token_cache = {}
-        self.active_tokens = []
-        self.last_updated = None
-        self.pg_pool = None
-        
-    async def initialize(self):
-        """Initialize connections"""
-        self.client = AsyncClient(SOLANA_RPC_URL)
-        self.session = aiohttp.ClientSession()
-        
-        # Initialize PostgreSQL connection pool
-        self.pg_pool = await asyncpg.create_pool(
-            user=os.getenv("DB_USER"),
-            password=os.getenv("DB_PASSWORD"),
-            database=os.getenv("DB_NAME"),
-            host=os.getenv("DB_HOST")
-        )
-        
-    async def close(self):
-        """Clean up connections"""
-        if self.client:
-            await self.client.close()
-        if self.session:
-            await self.session.close()
-        if self.pg_pool:
-            await self.pg_pool.close()
-            
-    async def discover_active_tokens(self):
-        """Discover active memecoins using Jupiter API"""
-        try:
-            params = {
-                "ids": "all",
-                "vsToken": "So11111111111111111111111111111111111111112"  # SOL
-            }
-            
-            async with self.session.get(JUPITER_API_URL, params=params) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    tokens = data.get('data', [])
-                    
-                    # Filter for memecoins (simple heuristic - low price and high volume)
-                    memecoins = [
-                        t for t in tokens 
-                        if float(t['price']) < 0.1 and float(t['volume24h']) > 1000
-                    ]
-                    
-                    self.active_tokens = memecoins[:50]  # Limit to top 50
-                    self.last_updated = datetime.now().isoformat()
-                    
-                    # Store in database
-                    await self.store_tokens_in_db(memecoins[:50])
-                    
-                    return memecoins[:50]
-                
-        except Exception as e:
-            logger.error(f"Error discovering tokens: {str(e)}")
-            return []
-            
-    async def store_tokens_in_db(self, tokens):
-        """Store discovered tokens in PostgreSQL database"""
-        if not self.pg_pool:
-            return
-            
-        try:
-            async with self.pg_pool.acquire() as conn:
-                # Create tables if they don't exist
-                await conn.execute('''
-                    CREATE TABLE IF NOT EXISTS tokens (
-                        id SERIAL PRIMARY KEY,
-                        token_address VARCHAR(56) NOT NULL UNIQUE,
-                        token_name VARCHAR(100),
-                        symbol VARCHAR(10),
-                        price NUMERIC(32, 9),
-                        volume_24h NUMERIC(32, 2),
-                        price_change_24h NUMERIC(10, 2),
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        last_updated TIMESTAMP
-                    )
-                ''')
-                
-                # Insert or update tokens
-                for token in tokens:
-                    await conn.execute('''
-                        INSERT INTO tokens (token_address, token_name, symbol, price, volume_24h, price_change_24h, last_updated)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7)
-                        ON CONFLICT (token_address) 
-                        DO UPDATE SET
-                            price = EXCLUDED.price,
-                            volume_24h = EXCLUDED.volume_24h,
-                            price_change_24h = EXCLUDED.price_change_24h,
-                            last_updated = EXCLUDED.last_updated
-                    ''', 
-                    token['id'],
-                    token.get('name'),
-                    token.get('symbol'),
-                    token.get('price'),
-                    token.get('volume24h'),
-                    token.get('price_change_24h'),
-                    datetime.now()
-                    )
-                    
-        except Exception as e:
-            logger.error(f"Error storing tokens in DB: {str(e)}")
-            
-    async def get_token_metadata(self, mint_address):
-        """Get token metadata from Solana chain"""
-        try:
-            if mint_address in self.token_cache:
-                return self.token_cache[mint_address]
-                
-            # Get token info
-            pubkey = Pubkey.from_string(mint_address)
-            account_info = await self.client.get_account_info(pubkey)
-            
-            if account_info.value:
-                # Basic metadata extraction
-                metadata = {
-                    'mint': mint_address,
-                    'decimals': 9,  # Default, would need proper parsing
-                    'supply': None,
-                    'owner': str(account_info.value.owner)
-                }
-                
-                self.token_cache[mint_address] = metadata
-                return metadata
-                
-        except Exception as e:
-            logger.error(f"Error getting metadata for {mint_address}: {str(e)}")
-            return None
-            
-    async def get_liquidity_data(self, mint_address):
-        """Get liquidity data from Raydium API"""
-        try:
-            async with self.session.get(f"{RAYDIUM_API_URL}?ids={mint_address}") as response:
-                if response.status == 200:
-                    data = await response.json()
-                    return data.get('data', {}).get(mint_address, {})
-        except Exception as e:
-            logger.error(f"Error getting liquidity for {mint_address}: {str(e)}")
-            return {}
-            
-    async def get_token_price(self, mint_address):
-        """Get token price from Jupiter API"""
-        try:
-            params = {
-                "ids": mint_address,
-                "vsToken": "So11111111111111111111111111111111111111112"  # SOL
-            }
-            
-            async with self.session.get(JUPITER_API_URL, params=params) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    return data.get('data', {}).get(mint_address, {})
-        except Exception as e:
-            logger.error(f"Error getting price for {mint_address}: {str(e)}")
-            return {}
-
-# Global bot instance
-bot = SolanaBot()
-
 # ==================== DATABASE SETUP ====================
 def get_db():
     if 'db' not in g:
@@ -240,14 +63,10 @@ def get_db():
     return g.db
 
 @app.teardown_appcontext
-async def shutdown(exception=None):
-    # Close SQLite connection
+def close_db(e=None):
     db = g.pop('db', None)
     if db is not None:
         db.close()
-    
-    # Close Solana bot connections
-    await bot.close()
 
 def init_db():
     with app.app_context():
@@ -281,7 +100,7 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users (id)
             )
         ''')
-        # Contact submissions table
+        # Contact submissions table (new)
         db.execute('''
             CREATE TABLE IF NOT EXISTS contact_submissions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -303,11 +122,12 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_DEBUG'] = True
-app.config['MAIL_SUPPRESS_SEND'] = False
-app.config['MAIL_TIMEOUT'] = 10
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')  # Your Gmail
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')  # App password (not regular password)
+app.config['MAIL_USE_SSL'] = False  # TLS is True, so SSL should be False
+app.config['MAIL_DEBUG'] = True  # For debugging
+app.config['MAIL_SUPPRESS_SEND'] = False  # Ensure sending is not suppressed
+app.config['MAIL_TIMEOUT'] = 10  # seconds
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
 mail = Mail(app)
 
@@ -409,8 +229,9 @@ def search_amazon_products(query):
                 "Retailer": "Amazon"
             })
 
-        # Filter out digital products
+        # Filter out digital products (original block list preserved)
         block_list = ["Kindle Store", "eBook", "Kindle Edition", "Audible Audiobook", 
+                    # ... (full original block list exactly as in your code)
                     "Cloud-Based Content Distribution"]
         products = [p for p in products if not any(b in p["Title"] for b in block_list)]
         products.sort(key=lambda x: int(x["Ratings Total"]), reverse=True)
@@ -475,65 +296,6 @@ def results():
                          query=query, 
                          retailer=retailer)
 
-# ==================== TRADING BOT ROUTES ====================
-@app.route("/tbot")
-async def tbot():
-    """Main trading bot page"""
-    if not bot.client:
-        await bot.initialize()
-        
-    # Get initial data
-    tokens = await bot.discover_active_tokens()
-    
-    # Get detailed data for first 5 tokens (for performance)
-    detailed_tokens = []
-    for token in tokens[:5]:
-        mint_address = token['id']
-        metadata = await bot.get_token_metadata(mint_address)
-        liquidity = await bot.get_liquidity_data(mint_address)
-        price_data = await bot.get_token_price(mint_address)
-        
-        detailed_tokens.append({
-            **token,
-            'metadata': metadata,
-            'liquidity': liquidity,
-            'price_data': price_data,
-            'last_updated': datetime.now().isoformat()
-        })
-    
-    return render_template("tbot.html", 
-                         tokens=detailed_tokens,
-                         last_updated=bot.last_updated)
-
-@app.route("/tbot/update")
-async def update_data():
-    """Endpoint for live updates"""
-    try:
-        tokens = await bot.discover_active_tokens()
-        
-        updated_tokens = []
-        for token in tokens[:5]:  # Limit to 5 for performance
-            mint_address = token['id']
-            liquidity = await bot.get_liquidity_data(mint_address)
-            price_data = await bot.get_token_price(mint_address)
-            
-            updated_tokens.append({
-                **token,
-                'liquidity': liquidity,
-                'price_data': price_data,
-                'last_updated': datetime.now().isoformat()
-            })
-            
-        return jsonify({
-            'success': True,
-            'tokens': updated_tokens,
-            'last_updated': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        logger.error(f"Update error: {str(e)}")
-        return jsonify({'success': False, 'error': str(e)})
-
 # ==================== AUTHENTICATION ROUTES ====================
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -558,6 +320,7 @@ def login():
             flash("An error occurred during login", "error")
     
     return render_template("login.html")
+
 
 @app.route("/login/google")
 def google_login():
@@ -636,6 +399,8 @@ def logout():
     session.clear()
     flash("You have been logged out", "success")
     return redirect(url_for("home"))
+
+
 
 # ==================== PROFILE ROUTES ====================
 @app.route("/profile")
@@ -732,6 +497,76 @@ def update_avatar():
     except Exception as e:
         app.logger.error(f"Error updating avatar: {e}")
         return jsonify({"success": False, "message": "Error updating avatar"}), 500
+
+@app.route("/update-security", methods=["POST"])
+@login_required
+def update_security():
+    current_password = request.form.get('current_password')
+    new_password = request.form.get('new_password')
+    two_factor = request.form.get('two_factor')
+    
+    db = get_db()
+    user = db.execute("SELECT * FROM users WHERE id = ?", (session['user_id'],)).fetchone()
+    
+    # Validate current password if changing password
+    if new_password:
+        if not current_password:
+            flash('Current password is required to change password', 'error')
+            return redirect(url_for('profile'))
+        
+        if not check_password_hash(user['password'], current_password):
+            flash('Current password is incorrect', 'error')
+            return redirect(url_for('profile'))
+        
+        # Update password
+        hashed_password = generate_password_hash(new_password)
+        db.execute("UPDATE users SET password = ? WHERE id = ?", 
+                  (hashed_password, session['user_id']))
+    
+    # Update two-factor setting
+    db.execute("UPDATE users SET two_factor = ? WHERE id = ?", 
+              (two_factor, session['user_id']))
+    
+    db.commit()
+    flash('Security settings updated successfully', 'success')
+    return redirect(url_for('profile'))
+
+@app.route("/update-notifications", methods=["POST"])
+@login_required
+def update_notifications():
+    product_alerts = request.form.get('product_alerts')
+    trend_updates = request.form.get('trend_updates')
+    security_alerts = request.form.get('security_alerts')
+    marketing_comms = request.form.get('marketing_comms')
+    
+    db = get_db()
+    db.execute("""
+        UPDATE users 
+        SET product_alerts = ?, trend_updates = ?, security_alerts = ?, marketing_comms = ?
+        WHERE id = ?
+    """, (product_alerts, trend_updates, security_alerts, marketing_comms, session['user_id']))
+    db.commit()
+    
+    flash('Notification preferences updated successfully', 'success')
+    return redirect(url_for('profile'))
+
+@app.route("/update-preferences", methods=["POST"])
+@login_required
+def update_preferences():
+    language = request.form.get('language')
+    default_dashboard = request.form.get('default_dashboard')
+    do_not_disturb = request.form.get('do_not_disturb') == 'on'
+    
+    db = get_db()
+    db.execute("""
+        UPDATE users 
+        SET language = ?, default_dashboard = ?, do_not_disturb = ?
+        WHERE id = ?
+    """, (language, default_dashboard, do_not_disturb, session['user_id']))
+    db.commit()
+    
+    flash('Preferences updated successfully', 'success')
+    return redirect(url_for('profile'))
 
 # ==================== SAVED PRODUCTS ROUTES ====================
 @app.route("/saved-products")
@@ -856,11 +691,14 @@ def contact_us():
             flash('Failed to process your message. Please try again later.', 'error')
     
     return render_template('contact-us.html', form=form)
-
 # ==================== OTHER PAGES ====================
 @app.route("/about-us")
 def about_us():
     return render_template("about-us.html")
+
+@app.route("/tbot")
+def tbot():
+    return render_template("tbot.html")
 
 @app.route("/faq")
 def faq():
@@ -869,11 +707,6 @@ def faq():
 @app.route("/plan-details")
 def plan_details():
     return render_template("plan-details.html")
-
-@app.before_first_request
-async def startup():
-    # Initialize the Solana bot
-    await bot.initialize()
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
