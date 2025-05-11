@@ -696,6 +696,10 @@ def contact_us():
 def about_us():
     return render_template("about-us.html")
 
+@app.route("/tbot")
+def tbot():
+    return render_template("tbot.html")
+
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
