@@ -539,24 +539,21 @@
     </style>
 </head>
 <body>
-    <!-- Header (matches other pages exactly) -->
-    <header class="header">
-        <div class="header-content">
-            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="logo-container">
-                <a href="/">
-                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
-                </a>
-            </div>
-            <button id="dark-mode-toggle" class="dark-mode-toggle">
-                <i class="fas fa-moon"></i>
-            </button>
+<!-- Header (matches other pages exactly) -->
+<header class="header">
+    <div class="header-content">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="logo-container">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+            </a>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Sidebar (matches other pages exactly) -->
     <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
