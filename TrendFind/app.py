@@ -246,7 +246,7 @@ def clean_input(input_str):
     """Sanitize user input to prevent XSS"""
     if input_str is None:
         return ''
-    return bleach.clean(str(input_str).strip()
+    return bleach.clean(str(input_str).strip())
 
 def track_user_activity(user_id, activity_type, details=None):
     """Record user activity in the database"""
@@ -255,6 +255,7 @@ def track_user_activity(user_id, activity_type, details=None):
         db.execute(
             "INSERT INTO user_activity (user_id, activity_type, activity_details) VALUES (?, ?, ?)",
             (user_id, clean_input(activity_type), clean_input(details))
+        )
         db.commit()
     except Exception as e:
         app.logger.error(f"Error tracking activity: {e}")
