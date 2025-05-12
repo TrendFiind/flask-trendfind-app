@@ -127,20 +127,22 @@ google = oauth.register(
 
 # ==================== DATABASE ====================
 def get_db():
+    """Get database connection with row factory"""
     if 'db' not in g:
-        result = urlparse(os.environ['DATABASE_URL'])
-        username = result.username
-        password = result.password
-        database = result.path[1:]
-        hostname = result.hostname
-        port = result.port
-        g.db = psycopg2.connect(
-            database=database,
-            user=username,
-            password=password,
-            host=hostname,
-            port=port
-        )
+        # Use SQLite for local development if DATABASE_URL isn't set
+        if 'DATABASE_URL' not in os.environ:
+            g.db = sqlite3.connect(app.config['DATABASE'])
+            g.db.row_factory = sqlite3.Row
+        else:
+            # Use PostgreSQL in production
+            result = urlparse(os.environ['DATABASE_URL'])
+            g.db = psycopg2.connect(
+                database=result.path[1:],
+                user=result.username,
+                password=result.password,
+                host=result.hostname,
+                port=result.port
+            )
     return g.db
 
 @app.teardown_appcontext
@@ -154,6 +156,20 @@ def init_db():
     """Initialize database with required tables"""
     with app.app_context():
         db = get_db()
+        cur = db.cursor()
+        
+        # Check if users table exists
+        cur.execute("""
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_name = 'users'
+            );
+        """)
+        
+        if not cur.fetchone()[0]:
+            # Create all tables
+            # ... your table creation SQL here ...
+            db.commit()
         
         # Enable foreign key constraints
         db.execute("PRAGMA foreign_keys = ON")
