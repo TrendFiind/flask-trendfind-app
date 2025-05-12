@@ -773,6 +773,11 @@ def saved_products():
     ).fetchall()
     return render_template("saved-products.html", products=products)
 
+@app.route('/initdb')
+def initdb():
+    init_db()
+    return 'Database initialized', 200
+
 @app.route("/save-product", methods=["POST"])
 @login_required
 def save_product():
