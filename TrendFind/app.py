@@ -28,6 +28,7 @@ Database Schema:
 
 import os
 import re
+import psycopg2
 import sqlite3
 import bleach
 from datetime import datetime, timedelta
@@ -40,6 +41,7 @@ from flask import (
 )
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
+from urllib.parse import urlparse
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from flask_wtf.csrf import CSRFProtect, CSRFError, generate_csrf
@@ -125,10 +127,20 @@ google = oauth.register(
 
 # ==================== DATABASE ====================
 def get_db():
-    """Get database connection with row factory"""
     if 'db' not in g:
-        g.db = sqlite3.connect(app.config['DATABASE'])
-        g.db.row_factory = sqlite3.Row
+        result = urlparse(os.environ['DATABASE_URL'])
+        username = result.username
+        password = result.password
+        database = result.path[1:]
+        hostname = result.hostname
+        port = result.port
+        g.db = psycopg2.connect(
+            database=database,
+            user=username,
+            password=password,
+            host=hostname,
+            port=port
+        )
     return g.db
 
 @app.teardown_appcontext
@@ -929,7 +941,8 @@ def plan_details():
 # ==================== MAIN APPLICATION ====================
 if __name__ == "__main__":
     # Initialize database
-    init_db()
+    with app.app_context():
+        init_db()
     
     # Configure logging
     if not app.debug:
