@@ -41,6 +41,7 @@ from flask import (
 )
 from flask_mail import Mail, Message
 from authlib.integrations.flask_client import OAuth
+from flask_sqlalchemy import SQLAlchemy
 from urllib.parse import urlparse
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
