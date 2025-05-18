@@ -95,36 +95,42 @@ google = oauth.register(
 # ---------------------------------------------------------------------------
 class DBWrapper:
     """
-    Thin layer so the rest of the code can write:
+    Uniform wrapper so the rest of the code can do:
 
         db = get_db()
         db.execute(sql, params)
         rows = db.fetchall()
         db.commit()
 
-    regardless of whether we're on psycopg2 (Postgres) or sqlite3.
+    and it works on both Postgres (psycopg2) and SQLite.
     """
 
     def __init__(self, conn, is_sqlite: bool):
         self.conn      = conn
         self.is_sqlite = is_sqlite
 
-    # ――― Delegates ――― #
-    def commit(self)   -> None:                       self.conn.commit()
-    def rollback(self) -> None:                       self.conn.rollback()
-    def close(self)    -> None:                       self.conn.close()
+    # ─── Basic delegates ────────────────────────────────────────────────
+    def commit(self)   -> None: self.conn.commit()
+    def rollback(self) -> None: self.conn.rollback()
+    def close(self)    -> None: self.conn.close()
 
-    # ――― Cursor helpers ――― #
+    # ─── Internal cursor helper ────────────────────────────────────────
     def _cursor(self):
         if self.is_sqlite:
             return self.conn.cursor()
+        # RealDictCursor → rows behave like dicts (column names as keys)
         return self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
+    # ─── Execute (auto-converts “?” → “%s” for Postgres) ───────────────
     def execute(self, sql: str, params: Sequence[Any] | None = None):
+        if not self.is_sqlite:
+            # psycopg2 expects %s placeholders; SQLite uses ?
+            sql = sql.replace("?", "%s")
         cur = self._cursor()
         cur.execute(sql, params or ())
         return cur
 
+    # ─── Convenience helpers ───────────────────────────────────────────
     def fetchone(self, *args, **kwargs):
         return self.execute(*args, **kwargs).fetchone()
 
