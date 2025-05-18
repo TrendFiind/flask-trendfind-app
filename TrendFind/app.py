@@ -11,7 +11,7 @@ import os
 import re
 import sqlite3
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta 
 from functools import wraps
 from typing import Any, Dict, Optional, Sequence
 from urllib.parse import urlparse
@@ -89,6 +89,12 @@ google = oauth.register(
     server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
     client_kwargs={"scope": "openid email profile", "prompt": "select_account"}
 )
+
+@app.template_filter("date_only")
+def date_only(value):
+    if isinstance(value, datetime):
+        return value.strftime("%Y-%m-%d")
+    return value
 
 # ---------------------------------------------------------------------------
 #  Database layer
