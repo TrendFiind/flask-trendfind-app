@@ -938,7 +938,7 @@
                 <div class="profile-info">
                     <h1 class="profile-name" id="profile-name">{{ user.name or 'User' }}</h1>
                     <p class="profile-email">{{ user.email }}</p>
-                    <span class="member-since">Member since {{ user.created_at[:10] }}</span>
+                    <span class="member-since">Member since {{ user.created_at|date_only }}</span>
                 </div>
             </div>
 
