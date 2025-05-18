@@ -730,9 +730,18 @@ def contact_us():
     return render_template("contact-us.html", form=form)
 
 # Static pages
-@app.route("/about-us")     def about_us():     return render_template("about-us.html")
-@app.route("/faq")          def faq():          return render_template("faq.html")
-@app.route("/plan-details") def plan_details(): return render_template("plan-details.html")
+# ── Static pages ──────────────────────────────────────────────────────────
+@app.route("/about-us")
+def about_us():
+    return render_template("about-us.html")
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
+@app.route("/plan-details")
+def plan_details():
+    return render_template("plan-details.html")
 
 # Quick admin endpoint to (re)create DB
 @app.route("/initdb")
