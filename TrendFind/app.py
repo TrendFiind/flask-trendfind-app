@@ -1,46 +1,12 @@
 """
-TrendFind - Product Discovery Platform
-Core Application File (app.py)
-
-Features:
-- User authentication (email + password, Google OAuth)
-- Product search and saving
-- User profile management
-- Billing/subscription system
-- Activity tracking and analytics
-
-Security Features:
-- CSRF protection
-- Rate limiting
-- Secure headers
-- Input sanitization
-- Password hashing
-- Session security
-
-Database Schema:
-- users: Core user accounts
-- saved_products: User's saved products
-- user_stats: User activity statistics
-- billing_info: Payment/subscription data
-- user_activity: Activity log
-- contact_submissions: Contact form entries
-"""
-
-"""
 TrendFind – Full Application (Fixed & Refactored)
 =================================================
-
-• Robust database layer: works on Heroku Postgres **and** local SQLite.
-• Google OAuth & password login.
-• CSRF, rate-limiting, secure headers, mail, bleach sanitisation.
-• All original business logic retained, but refactored for clarity.
+Robust database layer, Google OAuth, CSRF, etc.
 """
 
-from __future__ import annotations           # ← must be immediately after the doc-string
+from __future__ import annotations          # ← line 6
 
-# ---------------------------------------------------------------------------
-#  Standard library
-# ---------------------------------------------------------------------------
+# ----------------- standard library -----------------
 import os
 import re
 import sqlite3
