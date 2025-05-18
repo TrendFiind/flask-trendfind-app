@@ -37,7 +37,7 @@ TrendFind – Full Application (Fixed & Refactored)
 
 """
 
-from __future__ import annotations
+from __future__ import annotations      # ← must sit right here
 
 # ---------------------------------------------------------------------------
 #  Standard library
