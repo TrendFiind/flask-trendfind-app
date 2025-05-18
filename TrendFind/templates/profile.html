@@ -999,7 +999,7 @@
                                 <div class="info-item">
                                     <div class="info-label">Member Since</div>
                                     <div class="info-value">
-                                        <input type="text" value="{{ user.created_at[:10] }}" readonly>
+                                        <input type="text" value="{{ user.created_at|date_only }}" readonly>
                                     </div>
                                 </div>
                             </div>
