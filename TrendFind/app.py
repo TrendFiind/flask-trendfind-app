@@ -412,19 +412,34 @@ def login():
         email = clean(request.form.get("email")).lower()
         pw    = request.form.get("password", "")
 
-        user = get_db().fetchone("SELECT * FROM users WHERE email = ?", (email,))
-        if user and check_password_hash(user["password"], pw):
+        db   = get_db()
+        user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
+
+        # 1. Account exists but was created via Google OAuth (no password stored)
+        if user and not user["password"]:
+            flash("That account was created with Google login. "
+                  "Click “Log in with Google” or set a password on your profile page.",
+                  "error")
+            return redirect(url_for("login"))
+
+        # 2. Standard email-and-password check (only if a hash exists)
+        if user and user["password"] and check_password_hash(user["password"], pw):
             session.update(
-                user_id   = user["id"],
-                user_name = user["name"] or "User",
-                user_email= user["email"]
+                user_id    = user["id"],
+                user_name  = user["name"] or "User",
+                user_email = user["email"],
             )
-            get_db().execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
-            get_db().commit()
-            track_activity(user["id"], "login", "Email/password")
+            db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?",
+                       (user["id"],))
+            db.commit()
+            track_activity(user["id"], "login", "email/pw")
             return redirect(url_for("profile"))
 
+        # 3. Anything else → invalid
         flash("Invalid credentials.", "error")
+        return redirect(url_for("login"))
+
+    # GET request → render form
     return render_template("login.html")
 
 @app.route("/login/google")
