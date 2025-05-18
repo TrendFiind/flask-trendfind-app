@@ -34,10 +34,9 @@ TrendFind – Full Application (Fixed & Refactored)
 • Google OAuth & password login.
 • CSRF, rate-limiting, secure headers, mail, bleach sanitisation.
 • All original business logic retained, but refactored for clarity.
-
 """
 
-from __future__ import annotations      # ← must sit right here
+from __future__ import annotations           # ← must be immediately after the doc-string
 
 # ---------------------------------------------------------------------------
 #  Standard library
