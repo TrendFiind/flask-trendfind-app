@@ -35,7 +35,6 @@ TrendFind – Full Application (Fixed & Refactored)
 • CSRF, rate-limiting, secure headers, mail, bleach sanitisation.
 • All original business logic retained, but refactored for clarity.
 
-Author: Allen Trbic (2025)
 """
 
 from __future__ import annotations
