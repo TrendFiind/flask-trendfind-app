@@ -251,6 +251,33 @@
             text-align: center;
         }
 
+        /* Sign Out Button */
+        .sign-out-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #ff3b30;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-weight: 600;
+            background: rgba(255, 59, 48, 0.1);
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .sign-out-btn:hover {
+            background: rgba(255, 59, 48, 0.2);
+            transform: translateX(5px);
+        }
+
+        .sign-out-btn i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
         /* Profile Content */
         .profile-content {
             background: var(--card-bg);
@@ -919,6 +946,7 @@
             <li><a href="/faq">FAQ</a></li>
             <li><a href="/about-us">About Us</a></li>
             <li><a href="/contact-us">Contact Us</a></li>
+            <li><button class="sign-out-btn" onclick="signOut()"><i class="fas fa-sign-out-alt"></i> Sign Out</button></li>
         </ul>
     </nav>
 
@@ -993,7 +1021,7 @@
                                 <div class="info-item">
                                     <div class="info-label">Account Type</div>
                                     <div class="info-value">
-                                        <input type="text" value="Premium Member" readonly>
+                                        <input type="text" value="{{ billing.plan_name if billing else 'Free' }}" readonly>
                                     </div>
                                 </div>
                                 <div class="info-item">
@@ -1011,19 +1039,19 @@
                         </div>
                         <div class="stats-grid">
                             <div class="stat-card">
-                                <div class="stat-number">47</div>
+                                <div class="stat-number">{{ stats.products_saved if stats else 0 }}</div>
                                 <div class="stat-label">Products Saved</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-number">12</div>
+                                <div class="stat-number">{{ stats.winning_finds if stats else 0 }}</div>
                                 <div class="stat-label">Winning Finds</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-number">83%</div>
+                                <div class="stat-number">{{ (stats.winning_finds / stats.products_saved * 100)|round(1) if stats and stats.products_saved > 0 else 0 }}%</div>
                                 <div class="stat-label">Success Rate</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-number">5</div>
+                                <div class="stat-number">{{ stats.active_projects if stats else 0 }}</div>
                                 <div class="stat-label">Active Projects</div>
                             </div>
                         </div>
@@ -1033,36 +1061,30 @@
                             <h2 class="content-title">Recent Activity</h2>
                         </div>
                         <ul class="activity-list">
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <h4 class="activity-title">Product Search</h4>
-                                    <p class="activity-description">You searched for "fitness trackers"</p>
-                                    <p class="activity-time">2 hours ago</p>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-save"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <h4 class="activity-title">Product Saved</h4>
-                                    <p class="activity-description">"Wireless Earbuds Pro" added to your saved products</p>
-                                    <p class="activity-time">1 day ago</p>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <h4 class="activity-title">Trend Alert</h4>
-                                    <p class="activity-description">"Yoga mats" showing 120% growth in last week</p>
-                                    <p class="activity-time">3 days ago</p>
-                                </div>
-                            </li>
+                            {% if activities %}
+                                {% for activity in activities %}
+                                <li class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-{{ 'search' if 'search' in activity.activity_type.lower() else 'save' if 'save' in activity.activity_type.lower() else 'chart-line' if 'trend' in activity.activity_type.lower() else 'user' }}"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h4 class="activity-title">{{ activity.activity_type }}</h4>
+                                        <p class="activity-description">{{ activity.activity_details or 'No details available' }}</p>
+                                        <p class="activity-time">{{ activity.activity_time|date_only }}</p>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h4 class="activity-title">No Recent Activity</h4>
+                                        <p class="activity-description">Your activity will appear here as you use TrendFind</p>
+                                    </div>
+                                </li>
+                            {% endif %}
                         </ul>
                     </div>
 
@@ -1078,21 +1100,21 @@
 
                         <div class="subscription-card">
                             <div class="subscription-header">
-                                <h3 class="subscription-title">Pro Plan</h3>
+                                <h3 class="subscription-title">{{ billing.plan_name if billing else 'Free' }} Plan</h3>
                                 <span class="subscription-badge">Active</span>
                             </div>
                             <div class="subscription-details">
                                 <div class="subscription-feature">
                                     <div class="feature-label">Billing Cycle</div>
-                                    <div class="feature-value">Monthly</div>
+                                    <div class="feature-value">{{ 'Monthly' if billing else 'Free (no billing)' }}</div>
                                 </div>
                                 <div class="subscription-feature">
                                     <div class="feature-label">Next Billing Date</div>
-                                    <div class="feature-value">June 15, 2025</div>
+                                    <div class="feature-value">{{ billing.next_billing_date|date_only if billing else 'N/A' }}</div>
                                 </div>
                                 <div class="subscription-feature">
                                     <div class="feature-label">Price</div>
-                                    <div class="feature-value">$29.00/month</div>
+                                    <div class="feature-value">${"{:.2f}".format(billing.plan_price) if billing else '0.00' }/month</div>
                                 </div>
                                 <div class="subscription-feature">
                                     <div class="feature-label">Status</div>
@@ -1111,19 +1133,19 @@
                         <div class="subscription-details">
                             <div class="subscription-feature">
                                 <div class="feature-label">Daily Searches</div>
-                                <div class="feature-value">100</div>
+                                <div class="feature-value">{{ '100' if billing and billing.plan_name == 'Pro' else '10' }}</div>
                             </div>
                             <div class="subscription-feature">
                                 <div class="feature-label">AI Recommendations</div>
-                                <div class="feature-value">Unlimited</div>
+                                <div class="feature-value">{{ 'Unlimited' if billing and billing.plan_name == 'Pro' else 'Limited' }}</div>
                             </div>
                             <div class="subscription-feature">
                                 <div class="feature-label">Social Media Analysis</div>
-                                <div class="feature-value">Included</div>
+                                <div class="feature-value">{{ 'Included' if billing and billing.plan_name == 'Pro' else 'Not Included' }}</div>
                             </div>
                             <div class="subscription-feature">
                                 <div class="feature-label">Supplier Comparisons</div>
-                                <div class="feature-value">5 per day</div>
+                                <div class="feature-value">{{ '5 per day' if billing and billing.plan_name == 'Pro' else '1 per day' }}</div>
                             </div>
                         </div>
                     </div>
@@ -1170,9 +1192,9 @@
                                     <div class="info-label">Two-Factor Authentication</div>
                                     <div class="info-value">
                                         <select name="two_factor" id="two-factor">
-                                            <option value="disabled">Disabled</option>
-                                            <option value="email">Email</option>
-                                            <option value="authenticator">Authenticator App</option>
+                                            <option value="disabled" {{ 'selected' if user.two_factor == 'disabled' else '' }}>Disabled</option>
+                                            <option value="email" {{ 'selected' if user.two_factor == 'email' else '' }}>Email</option>
+                                            <option value="authenticator" {{ 'selected' if user.two_factor == 'authenticator' else '' }}>Authenticator App</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1257,11 +1279,12 @@
                             </div>
                         </div>
 
+                        {% if billing %}
                         <div class="payment-card">
                             <div class="card-type">
-                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-{{ billing.card_brand or 'visa' }}"></i>
                             </div>
-                            <div class="card-number">•••• •••• •••• 4242</div>
+                            <div class="card-number">•••• •••• •••• {{ billing.card_last4 or '4242' }}</div>
                             <div class="card-details">
                                 <div class="card-detail">
                                     <div class="card-detail-label">Card Holder</div>
@@ -1269,10 +1292,24 @@
                                 </div>
                                 <div class="card-detail">
                                     <div class="card-detail-label">Expires</div>
-                                    <div>12/25</div>
+                                    <div>{{ billing.card_expiry or '12/25' }}</div>
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="payment-card">
+                            <div class="card-type">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="card-number">No payment method on file</div>
+                            <div class="card-details">
+                                <div class="card-detail">
+                                    <div class="card-detail-label">Plan</div>
+                                    <div>Free Tier</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
 
                         <div class="content-header">
                             <h2 class="content-title">Billing History</h2>
@@ -1282,7 +1319,7 @@
                             <div class="info-item">
                                 <div class="info-label">Recent Payments</div>
                                 <div class="info-value">
-                                    <p>Card details and plan details will appear here. You can view your full billing history below.</p>
+                                    <p>{% if billing %}Card details and plan details will appear here. You can view your full billing history below.{% else %}No billing history available for free accounts.{% endif %}</p>
                                 </div>
                             </div>
                         </div>
@@ -1290,15 +1327,15 @@
                         <div class="subscription-details">
                             <div class="subscription-feature">
                                 <div class="feature-label">Last Payment</div>
-                                <div class="feature-value">May 15, 2025 - $29.00</div>
+                                <div class="feature-value">{% if billing %}{{ billing.next_billing_date|date_only }} - ${"{:.2f}".format(billing.plan_price)}{% else %}N/A{% endif %}</div>
                             </div>
                             <div class="subscription-feature">
                                 <div class="feature-label">Next Billing Date</div>
-                                <div class="feature-value">June 15, 2025</div>
+                                <div class="feature-value">{{ billing.next_billing_date|date_only if billing else 'N/A' }}</div>
                             </div>
                             <div class="subscription-feature">
                                 <div class="feature-label">Billing Address</div>
-                                <div class="feature-value">123 Main St, Anytown, USA</div>
+                                <div class="feature-value">{{ billing.billing_address if billing else 'Not set' }}</div>
                             </div>
                         </div>
                     </div>
@@ -1313,10 +1350,12 @@
                             <div class="api-icon">
                                 <i class="fas fa-lock"></i>
                             </div>
-                            <h3>Enterprise Plan Required</h3>
-                            <p>You need to upgrade to the Enterprise plan to access our API features.</p>
+                            <h3>{% if billing and billing.plan_name == 'Enterprise' %}API Access Enabled{% else %}Enterprise Plan Required{% endif %}</h3>
+                            <p>{% if billing and billing.plan_name == 'Enterprise' %}Your API key: <code>TREND-API-{{ user.id }}-{{ user.created_at|date_only|replace('-','') }}</code>{% else %}You need to upgrade to the Enterprise plan to access our API features.{% endif %}</p>
                             <p>With API access, you can integrate TrendFind data directly into your own applications and workflows.</p>
+                            {% if not billing or billing.plan_name != 'Enterprise' %}
                             <button class="btn btn-primary" style="margin-top: 20px;">Upgrade to Enterprise</button>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -1330,7 +1369,7 @@
                             <div class="preference-card">
                                 <h4 class="preference-title"><i class="fas fa-palette"></i> Theme Preferences</h4>
                                 <p class="preference-description">Customize your dashboard appearance with light or dark mode.</p>
-                                <button class="btn btn-outline">Change Theme</button>
+                                <button class="btn btn-outline" onclick="toggleDarkMode()">Change Theme</button>
                             </div>
                             
                             <div class="preference-card">
@@ -1424,6 +1463,11 @@
                 localStorage.setItem('darkMode', 'enabled');
             }
         });
+
+        // Programmatic dark mode toggle
+        function toggleDarkMode() {
+            document.getElementById('dark-mode-toggle').click();
+        }
 
         // Check for saved dark mode preference
         document.addEventListener('DOMContentLoaded', function() {
@@ -1618,6 +1662,25 @@
                     showAlert('Password must be at least 8 characters', 'error');
                     return;
                 }
+            });
+        }
+
+        // Sign Out Functionality
+        function signOut() {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('Error signing out', 'error');
             });
         }
 
