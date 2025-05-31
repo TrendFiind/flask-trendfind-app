@@ -392,16 +392,22 @@ document.getElementById('dark-mode-toggle').addEventListener('click', function()
 });
 
 // Check for saved dark mode preference
-document.addEventListener('DOMContentLoaded', function() {
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    const icon = darkModeToggle.querySelector('i');
-    const darkMode = localStorage.getItem('darkMode');
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('dark-mode-toggle');
+  const icon = toggle.querySelector('i');
+  const prefersDark = localStorage.getItem('darkMode') === 'enabled';
 
-    if (darkMode === 'disabled') {
-        document.body.classList.add('light-mode');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    }
+  if (prefersDark) {
+     document.body.classList.add('dark-mode');
+     icon.classList.replace('fa-moon','fa-sun');
+  }
+
+  toggle.addEventListener('click', () => {
+     const darkEnabled = document.body.classList.toggle('dark-mode');
+     icon.classList.toggle('fa-sun', darkEnabled);
+     icon.classList.toggle('fa-moon', !darkEnabled);
+     localStorage.setItem('darkMode', darkEnabled ? 'enabled' : 'disabled');
+  });
 });
 
 // Close sidebar when clicking outside
