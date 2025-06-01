@@ -9,194 +9,553 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
-        /* Base Styles */
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            transition: all 0.3s ease;
-        }
+    :root {
+        --primary: #00ffea;
+        --primary-dark: #00c9b7;
+        --secondary: #007bff;
+        --dark: #121212;
+        --darker: #0a0a0a;
+        --light: #ffffff;
+        --card-bg: rgba(30, 30, 30, 0.7);
+        --card-border: rgba(0, 255, 234, 0.2);
+        --text-light: #ffffff;
+        --text-dark: #333333;
+        --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        body.dark-mode {
-            background-color: #121212;
-            color: #eee;
-        }
+    body {
+        font-family: 'Rajdhani', sans-serif;
+        background-color: var(--dark);
+        color: var(--text-light);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-image: url('/static/images/plan-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        overflow-x: hidden;
+    }
 
-        /* FAQ Section */
-        .faq-section {
-            padding: 100px 0;
-            text-align: center;
-        }
+    /* Light mode styles */
+    body.light-mode {
+        background-color: var(--light);
+        color: var(--text-dark);
+        --card-bg: rgba(30, 30, 30, 0.7);
+        --card-border: rgba(0, 123, 255, 0.2);
+    }
 
-        .faq-section h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 50px;
-            color: #000;
-            text-transform: uppercase;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    /* Header */
+    .header {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        padding: 35px 45px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-        body.dark-mode .faq-section h1 {
-            color: #00ffea;
-            text-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
-        }
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1200px;
+        position: relative;
+    }
 
-        .faq-accordion {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    .logo-container {
+        flex: 1;
+        text-align: center;
+    }
 
-        /* Accordion Items */
-        .accordion-item {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
+    .logo {
+        width: 250px;
+        height: auto;
+        position: absolute;
+        left: 73.7%;
+        top: -72px;
+        transform: translateX(-50%);
+        transition: transform 0.3s ease-in-out;
+    }
 
-        body.dark-mode .accordion-item {
-            background: rgba(30, 30, 30, 0.95);
-            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.1);
-        }
+    .logo:hover {
+        transform: translateX(-50%) scale(1.05);
+    }
 
-        .accordion-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
-        }
+    .sidebar-toggle {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 1001;
+    }
 
-        body.dark-mode .accordion-item:hover {
-            box-shadow: 0 8px 25px rgba(0, 255, 234, 0.2);
-        }
+    .sidebar-toggle span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #007bff;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
 
-        /* Accordion Button */
-        .accordion-button {
-            background: transparent;
-            border: none;
-            width: 100%;
-            text-align: left;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #000; /* Black in light mode */
-            cursor: pointer;
-            padding: 20px;
-            font-family: 'Rajdhani', sans-serif;
-            position: relative;
-            transition: all 0.3s ease;
-        }
+    .sidebar-toggle:hover span {
+        background-color: #0056b3;
+    }
 
-        /* Line effect for light mode */
-        .accordion-button::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 20px;
-            right: 20px;
-            height: 1px;
-            background: #000; /* Black line in light mode */
-            transition: all 0.3s ease;
-            opacity: 0;
-        }
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        transition: all 0.3s ease;
+        padding: 80px 30px 30px;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+    }
 
-        .accordion-button:hover::after {
-            opacity: 1;
-        }
+    .sidebar.open {
+        left: 0;
+    }
 
-        /* Dark mode styles */
-        body.dark-mode .accordion-button {
-            color: #00ffea; /* Teal in dark mode */
-        }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-        /* Line effect for dark mode */
-        body.dark-mode .accordion-button::after {
-            background: #00ffea; /* Teal line in dark mode */
-        }
+    .sidebar ul li {
+        margin-bottom: 15px;
+    }
 
-        /* Active state - hide line */
-        .accordion-item.active .accordion-button::after {
-            opacity: 0 !important;
-        }
+    .sidebar ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: block;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
 
-        .accordion-button:not(.collapsed) {
-            background-color: rgba(0, 123, 255, 0.05);
-            color: #007bff;
-        }
+    .sidebar ul li a:hover {
+        background: rgba(0, 255, 234, 0.2);
+        color: var(--primary);
+    }
 
-        body.dark-mode .accordion-button:not(.collapsed) {
-            background-color: rgba(0, 255, 234, 0.05);
-            color: #00ffea;
-        }
+    .dark-mode-toggle {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        z-index: 1001;
+    }
 
-        /* Accordion Content */
-        .accordion-body {
-            padding: 0 20px 20px;
-            color: #333; /* Dark gray in light mode */
-            line-height: 1.7;
-        }
+    .dark-mode-toggle i {
+        font-size: 1.2rem;
+        color: #007bff;
+        transition: color 0.3s ease;
+    }
 
-        body.dark-mode .accordion-body {
-            color: #ccc; /* Light gray in dark mode */
-        }
+    .dark-mode-toggle:hover i {
+        color: #0056b3;
+    }
 
-        .accordion-body strong {
-            color: #007bff;
-        }
+    body.dark-mode .header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-        body.dark-mode .accordion-body strong {
-            color: #00ffea;
-        }
+    /* FAQ Section */
+    .faq-hero {
+        padding: 180px 0 60px;
+        text-align: center;
+        position: relative;
+    }
 
-        /* Category Badges */
-        .category-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-right: 10px;
-            background: #e9ecef;
-            color: #495057;
-        }
+    .faq-hero-title {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        font-size: 3rem;
+        margin-bottom: 20px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+    }
 
-        body.dark-mode .category-badge {
-            background: #2c2c2c;
-            color: #adb5bd;
-        }
+    .faq-hero-title::after {
+        content: '';
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 2px;
+    }
 
-        /* Sidebar Font Weight Fix */
-        .sidebar ul li a {
-            font-weight: 700 !important; /* Bold for all sidebar links */
-        }
+    .faq-hero-subtitle {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 40px;
+        color: rgba(255, 255, 255, 0.8);
+    }
 
-        body.dark-mode .sidebar ul li a {
-            color: #fff !important; /* White in dark mode */
-        }
+    body.light-mode .faq-hero-subtitle {
+        color: rgba(0, 0, 0, 0.7);
+    }
 
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .faq-section {
-                padding: 60px 20px;
-            }
-            
-            .faq-section h1 {
-                font-size: 1.8rem;
-                margin-bottom: 30px;
-            }
-            
-            .accordion-button {
-                font-size: 1rem;
-                padding: 15px;
-            }
-            
-            .accordion-body {
-                padding: 0 15px 15px;
-                font-size: 0.9rem;
-            }
+    .search-container {
+        max-width: 600px;
+        margin: 0 auto 50px;
+        position: relative;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 50px;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: white;
+        font-size: 1rem;
+        padding-left: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    body.light-mode .search-input {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text-dark);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    body.light-mode .search-icon {
+        color: rgba(0, 0, 0, 0.5);
+    }
+
+    .faq-categories {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 50px;
+    }
+
+    .category-btn {
+        padding: 10px 25px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    body.light-mode .category-btn {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text-dark);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .category-btn:hover, .category-btn.active {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #000;
+        border-color: transparent;
+    }
+
+    .faq-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px 80px;
+    }
+
+    .faq-section-title {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin: 50px 0 30px;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .faq-section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 2px;
+    }
+
+    .faq-item {
+        margin-bottom: 15px;
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--card-border);
+        transition: var(--transition);
+    }
+
+    .faq-item:hover {
+        box-shadow: 0 5px 20px rgba(0, 255, 234, 0.2);
+    }
+
+    .faq-question {
+        padding: 20px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
+    }
+
+    .faq-question:hover {
+        color: var(--primary);
+    }
+
+    .faq-question::after {
+        content: '\f078';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-question::after {
+        transform: rotate(180deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding: 0 20px;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+        padding: 0 20px 20px;
+    }
+
+    .faq-answer p {
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .faq-answer ul {
+        padding-left: 20px;
+        margin-bottom: 15px;
+    }
+
+    .faq-answer li {
+        margin-bottom: 8px;
+    }
+
+    .contact-cta {
+        text-align: center;
+        margin-top: 60px;
+        padding: 40px;
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        border-radius: 15px;
+        border: 1px solid var(--card-border);
+    }
+
+    .contact-cta h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--primary);
+    }
+
+    .contact-cta p {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    body.light-mode .contact-cta p {
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .btn-contact {
+        padding: 12px 35px;
+        border-radius: 50px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #000;
+        border: none;
+        transition: var(--transition);
+        font-size: 1rem;
+    }
+
+    .btn-contact:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .faq-hero {
+            padding: 150px 0 40px;
         }
+        
+        .faq-hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .logo {
+            width: 180px;
+            top: -50px;
+        }
+        
+        .faq-section-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .faq-hero-title {
+            font-size: 1.8rem;
+        }
+        
+        .faq-hero-subtitle {
+            font-size: 1rem;
+        }
+        
+        .faq-question {
+            font-size: 1rem;
+            padding: 15px;
+        }
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #000;
+        color: #fff;
+        padding: 60px 0 20px;
+    }
+
+    .footer .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-logo {
+        width: 180px;
+        margin-bottom: 20px;
+    }
+
+    .footer p {
+        color: #fff;
+        margin-bottom: 20px;
+    }
+
+    .footer-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .footer h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer li {
+        margin-bottom: 10px;
+    }
+
+    .footer a {
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .footer a:hover {
+        color: var(--primary);
+    }
+
+    .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 40px;
+    }
     </style>
 </head>
 <body>
@@ -213,7 +572,7 @@
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
                 </a>
             </div>
-            <button id="dark-mode-toggle" class="dark-mode-toggle">
+            <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
                 <i class="fas fa-moon"></i>
             </button>
         </div>
@@ -232,260 +591,433 @@
         </ul>
     </nav>
 
-    <!-- FAQ Section -->
-    <div class="faq-section">
-        <div class="container">
-            <h1 class="text-center">Frequently Asked Questions</h1>
-            
-            <div class="faq-accordion">
-                <!-- General Questions -->
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">General</span> What is TrendFind?
-                    </button>
-                    <div class="accordion-body">
-                        <p>TrendFind is an <strong>AI-powered web/app tool</strong> that helps dropshippers and resellers discover trending products with real-time data from major retailers (Amazon, Walmart, eBay) and social media trends. Our system analyzes reviews, delivery times, profit margins, and regional availability to identify winning products.</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">General</span> How does TrendFind work?
-                    </button>
-                    <div class="accordion-body">
-                        <p>The app scans <strong>top retailers and social media platforms</strong> (Instagram, TikTok, Twitter) for trending products, then uses machine learning to analyze:</p>
-                        <ul>
-                            <li>Ratings, reviews, and profit potential</li>
-                            <li>Delivery times and supplier reliability scores</li>
-                            <li>Country-specific availability checks</li>
-                            <li>Social media sentiment analysis (positive/negative buzz)</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Subscription Plans -->
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">Subscriptions</span> What plans are available?
-                    </button>
-                    <div class="accordion-body">
-                        <div class="subscription-tier">
-                            <h5>Free Tier</h5>
-                            <p>10 searches/day • Basic trending data • No AI recommendations</p>
-                        </div>
-                        <div class="subscription-tier">
-                            <h5>Bronze ($25/month)</h5>
-                            <p>50 searches/day • Basic analytics • Supplier comparisons</p>
-                        </div>
-                        <div class="subscription-tier">
-                            <h5>Silver ($50/month)</h5>
-                            <p>100 searches/day • Advanced metrics • Social media trends</p>
-                        </div>
-                        <div class="subscription-tier">
-                            <h5>Gold ($75/month)</h5>
-                            <p>Unlimited searches • AI scoring • Profit margin forecasts</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Research -->
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">Research</span> How do you ensure product quality?
-                    </button>
-                    <div class="accordion-body">
-                        <p>Our AI tracks multiple quality indicators:</p>
-                        <ul>
-                            <li>Reviews mentioning defects or durability issues</li>
-                            <li>Social media complaints about product quality</li>
-                            <li>Supplier reliability scores to avoid scams</li>
-                            <li>Return rate analysis from historical data</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">Research</span> What if a product isn't available in my country?
-                    </button>
-                    <div class="accordion-body">
-                        <p>TrendFind automatically checks <strong>local availability</strong> before recommending products. If an item isn't available in your region, we'll:</p>
-                        <ul>
-                            <li>Suggest comparable alternatives that are available</li>
-                            <li>Show you fulfillment centers that ship to your location</li>
-                            <li>Provide estimated import costs if applicable</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Technical -->
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">Technical</span> Is there a mobile app?
-                    </button>
-                    <div class="accordion-body">
-                        <p>Yes! TrendFind is available as a <strong>progressive web app (PWA)</strong> that works on all devices with full functionality. You can add it to your home screen for easy access.</p>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <button class="accordion-button" type="button">
-                        <span class="category-badge">Technical</span> How often is data updated?
-                    </button>
-                    <div class="accordion-body">
-                        <p>Our data refresh rates:</p>
-                        <ul>
-                            <li><strong>Real-time:</strong> Prices and availability from retailers</li>
-                            <li><strong>Every 15 minutes:</strong> Social media trend analysis</li>
-                            <li><strong>Daily:</strong> Supplier reliability scores</li>
-                            <li><strong>Weekly:</strong> Profit margin recalculations</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+    <!-- FAQ Hero Section -->
+    <section class="faq-hero">
+        <h1 class="faq-hero-title">Frequently Asked Questions</h1>
+        <p class="faq-hero-subtitle">Find answers to common questions about TrendFind and how it can help you discover winning products for your ecommerce business.</p>
+        
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search FAQs..." id="faq-search">
         </div>
-    </div>
+        
+        <div class="faq-categories">
+            <button class="category-btn active" data-category="all">All Questions</button>
+            <button class="category-btn" data-category="account">Account</button>
+            <button class="category-btn" data-category="features">Features</button>
+            <button class="category-btn" data-category="billing">Billing</button>
+            <button class="category-btn" data-category="technical">Technical</button>
+        </div>
+    </section>
 
-<!-- Footer -->
-<footer class="footer" style="background-color: #000; color: #fff;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo" style="width: 180px; margin-bottom: 20px;">
-                <p style="color: #fff;">AI-powered product research platform for ecommerce sellers.</p>
-            </div>
-            
-            <div class="col-md-8">
-                <div class="footer-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; margin-bottom: 40px;">
-                    <div>
-                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Product</h4>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li><a href="/plan-details" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Pricing</a></li>
-                            <li><a href="/features" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Features</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Company</h4>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li><a href="/about-us" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">About Us</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Support</h4>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li><a href="/contact-us" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Contact Us</a></li>
-                            <li><a href="/faq" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">FAQ</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Legal</h4>
-                        <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li><a href="/privacy" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Privacy Policy</a></li>
-                            <li><a href="/terms" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                </div>
+    <!-- FAQ Content -->
+    <div class="faq-container">
+        <!-- Getting Started -->
+        <h2 class="faq-section-title">Getting Started</h2>
+        
+        <div class="faq-item" data-category="account">
+            <div class="faq-question">How do I create a TrendFind account?</div>
+            <div class="faq-answer">
+                <p>Creating a TrendFind account is quick and easy:</p>
+                <ol>
+                    <li>Click on the "Sign Up" button in the top right corner of our website</li>
+                    <li>Enter your email address and create a password</li>
+                    <li>Verify your email address by clicking the link we send you</li>
+                    <li>Complete your profile by adding basic information about your business</li>
+                    <li>Choose your preferred plan (you can start with a free trial)</li>
+                </ol>
+                <p>Once completed, you'll have immediate access to TrendFind's powerful product research tools.</p>
             </div>
         </div>
         
-        <div class="copyright" style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 40px;">
-            <p style="color: #fff; margin: 0;">&copy; 2025 TrendFind. All rights reserved.</p>
+        <div class="faq-item" data-category="account">
+            <div class="faq-question">Is there a free version of TrendFind?</div>
+            <div class="faq-answer">
+                <p>Yes! TrendFind offers a free Starter plan that includes:</p>
+                <ul>
+                    <li>10 daily product searches</li>
+                    <li>Basic trending data and analytics</li>
+                    <li>Access to limited retailers</li>
+                    <li>Ability to save up to 5 products</li>
+                </ul>
+                <p>This plan is perfect for those who want to test our platform before committing to a paid subscription.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="features">
+            <div class="faq-question">What information do I need to provide to get started?</div>
+            <div class="faq-answer">
+                <p>To get the most out of TrendFind, we recommend providing:</p>
+                <ul>
+                    <li>Your primary ecommerce platform (Shopify, Amazon, eBay, etc.)</li>
+                    <li>Your target market/country</li>
+                    <li>Your product niche or categories of interest</li>
+                    <li>Your business size (small, medium, or large)</li>
+                </ul>
+                <p>This information helps us personalize your experience and provide more relevant product recommendations.</p>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <h2 class="faq-section-title">Features & Functionality</h2>
+        
+        <div class="faq-item" data-category="features">
+            <div class="faq-question">How does TrendFind identify trending products?</div>
+            <div class="faq-answer">
+                <p>TrendFind uses a sophisticated AI algorithm that analyzes multiple data points to identify trending products:</p>
+                <ul>
+                    <li><strong>Sales velocity:</strong> Tracks how quickly products are selling across major platforms</li>
+                    <li><strong>Social media buzz:</strong> Monitors mentions and engagement on platforms like TikTok, Instagram, and Twitter</li>
+                    <li><strong>Search trends:</strong> Analyzes search volume patterns on Google and other search engines</li>
+                    <li><strong>Competitor analysis:</strong> Identifies what successful sellers in your niche are offering</li>
+                    <li><strong>Seasonal patterns:</strong> Predicts upcoming trends based on historical seasonal data</li>
+                </ul>
+                <p>Our system weights these factors to give each product a "trend score" that helps you identify the best opportunities.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="features">
+            <div class="faq-question">What retailers does TrendFind track?</div>
+            <div class="faq-answer">
+                <p>TrendFind currently tracks products from over 50 major retailers including:</p>
+                <ul>
+                    <li>Amazon (all marketplaces)</li>
+                    <li>eBay</li>
+                    <li>Walmart</li>
+                    <li>AliExpress</li>
+                    <li>Etsy</li>
+                    <li>Wayfair</li>
+                    <li>Target</li>
+                    <li>Best Buy</li>
+                    <li>Home Depot</li>
+                    <li>And many more niche marketplaces</li>
+                </ul>
+                <p>We're constantly adding new retailers based on user demand. If there's a specific retailer you'd like us to add, please contact our support team.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="features">
+            <div class="faq-question">How accurate are the profit margin forecasts?</div>
+            <div class="faq-answer">
+                <p>Our profit margin forecasts are typically within 10-15% of actual margins when all costs are properly accounted for. The forecasts consider:</p>
+                <ul>
+                    <li>Product cost from suppliers</li>
+                    <li>Shipping fees (both to you and to customers)</li>
+                    <li>Marketplace fees (Amazon FBA, eBay, etc.)</li>
+                    <li>Payment processing fees</li>
+                    <li>Average advertising costs for similar products</li>
+                    <li>Competitive pricing in your target market</li>
+                </ul>
+                <p>For the most accurate forecasts, we recommend connecting your supplier accounts and updating the cost information regularly.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="features">
+            <div class="faq-question">Can I track products in multiple countries?</div>
+            <div class="faq-answer">
+                <p>Yes! With our Pro and Enterprise plans, you can track product trends in multiple countries simultaneously. This feature allows you to:</p>
+                <ul>
+                    <li>Compare product popularity across different markets</li>
+                    <li>Identify products that are trending in one country but not yet popular in others</li>
+                    <li>Get localized pricing and competition data</li>
+                    <li>View country-specific shipping and tax implications</li>
+                </ul>
+                <p>This is particularly valuable for sellers looking to expand internationally or test new markets.</p>
+            </div>
+        </div>
+
+        <!-- Billing & Plans -->
+        <h2 class="faq-section-title">Billing & Plans</h2>
+        
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question">What payment methods do you accept?</div>
+            <div class="faq-answer">
+                <p>We accept all major payment methods:</p>
+                <ul>
+                    <li>Credit/Debit Cards (Visa, Mastercard, American Express, Discover)</li>
+                    <li>PayPal</li>
+                    <li>Bank Transfers (for annual Enterprise plans)</li>
+                </ul>
+                <p>All payments are processed securely through our PCI-compliant payment partners. We don't store your full payment details on our servers.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question">Can I switch plans later?</div>
+            <div class="faq-answer">
+                <p>Absolutely! You can upgrade or downgrade your plan at any time:</p>
+                <ol>
+                    <li>Go to your Account Settings</li>
+                    <li>Click on "Billing"</li>
+                    <li>Select "Change Plan"</li>
+                    <li>Choose your new plan</li>
+                </ol>
+                <p>When upgrading, you'll immediately gain access to the new features and be charged a prorated amount for the remainder of your billing cycle. When downgrading, changes take effect at the end of your current billing period.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question">Is there a contract or long-term commitment?</div>
+            <div class="faq-answer">
+                <p>No, all TrendFind plans are month-to-month with no long-term contracts. You can cancel anytime with just a few clicks.</p>
+                <p>We do offer discounts for annual subscriptions (save up to 20%), but even these can be canceled at any time with a prorated refund for unused months.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question">How does the free trial work?</div>
+            <div class="faq-answer">
+                <p>Our 7-day free trial gives you full access to all Pro plan features:</p>
+                <ul>
+                    <li>No credit card required to start the trial</li>
+                    <li>Full access to all features for 7 days</li>
+                    <li>Unlimited product searches during trial period</li>
+                    <li>Access to all retailer data and analytics</li>
+                </ul>
+                <p>If you don't cancel before the trial ends, your account will automatically continue with the Pro plan at $29/month. You'll receive email reminders before your trial ends.</p>
+            </div>
+        </div>
+
+        <!-- Technical -->
+        <h2 class="faq-section-title">Technical Questions</h2>
+        
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question">What browsers are supported?</div>
+            <div class="faq-answer">
+                <p>TrendFind works best on the latest versions of:</p>
+                <ul>
+                    <li>Google Chrome</li>
+                    <li>Mozilla Firefox</li>
+                    <li>Safari</li>
+                    <li>Microsoft Edge</li>
+                </ul>
+                <p>We recommend using Chrome for the best performance. Some features may not work properly on older browser versions or mobile browsers.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question">Do you have a mobile app?</div>
+            <div class="faq-answer">
+                <p>Currently, TrendFind is a web-based platform that works on mobile browsers, but we don't have dedicated iOS or Android apps yet.</p>
+                <p>However, you can add TrendFind to your home screen:</p>
+                <ol>
+                    <li>Open TrendFind in Safari (iOS) or Chrome (Android)</li>
+                    <li>Tap the share button</li>
+                    <li>Select "Add to Home Screen"</li>
+                </ol>
+                <p>This will create an app-like icon that launches TrendFind in a standalone window. We're working on native mobile apps that will be released later this year.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question">How often is the data updated?</div>
+            <div class="faq-answer">
+                <p>Our data updates at different frequencies depending on the information type:</p>
+                <ul>
+                    <li><strong>Sales data:</strong> Updated every 2-4 hours for most retailers</li>
+                    <li><strong>Social media trends:</strong> Updated in real-time</li>
+                    <li><strong>Search trends:</strong> Updated daily</li>
+                    <li><strong>Supplier pricing:</strong> Updated when you refresh or when suppliers notify us of changes</li>
+                </ul>
+                <p>Enterprise plan users can request more frequent updates for specific products or retailers.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question">How do I integrate TrendFind with my Shopify store?</div>
+            <div class="faq-answer">
+                <p>Connecting your Shopify store takes just a few minutes:</p>
+                <ol>
+                    <li>Go to "Integrations" in your TrendFind account</li>
+                    <li>Click "Connect Shopify"</li>
+                    <li>Enter your Shopify store URL</li>
+                    <li>Authenticate with Shopify's secure login</li>
+                    <li>Select the data you want to share (we recommend all options for best results)</li>
+                </ol>
+                <p>Once connected, TrendFind will analyze your store's performance and provide personalized product recommendations based on your existing catalog and sales data.</p>
+            </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+            <h3>Still have questions?</h3>
+            <p>Our support team is available 24/7 to help you get the most out of TrendFind. Contact us anytime and we'll respond within a few hours.</p>
+            <a href="/contact-us" class="btn-contact">Contact Support</a>
         </div>
     </div>
-</footer>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
+                    <p>AI-powered product research platform for ecommerce sellers.</p>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="footer-links">
+                        <div>
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="/plan-details">Pricing</a></li>
+                                <li><a href="/features">Features</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="/about-us">About Us</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="/contact-us">Contact Us</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 TrendFind. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- JavaScript -->
     <script>
         // Sidebar Toggle
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const toggle = document.querySelector('.sidebar-toggle');
-    
-    sidebar.classList.toggle('open');
-    
-    // Animate hamburger icon
-    const spans = toggle.querySelectorAll('span');
-    if (sidebar.classList.contains('open')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-    } else {
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
-    }
-}
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            sidebar.classList.toggle('open');
+            
+            // Animate hamburger icon
+            const spans = toggle.querySelectorAll('span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        }
 
-// Dark Mode Toggle
-document.getElementById('dark-mode-toggle').addEventListener('click', function() {
-    document.body.classList.toggle('light-mode');
-    const icon = this.querySelector('i');
-    
-    if (document.body.classList.contains('light-mode')) {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-        localStorage.setItem('darkMode', 'disabled');
-    } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-        localStorage.setItem('darkMode', 'enabled');
-    }
-});
+        // Dark Mode Toggle
+        document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-mode');
+            const icon = this.querySelector('i');
+            
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'disabled');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        });
 
-// Check for saved dark mode preference
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('dark-mode-toggle');
-  const icon = toggle.querySelector('i');
-  const prefersDark = localStorage.getItem('darkMode') === 'enabled';
+        // Check for saved dark mode preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const icon = darkModeToggle.querySelector('i');
+            const darkMode = localStorage.getItem('darkMode');
 
-  if (prefersDark) {
-     document.body.classList.add('dark-mode');
-     icon.classList.replace('fa-moon','fa-sun');
-  }
+            if (darkMode === 'disabled') {
+                document.body.classList.add('light-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
 
-  toggle.addEventListener('click', () => {
-     const darkEnabled = document.body.classList.toggle('dark-mode');
-     icon.classList.toggle('fa-sun', darkEnabled);
-     icon.classList.toggle('fa-moon', !darkEnabled);
-     localStorage.setItem('darkMode', darkEnabled ? 'enabled' : 'disabled');
-  });
-});
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            if (sidebar.classList.contains('open') && 
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target)) {
+                toggleSidebar();
+            }
+        });
 
-// Close sidebar when clicking outside
-document.addEventListener('click', function(event) {
-    const sidebar = document.getElementById('sidebar');
-    const toggle = document.querySelector('.sidebar-toggle');
-    
-    if (sidebar.classList.contains('open') && 
-        !sidebar.contains(event.target) && 
-        !toggle.contains(event.target)) {
-        toggleSidebar();
-    }
-});
-        // Accordion Functionality
-        document.querySelectorAll('.accordion-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const item = button.parentElement;
-                const content = button.nextElementSibling;
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
                 
-                // Close all other items
-                document.querySelectorAll('.accordion-item').forEach(otherItem => {
-                    if (otherItem !== item) {
+                // Close other open items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
                         otherItem.classList.remove('active');
-                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
                     }
                 });
+            });
+        });
+
+        // FAQ Search Functionality
+        document.getElementById('faq-search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
                 
-                // Toggle current item
-                item.classList.toggle('active');
-                if (item.classList.contains('active')) {
-                    content.style.maxHeight = content.scrollHeight + 'px';
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
                 } else {
-                    content.style.maxHeight = null;
+                    item.style.display = 'none';
                 }
+            });
+        });
+
+        // FAQ Category Filter
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active category button
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                
+                // Filter FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
