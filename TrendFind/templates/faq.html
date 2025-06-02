@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - TrendFind</title>
+    <title>Premium FAQ | TrendFind AI</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
     <style>
@@ -16,119 +16,77 @@
         --dark: #121212;
         --darker: #0a0a0a;
         --light: #ffffff;
-        --card-bg: rgba(30, 30, 30, 0.7);
-        --card-border: rgba(0, 255, 234, 0.2);
+        --card-bg: rgba(30, 30, 30, 0.85);
+        --card-border: rgba(0, 255, 234, 0.25);
         --text-light: #ffffff;
         --text-dark: #333333;
         --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --glass-effect: rgba(20, 20, 20, 0.6);
     }
 
     body {
-        font-family: 'Rajdhani', sans-serif;
+        font-family: 'Montserrat', sans-serif;
         background-color: var(--dark);
         color: var(--text-light);
         margin: 0;
         padding: 0;
         min-height: 100vh;
-        background-image: url('/static/images/plan-bg.jpg');
+        background-image: url('/static/images/faq-bg.jpg');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
         overflow-x: hidden;
     }
 
-    /* Light mode styles */
+    /* Light Mode */
     body.light-mode {
-        background-color: var(--light);
+        background-color: #f8f9fa;
         color: var(--text-dark);
-        --card-bg: rgba(30, 30, 30, 0.7);
+        --card-bg: rgba(255, 255, 255, 0.9);
         --card-border: rgba(0, 123, 255, 0.2);
+        --glass-effect: rgba(255, 255, 255, 0.7);
     }
 
     /* Header */
     .header {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background: var(--glass-effect);
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         z-index: 1000;
-        padding: 35px 45px;
+        padding: 25px 45px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 1200px;
-        position: relative;
-    }
-
-    .logo-container {
-        flex: 1;
-        text-align: center;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     }
 
     .logo {
-        width: 250px;
+        width: 180px;
         height: auto;
-        position: absolute;
-        left: 73.7%;
-        top: -72px;
-        transform: translateX(-50%);
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease;
     }
 
     .logo:hover {
-        transform: translateX(-50%) scale(1.05);
-    }
-
-    .sidebar-toggle {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        position: fixed;
-        left: 20px;
-        top: 20px;
-        z-index: 1001;
-    }
-
-    .sidebar-toggle span {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background-color: #007bff;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    .sidebar-toggle:hover span {
-        background-color: #0056b3;
+        transform: scale(1.05);
     }
 
     /* Sidebar */
     .sidebar {
         position: fixed;
         top: 0;
-        left: -300px;
-        width: 300px;
+        left: -320px;
+        width: 320px;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(20px);
-        z-index: 1000;
-        transition: all 0.3s ease;
-        padding: 80px 30px 30px;
-        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(25px);
+        z-index: 1050;
+        transition: all 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        padding: 100px 30px 30px;
+        box-shadow: 5px 0 30px rgba(0, 0, 0, 0.3);
     }
 
     .sidebar.open {
@@ -142,124 +100,117 @@
     }
 
     .sidebar ul li {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
     }
 
     .sidebar ul li a {
         color: #fff;
         text-decoration: none;
         font-size: 1.1rem;
-        font-weight: 700;
+        font-weight: 600;
         display: block;
-        padding: 10px 15px;
-        border-radius: 5px;
+        padding: 12px 20px;
+        border-radius: 8px;
         transition: all 0.3s ease;
+        border-left: 3px solid transparent;
     }
 
-    .sidebar ul li a:hover {
-        background: rgba(0, 255, 234, 0.2);
+    .sidebar ul li a:hover,
+    .sidebar ul li a.active {
+        background: rgba(0, 255, 234, 0.1);
+        border-left: 3px solid var(--primary);
         color: var(--primary);
     }
 
+    /* Dark Mode Toggle */
     .dark-mode-toggle {
-        background: transparent;
+        background: rgba(255, 255, 255, 0.1);
         border: none;
-        cursor: pointer;
-        padding: 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
         display: flex;
-        flex-direction: column;
-        gap: 5px;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
-        position: fixed;
-        right: 20px;
-        top: 20px;
-        z-index: 1001;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .dark-mode-toggle:hover {
+        background: rgba(0, 255, 234, 0.2);
     }
 
     .dark-mode-toggle i {
         font-size: 1.2rem;
-        color: #007bff;
-        transition: color 0.3s ease;
+        color: var(--primary);
     }
 
-    .dark-mode-toggle:hover i {
-        color: #0056b3;
-    }
-
-    body.dark-mode .header {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* FAQ Section */
+    /* FAQ Hero Section */
     .faq-hero {
-        padding: 180px 0 60px;
+        padding: 180px 0 80px;
         text-align: center;
         position: relative;
+        overflow: hidden;
+    }
+
+    .faq-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(0,255,234,0.1) 0%, rgba(0,0,0,0.8) 70%);
+        z-index: -1;
     }
 
     .faq-hero-title {
         font-family: 'Orbitron', sans-serif;
         font-weight: 700;
-        font-size: 3rem;
-        margin-bottom: 20px;
+        font-size: 3.5rem;
+        margin-bottom: 25px;
         background: linear-gradient(90deg, var(--primary), var(--secondary));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        position: relative;
-        display: inline-block;
-    }
-
-    .faq-hero-title::after {
-        content: '';
-        position: absolute;
-        bottom: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100px;
-        height: 4px;
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        border-radius: 2px;
+        letter-spacing: 2px;
     }
 
     .faq-hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         max-width: 700px;
-        margin: 0 auto 40px;
-        color: rgba(255, 255, 255, 0.8);
+        margin: 0 auto 50px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
     }
 
     body.light-mode .faq-hero-subtitle {
-        color: rgba(0, 0, 0, 0.7);
+        color: rgba(0, 0, 0, 0.8);
     }
 
+    /* Search Bar */
     .search-container {
-        max-width: 600px;
-        margin: 0 auto 50px;
+        max-width: 700px;
+        margin: 0 auto 60px;
         position: relative;
     }
 
     .search-input {
         width: 100%;
-        padding: 15px 20px;
+        padding: 18px 25px 18px 60px;
         border-radius: 50px;
         border: none;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         color: white;
-        font-size: 1rem;
-        padding-left: 50px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1.1rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
         transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     }
 
     body.light-mode .search-input {
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.9);
         color: var(--text-dark);
         border: 1px solid rgba(0, 0, 0, 0.1);
     }
@@ -267,68 +218,81 @@
     .search-input:focus {
         outline: none;
         border-color: var(--primary);
-        box-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
+        box-shadow: 0 5px 25px rgba(0, 255, 234, 0.3);
     }
 
     .search-icon {
         position: absolute;
-        left: 20px;
+        left: 25px;
         top: 50%;
         transform: translateY(-50%);
         color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
     }
 
     body.light-mode .search-icon {
         color: rgba(0, 0, 0, 0.5);
     }
 
+    /* Categories */
     .faq-categories {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 15px;
-        margin-bottom: 50px;
+        margin-bottom: 60px;
     }
 
     .category-btn {
-        padding: 10px 25px;
+        padding: 12px 28px;
         border-radius: 50px;
         background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         color: white;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     body.light-mode .category-btn {
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.9);
         color: var(--text-dark);
         border: 1px solid rgba(0, 0, 0, 0.1);
     }
 
-    .category-btn:hover, .category-btn.active {
+    .category-btn:hover, 
+    .category-btn.active {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: #000;
         border-color: transparent;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 255, 234, 0.3);
     }
 
+    /* FAQ Container */
     .faq-container {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 0 auto;
-        padding: 0 20px 80px;
+        padding: 0 30px 100px;
+    }
+
+    /* FAQ Sections */
+    .faq-section {
+        margin-bottom: 60px;
     }
 
     .faq-section-title {
         font-family: 'Orbitron', sans-serif;
         font-weight: 700;
-        font-size: 1.8rem;
-        margin: 50px 0 30px;
+        font-size: 2rem;
+        margin: 0 0 40px;
         color: var(--primary);
         text-transform: uppercase;
         letter-spacing: 1px;
         position: relative;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
     }
 
     .faq-section-title::after {
@@ -337,34 +301,42 @@
         bottom: 0;
         left: 0;
         width: 60px;
-        height: 3px;
+        height: 4px;
         background: linear-gradient(90deg, var(--primary), var(--secondary));
         border-radius: 2px;
     }
 
+    /* FAQ Items */
     .faq-item {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         background: var(--card-bg);
-        backdrop-filter: blur(20px);
-        border-radius: 10px;
+        backdrop-filter: blur(15px);
+        border-radius: 12px;
         overflow: hidden;
         border: 1px solid var(--card-border);
         transition: var(--transition);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     }
 
     .faq-item:hover {
-        box-shadow: 0 5px 20px rgba(0, 255, 234, 0.2);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 255, 234, 0.2);
     }
 
     .faq-question {
-        padding: 20px;
+        padding: 25px;
         font-weight: 700;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;
         transition: all 0.3s ease;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
+        color: var(--text-light);
+    }
+
+    body.light-mode .faq-question {
+        color: var(--text-dark);
     }
 
     .faq-question:hover {
@@ -375,7 +347,7 @@
         content: '\f078';
         font-family: 'Font Awesome 6 Free';
         font-weight: 900;
-        transition: transform 0.3s ease;
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
 
     .faq-item.active .faq-question::after {
@@ -385,51 +357,101 @@
     .faq-answer {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease;
-        padding: 0 20px;
+        transition: max-height 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        padding: 0 25px;
     }
 
     .faq-item.active .faq-answer {
-        max-height: 500px;
-        padding: 0 20px 20px;
+        max-height: 1000px;
+        padding: 0 25px 25px;
+    }
+
+    .faq-answer-content {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .faq-item.active .faq-answer-content {
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .faq-answer p {
         margin-bottom: 15px;
-        line-height: 1.6;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.85);
     }
 
-    .faq-answer ul {
-        padding-left: 20px;
-        margin-bottom: 15px;
+    body.light-mode .faq-answer p {
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .faq-answer ul, 
+    .faq-answer ol {
+        padding-left: 25px;
+        margin-bottom: 20px;
     }
 
     .faq-answer li {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.85);
     }
 
+    body.light-mode .faq-answer li {
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .faq-answer strong {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    /* Contact CTA */
     .contact-cta {
         text-align: center;
-        margin-top: 60px;
-        padding: 40px;
+        margin: 80px auto 0;
+        padding: 60px;
         background: var(--card-bg);
         backdrop-filter: blur(20px);
-        border-radius: 15px;
+        border-radius: 20px;
         border: 1px solid var(--card-border);
+        max-width: 800px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-cta::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0,255,234,0.05) 0%, transparent 70%);
+        z-index: -1;
+        animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
     .contact-cta h3 {
         font-family: 'Orbitron', sans-serif;
         font-weight: 700;
-        font-size: 1.8rem;
+        font-size: 2.2rem;
         margin-bottom: 20px;
         color: var(--primary);
     }
 
     .contact-cta p {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         margin-bottom: 30px;
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.85);
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
@@ -440,141 +462,190 @@
     }
 
     .btn-contact {
-        padding: 12px 35px;
+        padding: 15px 40px;
         border-radius: 50px;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
         background: linear-gradient(135deg, var(--primary), var(--secondary));
         color: #000;
         border: none;
         transition: var(--transition);
-        font-size: 1rem;
+        font-size: 1.1rem;
+        box-shadow: 0 5px 20px rgba(0, 255, 234, 0.3);
     }
 
     .btn-contact:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-        .faq-hero {
-            padding: 150px 0 40px;
-        }
-        
-        .faq-hero-title {
-            font-size: 2.2rem;
-        }
-        
-        .logo {
-            width: 180px;
-            top: -50px;
-        }
-        
-        .faq-section-title {
-            font-size: 1.5rem;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .faq-hero-title {
-            font-size: 1.8rem;
-        }
-        
-        .faq-hero-subtitle {
-            font-size: 1rem;
-        }
-        
-        .faq-question {
-            font-size: 1rem;
-            padding: 15px;
-        }
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 255, 234, 0.4);
     }
 
     /* Footer */
     .footer {
         background-color: #000;
         color: #fff;
-        padding: 60px 0 20px;
+        padding: 80px 0 30px;
     }
 
     .footer .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 30px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-bottom: 60px;
     }
 
     .footer-logo {
         width: 180px;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
     }
 
-    .footer p {
+    .footer-about p {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
         color: #fff;
-        margin-bottom: 20px;
+        transition: all 0.3s ease;
     }
 
-    .footer-links {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 30px;
-        margin-bottom: 40px;
+    .social-links a:hover {
+        background: var(--primary);
+        color: #000;
+        transform: translateY(-3px);
     }
 
     .footer h4 {
         font-family: 'Orbitron', sans-serif;
         font-weight: 700;
         font-size: 1.2rem;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         color: #fff;
+        letter-spacing: 1px;
     }
 
-    .footer ul {
+    .footer-links ul {
         list-style: none;
         padding: 0;
         margin: 0;
     }
 
-    .footer li {
-        margin-bottom: 10px;
+    .footer-links li {
+        margin-bottom: 12px;
     }
 
-    .footer a {
-        color: #fff;
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.7);
         text-decoration: none;
         transition: all 0.3s ease;
     }
 
-    .footer a:hover {
+    .footer-links a:hover {
         color: var(--primary);
+        padding-left: 5px;
     }
 
     .copyright {
         text-align: center;
-        padding-top: 20px;
+        padding-top: 30px;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: 40px;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+        .faq-hero-title {
+            font-size: 3rem;
+        }
+        
+        .faq-section-title {
+            font-size: 1.8rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header {
+            padding: 20px;
+        }
+        
+        .faq-hero {
+            padding: 150px 0 60px;
+        }
+        
+        .faq-hero-title {
+            font-size: 2.5rem;
+        }
+        
+        .faq-hero-subtitle {
+            font-size: 1.1rem;
+        }
+        
+        .contact-cta {
+            padding: 40px 30px;
+        }
+        
+        .contact-cta h3 {
+            font-size: 1.8rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .faq-hero-title {
+            font-size: 2rem;
+        }
+        
+        .faq-section-title {
+            font-size: 1.5rem;
+        }
+        
+        .faq-question {
+            font-size: 1.1rem;
+            padding: 20px;
+        }
+        
+        .footer-grid {
+            grid-template-columns: 1fr;
+        }
     }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="logo-container">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <a href="/">
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
                 </a>
+                <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
-            <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
-                <i class="fas fa-moon"></i>
-            </button>
         </div>
     </header>
 
@@ -585,7 +656,7 @@
             <li><a href="/profile">Profile</a></li>
             <li><a href="/saved-products">Saved Products</a></li>
             <li><a href="/plan-details">Plan Details</a></li>
-            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/faq" class="active">FAQ</a></li>
             <li><a href="/about-us">About Us</a></li>
             <li><a href="/contact-us">Contact Us</a></li>
         </ul>
@@ -593,306 +664,442 @@
 
     <!-- FAQ Hero Section -->
     <section class="faq-hero">
-        <h1 class="faq-hero-title">Frequently Asked Questions</h1>
-        <p class="faq-hero-subtitle">Find answers to common questions about TrendFind and how it can help you discover winning products for your ecommerce business.</p>
-        
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search FAQs..." id="faq-search">
-        </div>
-        
-        <div class="faq-categories">
-            <button class="category-btn active" data-category="all">All Questions</button>
-            <button class="category-btn" data-category="account">Account</button>
-            <button class="category-btn" data-category="features">Features</button>
-            <button class="category-btn" data-category="billing">Billing</button>
-            <button class="category-btn" data-category="technical">Technical</button>
+        <div class="container">
+            <h1 class="faq-hero-title">Knowledge Center</h1>
+            <p class="faq-hero-subtitle">Find comprehensive answers to all your questions about TrendFind's AI-powered product research platform.</p>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search our knowledge base..." id="faq-search">
+            </div>
+            
+            <div class="faq-categories">
+                <button class="category-btn active" data-category="all">All Topics</button>
+                <button class="category-btn" data-category="getting-started">Getting Started</button>
+                <button class="category-btn" data-category="features">Features</button>
+                <button class="category-btn" data-category="billing">Billing</button>
+                <button class="category-btn" data-category="technical">Technical</button>
+                <button class="category-btn" data-category="advanced">Advanced Use</button>
+            </div>
         </div>
     </section>
 
     <!-- FAQ Content -->
     <div class="faq-container">
         <!-- Getting Started -->
-        <h2 class="faq-section-title">Getting Started</h2>
-        
-        <div class="faq-item" data-category="account">
-            <div class="faq-question">How do I create a TrendFind account?</div>
-            <div class="faq-answer">
-                <p>Creating a TrendFind account is quick and easy:</p>
-                <ol>
-                    <li>Click on the "Sign Up" button in the top right corner of our website</li>
-                    <li>Enter your email address and create a password</li>
-                    <li>Verify your email address by clicking the link we send you</li>
-                    <li>Complete your profile by adding basic information about your business</li>
-                    <li>Choose your preferred plan (you can start with a free trial)</li>
-                </ol>
-                <p>Once completed, you'll have immediate access to TrendFind's powerful product research tools.</p>
+        <div class="faq-section">
+            <h2 class="faq-section-title">Getting Started</h2>
+            
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question">How do I create a TrendFind account?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Creating your TrendFind account is a seamless process designed to get you started quickly:</p>
+                        <ol>
+                            <li><strong>Visit our signup page</strong> and choose your preferred authentication method (email or social login)</li>
+                            <li><strong>Complete your profile</strong> by providing basic business information to personalize your experience</li>
+                            <li><strong>Select your plan</strong> - start with a free trial or choose a subscription that fits your needs</li>
+                            <li><strong>Connect your ecommerce platforms</strong> (optional but recommended for full functionality)</li>
+                            <li><strong>Set up your product preferences</strong> to receive tailored recommendations</li>
+                        </ol>
+                        <p>Our onboarding wizard will guide you through each step, and you can always modify these settings later.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item" data-category="account">
-            <div class="faq-question">Is there a free version of TrendFind?</div>
-            <div class="faq-answer">
-                <p>Yes! TrendFind offers a free Starter plan that includes:</p>
-                <ul>
-                    <li>10 daily product searches</li>
-                    <li>Basic trending data and analytics</li>
-                    <li>Access to limited retailers</li>
-                    <li>Ability to save up to 5 products</li>
-                </ul>
-                <p>This plan is perfect for those who want to test our platform before committing to a paid subscription.</p>
+            
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question">What information do I need to provide during setup?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>To optimize your TrendFind experience, we recommend providing:</p>
+                        <ul>
+                            <li><strong>Business profile:</strong> Your ecommerce niche, target markets, and business size</li>
+                            <li><strong>Platform connections:</strong> Links to your Shopify, Amazon, or other storefronts</li>
+                            <li><strong>Product preferences:</strong> Categories you're interested in and any specific product requirements</li>
+                            <li><strong>Goals:</strong> Whether you're focused on product research, competitor analysis, or market expansion</li>
+                        </ul>
+                        <p>This information helps our AI deliver more accurate and relevant product recommendations.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item" data-category="features">
-            <div class="faq-question">What information do I need to provide to get started?</div>
-            <div class="faq-answer">
-                <p>To get the most out of TrendFind, we recommend providing:</p>
-                <ul>
-                    <li>Your primary ecommerce platform (Shopify, Amazon, eBay, etc.)</li>
-                    <li>Your target market/country</li>
-                    <li>Your product niche or categories of interest</li>
-                    <li>Your business size (small, medium, or large)</li>
-                </ul>
-                <p>This information helps us personalize your experience and provide more relevant product recommendations.</p>
-            </div>
-        </div>
-
-        <!-- Features -->
-        <h2 class="faq-section-title">Features & Functionality</h2>
-        
-        <div class="faq-item" data-category="features">
-            <div class="faq-question">How does TrendFind identify trending products?</div>
-            <div class="faq-answer">
-                <p>TrendFind uses a sophisticated AI algorithm that analyzes multiple data points to identify trending products:</p>
-                <ul>
-                    <li><strong>Sales velocity:</strong> Tracks how quickly products are selling across major platforms</li>
-                    <li><strong>Social media buzz:</strong> Monitors mentions and engagement on platforms like TikTok, Instagram, and Twitter</li>
-                    <li><strong>Search trends:</strong> Analyzes search volume patterns on Google and other search engines</li>
-                    <li><strong>Competitor analysis:</strong> Identifies what successful sellers in your niche are offering</li>
-                    <li><strong>Seasonal patterns:</strong> Predicts upcoming trends based on historical seasonal data</li>
-                </ul>
-                <p>Our system weights these factors to give each product a "trend score" that helps you identify the best opportunities.</p>
-            </div>
-        </div>
-        
-        <div class="faq-item" data-category="features">
-            <div class="faq-question">What retailers does TrendFind track?</div>
-            <div class="faq-answer">
-                <p>TrendFind currently tracks products from over 50 major retailers including:</p>
-                <ul>
-                    <li>Amazon (all marketplaces)</li>
-                    <li>eBay</li>
-                    <li>Walmart</li>
-                    <li>AliExpress</li>
-                    <li>Etsy</li>
-                    <li>Wayfair</li>
-                    <li>Target</li>
-                    <li>Best Buy</li>
-                    <li>Home Depot</li>
-                    <li>And many more niche marketplaces</li>
-                </ul>
-                <p>We're constantly adding new retailers based on user demand. If there's a specific retailer you'd like us to add, please contact our support team.</p>
-            </div>
-        </div>
-        
-        <div class="faq-item" data-category="features">
-            <div class="faq-question">How accurate are the profit margin forecasts?</div>
-            <div class="faq-answer">
-                <p>Our profit margin forecasts are typically within 10-15% of actual margins when all costs are properly accounted for. The forecasts consider:</p>
-                <ul>
-                    <li>Product cost from suppliers</li>
-                    <li>Shipping fees (both to you and to customers)</li>
-                    <li>Marketplace fees (Amazon FBA, eBay, etc.)</li>
-                    <li>Payment processing fees</li>
-                    <li>Average advertising costs for similar products</li>
-                    <li>Competitive pricing in your target market</li>
-                </ul>
-                <p>For the most accurate forecasts, we recommend connecting your supplier accounts and updating the cost information regularly.</p>
-            </div>
-        </div>
-        
-        <div class="faq-item" data-category="features">
-            <div class="faq-question">Can I track products in multiple countries?</div>
-            <div class="faq-answer">
-                <p>Yes! With our Pro and Enterprise plans, you can track product trends in multiple countries simultaneously. This feature allows you to:</p>
-                <ul>
-                    <li>Compare product popularity across different markets</li>
-                    <li>Identify products that are trending in one country but not yet popular in others</li>
-                    <li>Get localized pricing and competition data</li>
-                    <li>View country-specific shipping and tax implications</li>
-                </ul>
-                <p>This is particularly valuable for sellers looking to expand internationally or test new markets.</p>
+            
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question">Is there a mobile app available?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>While we currently offer a fully responsive web application, our native mobile apps are in development with these planned features:</p>
+                        <ul>
+                            <li><strong>iOS & Android apps</strong> with full platform functionality</li>
+                            <li><strong>Real-time push notifications</strong> for trending products</li>
+                            <li><strong>Mobile-optimized analytics</strong> dashboards</li>
+                            <li><strong>Offline access</strong> to saved product data</li>
+                        </ul>
+                        <p>In the meantime, you can add TrendFind to your home screen for app-like access:</p>
+                        <ol>
+                            <li>Open TrendFind in Safari (iOS) or Chrome (Android)</li>
+                            <li>Tap the share button</li>
+                            <li>Select "Add to Home Screen"</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Billing & Plans -->
-        <h2 class="faq-section-title">Billing & Plans</h2>
-        
-        <div class="faq-item" data-category="billing">
-            <div class="faq-question">What payment methods do you accept?</div>
-            <div class="faq-answer">
-                <p>We accept all major payment methods:</p>
-                <ul>
-                    <li>Credit/Debit Cards (Visa, Mastercard, American Express, Discover)</li>
-                    <li>PayPal</li>
-                    <li>Bank Transfers (for annual Enterprise plans)</li>
-                </ul>
-                <p>All payments are processed securely through our PCI-compliant payment partners. We don't store your full payment details on our servers.</p>
+        <!-- Core Features -->
+        <div class="faq-section">
+            <h2 class="faq-section-title">Core Features</h2>
+            
+            <div class="faq-item" data-category="features">
+                <div class="faq-question">How does TrendFind identify winning products?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our proprietary AI analyzes multiple data dimensions to surface high-potential products:</p>
+                        <ul>
+                            <li><strong>Sales Velocity Tracking:</strong> Real-time monitoring of sell-through rates across major platforms</li>
+                            <li><strong>Social Sentiment Analysis:</strong> AI-powered evaluation of engagement across TikTok, Instagram, and Twitter</li>
+                            <li><strong>Search Trend Correlation:</strong> Cross-referencing with Google Trends and other search data</li>
+                            <li><strong>Competitor Benchmarking:</strong> Identifying what successful sellers in your niche are offering</li>
+                            <li><strong>Seasonal Pattern Recognition:</strong> Predictive modeling based on historical seasonal trends</li>
+                        </ul>
+                        <p>Each product receives a <strong>TrendScore™</strong> that quantifies its market potential based on these factors.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item" data-category="billing">
-            <div class="faq-question">Can I switch plans later?</div>
-            <div class="faq-answer">
-                <p>Absolutely! You can upgrade or downgrade your plan at any time:</p>
-                <ol>
-                    <li>Go to your Account Settings</li>
-                    <li>Click on "Billing"</li>
-                    <li>Select "Change Plan"</li>
-                    <li>Choose your new plan</li>
-                </ol>
-                <p>When upgrading, you'll immediately gain access to the new features and be charged a prorated amount for the remainder of your billing cycle. When downgrading, changes take effect at the end of your current billing period.</p>
+            
+            <div class="faq-item" data-category="features">
+                <div class="faq-question">What retailers and marketplaces do you track?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>TrendFind monitors over 75 global retail platforms including:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>Amazon (all global marketplaces)</li>
+                                    <li>eBay</li>
+                                    <li>Walmart Marketplace</li>
+                                    <li>Etsy</li>
+                                    <li>Wayfair</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>AliExpress</li>
+                                    <li>Target Plus</li>
+                                    <li>Best Buy Marketplace</li>
+                                    <li>Home Depot</li>
+                                    <li>+ 65 niche platforms</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>Our data partnerships ensure comprehensive coverage across all major ecommerce channels.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item" data-category="billing">
-            <div class="faq-question">Is there a contract or long-term commitment?</div>
-            <div class="faq-answer">
-                <p>No, all TrendFind plans are month-to-month with no long-term contracts. You can cancel anytime with just a few clicks.</p>
-                <p>We do offer discounts for annual subscriptions (save up to 20%), but even these can be canceled at any time with a prorated refund for unused months.</p>
+            
+            <div class="faq-item" data-category="features">
+                <div class="faq-question">How accurate are your profit margin forecasts?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our margin prediction engine achieves 88-92% accuracy when all cost factors are provided, analyzing:</p>
+                        <ul>
+                            <li><strong>Product Costs:</strong> Supplier pricing, MOQs, and bulk discounts</li>
+                            <li><strong>Logistics:</strong> Shipping fees, customs duties, and fulfillment costs</li>
+                            <li><strong>Marketplace Fees:</strong> Platform commissions, FBA fees, and payment processing</li>
+                            <li><strong>Advertising Costs:</strong> Historical CPC data for similar products</li>
+                            <li><strong>Competitive Pricing:</strong> Market positioning and price elasticity</li>
+                        </ul>
+                        <p>For optimal accuracy, connect your supplier accounts and regularly update cost information.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item" data-category="billing">
-            <div class="faq-question">How does the free trial work?</div>
-            <div class="faq-answer">
-                <p>Our 7-day free trial gives you full access to all Pro plan features:</p>
-                <ul>
-                    <li>No credit card required to start the trial</li>
-                    <li>Full access to all features for 7 days</li>
-                    <li>Unlimited product searches during trial period</li>
-                    <li>Access to all retailer data and analytics</li>
-                </ul>
-                <p>If you don't cancel before the trial ends, your account will automatically continue with the Pro plan at $29/month. You'll receive email reminders before your trial ends.</p>
+            
+            <div class="faq-item" data-category="features">
+                <div class="faq-question">Can I track multiple international markets?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our Pro and Enterprise plans support multi-market analysis with these capabilities:</p>
+                        <ul>
+                            <li><strong>Market Comparison Dashboard:</strong> Visualize product performance across regions</li>
+                            <li><strong>Localized Trend Detection:</strong> Identify products trending in one market but not others</li>
+                            <li><strong>Regional Pricing Intelligence:</strong> Understand optimal pricing for each locale</li>
+                            <li><strong>Compliance Monitoring:</strong> Track product restrictions and regulations by country</li>
+                        </ul>
+                        <p>This feature is particularly valuable for sellers expanding globally or testing new markets.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Technical -->
-        <h2 class="faq-section-title">Technical Questions</h2>
-        
-        <div class="faq-item" data-category="technical">
-            <div class="faq-question">What browsers are supported?</div>
-            <div class="faq-answer">
-                <p>TrendFind works best on the latest versions of:</p>
-                <ul>
-                    <li>Google Chrome</li>
-                    <li>Mozilla Firefox</li>
-                    <li>Safari</li>
-                    <li>Microsoft Edge</li>
-                </ul>
-                <p>We recommend using Chrome for the best performance. Some features may not work properly on older browser versions or mobile browsers.</p>
+        <!-- Billing & Accounts -->
+        <div class="faq-section">
+            <h2 class="faq-section-title">Billing & Accounts</h2>
+            
+            <div class="faq-item" data-category="billing">
+                <div class="faq-question">What payment methods do you accept?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>We accept all major payment options globally:</p>
+                        <ul>
+                            <li><strong>Credit/Debit Cards:</strong> Visa, Mastercard, American Express, Discover, JCB, UnionPay</li>
+                            <li><strong>Digital Wallets:</strong> PayPal, Apple Pay, Google Pay</li>
+                            <li><strong>Bank Transfers:</strong> Available for annual Enterprise subscriptions</li>
+                            <li><strong>Crypto:</strong> Bitcoin, Ethereum (for Enterprise plans)</li>
+                        </ul>
+                        <p>All transactions are secured with 256-bit encryption and PCI DSS compliance.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="billing">
+                <div class="faq-question">Can I upgrade or downgrade my plan?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>You can modify your subscription at any time with these options:</p>
+                        <ul>
+                            <li><strong>Immediate Upgrades:</strong> Gain instant access to higher-tier features with prorated billing</li>
+                            <li><strong>End-of-Cycle Downgrades:</strong> Changes apply at your next billing date</li>
+                            <li><strong>Temporary Boosts:</strong> Purchase additional search packs or feature access as needed</li>
+                        </ul>
+                        <p>To change your plan:</p>
+                        <ol>
+                            <li>Navigate to Account Settings > Billing</li>
+                            <li>Select "Change Plan"</li>
+                            <li>Choose your preferred subscription level</li>
+                            <li>Confirm the changes</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="billing">
+                <div class="faq-question">How does the free trial work?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our 7-day Pro trial offers full platform access with these benefits:</p>
+                        <ul>
+                            <li><strong>No payment method required</strong> to begin</li>
+                            <li><strong>Unlimited product searches</strong> during the trial period</li>
+                            <li><strong>Complete feature access</strong> including AI recommendations and analytics</li>
+                            <li><strong>Reminder notifications</strong> before trial expiration</li>
+                        </ul>
+                        <p>If you don't cancel, your account automatically continues with the Pro plan at $29/month. You can cancel anytime during the trial with no obligation.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="faq-item" data-category="technical">
-            <div class="faq-question">Do you have a mobile app?</div>
-            <div class="faq-answer">
-                <p>Currently, TrendFind is a web-based platform that works on mobile browsers, but we don't have dedicated iOS or Android apps yet.</p>
-                <p>However, you can add TrendFind to your home screen:</p>
-                <ol>
-                    <li>Open TrendFind in Safari (iOS) or Chrome (Android)</li>
-                    <li>Tap the share button</li>
-                    <li>Select "Add to Home Screen"</li>
-                </ol>
-                <p>This will create an app-like icon that launches TrendFind in a standalone window. We're working on native mobile apps that will be released later this year.</p>
+
+        <!-- Technical Support -->
+        <div class="faq-section">
+            <h2 class="faq-section-title">Technical Support</h2>
+            
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question">What are the system requirements?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>TrendFind is optimized for these environments:</p>
+                        <ul>
+                            <li><strong>Browsers:</strong> Chrome (latest), Firefox (latest), Safari (latest), Edge (Chromium)</li>
+                            <li><strong>Operating Systems:</strong> Windows 10+, macOS 10.15+, Linux (Chromium-based browsers)</li>
+                            <li><strong>Display:</strong> Minimum 1280×720 resolution recommended</li>
+                            <li><strong>Internet:</strong> 10Mbps+ connection for optimal performance</li>
+                        </ul>
+                        <p>For the best experience, we recommend using Chrome on a desktop with at least 8GB RAM.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question">How often is your data updated?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our data refresh cycles vary by source:</p>
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Data Type</th>
+                                    <th>Update Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Marketplace Sales Data</td>
+                                    <td>Every 1-2 hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Social Media Trends</td>
+                                    <td>Real-time (15 min delay)</td>
+                                </tr>
+                                <tr>
+                                    <td>Search Volume Data</td>
+                                    <td>Daily</td>
+                                </tr>
+                                <tr>
+                                    <td>Supplier Pricing</td>
+                                    <td>On refresh or change notification</td>
+                                </tr>
+                                <tr>
+                                    <td>Competitor Analysis</td>
+                                    <td>Every 4 hours</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Enterprise users can request custom update schedules for critical data.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="technical">
+                <div class="faq-question">How do I integrate with Shopify/WooCommerce?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Connecting your ecommerce platform takes just minutes:</p>
+                        <ol>
+                            <li><strong>Navigate</strong> to Integrations in your TrendFind account</li>
+                            <li><strong>Select</strong> your platform (Shopify, WooCommerce, etc.)</li>
+                            <li><strong>Authenticate</strong> using your store admin credentials</li>
+                            <li><strong>Configure</strong> data sharing preferences</li>
+                            <li><strong>Sync</strong> your product catalog and sales data</li>
+                        </ol>
+                        <p>Once connected, you'll gain access to platform-specific insights like:</p>
+                        <ul>
+                            <li>Shopify product performance benchmarks</li>
+                            <li>WooCommerce conversion rate comparisons</li>
+                            <li>Platform-specific trend alerts</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="faq-item" data-category="technical">
-            <div class="faq-question">How often is the data updated?</div>
-            <div class="faq-answer">
-                <p>Our data updates at different frequencies depending on the information type:</p>
-                <ul>
-                    <li><strong>Sales data:</strong> Updated every 2-4 hours for most retailers</li>
-                    <li><strong>Social media trends:</strong> Updated in real-time</li>
-                    <li><strong>Search trends:</strong> Updated daily</li>
-                    <li><strong>Supplier pricing:</strong> Updated when you refresh or when suppliers notify us of changes</li>
-                </ul>
-                <p>Enterprise plan users can request more frequent updates for specific products or retailers.</p>
+
+        <!-- Advanced Features -->
+        <div class="faq-section">
+            <h2 class="faq-section-title">Advanced Features</h2>
+            
+            <div class="faq-item" data-category="advanced">
+                <div class="faq-question">How does the AI Recommendation Engine work?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our proprietary recommendation system uses multiple AI models:</p>
+                        <ul>
+                            <li><strong>Collaborative Filtering:</strong> Analyzes successful products among similar sellers</li>
+                            <li><strong>Content-Based Filtering:</strong> Matches products to your historical preferences</li>
+                            <li><strong>Hybrid Model:</strong> Combines both approaches with market trend data</li>
+                            <li><strong>Deep Learning:</strong> Continuously improves suggestions based on your feedback</li>
+                        </ul>
+                        <p>The system weights these factors to generate personalized product recommendations with confidence scores.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item" data-category="technical">
-            <div class="faq-question">How do I integrate TrendFind with my Shopify store?</div>
-            <div class="faq-answer">
-                <p>Connecting your Shopify store takes just a few minutes:</p>
-                <ol>
-                    <li>Go to "Integrations" in your TrendFind account</li>
-                    <li>Click "Connect Shopify"</li>
-                    <li>Enter your Shopify store URL</li>
-                    <li>Authenticate with Shopify's secure login</li>
-                    <li>Select the data you want to share (we recommend all options for best results)</li>
-                </ol>
-                <p>Once connected, TrendFind will analyze your store's performance and provide personalized product recommendations based on your existing catalog and sales data.</p>
+            
+            <div class="faq-item" data-category="advanced">
+                <div class="faq-question">Can I use the API for custom integrations?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Our Enterprise plan includes full API access with these capabilities:</p>
+                        <ul>
+                            <li><strong>Real-time Data Feeds:</strong> Stream product trends directly to your systems</li>
+                            <li><strong>Custom Alerts:</strong> Create personalized notification triggers</li>
+                            <li><strong>Workflow Automation:</strong> Integrate with your inventory management tools</li>
+                            <li><strong>White-Label Dashboards:</strong> Embed TrendFind analytics in your internal tools</li>
+                        </ul>
+                        <p>API documentation is available to Enterprise customers through our developer portal.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="advanced">
+                <div class="faq-question">What analytics tools are available?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>TrendFind offers comprehensive analytics including:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Market Trend Analysis:</strong> Visualize product lifecycles</li>
+                                    <li><strong>Competitor Benchmarking:</strong> Compare against top sellers</li>
+                                    <li><strong>Price Optimization:</strong> Find ideal price points</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Seasonality Forecasting:</strong> Predict demand fluctuations</li>
+                                    <li><strong>Supplier Comparison:</strong> Evaluate cost/quality tradeoffs</li>
+                                    <li><strong>Custom Report Builder:</strong> Create tailored analytics</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>All dashboards support export to CSV/PDF for further analysis.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Contact CTA -->
         <div class="contact-cta">
-            <h3>Still have questions?</h3>
-            <p>Our support team is available 24/7 to help you get the most out of TrendFind. Contact us anytime and we'll respond within a few hours.</p>
-            <a href="/contact-us" class="btn-contact">Contact Support</a>
+            <h3>Need Personalized Assistance?</h3>
+            <p>Our product specialists are available 24/7 to help you maximize your TrendFind experience. Get expert guidance tailored to your specific business needs.</p>
+            <a href="/contact-us" class="btn-contact">Contact Our Support Team</a>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4">
+            <div class="footer-grid">
+                <div class="footer-about">
                     <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
-                    <p>AI-powered product research platform for ecommerce sellers.</p>
+                    <p>AI-powered market intelligence for ecommerce entrepreneurs. Discover winning products before they trend.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
                 
-                <div class="col-md-8">
-                    <div class="footer-links">
-                        <div>
-                            <h4>Product</h4>
-                            <ul>
-                                <li><a href="/plan-details">Pricing</a></li>
-                                <li><a href="/features">Features</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a href="/about-us">About Us</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <h4>Support</h4>
-                            <ul>
-                                <li><a href="/contact-us">Contact Us</a></li>
-                                <li><a href="/faq">FAQ</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <h4>Legal</h4>
-                            <ul>
-                                <li><a href="/privacy">Privacy Policy</a></li>
-                                <li><a href="/terms">Terms of Service</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="/features">Features</a></li>
+                        <li><a href="/plan-details">Pricing</a></li>
+                        <li><a href="/integrations">Integrations</a></li>
+                        <li><a href="/updates">Updates</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/blog">Blog</a></li>
+                        <li><a href="/guides">Guides</a></li>
+                        <li><a href="/webinars">Webinars</a></li>
+                        <li><a href="/case-studies">Case Studies</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/about-us">About Us</a></li>
+                        <li><a href="/careers">Careers</a></li>
+                        <li><a href="/press">Press</a></li>
+                        <li><a href="/contact-us">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/security">Security</a></li>
+                        <li><a href="/compliance">Compliance</a></li>
+                    </ul>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 TrendFind. All rights reserved.</p>
+                <p>&copy; 2025 TrendFind AI. All rights reserved. | Patent Pending</p>
             </div>
         </div>
     </footer>
@@ -978,6 +1185,7 @@
         // FAQ Search Functionality
         document.getElementById('faq-search').addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
+            let hasResults = false;
             
             document.querySelectorAll('.faq-item').forEach(item => {
                 const question = item.querySelector('.faq-question').textContent.toLowerCase();
@@ -985,9 +1193,16 @@
                 
                 if (question.includes(searchTerm) || answer.includes(searchTerm)) {
                     item.style.display = 'block';
+                    hasResults = true;
                 } else {
                     item.style.display = 'none';
                 }
+            });
+            
+            // Show/hide section titles based on results
+            document.querySelectorAll('.faq-section').forEach(section => {
+                const visibleItems = section.querySelectorAll('.faq-item[style="display: block"]').length;
+                section.style.display = visibleItems > 0 ? 'block' : 'none';
             });
         });
 
@@ -1008,6 +1223,19 @@
                         item.style.display = 'none';
                     }
                 });
+                
+                // Show all sections when "All" is selected
+                if (category === 'all') {
+                    document.querySelectorAll('.faq-section').forEach(section => {
+                        section.style.display = 'block';
+                    });
+                } else {
+                    // Show only sections with visible items
+                    document.querySelectorAll('.faq-section').forEach(section => {
+                        const hasVisibleItems = section.querySelector(`.faq-item[data-category="${category}"][style="display: block"]`);
+                        section.style.display = hasVisibleItems ? 'block' : 'none';
+                    });
+                }
             });
         });
 
@@ -1019,6 +1247,23 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Animate FAQ items on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.style.opacity = 0;
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
         });
     </script>
 </body>
