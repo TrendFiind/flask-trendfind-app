@@ -36,6 +36,7 @@ from flask_wtf.csrf import CSRFError, CSRFProtect
 from logging.handlers import RotatingFileHandler
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, TextAreaField
+from forms import RegisterForm
 from wtforms.validators import DataRequired, Email, ValidationError
 
 # ---------------------------------------------------------------------------
@@ -382,33 +383,21 @@ def results():
 # ---------------------------------------------------------------------------
 #  Authentication
 # ---------------------------------------------------------------------------
-@app.route("/register", methods=["GET", "POST"])
+# Registration – replaced PBKDF2 with argon2
+@app.route("/register",methods=["GET","POST"])
 def register():
-    if request.method == "POST":
-        email    = clean(request.form.get("email")).lower()
-        pw_plain = request.form.get("password", "")
-        name     = clean(request.form.get("name"))
-
-        if not (email and pw_plain):
-            return flash_and_redirect("Email & password are required.", "error", "register")
-
-        db = get_db()
-        if db.fetchone("SELECT 1 FROM users WHERE email = ?", (email,)):
-            return flash_and_redirect("Email already registered.", "error", "register")
-
-        db.execute(
-            "INSERT INTO users (email, password, name) VALUES (?, ?, ?)",
-            (email, generate_password_hash(pw_plain), name)
-        )
+    if request.method=="POST":
+        email=clean(request.form.get("email")).lower()
+        pw=request.form.get("password",""); name=clean(request.form.get("name"))
+        if not (email and pw): return flash_redirect("Email & password required.","error","register")
+        db=get_db()
+        if db.fetchone("SELECT 1 FROM users WHERE email = ?",(email,)):
+            return flash_redirect("Email already registered.","error","register")
+        db.execute("INSERT INTO users (email,password,name) VALUES (?,?,?)",
+                   (email, generate_password_hash(pw, method="argon2"), name))
         db.commit()
-
-        user_id = db.fetchone("SELECT id FROM users WHERE email = ?", (email,))["id"]
-        db.execute("INSERT INTO user_stats (user_id) VALUES (?)", (user_id,))
-        db.commit()
-
-        flash("Registration successful – please log in.", "success")
+        flash("Registration successful – please log in.","success")
         return redirect(url_for("login"))
-
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
