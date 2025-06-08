@@ -1709,24 +1709,7 @@
             });
         }
 
-        // Sign Out Functionality
-        function signOut() {
-            fetch('/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Error signing out', 'error');
-            });
-        }
+    function signOut() { window.location.href = "/logout"; }
 
         // Helper function to show alerts
         function showAlert(message, type) {
