@@ -75,6 +75,7 @@ class Config:
 # ---------------------------------------------------------------------------
 app = Flask(__name__)
 app.config.from_object(Config)
+app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
 
 csrf     = CSRFProtect(app)
 mail     = Mail(app)
