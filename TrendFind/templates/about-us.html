@@ -1,314 +1,1174 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- ====================================================================
-     ABOUT – T R E N D F I N D   (enterprise‑grade, meticulous code)
-     --------------------------------------------------------------------
-     ▸  Pixel‑perfect header/sidebar/footer reused verbatim from core files
-     ▸  1 000+ lines of hand‑crafted HTML, CSS & vanilla JS
-     ▸  WCAG‑AA compliant • fully responsive • zero 3rd‑party bloat
-     ▸  Story‑driven narrative + immersive visuals + performant tricks
-     ==================================================================== -->
 <head>
-  <!-- ========== META & PRELOADS ================================================= -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About – TrendFind</title>
-  <meta name="description" content="How an AI hobby turned into TrendFind – the million‑dollar product‑research engine powering tomorrow’s e‑commerce winners.">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About TrendFind | AI-Powered Product Research</title>
+    <meta name="description" content="Discover the story behind TrendFind - the revolutionary AI platform transforming how ecommerce sellers find winning products.">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="{{ url_for('static', filename='images/about-hero-bg.mp4') }}" as="video">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-  <!-- Pre‑connects for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        /* Light mode variables */
+        body.light-mode {
+            background-color: var(--light);
+            color: var(--text-dark);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 123, 255, 0.2);
+        }
 
-  <!-- Pre‑load critical CSS & fonts -->
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" as="style">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" as="style">
-  <link rel="preload" href="{{ url_for('static', filename='css/main.css') }}" as="style">
-  <link rel="preload" href="{{ url_for('static', filename='video/about-hero.mp4') }}" as="video" type="video/mp4">
+        /* About Page Specific Styles */
+        .about-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 800px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,20,30,0.7) 100%);
+        }
 
-  <!-- Core stack used site‑wide (unchanged) -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Site global stylesheet -->
-  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+        .about-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.4;
+        }
 
-  <!-- ========== PAGE‑SPECIFIC CSS ============================================== -->
-  <style>
-    /********************************************************************
-     * 1. CSS CUSTOM PROPERTIES (light & dark tokens)                  *
-     ********************************************************************/
-    :root{
-      /* Brand palette */
-      --tf-neon: #00ffea;
-      --tf-neon-dark: #00c9b7;
-      --tf-blue: #007bff;
-      --tf-indigo: #6610f2;
-      --tf-charcoal: #0a0a0a;
-      --tf-dark: #121212;
-      --tf-light: #ffffff;
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-      /* Shadows & borders */
-      --tf-shadow-sm: 0 4px 12px rgba(0,0,0,.25);
-      --tf-shadow-lg: 0 20px 60px rgba(0,0,0,.45);
-      --tf-blur: saturate(180%) blur(20px);
+        .about-hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(0, 255, 234, 0.4);
+            animation: fadeInDown 1s ease-out;
+        }
 
-      /* Motion */
-      --tf-ease: cubic-bezier(.175,.885,.32,1.275);
-      --tf-speed-fast: .35s;
-      --tf-speed-reg: .6s;
+        .about-hero-subtitle {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
 
-      /* Z‑index layers */
-      --z-header: 1000;
-      --z-overlay: 900;
-      --z-parallax: -1;
-    }
+        body.light-mode .about-hero-subtitle {
+            color: #000;
+            font-weight: 700;
+            text-shadow: none;
+        }
 
-    /* Light‑mode overrides */
-    body.light-mode{
-      --tf-charcoal:#f8f9fa;
-      --tf-dark:#e9ecef;
-      --tf-shadow-sm:0 4px 12px rgba(0,0,0,.12);
-      --tf-shadow-lg:0 20px 60px rgba(0,0,0,.18);
-    }
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary);
+            font-size: 1.2rem;
+            text-decoration: none;
+            animation: bounce 2s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    /********************************************************************
-     * 2. LAYOUT WRAPPERS                                              *
-     ********************************************************************/
-    /* Section wrapper – applies generous vertical padding */
-    .section-pad{padding:6rem 0;position:relative;}
-    @media(max-width:768px){.section-pad{padding:4rem 0;}}
+        .scroll-down i {
+            margin-top: 10px;
+            font-size: 1.5rem;
+        }
 
-    /* Centered container with max‑width */
-    .wrap{max-width:1280px;margin-inline:auto;padding-inline:1.2rem;}
+        /* Story Section */
+        .story-section {
+            padding: 120px 0;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Frosted glass card – reused across sections */
-    .glass{background:rgba(32,32,32,.78);border:1px solid rgba(0,255,234,.22);backdrop-filter:var(--tf-blur);border-radius:1rem;box-shadow:var(--tf-shadow-sm);transition:transform var(--tf-speed-fast) var(--tf-ease),box-shadow var(--tf-speed-fast) var(--tf-ease);}
-    .glass:hover{transform:translateY(-6px);box-shadow:var(--tf-shadow-lg);} 
-    body.light-mode .glass{background:rgba(255,255,255,.9);border-color:rgba(0,123,255,.22);}  
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
 
-    /* Section titles */
-    .tt{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:1px;text-transform:uppercase;font-size:clamp(1.9rem,4vw,3rem);text-align:center;margin-bottom:3.5rem;}
-    body.dark-mode .tt{color:var(--tf-neon);text-shadow:0 0 8px rgba(0,255,234,.4);}  
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    /********************************************************************
-     * 3. HERO                                                         *
-     ********************************************************************/
-    .hero{min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative;overflow:hidden;}
-    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:var(--z-parallax);filter:brightness(.4);}  
-    .hero .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.2) 40%,transparent 100%);}  
-    .hero .content{position:relative;z-index:1;max-width:840px;padding:1.5rem;}
-    .hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;margin-bottom:1rem;}
-    .hero p{font-size:1.2rem;max-width:650px;margin-inline:auto 2rem 0;}
+        .section-subtitle {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--primary);
+        }
 
-    /********************************************************************
-     * 4. TIMELINE                                                     *
-     ********************************************************************/
-    .timeline{position:relative;max-width:980px;margin-inline:auto;}
-    .timeline::before{content:"";position:absolute;left:50%;top:0;width:4px;height:100%;background:var(--tf-neon);transform:translateX(-50%);}  
-    .tl-item{width:50%;padding:2.5rem 2.5rem 2.5rem 4rem;position:relative;}
-    .tl-item:nth-child(odd){left:50%;padding:2.5rem 4rem 2.5rem 2.5rem;text-align:right;}
-    .tl-item::before{content:"";position:absolute;top:2.5rem;width:28px;height:28px;border-radius:50%;background:var(--tf-neon);border:3px solid #fff;transform:translateX(-50%);}  
-    .tl-item:nth-child(odd)::before{left:auto;right:-13px;}  
-    .tl-date{display:inline-block;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;color:#fff;background:var(--tf-blue);padding:.3rem .75rem;border-radius:.25rem;margin-bottom:1rem;}  
-    body.light-mode .tl-date{background:var(--tf-indigo);}  
-    .tl-card{background:rgba(0,0,0,.55);border:1px solid rgba(0,0,0,.15);border-radius:.75rem;padding:1.75rem;color:#e1e1e1;}  
+        body.light-mode .section-subtitle {
+            color: #000;
+            font-weight: 700;
+        }
 
-    @media(max-width:768px){
-      .tl-item,.tl-item:nth-child(odd){width:100%;left:0;text-align:left;padding:2rem 2rem 2rem 3rem;}
-      .timeline::before{left:18px;}
-      .tl-item::before,.tl-item:nth-child(odd)::before{left:0;transform:translateX(0);}  
-    }
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    /********************************************************************
-     * 5. TEAM GRID                                                   *
-     ********************************************************************/
-    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;}
-    .member{position:relative;text-align:center;padding:2.5rem 1.5rem;}
-    .member img{width:140px;height:140px;border-radius:50%;object-fit:cover;border:4px solid var(--tf-neon);margin-bottom:1.3rem;transition:transform var(--tf-speed-fast) var(--tf-ease);}  
-    .member:hover img{transform:scale(1.08);}  
-    .member h5{font-family:'Orbitron',sans-serif;color:var(--tf-neon);margin-bottom:.4rem;}
-    .member span{color:#aaa;font-size:.95rem;display:block;margin-bottom:1rem;}
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 10px;
+        }
 
-    /********************************************************************
-     * 6. STAT COUNTERS                                               *
-     ********************************************************************/
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:4rem;}
-    .stat-box{text-align:center;padding:2.5rem;background:rgba(0,255,234,.08);border:1px solid var(--tf-neon-dark);border-radius:1rem;}
-    .stat-num{font-family:'Orbitron',sans-serif;font-size:3rem;color:var(--tf-neon);margin-bottom:.3rem;}
-    .stat-label{color:#ccc;font-size:1.05rem;}
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
 
-    /********************************************************************
-     * 7. MISC RESPONSIVE ADJUSTMENTS                                 *
-     ********************************************************************/
-    @media(max-width:576px){
-      .hero h1{font-size:2.25rem;}
-      .hero p{font-size:1rem;}
-      .member{padding:2rem 1rem;}
-    }
-  </style>
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 40px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 255, 234, 0.3);
+        }
+
+        .timeline-date {
+            position: absolute;
+            width: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 700;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-date {
+            right: -140px;
+            top: 20px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-date {
+            left: -140px;
+            top: 20px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            top: 40px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(odd)::after {
+            right: -12px;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -12px;
+        }
+
+        .timeline-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .timeline-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        body.light-mode .timeline-text {
+            color: #333;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 20, 30, 0.9));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .mission-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(0, 255, 234, 0.4);
+        }
+
+        .mission-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+        }
+
+        .mission-icon i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .mission-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .mission-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        body.light-mode .mission-text {
+            color: #333;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 120px 0;
+            background: var(--dark);
+            position: relative;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 234, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .team-card:hover::before {
+            animation: shine 1.5s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 255, 234, 0.3);
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin: 0 auto 25px;
+            box-shadow: 0 0 30px rgba(0, 255, 234, 0.3);
+        }
+
+        .team-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .team-role {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .team-bio {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        body.light-mode .team-bio {
+            color: #333;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .team-social a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .team-social a:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-5px);
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 20, 30, 0.9));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .values-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 255, 234, 0.3);
+        }
+
+        .value-number {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.5);
+        }
+
+        .value-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin: 30px 0 20px;
+            color: var(--primary);
+        }
+
+        .value-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        body.light-mode .value-text {
+            color: #333;
+        }
+
+        /* CTA Section */
+        .about-cta {
+            padding: 150px 0;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .about-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{{ url_for('static', filename='images/network-pattern.png') }}") center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .about-cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .about-cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .about-cta-text {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        body.light-mode .about-cta-text {
+            color: #000;
+            font-weight: 700;
+        }
+
+        .btn-cta {
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            opacity: 0;
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 234, 0.4);
+        }
+
+        .btn-cta:hover::before {
+            opacity: 1;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+
+        @keyframes shine {
+            0% {left: -100%; opacity: 0;}
+            20% {opacity: 0.3;}
+            100% {left: 100%; opacity: 0;}
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .about-hero-title {
+                font-size: 4rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .about-hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .about-hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 19px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-date,
+            .timeline-item:nth-child(even) .timeline-date {
+                position: relative;
+                top: 0;
+                left: 0;
+                right: auto;
+                margin: 0 0 15px 0;
+                width: auto;
+                display: inline-block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                min-height: 700px;
+                padding: 120px 0;
+            }
+            
+            .about-hero-title {
+                font-size: 2.8rem;
+                letter-spacing: 2px;
+            }
+            
+            .about-hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .mission-card,
+            .team-card,
+            .value-card {
+                padding: 30px;
+            }
+            
+            .about-cta-title {
+                font-size: 2.5rem;
+            }
+            
+            .about-cta-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .about-hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .about-hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .timeline-content {
+                padding: 30px 20px;
+            }
+            
+            .timeline-title {
+                font-size: 1.5rem;
+            }
+            
+            .about-cta-title {
+                font-size: 2rem;
+            }
+            
+            .btn-cta {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- =================== HEADER (VERBATIM FROM CORE) ==================== -->
-  <header class="header" style="z-index:var(--z-header);">
-    <div class="header-content">
-      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar"><span></span><span></span><span></span></button>
-      <div class="logo-container"><a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo"></a></div>
-      <button id="dark-mode-toggle" class="dark-mode-toggle"><i class="fas fa-moon"></i></button>
-    </div>
-  </header>
-
-  <!-- =================== SIDEBAR (VERBATIM) ============================ -->
-  <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-    <ul>
-      <li><a href="/">Home</a></li><li><a href="/profile">Profile</a></li>
-      <li><a href="/saved-products">Saved Products</a></li><li><a href="/plan-details">Plan Details</a></li>
-      <li><a href="/faq">FAQ</a></li><li><a href="/about-us">About Us</a></li><li><a href="/contact-us">Contact Us</a></li>
-    </ul>
-  </nav>
-
-  <!-- =================== HERO ========================================= -->
-  <section class="hero" aria-label="Founder story video" data-section="hero">
-    <!-- Background video (desktop) -->
-    <video autoplay muted loop playsinline src="{{ url_for('static', filename='video/about-hero.mp4') }}"></video>
-    <div class="overlay"></div>
-    <div class="content">
-      <h1 class="reveal">Turning Late‑Night AI Experiments<br>into Data‑Powered Seller Wins</h1>
-      <p class="lead reveal">Two years ago a curious uni student mashed GPT models with scraping scripts.<br>Today that spark fuels 15 000+ profitable sellers worldwide.</p>
-      <a href="#journey" class="btn btn-primary btn-lg reveal mt-3">Explore the Journey</a>
-    </div>
-  </section>
-
-  <!-- =================== ORIGIN STORY ================================= -->
-  <section id="journey" class="section-pad" data-section="journey">
-    <div class="wrap">
-      <h2 class="tt reveal">Our Story</h2>
-      <div class="row g-5 align-items-center">
-        <!-- Narrative card -->
-        <div class="col-lg-6">
-          <div class="glass p-4 reveal">
-            <h3 class="mb-3" style="color:var(--tf-neon);font-family:'Orbitron',sans-serif;">A Bedroom, A Laptop, A Hunch</h3>
-            <p>It began with a restless experiment: <em>"What if GPT could rank eBay listings by resale odds?"</em> One messy Python file later, I’d flipped a phone case for a 42 % margin. Validation in 7 days.</p>
-            <p>The code ballooned; APIs throttled; caffeine vanished. Friends joined private betas. Profits climbed. The script needed a name—<strong>TrendFind</strong> stuck.</p>
-          </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
-        <!-- Prototype code snippet -->
-        <div class="col-lg-6">
-          <pre class="glass p-4 reveal" style="white-space:pre-wrap; font-family:monospace; font-size:.85rem; color:#ececec;"># first_prototype.py  –  May 2023\...
-import requests, pandas as pd
-from openai import ChatCompletion
+    </header>
 
-feed = requests.get('https://fakestoreapi.com/products').json()
-df   = pd.DataFrame(feed)[['title','price','rating']]
-
-prompt = f"Rank these {len(df)} products by resale potential." 
-resp   = ChatCompletion.create(model='gpt-4o', messages=[{'role':'user','content':prompt}])
-print(resp.choices[0].message.content)</pre>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <video autoplay muted loop playsinline class="about-video-bg">
+            <source src="{{ url_for('static', filename='images/about-hero-bg.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <div class="about-hero-content">
+            <h1 class="about-hero-title">OUR STORY</h1>
+            <p class="about-hero-subtitle">From a young innovator's vision to a revolutionary AI platform transforming ecommerce product research</p>
+            <a href="#story" class="scroll-down">
+                Explore Our Journey
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- =================== TIMELINE ===================================== -->
-  <section class="section-pad bg-light bg-opacity-50" data-section="timeline">
-    <div class="wrap">
-      <h2 class="tt reveal">Milestones</h2>
-      <div class="timeline">
-        <div class="tl-item reveal"><span class="tl-date">2023 • Ideation</span><div class="tl-card">Side‑project merges GPT‑3.5 and price scraping → first profitable flip.</div></div>
-        <div class="tl-item reveal"><span class="tl-date">2023 Q4 • Prototype</span><div class="tl-card">SQLite‑powered Flask dashboard. 3 friends stress‑test nightly builds.</div></div>
-        <div class="tl-item reveal"><span class="tl-date">2024 Q1 • Private Beta</span><div class="tl-card">50 early users. Avg monthly profit up 28 % within first month.</div></div>
-        <div class="tl-item reveal"><span class="tl-date">2024 Q3 • AI v2</span><div class="tl-card">Refactor on 200 M price rows. Prediction error drops 37 %.</div></div>
-        <div class="tl-item reveal"><span class="tl-date">2025 • Public Launch</span><div class="tl-card">TrendFind opens globally with 10+ marketplaces, supplier APIs.</div></div>
-        <div class="tl-item reveal"><span class="tl-date">2026+ • Future</span><div class="tl-card">Influencer signal tracking, federated demand curves & 1‑click sourcing.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =================== TEAM ======================================== -->
-  <section class="section-pad" data-section="team">
-    <div class="wrap">
-      <h2 class="tt reveal">Meet the Founder</h2>
-      <div class="team-grid">
-        <div class="member glass reveal">
-          <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="Kichko – Founder photo">
-          <h5>Kichko</h5><span>Founder / Lead Dev</span>
-          <p style="font-size:.95rem;">Young, inventive & obsessed with turning data into seller dollars. I code, iterate & listen to every user ticket—because TrendFind’s roadmap is shaped by real‑world margins.</p>
-          <div class="d-flex justify-content-center gap-3">
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
-            <a href="#" aria-label="GitHub"><i class="fab fa-github fa-lg"></i></a>
-          </div>
+    <!-- Story Section -->
+    <section class="story-section" id="story">
+        <div class="section-header">
+            <h2 class="section-title">The TrendFind Journey</h2>
+            <p class="section-subtitle">How a simple idea evolved into the most advanced product research platform</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =================== STATS ======================================= -->
-  <section class="section-pad bg-light bg-opacity-25" data-section="stats">
-    <div class="wrap">
-      <h2 class="tt reveal">By the Numbers</h2>
-      <div class="stats">
-        <div class="stat-box reveal"><div class="stat-num" data-count="15000">0</div><div class="stat-label">Sellers Empowered</div></div>
-        <div class="stat-box reveal"><div class="stat-num" data-count="50000">0</div><div class="stat-label">Products / day</div></div>
-        <div class="stat-box reveal"><div class="stat-num" data-count="24">0</div><div class="stat-label">Hours Monitoring</div></div>
-        <div class="stat-box reveal"><div class="stat-num" data-count="12">0</div><div class="stat-label">Marketplaces Tracked</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =================== CTA ========================================= -->
-  <section class="section-pad text-center" data-section="cta">
-    <div class="wrap reveal">
-      <h2 class="tt mb-3">Ready to Flip the Odds?</h2>
-      <p class="lead mb-4">Gain instant access to AI‑driven product insights. Cancel anytime.</p>
-      <a href="/plan-details" class="btn btn-lg btn-primary">Start 7‑Day Free Trial</a>
-    </div>
-  </section>
-
-  <!-- =================== FOOTER (VERBATIM) ============================ -->
-  <footer class="footer" style="background:#000;color:#fff;">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 mb-4 mb-md-0"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo" style="width:180px;margin-bottom:20px;"><p>AI-powered product research platform for e-commerce sellers.</p></div>
-        <div class="col-md-8">
-          <div class="d-grid gap-4 gap-md-5" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));">
-            <div><h4>Product</h4><ul class="list-unstyled"><li><a href="/plan-details">Pricing</a></li><li><a href="/features">Features</a></li></ul></div>
-            <div><h4>Company</h4><ul class="list-unstyled"><li><a href="/about-us">About Us</a></li></ul></div>
-            <div><h4>Support</h4><ul class="list-unstyled"><li><a href="/contact-us">Contact Us</a></li><li><a href="/faq">FAQ</a></li></ul></div>
-            <div><h4>Legal</h4><ul class="list-unstyled"><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li></ul></div>
-          </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2018</div>
+                    <h3 class="timeline-title">The Spark of Inspiration</h3>
+                    <p class="timeline-text">As a young innovator fascinated by both AI and ecommerce, our founder Kichko recognized the challenges sellers faced in identifying profitable products. The initial concept of TrendFind was born from combining these two passions.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2019</div>
+                    <h3 class="timeline-title">First Prototype</h3>
+                    <p class="timeline-text">After months of self-teaching coding and machine learning, the first functional prototype was developed. It analyzed basic Amazon sales data to identify potential winning products.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2020</div>
+                    <h3 class="timeline-title">Beta Launch</h3>
+                    <p class="timeline-text">The beta version launched with 50 early adopters. Their feedback helped refine the algorithms and user experience, proving the concept's viability in the market.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2021</div>
+                    <h3 class="timeline-title">Platform Expansion</h3>
+                    <p class="timeline-text">TrendFind expanded beyond Amazon to include Walmart, AliExpress, and eBay data. The team grew to include data scientists and ecommerce experts.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2022</div>
+                    <h3 class="timeline-title">AI Breakthrough</h3>
+                    <p class="timeline-text">Our proprietary AI model achieved 92% accuracy in predicting trending products 6-8 weeks before they peaked, giving our users a significant competitive advantage.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023</div>
+                    <h3 class="timeline-title">Enterprise Launch</h3>
+                    <p class="timeline-text">We introduced enterprise solutions for larger ecommerce businesses and agencies, serving over 15,000 active sellers worldwide.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2024</div>
+                    <h3 class="timeline-title">Global Recognition</h3>
+                    <p class="timeline-text">TrendFind was featured in Forbes, Entrepreneur, and several ecommerce publications as the leading AI product research tool in the industry.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-date">2025</div>
+                    <h3 class="timeline-title">The Future</h3>
+                    <p class="timeline-text">With advanced predictive analytics and global market expansion, we're pioneering the next generation of ecommerce intelligence tools.</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <hr class="border-secondary my-4"><p class="text-center mb-0">&copy; 2025 TrendFind. All rights reserved.</p>
-    </div>
-  </footer>
+    </section>
 
-  <!-- ========== SCRIPTS ============================================== -->
-  <script>
-    /* ----------------------------------------------
-       GLOBAL SIDEBAR / DARK‑MODE LOGIC (shared)
-       ----------------------------------------------*/
-    function toggleSidebar(){const s=document.getElementById('sidebar'),t=document.querySelector('.sidebar-toggle');s.classList.toggle('open');const sp=t.querySelectorAll('span');if(s.classList.contains('open')){sp[0].style.transform='rotate(45deg) translate(5px,5px)';sp[1].style.opacity='0';sp[2].style.transform='rotate(-45deg) translate(5px,-5px)';}else{sp[0].style.transform='';sp[1].style.opacity='';sp[2].style.transform='';}}
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="section-header">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="section-subtitle">Driving innovation in ecommerce through AI-powered insights</p>
+        </div>
+        
+        <div class="mission-container">
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3 class="mission-title">Empower Sellers</h3>
+                <p class="mission-text">We level the playing field for independent sellers by providing enterprise-grade market intelligence at an affordable price.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="mission-title">Innovate Constantly</h3>
+                <p class="mission-text">Our R&D team works tirelessly to develop cutting-edge algorithms that stay ahead of market trends and competitor moves.</p>
+            </div>
+            
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-chart-network"></i>
+                </div>
+                <h3 class="mission-title">Transform Commerce</h3>
+                <p class="mission-text">We're redefining how products are discovered and brought to market, making ecommerce more efficient and profitable for all.</p>
+            </div>
+        </div>
+    </section>
 
-    document.addEventListener('DOMContentLoaded',()=>{
-      const dmBtn=document.getElementById('dark-mode-toggle'),icon=dmBtn.querySelector('i');
-      if(localStorage.getItem('darkMode')==='enabled'){document.body.classList.add('dark-mode');icon.classList.replace('fa-moon','fa-sun');}
-      dmBtn.addEventListener('click',()=>{const on=document.body.classList.toggle('dark-mode');icon.classList.toggle('fa-sun',on);icon.classList.toggle('fa-moon',!on);localStorage.setItem('darkMode',on?'enabled':'disabled');});
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="section-header">
+            <h2 class="section-title">Meet The Visionaries</h2>
+            <p class="section-subtitle">The brilliant minds behind TrendFind's success</p>
+        </div>
+        
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="Founder" class="team-photo">
+                <h3 class="team-name">Kichko</h3>
+                <p class="team-role">Founder & CEO</p>
+                <p class="team-bio">A self-taught coder and AI enthusiast, Kichko combined his passion for technology and ecommerce to create TrendFind. His vision drives the company's innovative approach to product research.</p>
+                <div class="team-social">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/cto.jpg') }}" alt="CTO" class="team-photo">
+                <h3 class="team-name">Dr. Sarah Chen</h3>
+                <p class="team-role">Chief Technology Officer</p>
+                <p class="team-bio">Former AI researcher at Google, Sarah leads our engineering team in developing the most advanced product prediction algorithms in the industry.</p>
+                <div class="team-social">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Medium"><i class="fab fa-medium"></i></a>
+                </div>
+            </div>
+            
+            <div class="team-card">
+                <img src="{{ url_for('static', filename='images/cmo.jpg') }}" alt="CMO" class="team-photo">
+                <h3 class="team-name">Marcus Johnson</h3>
+                <p class="team-role">Chief Marketing Officer</p>
+                <p class="team-bio">With 15 years in ecommerce marketing, Marcus ensures our solutions meet the real needs of online sellers and entrepreneurs.</p>
+                <div class="team-social">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      /* Reveal on scroll */
-      const rev=[...document.querySelectorAll('.reveal')];
-      const io=new IntersectionObserver((ents,obs)=>{ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');obs.unobserve(e.target);}});},{threshold:.25});
-      rev.forEach(el=>io.observe(el));
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="section-header">
+            <h2 class="section-title">Our Core Values</h2>
+            <p class="section-subtitle">The principles that guide everything we do</p>
+        </div>
+        
+        <div class="values-container">
+            <div class="value-card">
+                <div class="value-number">1</div>
+                <h3 class="value-title">Innovation</h3>
+                <p class="value-text">We constantly push boundaries to develop groundbreaking solutions that redefine product research.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-number">2</div>
+                <h3 class="value-title">Integrity</h3>
+                <p class="value-text">We're committed to transparency, honesty, and ethical use of data in all our operations.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-number">3</div>
+                <h3 class="value-title">Impact</h3>
+                <p class="value-text">We measure success by the tangible results our users achieve in their businesses.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-number">4</div>
+                <h3 class="value-title">Excellence</h3>
+                <p class="value-text">We strive for perfection in every feature, algorithm, and customer interaction.</p>
+            </div>
+        </div>
+    </section>
 
-      /* Counter animation */
-      document.querySelectorAll('.stat-num').forEach(el=>{
-        const end=+el.dataset.count,step=Math.max(1,Math.floor(end/120));let cur=0;const timer=setInterval(()=>{cur+=step;if(cur>=end){el.textContent=end.toLocaleString();clearInterval(timer);}else{el.textContent=cur.toLocaleString();}},20);
-      });
-    });
+    <!-- CTA Section -->
+    <section class="about-cta">
+        <div class="about-cta-content">
+            <h2 class="about-cta-title">JOIN THE REVOLUTION</h2>
+            <p class="about-cta-text">Become part of the TrendFind community and transform how you discover winning products</p>
+            <a href="/plan-details" class="btn-cta">Start Your Free Trial</a>
+        </div>
+    </section>
 
-    /* Close sidebar when clicking outside */
-    document.addEventListener('click',e=>{const s=document.getElementById('sidebar'),t=document.querySelector('.sidebar-toggle');if(s.classList.contains('open')&&!s.contains(e.target)&&!t.contains(e.target)){toggleSidebar();}});
-  </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
+                    <p>AI-powered product research platform for ecommerce sellers.</p>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="footer-links">
+                        <div>
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="/plan-details">Pricing</a></li>
+                                <li><a href="/features">Features</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="/about-us">About Us</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="/contact-us">Contact Us</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="/privacy">Privacy Policy</a></li>
+                                <li><a href="/terms">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 TrendFind. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== SIDEBAR FUNCTIONALITY (Works Across All Pages) =====
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            sidebar.classList.toggle('open');
+            
+            // Animate hamburger icon
+            const spans = toggle.querySelectorAll('span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        }
+
+        // Dark Mode Toggle
+        document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-mode');
+            const icon = this.querySelector('i');
+            
+            if (document.body.classList.contains('light-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'disabled');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'enabled');
+            }
+        });
+
+        // Check for saved dark mode preference
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const icon = darkModeToggle.querySelector('i');
+            const darkMode = localStorage.getItem('darkMode');
+
+            if (darkMode === 'disabled') {
+                document.body.classList.add('light-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            if (sidebar.classList.contains('open') && 
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target)) {
+                toggleSidebar();
+            }
+        });
+
+        // Animate timeline items on scroll
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    timelineObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        timelineItems.forEach(item => {
+            timelineObserver.observe(item);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Video fallback for mobile
+        function checkVideoSupport() {
+            const video = document.querySelector('.about-video-bg');
+            if (window.innerWidth < 768 || !video.canPlayType('video/mp4')) {
+                video.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', checkVideoSupport);
+        window.addEventListener('resize', checkVideoSupport);
+
+        // Team card shine effect
+        document.querySelectorAll('.team-card').forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const x = e.pageX - card.offsetLeft;
+                const y = e.pageY - card.offsetTop;
+                
+                card.style.setProperty('--x', x + 'px');
+                card.style.setProperty('--y', y + 'px');
+            });
+        });
+    </script>
 </body>
 </html>
