@@ -394,7 +394,7 @@ def register():
         if db.fetchone("SELECT 1 FROM users WHERE email = ?",(email,)):
             return flash_redirect("Email already registered.","error","register")
         db.execute("INSERT INTO users (email,password,name) VALUES (?,?,?)",
-                   (email, generate_password_hash(pw), name))
+                   (email, generate_password_hash(pw), name))                   # default pbkdf2:sha256
         db.commit()
         flash("Registration successful – please log in.","success")
         return redirect(url_for("login"))
