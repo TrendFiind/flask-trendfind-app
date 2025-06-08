@@ -1,21 +1,16 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length
+from flask_wtf import FlaskForm, RecaptchaField
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-class ContactForm(FlaskForm):
-    name = StringField('Name', validators=[
-        DataRequired(),
-        Length(min=2, max=50)
-    ])
-    email = StringField('Email', validators=[
-        DataRequired(),
-        Email(),
-        Length(max=120)
-    ])
-    subject = StringField('Subject', validators=[
-        Length(max=100)
-    ])
-    message = TextAreaField('Message', validators=[
-        DataRequired(),
-        Length(min=10, max=2000)
-    ])
+class RegisterForm(FlaskForm):
+    name     = StringField("Full Name",  validators=[DataRequired()])
+    email    = StringField("Email",      validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
+    confirm  = PasswordField("Confirm",  validators=[EqualTo("password")])
+    recaptcha= RecaptchaField()
+    submit   = SubmitField("Create Account")
+
+class LoginForm(FlaskForm):
+    email    = StringField("Email",      validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit   = SubmitField("Sign In")
