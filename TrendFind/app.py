@@ -79,8 +79,12 @@ app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
 
 csrf     = CSRFProtect(app)
 mail     = Mail(app)
-limiter  = Limiter(app, key_func=get_remote_address,
-                   default_limits=Config.RATE_LIMITS, storage_uri="memory://")
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=Config.RATE_LIMITS,
+    storage_uri="memory://"
+)
+limiter.init_app(app)          # ← this attaches the limiter to your Flask app
 oauth    = OAuth(app)
 
 google = oauth.register(
