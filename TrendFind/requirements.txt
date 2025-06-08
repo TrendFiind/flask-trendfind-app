@@ -1,13 +1,42 @@
-Flask==2.0.1
+# ───── Core web stack ─────────────────────────────────────────────
+Flask==3.0.2                # web framework (3.x needs Werkzeug 3.x)
+Werkzeug==3.0.1             # WSGI utilities
+itsdangerous==2.1.2         # signed tokens (Flask dep)
+
+# ───── Forms, CSRF, reCAPTCHA, validators ────────────────────────
+Flask-WTF==1.2.1
+WTForms[email]==3.1.2
+email-validator==2.1.1
+
+# ───── Database & migrations ─────────────────────────────────────
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.5
+psycopg2-binary==2.9.9       # Postgres driver
+
+# ───── Auth & security ───────────────────────────────────────────
+Flask-Login==0.6.3
+argon2-cffi==23.1.0          # strong password hashing
+
+# ───── Rate limiting / security headers ──────────────────────────
+Flask-Limiter==3.5.0
+bleach==6.1.0                # optional HTML sanitiser
+
+# ───── Mail & async tasks ────────────────────────────────────────
 Flask-Mail==0.9.1
-Flask-WTF==1.0.0
-Werkzeug==2.0.1
-python-dotenv==0.19.0
-requests==2.26.0
-Authlib==0.15.5
-Flask-Limiter==2.4.0
-bleach==6.0.0
-gunicorn==20.1.0
-gevent>=1.4.0
-email-validator==1.3.1
-psycopg2-binary
+celery==5.3.6
+redis==5.0.2
+
+# ───── Payments & external APIs ──────────────────────────────────
+stripe==9.7.0
+Authlib==1.3.0               # Google OAuth / any OAuth 2.0 flows
+requests==2.31.0
+
+# ───── Observability & error reporting ───────────────────────────
+sentry-sdk==2.3.1
+
+# ───── Production server & workers ───────────────────────────────
+gunicorn==22.0.0
+gevent==24.2.1               # async worker class for gunicorn
+
+# ───── Misc utilities ────────────────────────────────────────────
+python-dotenv==1.0.1
