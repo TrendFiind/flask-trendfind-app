@@ -7,7 +7,7 @@ class Base:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     REMEMBER_COOKIE_DURATION = timedelta(days=7)
     SESSION_COOKIE_SECURE  = True          # https only
-    WTF_CSRF_ENABLED       = True
+    WTF_CSRF_ENABLED       = False
     RECAPTCHA_PUBLIC_KEY   = get("RECAPTCHA_SITE_KEY")
     RECAPTCHA_PRIVATE_KEY  = get("RECAPTCHA_SECRET_KEY")
 
