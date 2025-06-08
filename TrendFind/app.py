@@ -54,7 +54,7 @@ class Config:
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
 
     # CSRF
-    WTF_CSRF_ENABLED     = True
+    WTF_CSRF_ENABLED     = False        # DEV ONLY
     WTF_CSRF_SECRET_KEY  = SECRET_KEY
 
     # Database (SQLite fallback)
