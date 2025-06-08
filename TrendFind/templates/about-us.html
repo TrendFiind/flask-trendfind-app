@@ -1,243 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About – TrendFind</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | TrendFind</title>
 
-<!-- Site-wide assets -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Preload critical assets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-<!-- ——— About-page styles ——— -->
-<style>
-:root{
-  --tf-blue:#007bff; --tf-neon:#00ffea; --tf-dark:#121212;
-  --tf-card-bg:rgba(255,255,255,.92); --tf-card-bg-dark:rgba(32,32,32,.92);
-}
-body{scroll-behavior:smooth;}
+        /* Light mode variables */
+        body.light-mode {
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 123, 255, 0.2);
+            --dark: #f8f9fa;
+            --darker: #e9ecef;
+        }
 
-/* Hero */
-.hero{
-  position:relative; min-height:75vh; display:flex; align-items:center; justify-content:center;
-  color:#fff; text-align:center; overflow:hidden; background:#000;
-}
-.hero::before, .hero::after{ /* layered radial gradients that drift slowly */
-  content:""; position:absolute; inset:-20%; background:radial-gradient(circle at 30% 30%, rgba(0,255,234,.18) 0%, transparent 55%),
-             radial-gradient(circle at 70% 70%, rgba(0,123,255,.25) 0%, transparent 60%),
-             linear-gradient(135deg,#000 0%,#0d0d0d 100%);
-  animation: drift 30s infinite alternate; pointer-events:none; }
-.hero::after{animation-direction:alternate-reverse;}
-@keyframes drift{to{transform:translate(8%,-6%) scale(1.1);}}
+        /* About Us Specific Styles */
+        .about-hero {
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
 
-/* Particle dots */
-.hero .dots{
-  position:absolute; inset:0; background-image:radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
-  background-size:20px 20px; pointer-events:none; mask-image:linear-gradient(#000,transparent);
-}
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
 
-/* Section shells */
-.section-pad{padding:6rem 0;}
-.section-title{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:1px;text-align:center;margin-bottom:3.5rem;}
-body.dark-mode .section-title{color:var(--tf-neon);text-shadow:0 0 8px rgba(0,255,234,.35);}
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+        }
 
-/* Cards */
-.about-card{background:var(--tf-card-bg);border-radius:1rem;padding:2.75rem;height:100%;transition:transform .3s;}
-.about-card:hover{transform:translateY(-8px);}
-body.dark-mode .about-card{background:var(--tf-card-bg-dark);}
-.about-card .icon{font-size:2.8rem;color:var(--tf-blue);margin-bottom:1.25rem;}
-body.dark-mode .about-card .icon{color:var(--tf-neon);}
+        .about-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            margin-bottom: 3rem;
+        }
 
-/* Timeline */
-.timeline{position:relative;max-width:900px;margin:0 auto;}
-.timeline::before{content:"";position:absolute;left:50%;top:0;width:4px;height:100%;background:var(--tf-blue);transform:translateX(-50%);}
-.tl-item{position:relative;width:50%;padding:2rem 2rem 2rem 4rem;}
-.tl-item:nth-child(odd){left:50%;padding:2rem 4rem 2rem 2rem;text-align:right;}
-.tl-item::before{content:"";position:absolute;top:2rem;width:26px;height:26px;border-radius:50%;background:var(--tf-blue);transform:translateX(-50%);}
-.tl-item:nth-child(odd)::before{left:auto;right:-13px;}
-.tl-badge{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:#fff;padding:.35rem .65rem;border-radius:.25rem;background:var(--tf-blue);}
-body.dark-mode .tl-item::before{background:var(--tf-neon);} body.dark-mode .tl-badge{background:var(--tf-neon);}
-@media(max-width:768px){
-  .timeline::before{left:8px;}
-  .tl-item,.tl-item:nth-child(odd){width:100%;left:0;text-align:left;padding:2rem 2rem 2rem 3.25rem;}
-  .tl-item::before,.tl-item:nth-child(odd)::before{left:0;transform:translateX(0);}
-}
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        }
 
-/* Code block */
-.code-wrap{background:#0d1926;border-radius:.75rem;padding:1.5rem;color:#eee;position:relative;font-family:monospace;font-size:.9rem;}
-.code-wrap::before{content:"python";position:absolute;top:-1.1rem;left:1rem;background:#0d1926;padding:.1rem .6rem;border-radius:.25rem;font-size:.75rem;letter-spacing:.5px;color:var(--tf-neon);}
-.code-wrap .kw{color:#c792ea;} .code-wrap .var{color:#82aaff;} .code-wrap .str{color:#ecc48d;}
+        .about-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
 
-/* Gallery */
-.gallery{columns:3 220px;column-gap:1rem;} .gallery img{width:100%;margin-bottom:1rem;border-radius:.5rem;}
-@media(max-width:576px){.gallery{columns:2 150px;}}
+        .about-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
 
-/* Stats */
-.stat{text-align:center;padding:2rem;} .stat .num{font-family:'Orbitron',sans-serif;font-size:2.5rem;font-weight:700;color:var(--tf-blue);}
-body.dark-mode .stat .num{color:var(--tf-neon);}
+        body.light-mode .about-card p {
+            color: rgba(0, 0, 0, 0.9);
+        }
 
-/* Reveal */
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .75s ease,transform .75s ease;} .reveal.active{opacity:1;transform:none;}
+        .mission-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
 
-/* Misc dark-mode */
-body.dark-mode .hero::before,body.dark-mode .hero::after{background:radial-gradient(circle at 30% 30%,rgba(0,255,234,.28) 0%,transparent 55%),radial-gradient(circle at 70% 70%,rgba(0,123,255,.4) 0%,transparent 60%),linear-gradient(135deg,#0a0a0a 0%,#000 100%);}
-</style>
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 15px;
+            border: 1px solid var(--primary);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.light-mode .stat-label {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin: 0 auto 1.5rem;
+        }
+
+        .member-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+
+        body.light-mode .member-role {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .member-bio {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        body.light-mode .member-bio {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 6rem 0 2rem;
+            }
+            
+            .about-card {
+                padding: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .mission-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .about-card {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .about-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<!-- ——— Header (unchanged) ——— -->
+<!-- Header (matches other pages exactly) -->
 <header class="header">
-  <div class="header-content">
-    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar"><span></span><span></span><span></span></button>
-    <div class="logo-container"><a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo"></a></div>
-    <button id="dark-mode-toggle" class="dark-mode-toggle"><i class="fas fa-moon"></i></button>
-  </div>
+    <div class="header-content">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="logo-container">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+            </a>
+        </div>
+    </div>
 </header>
 
-<!-- ——— Sidebar (unchanged) ——— -->
-<nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-  <ul>
-    <li><a href="/">Home</a></li><li><a href="/profile">Profile</a></li>
-    <li><a href="/saved-products">Saved Products</a></li><li><a href="/plan-details">Plan Details</a></li>
-    <li><a href="/faq">FAQ</a></li><li><a href="/about-us">About Us</a></li><li><a href="/contact-us">Contact Us</a></li>
-  </ul>
-</nav>
+    <!-- Sidebar (matches other pages exactly) -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
 
-<!-- ——— Hero ——— -->
-<section class="hero">
-  <div class="dots"></div>
-  <div class="container">
-    <h1 class="mb-3 reveal">From AI Curiosity to Commerce Powerhouse</h1>
-    <p class="lead reveal">“Two years ago I was tinkering with GPT models for fun—then lightning struck: what if<br>AI + code could uncover tomorrow’s winning products before anyone else?”</p>
-    <a href="#origin" class="btn btn-primary btn-lg reveal">See the Journey</a>
-  </div>
-</section>
+    <!-- Main Content -->
+    <main class="about-hero">
+        <div class="about-container">
+            <h2 class="section-title">Our Story</h2>
+            
+            <div class="about-card">
+                <h3>Our Mission</h3>
+                <p>At TrendFind, we empower entrepreneurs, dropshippers, and resellers with cutting-edge product research tools that analyze real-time and historical market data. Our mission is to eliminate the guesswork from product selection and help you discover winning products before they become oversaturated.</p>
+                <p>Born from a young innovator's vision to combine AI with ecommerce, TrendFind has evolved into a sophisticated platform that tracks product trends across multiple channels, giving our users the competitive edge they need to succeed in today's fast-paced online marketplace.</p>
+            </div>
+            
+            <div class="about-card">
+                <h3>Why We Exist</h3>
+                <p>The ecommerce landscape is more competitive than ever. Finding profitable products requires analyzing vast amounts of data from multiple sources - something that's nearly impossible to do manually. That's where TrendFind comes in.</p>
+                <p>We exist to level the playing field for independent sellers. Our platform continuously monitors millions of data points across marketplaces, social media, and search trends to surface the most promising opportunities - saving you time and increasing your chances of success.</p>
+                
+                <div class="mission-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10M+</div>
+                        <div class="stat-label">Products Analyzed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Market Monitoring</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Data Sources</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-card">
+                <h3>How We Help</h3>
+                <p>TrendFind provides actionable insights through:</p>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.9);">
+                        <span style="position: absolute; left: 0; color: var(--primary);">▹</span>
+                        <strong>Real-time trend detection</strong> - Spot emerging products as they gain traction
+                    </li>
+                    <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.9);">
+                        <span style="position: absolute; left: 0; color: var(--primary);">▹</span>
+                        <strong>Historical performance analysis</strong> - Understand product lifecycles and seasonality
+                    </li>
+                    <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.9);">
+                        <span style="position: absolute; left: 0; color: var(--primary);">▹</span>
+                        <strong>Competitor intelligence</strong> - See what's working for others in your niche
+                    </li>
+                    <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.9);">
+                        <span style="position: absolute; left: 0; color: var(--primary);">▹</span>
+                        <strong>Profitability metrics</strong> - Estimate margins and potential ROI
+                    </li>
+                    <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative; color: rgba(255, 255, 255, 0.9);">
+                        <span style="position: absolute; left: 0; color: var(--primary);">▹</span>
+                        <strong>Custom alerts</strong> - Get notified when products meet your criteria
+                    </li>
+                </ul>
+                <p>Our tools are designed to help you make data-driven decisions, not hunches. Whether you're just starting or scaling your business, TrendFind gives you the insights you need to stay ahead.</p>
+            </div>
+            
+            <div class="about-card">
+                <h3>The Future of TrendFind</h3>
+                <p>What began as an experiment combining AI with ecommerce has grown into a powerful platform, but we're just getting started. Our roadmap includes:</p>
+                <p><strong>Advanced predictive analytics</strong> - Using machine learning to forecast trends before they happen, giving you first-mover advantage on winning products.</p>
+                <p><strong>Global market expansion</strong> - Adding support for more international marketplaces and regional trends.</p>
+                <p><strong>Integrated supplier network</strong> - Connecting you directly with reliable suppliers for the products you discover.</p>
+                <p><strong>Automated store integration</strong> - One-click importing of products to your Shopify, WooCommerce, or other store platforms.</p>
+                <p>We're committed to continuously improving TrendFind to be the most comprehensive product research tool available. Our goal is to make sophisticated market analysis accessible to sellers of all sizes.</p>
+            </div>
+            
+            <div class="about-card">
+                <h3>Meet the Founder</h3>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="{{ url_for('static', filename='images/founder.jpg') }}" alt="Founder" class="member-photo">
+                        <h4 class="member-name">Kichko</h4>
+                        <p class="member-role">Founder & Lead Developer</p>
+                        <p class="member-bio">As a young innovator fascinated by both AI and ecommerce, I created TrendFind to solve the product research challenges I faced in my own entrepreneurial journey. What started as a personal project has grown into a platform helping thousands of sellers worldwide.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-<!-- ——— Origin Story ——— -->
-<section id="origin" class="section-pad">
- <div class="container">
-  <h2 class="section-title reveal">How TrendFind Was Born</h2>
-  <div class="row align-items-center gy-5">
-    <div class="col-lg-6">
-      <div class="about-card reveal">
-        <h4 class="mb-3">A Spark in a Student Bedroom</h4>
-        <p>I was 19, juggling uni projects and late-night rabbit holes in AI. One weekend, I bolted a simple Python scraper onto an open-source GPT model. The script spat out three product ideas—one of which flipped for a 42 % margin on eBay the next week. <strong>TrendFind’s seed was planted.</strong></p>
-        <p>That hacky script matured line by line: learning REST calls, wrangling JSON, throttling APIs. The more code I wrote, the clearer the vision became: **turn data chaos into seller clarity**.</p>
-      </div>
+<!-- Footer -->
+<footer class="footer" style="background-color: #000; color: #fff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo" style="width: 180px; margin-bottom: 20px;">
+                <p style="color: #fff;">AI-powered product research platform for ecommerce sellers.</p>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="footer-links" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; margin-bottom: 40px;">
+                    <div>
+                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Product</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li><a href="/plan-details" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Pricing</a></li>
+                            <li><a href="/features" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Features</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Company</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li><a href="/about-us" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">About Us</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Support</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li><a href="/contact-us" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Contact Us</a></li>
+                            <li><a href="/faq" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">FAQ</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 style="font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.2rem; margin-bottom: 20px; color: #fff;">Legal</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li><a href="/privacy" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Privacy Policy</a></li>
+                            <li><a href="/terms" style="color: #fff; text-decoration: none; transition: all 0.3s ease;">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright" style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: 40px;">
+            <p style="color: #fff; margin: 0;">&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
     </div>
-    <div class="col-lg-6">
-      <div class="code-wrap reveal" aria-label="First prototype code">
-<span class="kw">import</span> requests, pandas <span class="kw">as</span> pd<br>
-<span class="kw">from</span> openai <span class="kw">import</span> ChatCompletion<br><br>
-<span class="var">feed</span> = requests.get(<span class="str">'https://fakestoreapi.com/products'</span>).json()<br>
-<span class="var">df</span>   = pd.DataFrame(feed)[[<span class="str">'title'</span>,<span class="str">'price'</span>,<span class="str">'rating'</span>]]<br><br>
-<span class="var">prompt</span> = f<span class="str">'Rank these {len(df)} products by resale potential.'</span><br>
-<span class="var">resp</span>   = ChatCompletion.create(model=<span class="str">'gpt-4o'</span>, messages=[{<span class="str">'role'</span>:<span class="str">'user'</span>,<span class="str">'content'</span>:prompt}])<br>
-print(resp.choices[0].message.content)
-      </div>
-    </div>
-  </div>
- </div>
-</section>
-
-<!-- ——— Timeline ——— -->
-<section class="section-pad bg-light bg-opacity-50">
- <div class="container">
-  <h2 class="section-title reveal">Milestones in the Making</h2>
-  <div class="timeline">
-   <div class="tl-item reveal"><span class="tl-badge">2023 • Idea</span><p class="mt-2">Weekend AI experiments + first profitable flip → “TrendFind” name scribbled in a notebook.</p></div>
-   <div class="tl-item reveal"><span class="tl-badge">2023 Q4 • Prototype</span><p class="mt-2">6-table SQLite DB, Flask dashboard & 3 friends stress-testing nightly builds.</p></div>
-   <div class="tl-item reveal"><span class="tl-badge">2024 Q1 • Private Beta</span><p class="mt-2">50 early users. Average monthly profit jump: <strong>28 %</strong>.</p></div>
-   <div class="tl-item reveal"><span class="tl-badge">2024 Q3 • AI v2</span><p class="mt-2">Pipeline rebuilt on 200 M price rows → prediction error -37 %.</p></div>
-   <div class="tl-item reveal"><span class="tl-badge">2025 • Public Launch</span><p class="mt-2">Opened to global sellers, integrated 10+ marketplaces & supplier-stock APIs.</p></div>
-   <div class="tl-item reveal"><span class="tl-badge">2026+ • Roadmap</span><p class="mt-2">Influencer-signal tracking, demand curves via federated learning, 1-click inventory sourcing.</p></div>
-  </div>
- </div>
-</section>
-
-<!-- ——— Inventor DNA ——— -->
-<section class="section-pad">
- <div class="container">
-  <h2 class="section-title reveal">Inventor DNA</h2>
-  <div class="row gy-4">
-   <div class="col-md-3"><div class="about-card reveal"><div class="icon"><i class="fas fa-lightbulb"></i></div><h5>Inventive</h5><p>Turning “what-ifs” into shipping code since my first Arduino kit.</p></div></div>
-   <div class="col-md-3"><div class="about-card reveal"><div class="icon"><i class="fas fa-layer-group"></i></div><h5>Innovative</h5><p>I mash APIs, models & market data until something new clicks.</p></div></div>
-   <div class="col-md-3"><div class="about-card reveal"><div class="icon"><i class="fas fa-dollar-sign"></i></div><h5>Money-Minded</h5><p>Side hustles at 13 → eBay flips at 16 → TrendFind today.</p></div></div>
-   <div class="col-md-3"><div class="about-card reveal"><div class="icon"><i class="fas fa-flask"></i></div><h5>Curious</h5><p>I break stuff to see how it works, then rebuild it better.</p></div></div>
-  </div>
- </div>
-</section>
-
-<!-- ——— Behind-the-Scenes Gallery ——— -->
-<section class="section-pad bg-light bg-opacity-25">
- <div class="container">
-  <h2 class="section-title reveal">Sketches & Scrappy Beginnings</h2>
-  <div class="gallery">
-    <img src="{{ url_for('static', filename='images/bts1.jpg') }}" alt="Notebook sketch" class="reveal">
-    <img src="{{ url_for('static', filename='images/bts2.jpg') }}" alt="Early UI wireframe" class="reveal">
-    <img src="{{ url_for('static', filename='images/bts3.jpg') }}" alt="Whiteboard equations" class="reveal">
-    <img src="{{ url_for('static', filename='images/bts4.jpg') }}" alt="Prototype dashboard" class="reveal">
-    <img src="{{ url_for('static', filename='images/bts5.jpg') }}" alt="First live sale screenshot" class="reveal">
-  </div>
- </div>
-</section>
-
-<!-- ——— Stats ——— -->
-<section class="section-pad">
- <div class="container">
-  <div class="row">
-    <div class="col-6 col-md-3 stat reveal"><div class="num" data-count="15000">0</div><p>Sellers Empowered</p></div>
-    <div class="col-6 col-md-3 stat reveal"><div class="num" data-count="50000">0</div><p>Products Analysed / day</p></div>
-    <div class="col-6 col-md-3 stat reveal"><div class="num" data-count="24">0</div><p>Hours Monitoring</p></div>
-    <div class="col-6 col-md-3 stat reveal"><div class="num" data-count="12">0</div><p>Marketplaces Tracked</p></div>
-  </div>
- </div>
-</section>
-
-<!-- ——— Call to action ——— -->
-<section class="section-pad text-center">
- <div class="container reveal">
-  <h2 class="section-title mb-4">Join the Journey</h2>
-  <p class="mb-4 lead">Whether you’re flipping sneakers or scaling a full-stack DTC brand, let TrendFind be your unfair advantage.</p>
-  <a href="/plan-details" class="btn btn-primary btn-lg">Start Your 7-Day Trial</a>
- </div>
-</section>
-
-<!-- ——— Footer (unchanged) ——— -->
-<footer class="footer" style="background:#000;color:#fff;">
- <div class="container">
-  <div class="row">
-   <div class="col-md-4 mb-4 mb-md-0">
-    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo" style="width:180px;margin-bottom:20px;">
-    <p>AI-powered product research platform for e-commerce sellers.</p>
-   </div>
-   <div class="col-md-8">
-    <div class="d-grid gap-4 gap-md-5" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));">
-     <div><h4>Product</h4><ul class="list-unstyled"><li><a href="/plan-details">Pricing</a></li><li><a href="/features">Features</a></li></ul></div>
-     <div><h4>Company</h4><ul class="list-unstyled"><li><a href="/about-us">About Us</a></li></ul></div>
-     <div><h4>Support</h4><ul class="list-unstyled"><li><a href="/contact-us">Contact Us</a></li><li><a href="/faq">FAQ</a></li></ul></div>
-     <div><h4>Legal</h4><ul class="list-unstyled"><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li></ul></div>
-    </div>
-   </div>
-  </div>
-  <hr class="border-secondary my-4"><p class="text-center mb-0">&copy; 2025 TrendFind. All rights reserved.</p>
- </div>
 </footer>
 
-<!-- ——— JS (global + enhancements) ——— -->
-<script>
-/* Sidebar & dark-mode (unchanged) */
-function toggleSidebar(){const s=document.getElementById('sidebar'),t=document.querySelector('.sidebar-toggle');s.classList.toggle('open');const a=t.querySelectorAll('span');if(s.classList.contains('open')){a[0].style.transform='rotate(45deg) translate(5px,5px)';a[1].style.opacity='0';a[2].style.transform='rotate(-45deg) translate(5px,-5px)';}else{a[0].style.transform='';a[1].style.opacity='';a[2].style.transform='';}}
-document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('dark-mode-toggle'),i=b.querySelector('i');if(localStorage.getItem('darkMode')==='enabled'){document.body.classList.add('dark-mode');i.classList.replace('fa-moon','fa-sun');}
-b.addEventListener('click',()=>{const e=document.body.classList.toggle('dark-mode');i.classList.toggle('fa-sun',e);i.classList.toggle('fa-moon',!e);localStorage.setItem('darkMode',e?'enabled':'disabled');});
-/* Reveal on scroll */
-const rev=[...document.querySelectorAll('.reveal')],io=new IntersectionObserver((en,ob)=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');ob.unobserve(e.target);}})},{threshold:.2});rev.forEach(el=>io.observe(el));
-/* Counter */
-document.querySelectorAll('.num').forEach(el=>{const target=+el.dataset.count,step=Math.max(1,Math.floor(target/120));let cur=0;const tick=()=>{cur+=step;if(cur>=target){el.textContent=target.toLocaleString();clearInterval(id);}else{el.textContent=cur.toLocaleString();}};const id=setInterval(tick,20);});
-});
-/* Close sidebar if click outside */
-document.addEventListener('click',e=>{const s=document.getElementById('sidebar'),t=document.querySelector('.sidebar-toggle');if(s.classList.contains('open')&&!s.contains(e.target)&&!t.contains(e.target)){toggleSidebar();}});
-</script>
+    <!-- JavaScript -->
+    <script>
+        // ===== SIDEBAR FUNCTIONALITY (Works Across All Pages) =====
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            sidebar.classList.toggle('open');
+            
+            // Animate hamburger icon
+            const spans = toggle.querySelectorAll('span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        }
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            if (sidebar.classList.contains('open') && 
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target)) {
+                toggleSidebar();
+            }
+        });
+
+        // Animate stats counter
+        document.addEventListener('DOMContentLoaded', function() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const duration = 2000; // Animation duration in ms
+            const startValues = [0, 0, 0, 0];
+            const endValues = [10, 24, 95, 100]; // The actual values (10M+, 24/7, 95%, 100+)
+            const prefixes = ['', '', '', ''];
+            const suffixes = ['M+', '/7', '%', '+'];
+            
+            // Only animate if the element is in view
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateStats();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            // Observe the stats container
+            const statsContainer = document.querySelector('.mission-stats');
+            if (statsContainer) {
+                observer.observe(statsContainer);
+            }
+            
+            function animateStats() {
+                statNumbers.forEach((stat, index) => {
+                    let start = 0;
+                    const end = endValues[index];
+                    const increment = end / (duration / 16); // 60fps
+                    
+                    const timer = setInterval(() => {
+                        start += increment;
+                        if (start >= end) {
+                            clearInterval(timer);
+                            stat.textContent = prefixes[index] + end + suffixes[index];
+                        } else {
+                            // For percentages, show as integer
+                            if (suffixes[index] === '%') {
+                                stat.textContent = prefixes[index] + Math.floor(start) + suffixes[index];
+                            } else {
+                                stat.textContent = prefixes[index] + Math.floor(start) + suffixes[index];
+                            }
+                        }
+                    }, 16);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
