@@ -1686,11 +1686,3 @@ body.dark-mode .dark-mode-toggle i {
         padding: 10px 15px;
     }
 }
-
-/* === KEEP STATS & TESTIMONIAL SUBTITLE WHITE IN LIGHT MODE === */
-body.light-mode .stat-number,
-body.light-mode .stat-label,
-body.light-mode .testimonials-section .section-subtitle {
-    color: #ffffff !important;
-    text-shadow: none;
-}
