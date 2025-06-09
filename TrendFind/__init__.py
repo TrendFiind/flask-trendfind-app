@@ -46,10 +46,18 @@ def create_app(config="config.Development"):
     # login settings
     login_m.login_view = "auth.login"
 
-    # ── register blueprints
+    # Blueprint registration  ──────────────────────────────────────────────
+    from .auth.routes import auth_bp
+    app.register_blueprint(auth_bp
     from .blueprints.auth import bp as auth_bp
     from .blueprints.main import bp as main_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
+
+        # Google OAuth (Flask-Dance or your custom blueprint)
+    from .google_oauth import google_bp
+    csrf.exempt(google_bp)      # ③ let OAuth callback bypass Flask-WTF CSRF
+    app.register_blueprint(google_bp, url_prefix="/login")
+
 
     return app
