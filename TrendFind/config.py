@@ -7,7 +7,7 @@ class Base:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     REMEMBER_COOKIE_DURATION = timedelta(days=7)
     SESSION_COOKIE_SECURE  = True          # https only
-    WTF_CSRF_ENABLED       = False         # DEV ONLY
+    WTF_CSRF_ENABLED       = True        
     RECAPTCHA_PUBLIC_KEY   = get("RECAPTCHA_SITE_KEY")
     RECAPTCHA_PRIVATE_KEY  = get("RECAPTCHA_SECRET_KEY")
 
@@ -25,7 +25,7 @@ class Base:
 
 class Development(Base):
     SQLALCHEMY_DATABASE_URI = "sqlite:///dev.db"
-    WTF_CSRF_TIME_LIMIT     = None        # no timeout while coding
+    WTF_CSRF_TIME_LIMIT     = None        # DEV ONLY
     DEBUG                   = True
 
 class Production(Base):
