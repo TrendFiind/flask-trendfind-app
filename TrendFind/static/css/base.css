@@ -1,1 +1,27 @@
+/* static/css/base.css */
+:root {
+  /* Base scaling factor */
+  --scale-factor: 1.25;
+  
+  /* Spacing scale */
+  --space-0: 0;
+  --space-1: calc(0.25rem * var(--scale-factor));
+  /* Continue through space-32... */
+  
+  /* Layout scale */
+  --max-width-xs: calc(20rem * var(--scale-factor));
+  /* Continue through max-width-7xl... */
+  
+  /* Breakpoints */
+  --breakpoint-sm: calc(640px * var(--scale-factor));
+  /* Continue through breakpoint-2xl... */
+}
 
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 1024px) { html { font-size: 95%; } }
+@media (max-width: 768px) { html { font-size: 90%; } }
+@media (max-width: 640px) { html { font-size: 85%; } }
