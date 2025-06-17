@@ -1,9 +1,22 @@
 /* static/css/utilities.css */
-.m-0 { margin: var(--space-0); }
-.m-1 { margin: var(--space-1); }
-/* Continue spacing utilities... */
+/* Desktop zoom control */
+.desktop-view {
+  zoom: 0.85;
+}
 
-.hidden-sm { display: none; }
-@media (min-width: 640px) {
-  .hidden-sm { display: block; }
+@media (max-width: 1024px) {
+  .desktop-view {
+    zoom: unset;
+  }
+}
+
+/* Mobile overflow prevention */
+.mobile-scroll-container {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.mobile-scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
