@@ -1,18 +1,28 @@
 /* static/css/layout.css */
 .container {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--space-4);
+  width: min(100% - 2rem, 1440px);
+  margin-inline: auto;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-6);
+.hero-section {
+  min-height: 80dvh;
+  padding-block: var(--space-16);
+}
+
+/* FAQ-specific improvements */
+.faq-search-container {
+  width: min(100%, 600px);
+  margin-inline: auto;
+}
+
+.faq-search-input {
+  font-size: var(--text-lg);
+  padding: var(--space-3) var(--space-4);
 }
 
 @media (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
+  .faq-search-input {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-base);
   }
 }
