@@ -1686,3 +1686,156 @@ body.dark-mode .dark-mode-toggle i {
         padding: 10px 15px;
     }
 }
+
+    /*Global Responseive Styles (All Pages)*/
+/* Global Responsive Styles */
+@media (max-width: 1200px) {
+    /* Large laptops and small desktops */
+    .section-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .logo {
+        width: 200px;
+        top: -60px;
+    }
+}
+
+@media (max-width: 992px) {
+    /* Tablets in landscape and small laptops */
+    .section-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .header {
+        padding: 25px 30px;
+    }
+    
+    .sidebar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Tablets in portrait and large phones */
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .logo {
+        width: 180px;
+        top: -50px;
+    }
+    
+    /* Stack grid items */
+    .features-grid, 
+    .testimonial-grid,
+    .stats-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Adjust form layouts */
+    .search-form {
+        flex-direction: column;
+    }
+    
+    .search-btn {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Phones */
+    .section-title {
+        font-size: 1.8rem;
+        letter-spacing: 1px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    .header {
+        padding: 15px;
+    }
+    
+    .sidebar-toggle {
+        left: 10px;
+        top: 15px;
+    }
+    
+    .dark-mode-toggle {
+        right: 10px;
+        top: 15px;
+    }
+    
+    /* Adjust padding for sections */
+    .video-hero,
+    .features-section,
+    .testimonials-section,
+    .cta-section,
+    .faq-section,
+    .contact-hero,
+    .premium-plans {
+        padding: 80px 0 60px;
+    }
+    
+    /* Make cards full width */
+    .feature-card,
+    .testimonial-card,
+    .plan-card {
+        width: 100%;
+        max-width: none;
+        padding: 25px;
+    }
+    
+    /* Center align text on mobile */
+    .section-subtitle,
+    .hero-subtitle,
+    .cta-text {
+        text-align: center;
+    }
+}
+
+@media (max-width: 400px) {
+    /* Small phones */
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .logo {
+        width: 150px;
+        top: -40px;
+    }
+    
+    /* Adjust button sizes */
+    .btn-cta,
+    .btn-plan,
+    .btn-submit,
+    .search-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
