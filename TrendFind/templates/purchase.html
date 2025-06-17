@@ -1,1 +1,571 @@
+<!-- templates/purchase.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Subscription - TrendFind</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('/static/images/plan-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        body.light-mode {
+            background-color: var(--light);
+            color: var(--text-dark);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 123, 255, 0.2);
+        }
+
+        .purchase-container {
+            max-width: 1000px;
+            margin: 150px auto 80px;
+            padding: 0 20px;
+        }
+
+        .purchase-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .purchase-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .purchase-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        body.light-mode .purchase-subtitle {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .purchase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .purchase-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .plan-selection {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .plan-selection-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .plan-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        body.light-mode .plan-option {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .plan-option:hover {
+            background: rgba(0, 255, 234, 0.1);
+            border-color: var(--primary);
+        }
+
+        .plan-option.selected {
+            background: rgba(0, 255, 234, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 234, 0.2);
+        }
+
+        .plan-option input {
+            margin-right: 15px;
+        }
+
+        .plan-option-content {
+            flex: 1;
+        }
+
+        .plan-option-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .plan-option-price {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .plan-option-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+        }
+
+        body.light-mode .plan-option-description {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .payment-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .payment-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        body.light-mode .form-control {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            color: var(--text-dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(0, 255, 234, 0.2);
+        }
+
+        .card-element {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .card-element {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .card-errors {
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .trial-notice {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .secure-payment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+
+        body.light-mode .secure-payment {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .secure-payment i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .payment-method {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .payment-method:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Purchase Container -->
+    <div class="purchase-container">
+        <div class="purchase-header">
+            <h1 class="purchase-title">Complete Your Subscription</h1>
+            <p class="purchase-subtitle">Start your 7-day free trial today. No credit card required until after your trial period.</p>
+        </div>
+
+        <div class="purchase-grid">
+            <!-- Plan Selection -->
+            <div class="plan-selection">
+                <h2 class="plan-selection-title">Select Your Plan</h2>
+                
+                <div class="plan-option selected" data-plan="standard">
+                    <input type="radio" name="plan" id="plan-standard" value="standard" checked>
+                    <div class="plan-option-content">
+                        <div class="plan-option-name">Standard</div>
+                        <div class="plan-option-price">$10/month</div>
+                        <div class="plan-option-description">Great for growing businesses</div>
+                    </div>
+                </div>
+                
+                <div class="plan-option" data-plan="pro">
+                    <input type="radio" name="plan" id="plan-pro" value="pro">
+                    <div class="plan-option-content">
+                        <div class="plan-option-name">Pro</div>
+                        <div class="plan-option-price">$29/month</div>
+                        <div class="plan-option-description">For serious sellers scaling their business</div>
+                    </div>
+                </div>
+                
+                <div class="plan-option" data-plan="enterprise">
+                    <input type="radio" name="plan" id="plan-enterprise" value="enterprise">
+                    <div class="plan-option-content">
+                        <div class="plan-option-name">Enterprise</div>
+                        <div class="plan-option-price">$99/month</div>
+                        <div class="plan-option-description">For high-volume sellers and agencies</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div class="payment-section">
+                <h2 class="payment-title">Payment Information</h2>
+                
+                <form id="payment-form">
+                    <input type="hidden" id="plan" name="plan" value="standard">
+                    <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Credit or Debit Card</label>
+                        <div id="card-element" class="card-element">
+                            <!-- Stripe Elements will be inserted here -->
+                        </div>
+                        <div id="card-errors" class="card-errors" role="alert"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit" id="submit-button">
+                        <span id="button-text">Start 7-Day Free Trial</span>
+                        <span id="spinner" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </span>
+                    </button>
+                    
+                    <p class="trial-notice">You won't be charged until after your 7-day trial</p>
+                    
+                    <div class="secure-payment">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure 256-bit SSL encrypted payment</span>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <img src="{{ url_for('static', filename='images/visa.png') }}" alt="Visa" class="payment-method">
+                        <img src="{{ url_for('static', filename='images/mastercard.png') }}" alt="Mastercard" class="payment-method">
+                        <img src="{{ url_for('static', filename='images/amex.png') }}" alt="American Express" class="payment-method">
+                        <img src="{{ url_for('static', filename='images/discover.png') }}" alt="Discover" class="payment-method">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.sidebar-toggle');
+            
+            sidebar.classList.toggle('open');
+            
+            const spans = toggle.querySelectorAll('span');
+            if (sidebar.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        }
+
+        // Plan Selection
+        document.querySelectorAll('.plan-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove selected class from all options
+                document.querySelectorAll('.plan-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                
+                // Update the radio button and hidden input
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                document.getElementById('plan').value = radio.value;
+            });
+        });
+
+        // Stripe Payment Integration
+        const stripe = Stripe('{{ stripe_public_key }}');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    color: '#ffffff',
+                    fontFamily: '"Rajdhani", sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#ff6b6b',
+                    iconColor: '#ff6b6b'
+                }
+            }
+        });
+
+        cardElement.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+        const buttonText = document.getElementById('button-text');
+        const spinner = document.getElementById('spinner');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            // Disable form submission
+            submitButton.disabled = true;
+            buttonText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            
+            // Get the plan value
+            const plan = document.getElementById('plan').value;
+            
+            // Create payment intent on the server
+            try {
+                const response = await fetch('/create-subscription', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.getElementById('csrf_token').value
+                    },
+                    body: JSON.stringify({
+                        plan: plan,
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Confirm card payment with Stripe
+                const { error, paymentIntent } = await stripe.confirmCardPayment(
+                    data.client_secret, {
+                        payment_method: {
+                            card: cardElement,
+                            billing_details: {
+                                name: document.getElementById('name').value,
+                                email: document.getElementById('email').value
+                            }
+                        }
+                    }
+                );
+                
+                if (error) {
+                    throw error;
+                }
+                
+                // Payment successful - redirect to success page
+                window.location.href = '/subscription-success';
+                
+            } catch (error) {
+                // Show error to customer
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+                
+                // Re-enable form
+                submitButton.disabled = false;
+                buttonText.style.display = 'inline-block';
+                spinner.style.display = 'none';
+            }
+        });
+
+        // Handle real-time validation errors from the card Element
+        cardElement.on('change', (event) => {
+            const displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
