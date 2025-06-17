@@ -1,1 +1,9 @@
+/* static/css/utilities.css */
+.m-0 { margin: var(--space-0); }
+.m-1 { margin: var(--space-1); }
+/* Continue spacing utilities... */
 
+.hidden-sm { display: none; }
+@media (min-width: 640px) {
+  .hidden-sm { display: block; }
+}
