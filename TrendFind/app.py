@@ -10,6 +10,7 @@ from __future__ import annotations          # ← line 6
 import os
 import re
 import sqlite3
+import stripe
 import logging
 from datetime import datetime, timedelta 
 from functools import wraps
@@ -70,6 +71,7 @@ class Config:
 
     # Rate limiting
     RATE_LIMITS = ["200 per day", "50 per hour"]
+
 
 # ---------------------------------------------------------------------------
 #  App & extensions
