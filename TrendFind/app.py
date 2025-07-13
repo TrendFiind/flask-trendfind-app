@@ -31,6 +31,8 @@ from flask import (
 )
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from app.blueprints.auth import bp as auth_bp
+app.register_blueprint(auth_bp)
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
