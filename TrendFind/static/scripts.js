@@ -78,3 +78,45 @@ function typeWriterSubtitle() {
         setTimeout(typeWriterSubtitle, 1200); // Adjust typing speed
     }
 }
+
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyB14r8WPw3tXCelx0_VQ7U3-XB95NNEg4c",
+  authDomain: "trendfind-1c527.firebaseapp.com",
+  projectId: "trendfind-1c527"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function loginWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(result => sendTokenToFlask())
+    .catch(error => alert("Login error: " + error.message));
+}
+
+function loginWithEmail() {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(result => sendTokenToFlask())
+    .catch(error => alert("Login error: " + error.message));
+  return false;
+}
+
+function sendTokenToFlask() {
+  auth.currentUser.getIdToken().then(token => {
+    fetch("/firebase-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token })
+    }).then(res => res.json()).then(data => {
+      if (data.status === "ok") {
+        window.location.href = "/profile";
+      } else {
+        alert("Login failed");
+      }
+    });
+  });
+}
