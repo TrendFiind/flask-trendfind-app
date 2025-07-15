@@ -7,7 +7,7 @@ from flask_mail      import Mail
 from flask_wtf.csrf  import CSRFProtect
 from flask_limiter   import Limiter
 from flask_limiter.util import get_remote_address
-
+from celery import Celery
 from .celery_app import make_celery   # celery helper (see earlier code)
 
 # ───── Extension instances (created once) ──────────────────────────
@@ -16,6 +16,9 @@ migrate  = Migrate()
 login_m  = LoginManager()
 mail     = Mail()
 csrf     = CSRFProtect()
+
+mail = Mail()
+celery = Celery(__name__, broker='redis://localhost:6379/0')
 
 # NOTE:  Limiter 3.x expects *key_func* as first arg.
 # Do NOT pass `app` positionally or you’ll get the TypeError.
@@ -54,6 +57,12 @@ def create_app(config="config.Development"):
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
 
+    def create_app():
+    app = Flask(__name__)
+    # your config and blueprint registration
+    mail.init_app(app)
+
+    
         # Google OAuth (Flask-Dance or your custom blueprint)
     from .google_oauth import google_bp
     csrf.exempt(google_bp)      # ③ let OAuth callback bypass Flask-WTF CSRF
