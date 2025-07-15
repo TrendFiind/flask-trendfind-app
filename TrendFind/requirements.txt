@@ -16,6 +16,7 @@ psycopg2-binary==2.9.9       # Postgres driver
 # ───── Auth & security ───────────────────────────────────────────
 Flask-Login==0.6.3
 argon2-cffi==23.1.0          # strong password hashing
+firebase_admin>=6.0.0
 
 # ───── Rate limiting / security headers ──────────────────────────
 Flask-Limiter==3.5.0
