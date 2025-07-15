@@ -57,11 +57,6 @@ def create_app(config="config.Development"):
     app.register_blueprint(auth_bp)
     app.register_blueprint(main_bp)
 
-    def create_app():
-    app = Flask(__name__)
-    # your config and blueprint registration
-    mail.init_app(app)
-
     
         # Google OAuth (Flask-Dance or your custom blueprint)
     from .google_oauth import google_bp
