@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import RegisterForm, LoginForm
-from ..models import User, db
+from app.models import User, db
 from ..email_utils import send_welcome_email
 
 # 🔐 Firebase Admin
