@@ -40,15 +40,19 @@ def create_app(config="config.Development"):
     # ── initialise extensions with the app context
     db.init_app(app)
     migrate.init_app(app, db)
-    login_m.init_app(app)
     csrf.init_app(app)
     mail.init_app(app)
     limiter.init_app(app)                  # attach limiter *after* config is loaded
     make_celery(app)                       # give Celery the app context
 
-    # login settings
-    login_m.login_view = "auth.login"
+from .models import User
+login_m.init_app(app)
+login_m.login_view = "auth.login"
 
+@login_m.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+    
     # Blueprint registration  ──────────────────────────────────────────────
     from .auth.routes import auth_bp
     app.register_blueprint(auth_bp)
