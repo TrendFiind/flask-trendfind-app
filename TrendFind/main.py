@@ -40,6 +40,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, TextAreaField
 from app.forms import RegisterForm
 from wtforms.validators import DataRequired, Email, ValidationError
+from app import create_app
 
 # ---------------------------------------------------------------------------
 #  Environment & configuration
