@@ -8,8 +8,12 @@ from app.email_utils import send_welcome_email
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
 
-# Init Firebase (ensure serviceAccountKey.json is in your root directory)
-cred = credentials.Certificate("serviceAccountKey.json")
+import os
+import json
+
+firebase_key = os.environ.get("FIREBASE_KEY")
+cred_dict = json.loads(firebase_key)
+cred = credentials.Certificate(cred_dict)
 firebase_admin.initialize_app(cred)
 
 bp = Blueprint("auth", __name__, url_prefix="/")
