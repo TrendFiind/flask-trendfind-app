@@ -38,7 +38,7 @@ from flask_wtf.csrf import CSRFError, CSRFProtect
 from logging.handlers import RotatingFileHandler
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, TextAreaField
-from forms import RegisterForm
+from app.forms import RegisterForm
 from wtforms.validators import DataRequired, Email, ValidationError
 
 # ---------------------------------------------------------------------------
