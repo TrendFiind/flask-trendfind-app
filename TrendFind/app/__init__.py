@@ -48,10 +48,6 @@ def create_app(config="config.Development"):
     from .blueprints.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
-    # ─── Google OAuth ───
-    from .google_oauth import google_bp
-    csrf.exempt(google_bp)
-    app.register_blueprint(google_bp, url_prefix="/login")
 
     return app
 
