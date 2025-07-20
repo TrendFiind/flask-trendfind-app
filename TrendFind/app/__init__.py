@@ -48,10 +48,8 @@ def create_app(config="config.Development"):
     from .blueprints.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
-      # ─── Google OAuth ───
     from .google_oauth import google_bp, init_oauth
-init_oauth(app, url_prefix="/tfauth")  # or any unused prefix like /google-auth
-csrf.exempt(google_bp)
+    init_oauth(app, url_prefix="/tfauth")  # or whatever non-conflicting prefix
+    csrf.exempt(google_bp)
 
     return app
-
