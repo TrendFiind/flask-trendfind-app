@@ -13,6 +13,11 @@ import json
 
 firebase_key = os.environ.get("FIREBASE_KEY")
 cred_dict = json.loads(firebase_key)
+
+# 🔥 FIX the private_key to convert '\\n' into real newlines
+if "\\n" in cred_dict.get("private_key", ""):
+    cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
+
 cred = credentials.Certificate(cred_dict)
 firebase_admin.initialize_app(cred)
 
