@@ -1,51 +1,39 @@
 # app/google_oauth.py
-from flask import Blueprint, redirect, session, url_for, flash
-from authlib.integrations.flask_client import OAuth
 import os
+from flask import Blueprint, redirect, url_for, session
+from flask_dance.contrib.google import make_google_blueprint, google
+from flask_login import login_user
+from .models import User  # adjust if your model is elsewhere
+from . import db
 
-oauth = OAuth()
-google_bp = Blueprint("google_oauth", __name__)
+google_bp = make_google_blueprint(
+    client_id=os.getenv("GOOGLE_CLIENT_ID"),
+    client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+    redirect_url="/login/google/authorized",
+    scope=["profile", "email"]
+)
+google_bp.name = "google_auth"  # avoid blueprint name conflict
 
 def init_oauth(app):
-    oauth.init_app(app)
-    oauth.register(
-        name='google',
-        client_id=os.getenv("GOOGLE_CLIENT_ID"),
-        client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
-        server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-        client_kwargs={"scope": "openid email profile"}
-    )
+    app.register_blueprint(google_bp)
 
 @google_bp.route("/login/google")
-def google_login():
-    redirect_uri = url_for("google_oauth.google_authorize", _external=True)
-    return oauth.google.authorize_redirect(redirect_uri)
+def login():
+    if not google.authorized:
+        return redirect(url_for("google_auth.login"))
 
-@google_bp.route("/login/google/authorize")
-def google_authorize():
-    token = oauth.google.authorize_access_token()
-    userinfo = oauth.google.parse_id_token(token)
+    resp = google.get("/oauth2/v2/userinfo")
+    if not resp.ok:
+        return "Failed to fetch user info", 400
 
-    if not userinfo:
-        flash("Google login failed.", "error")
-        return redirect(url_for("auth.login"))
-
-    email = userinfo["email"].lower()
-    name = userinfo.get("name", "User")
-
-    from app.db import get_db  # adjust based on your structure
-    db = get_db()
-    user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
+    user_info = resp.json()
+    email = user_info["email"]
+    user = User.query.filter_by(email=email).first()
 
     if not user:
-        db.execute("INSERT INTO users (email, name) VALUES (?, ?)", (email, name))
-        db.commit()
-        user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
-        db.execute("INSERT INTO user_stats (user_id) VALUES (?)", (user["id"],))
-        db.commit()
+        user = User(email=email)
+        db.session.add(user)
+        db.session.commit()
 
-    session.update(user_id=user["id"], user_name=name, user_email=email)
-    db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
-    db.commit()
-
-    return redirect(url_for("profile"))
+    login_user(user)
+    return redirect(url_for("main.dashboard"))  # adjust as needed
