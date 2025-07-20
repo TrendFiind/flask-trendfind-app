@@ -42,3 +42,4 @@ gevent==24.2.1               # async worker class for gunicorn
 # ───── Misc utilities ────────────────────────────────────────────
 python-dotenv==1.0.1
 authlib
+flask-dance
