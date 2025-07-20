@@ -46,9 +46,7 @@ def create_app(config="config.Development"):
 
     # ─── Blueprints ───
     from .blueprints.auth import bp as auth_bp
-    from .blueprints.main import bp as main_bp
     app.register_blueprint(auth_bp)
-    app.register_blueprint(main_bp)
 
     # ─── Google OAuth ───
     from .google_oauth import google_bp
