@@ -77,7 +77,7 @@ class Config:
 # ---------------------------------------------------------------------------
 #  App & extensions
 # ---------------------------------------------------------------------------
-app = Flask(__name__)
+app = create_app()
 app.config.from_object(Config)
 app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
 
