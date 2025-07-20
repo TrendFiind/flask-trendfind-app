@@ -9,13 +9,13 @@ from . import db
 google_bp = make_google_blueprint(
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
     client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
-    redirect_url="/login/google/authorized",
-    scope=["profile", "email"]
+    scope=["profile", "email"],
+    redirect_url="/tfauth/google/authorized",  # match url_prefix
+    name="tfauth"  # avoid 'google_auth.login' collision
 )
-google_bp.name = "google_tfauth"  # avoid blueprint name conflict
 
-def init_oauth(app):
-    app.register_blueprint(google_bp)
+def init_oauth(app, url_prefix="/tfauth"):
+    app.register_blueprint(google_bp, url_prefix=url_prefix)
 
 @google_bp.route("/login/google")
 def login():
