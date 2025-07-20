@@ -52,7 +52,6 @@ def create_app(config="config.Development"):
     from .google_oauth import google_bp, init_oauth
     init_oauth(app)
     csrf.exempt(google_bp)  # allow Google's callback to bypass CSRF
-    app.register_blueprint(google_bp)
 
     return app
 
