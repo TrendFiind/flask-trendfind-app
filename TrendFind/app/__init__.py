@@ -46,7 +46,6 @@ def create_app(config="config.Development"):
     make_celery(app)                       # give Celery the app context
 
 from .models import User
-login_m.init_app(app)
 login_m.login_view = "auth.login"
 
 @login_m.user_loader
