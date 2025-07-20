@@ -8,7 +8,7 @@ h1, .h1 {
   font-size: calc(3rem * var(--scale-factor));
   margin-bottom: calc(var(--scale-factor) * 1.5rem);
 }
-/* Continue with h2-h6... */
+/* Continue with h2-h6... 1*/
 
 @media (max-width: 1280px) {
   h1 { font-size: calc(2.25rem * var(--scale-factor)); }
