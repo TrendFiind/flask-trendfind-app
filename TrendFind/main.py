@@ -743,10 +743,13 @@ def _initdb():
 #  Main entry-point
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
+    from app import create_app
+    app = create_app()
+
     with app.app_context():
         init_db()
 
-    if not app.debug:            # production logging
+    if not app.debug:
         handler = RotatingFileHandler("error.log", maxBytes=1_048_576, backupCount=3)
         handler.setFormatter(logging.Formatter(
             "%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]"
