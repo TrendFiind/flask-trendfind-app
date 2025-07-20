@@ -12,7 +12,7 @@ google_bp = make_google_blueprint(
     redirect_url="/login/google/authorized",
     scope=["profile", "email"]
 )
-google_bp.name = "google_auth"  # avoid blueprint name conflict
+google_bp.name = "google_tfauth"  # avoid blueprint name conflict
 
 def init_oauth(app):
     app.register_blueprint(google_bp)
