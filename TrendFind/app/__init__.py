@@ -50,8 +50,8 @@ def create_app(config="config.Development"):
 
       # ─── Google OAuth ───
     from .google_oauth import google_bp, init_oauth
-    init_oauth(app)
-    csrf.exempt(google_bp)  # allow Google's callback to bypass CSRF
+init_oauth(app, url_prefix="/tfauth")  # or any unused prefix like /google-auth
+csrf.exempt(google_bp)
 
     return app
 
