@@ -79,6 +79,9 @@ class Config:
 app.config.from_object(Config)
 app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
 
+from mail import mail
+mail.init_app(app)
+
 csrf     = CSRFProtect(app)
 mail     = Mail(app)
 limiter = Limiter(
