@@ -10,8 +10,7 @@ google_bp = make_google_blueprint(
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
     client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
     scope=["profile", "email"],
-    redirect_url="/tfauth/google/authorized",  # match url_prefix
-    name="tfauth"  # avoid 'google_auth.login' collision
+    redirect_url="/tfauth/google/authorized"
 )
 
 def init_oauth(app, url_prefix="/tfauth"):
