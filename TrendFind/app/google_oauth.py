@@ -16,7 +16,7 @@ google_bp = make_google_blueprint(
 def init_oauth(app, url_prefix="/tfauth"):
     app.register_blueprint(google_bp, url_prefix=url_prefix)
 
-@google_bp.route("/login/google")
+@google_bp.route("/login/google/custom")
 def login():
     if not google.authorized:
         return redirect(url_for("google_auth.login"))
