@@ -1,13 +1,17 @@
-# app/celery_app.py
 import os
 from celery import Celery
 
-# Global Celery instance with task auto-discovery
+# Construct Redis URL with SSL cert override
+raw_redis_url = os.environ.get("REDIS_URL", "rediss://localhost:6379/0")
+if "ssl_cert_reqs=none" not in raw_redis_url:
+    redis_url = raw_redis_url + ("?ssl_cert_reqs=none" if "?" not in raw_redis_url else "&ssl_cert_reqs=none")
+else:
+    redis_url = raw_redis_url
+
+# Create Celery instance
 celery = Celery(__name__, include=["app.email_utils"])
 
 def make_celery(app):
-    redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379/0") + "?ssl_cert_reqs=none"
-
     celery.conf.update(
         broker_url=redis_url,
         result_backend=redis_url,
@@ -16,6 +20,7 @@ def make_celery(app):
         timezone="UTC",
     )
 
+    # Bind Flask context to tasks
     class ContextTask(celery.Task):
         abstract = True
         def __call__(self, *args, **kwargs):
