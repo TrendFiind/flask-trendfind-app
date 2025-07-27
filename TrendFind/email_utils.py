@@ -1,6 +1,7 @@
 from flask_mail import Message
 from flask import current_app, render_template
-from . import mail, celery
+from mail import mail
+from celery import celery 
 
 @celery.task(name="send_welcome_email")  # ✅ optional: name it for debugging
 def send_welcome_email(user_email, user_name):
