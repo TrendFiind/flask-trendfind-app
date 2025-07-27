@@ -1,5 +1,6 @@
 # app/__init__.py
 
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -25,6 +26,7 @@ celery = Celery(__name__, broker="redis://localhost:6379/0")
 limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["200 per minute"]
+    storage_uri=os.environ.get("REDIS_URL")  # ✅ Pulls that working Redis URL
 )
 
 
