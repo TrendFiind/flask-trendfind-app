@@ -25,10 +25,9 @@ celery = Celery(__name__, broker="redis://localhost:6379/0")
 
 limiter = Limiter(
     key_func=get_remote_address,
-    default_limits=["200 per minute"]
-    storage_uri=os.environ.get("REDIS_URL")  # ✅ Pulls that working Redis URL
+    default_limits=["200 per minute"],
+    storage_uri=os.environ.get("REDIS_URL")
 )
-
 
 # ───── Application Factory ─────────────────────────────
 def create_app(config="config.Development"):
