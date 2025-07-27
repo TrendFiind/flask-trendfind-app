@@ -38,9 +38,7 @@ from flask_wtf.csrf import CSRFError, CSRFProtect
 from logging.handlers import RotatingFileHandler
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, TextAreaField
-from app.forms import RegisterForm
 from wtforms.validators import DataRequired, Email, ValidationError
-from app import create_app
 
 # ---------------------------------------------------------------------------
 #  Environment & configuration
@@ -78,7 +76,6 @@ class Config:
 # ---------------------------------------------------------------------------
 #  App & extensions
 # ---------------------------------------------------------------------------
-app = create_app()
 app.config.from_object(Config)
 app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
 
