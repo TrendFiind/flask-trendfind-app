@@ -28,7 +28,7 @@ redis_client = Redis.from_url(redis_url, ssl_cert_reqs=None)
 limiter = Limiter(
     key_func=get_remote_address,
     default_limits=["200 per minute"],
-    storage_uri=redis_client
+    storage_uri=redis_url  # ✅ pass the URL string, not Redis object
 )
 
 celery = Celery(__name__, broker=redis_url)
