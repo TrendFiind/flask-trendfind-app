@@ -19,7 +19,7 @@ def init_oauth(app, url_prefix="/tfauth"):
 @google_bp.route("/login/google/custom")
 def login():
     if not google.authorized:
-        return redirect(url_for("google_auth.login"))
+        return redirect(url_for("google.login"))  # ✅ fixed
 
     resp = google.get("/oauth2/v2/userinfo")
     if not resp.ok:
