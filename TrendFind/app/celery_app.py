@@ -6,7 +6,7 @@ from celery import Celery
 celery = Celery(__name__, include=["app.email_utils"])
 
 def make_celery(app):
-    redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+    redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379/0") + "?ssl_cert_reqs=none"
 
     celery.conf.update(
         broker_url=redis_url,
