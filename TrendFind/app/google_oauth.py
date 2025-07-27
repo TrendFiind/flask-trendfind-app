@@ -4,9 +4,7 @@ import os
 from flask import redirect, url_for
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_login import login_user
-from . import db
 
-# Create Google OAuth blueprint
 google_bp = make_google_blueprint(
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
     client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
@@ -30,10 +28,11 @@ def register_custom_routes(app):
         user_info = resp.json()
         email = user_info.get("email")
         if not email:
-            return "No email provided by Google", 400
+            return "No email found", 400
 
-        # Import User model locally to avoid circular import
+        # 🔁 Import inside the function to avoid circular import
         from .models import User
+        from . import db
 
         user = User.query.filter_by(email=email).first()
         if not user:
