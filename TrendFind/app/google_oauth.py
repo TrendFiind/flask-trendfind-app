@@ -4,10 +4,9 @@ import os
 from flask import redirect, url_for
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_login import login_user
-from .models import User  # adjust if your User model is elsewhere
 from . import db
 
-# Create the Flask-Dance blueprint for Google OAuth
+# Create Google OAuth blueprint
 google_bp = make_google_blueprint(
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
     client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
@@ -15,12 +14,9 @@ google_bp = make_google_blueprint(
     redirect_url="/tfauth/google/authorized"
 )
 
-# Register the blueprint with the app
 def init_oauth(app, url_prefix="/tfauth"):
     app.register_blueprint(google_bp, url_prefix=url_prefix)
 
-
-# Optional: Create a route outside the blueprint to handle user login after authorization
 def register_custom_routes(app):
     @app.route("/login/google/custom")
     def google_custom_login():
@@ -34,9 +30,11 @@ def register_custom_routes(app):
         user_info = resp.json()
         email = user_info.get("email")
         if not email:
-            return "No email found in Google response", 400
+            return "No email provided by Google", 400
 
-        # Find or create user
+        # Import User model locally to avoid circular import
+        from .models import User
+
         user = User.query.filter_by(email=email).first()
         if not user:
             user = User(email=email)
@@ -44,4 +42,4 @@ def register_custom_routes(app):
             db.session.commit()
 
         login_user(user)
-        return redirect(url_for("main.dashboard"))  # adjust as needed
+        return redirect(url_for("main.dashboard"))
