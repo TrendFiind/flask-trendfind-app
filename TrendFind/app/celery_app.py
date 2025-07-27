@@ -1,13 +1,16 @@
+# app/celery_app.py
 import os
 from celery import Celery
 
-# Create the Celery instance globally
-celery = Celery(__name__, include=["app.email_utils"])  # ✅ include your tasks here
+# Global Celery instance with task auto-discovery
+celery = Celery(__name__, include=["app.email_utils"])
 
 def make_celery(app):
+    redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+
     celery.conf.update(
-        broker_url=os.environ.get("REDIS_URL", "redis://localhost:6379/0"),        # ✅ Use Heroku Redis
-        result_backend=os.environ.get("REDIS_URL", "redis://localhost:6379/1"),    # ✅ Use same Redis as fallback
+        broker_url=redis_url,
+        result_backend=redis_url,
         task_serializer="json",
         accept_content=["json"],
         timezone="UTC",
