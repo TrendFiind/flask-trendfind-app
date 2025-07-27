@@ -100,7 +100,6 @@ google = oauth.register(
     client_kwargs={"scope": "openid email profile", "prompt": "select_account"}
 )
 
-app.register_blueprint(auth_bp)
 
 @app.template_filter("date_only")
 def date_only(value):
