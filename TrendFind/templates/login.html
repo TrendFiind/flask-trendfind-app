@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TrendFind</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – TrendFind</title>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <!-- Styles -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 </head>
 <body class="dark-mode">
-    <div class="auth-container">
-        <div class="auth-card">
-            <h2>Welcome Back</h2>
+  <div class="auth-container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="auth-card p-4 shadow-lg" style="max-width: 400px; width: 100%; border-radius: 12px; background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);">
+      <h2 class="text-center mb-4 text-light">Welcome Back</h2>
 
-            <!-- Google Sign-In -->
-            <button onclick="loginWithGoogle()" class="btn btn-google w-100 mb-3">
-                <i class="fab fa-google"></i> Continue with Google
-            </button>
+      <!-- Google Sign-In -->
+      <button id="google-login-btn" class="btn btn-outline-light w-100 mb-3">
+        <i class="fab fa-google me-2"></i> Continue with Google
+      </button>
 
-            <div class="divider">or</div>
+      <div class="text-center text-secondary mb-3">or</div>
 
-            <!-- Email/Password Login Form -->
-            <form onsubmit="return loginWithEmail();">
-                <div class="form-group mb-2">
-                    <label>Email</label>
-                    <input type="email" id="email" class="form-control" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label>Password</label>
-                    <input type="password" id="password" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Login with Email</button>
-            </form>
-
-            <div class="auth-footer mt-3">
-                Don't have an account? <a href="{{ url_for('register') }}">Sign up</a>
-            </div>
+      <!-- Email/Password Login Form -->
+      <form id="login-form">
+        <div class="mb-3">
+          <label class="form-label text-light" for="email">Email</label>
+          <input type="email" id="email" class="form-control" required />
         </div>
+        <div class="mb-3">
+          <label class="form-label text-light" for="password">Password</label>
+          <input type="password" id="password" class="form-control" required />
+        </div>
+        <button type="submit" id="email-login-btn" class="btn btn-primary w-100">Login with Email</button>
+      </form>
+
+      <p class="text-center mt-3 text-muted small">
+        Don't have an account?
+        <a href="{{ url_for('register') }}" class="link-light">Sign up</a>
+      </p>
     </div>
+  </div>
 
     <!-- Firebase config and logic -->
     <script>
