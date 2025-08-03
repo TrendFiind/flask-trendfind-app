@@ -448,10 +448,44 @@ def google_login():
         return flash_and_redirect("Google login isn’t configured.", "error", "login")
     return google.authorize_redirect(url_for("google_callback", _external=True))
 
+from firebase_admin import auth as firebase_auth, credentials, initialize_app
+
+# Initialize Firebase Admin SDK (only once at startup)
+if not firebase_admin._apps:
+    cred = credentials.Certificate("firebase-service-account.json")  # Your Firebase credentials
+    initialize_app(cred)
+
 @app.route('/firebase-login', methods=['POST'])
 def firebase_login():
-    # Handle Firebase login here
-    return jsonify({"message": "Login successful"})
+    id_token = request.json.get('idToken')
+
+    if not id_token:
+        return jsonify({'error': 'Missing ID token'}), 400
+
+    try:
+        decoded = firebase_auth.verify_id_token(id_token)
+        email = decoded.get("email")
+        name = decoded.get("name", "User")
+        uid = decoded.get("uid")
+
+        db = get_db()
+        user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
+        if not user:
+            db.execute("INSERT INTO users (email, name) VALUES (?, ?)", (email, name))
+            db.commit()
+            user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
+            db.execute("INSERT INTO user_stats (user_id) VALUES (?)", (user["id"],))
+            db.commit()
+
+        session.update(user_id=user["id"], user_name=name, user_email=email)
+        db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
+        db.commit()
+        track_activity(user["id"], "login", "Firebase JWT")
+        return jsonify({"message": "Login successful"})
+
+    except Exception as e:
+        app.logger.error(f"Firebase login failed: {e}")
+        return jsonify({'error': 'Invalid ID token'}), 401
 
 @app.route("/login/google/authorize")
 def google_callback():
@@ -762,4 +796,5 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
 
