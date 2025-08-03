@@ -106,17 +106,20 @@ function loginWithEmail() {
 }
 
 function sendTokenToFlask() {
-  auth.currentUser.getIdToken().then(token => {
+  auth.currentUser.getIdToken().then(idToken => {
     fetch("/firebase-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token })
+      body: JSON.stringify({ idToken }) // ✅ Must be "idToken"
     }).then(res => res.json()).then(data => {
-      if (data.status === "ok") {
+      if (data.message === "Login successful") {  // ✅ Match Flask response
         window.location.href = "/profile";
       } else {
         alert("Login failed");
       }
     });
+  }).catch(err => {
+    console.error("Token error:", err);
+    alert("Login failed");
   });
 }
