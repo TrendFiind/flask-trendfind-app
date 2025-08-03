@@ -394,8 +394,9 @@ def results():
 # ---------------------------------------------------------------------------
 # Registration – replaced PBKDF2 with argon2
 @csrf.exempt
-@app.route("/register",methods=["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    session.pop('_flashes', None)  # ✅ clear the "please log in" flash
     if request.method=="POST":
         email=clean(request.form.get("email")).lower()
         pw=request.form.get("password",""); name=clean(request.form.get("name"))
@@ -412,6 +413,7 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    session.pop('_flashes', None)  # clear previous flash message
     if request.method == "POST":
         email = clean(request.form.get("email")).lower()
         pw    = request.form.get("password", "")
@@ -797,6 +799,7 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
 
 
 
