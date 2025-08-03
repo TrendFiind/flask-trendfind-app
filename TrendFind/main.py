@@ -403,7 +403,7 @@ def register():
         if not (email and pw): return flash_redirect("Email & password required.","error","register")
         db=get_db()
         if db.fetchone("SELECT 1 FROM users WHERE email = ?",(email,)):
-            return flash_redirect("Email already registered.","error","register")
+           return flash_and_redirect("Email already registered.","error","register")
         db.execute("INSERT INTO users (email,password,name) VALUES (?,?,?)",
                    (email, generate_password_hash(pw), name))                   # default pbkdf2:sha256
         db.commit()
@@ -799,6 +799,7 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
 
 
 
