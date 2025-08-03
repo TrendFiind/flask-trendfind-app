@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const emailLoginBtn = document.getElementById("email-login-btn");
   if (emailLoginBtn) {
-    emailLoginBtn.addEventListener("click", function(e) {
+    emailLoginBtn.addEventListener("click", function (e) {
       e.preventDefault();
       loginWithEmail();
     });
