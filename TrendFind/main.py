@@ -39,6 +39,9 @@ from logging.handlers import RotatingFileHandler
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, Email, ValidationError
+import firebase_admin  # 🔥 This is missing and causing the crash
+from firebase_admin import credentials, auth as firebase_auth
+
 
 # ---------------------------------------------------------------------------
 #  Environment & configuration
@@ -448,8 +451,6 @@ def google_login():
         return flash_and_redirect("Google login isn’t configured.", "error", "login")
     return google.authorize_redirect(url_for("google_callback", _external=True))
 
-from firebase_admin import auth as firebase_auth, credentials, initialize_app
-
 # Initialize Firebase Admin SDK (only once at startup)
 if not firebase_admin._apps:
     cred = credentials.Certificate("firebase-service-account.json")  # Your Firebase credentials
@@ -795,6 +796,7 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
 
 
 
