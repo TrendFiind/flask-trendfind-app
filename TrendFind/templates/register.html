@@ -102,7 +102,6 @@
 
 <form action="{{ url_for('register') }}" method="POST" novalidate>
             {{ csrf_token() }}
-        {{ form.hidden_tag() }}         <!-- CSRF token -->
     {{ form.username.label }} {{ form.username() }}
     {{ form.email.label }}    {{ form.email() }}
 
