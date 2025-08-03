@@ -393,6 +393,7 @@ def results():
 #  Authentication
 # ---------------------------------------------------------------------------
 # Registration – replaced PBKDF2 with argon2
+@csrf.exempt
 @app.route("/register",methods=["GET","POST"])
 def register():
     if request.method=="POST":
@@ -796,6 +797,7 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
 
 
 
