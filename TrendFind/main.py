@@ -448,6 +448,11 @@ def google_login():
         return flash_and_redirect("Google login isn’t configured.", "error", "login")
     return google.authorize_redirect(url_for("google_callback", _external=True))
 
+@app.route('/firebase-login', methods=['POST'])
+def firebase_login():
+    # Handle Firebase login here
+    return jsonify({"message": "Login successful"})
+
 @app.route("/login/google/authorize")
 def google_callback():
     try:
@@ -757,3 +762,4 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
