@@ -15,14 +15,14 @@
   {% endwith %}
   <form method="POST" action="{{ url_for('login') }}">
     <div class="mb-3">
-      {{ form.email.label(class_='form-label') }}
-      {{ form.email(class_='form-control', placeholder='you@example.com') }}
+      <label for="email" class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
     </div>
     <div class="mb-3">
-      {{ form.password.label(class_='form-label') }}
-      {{ form.password(class_='form-control') }}
+      <label for="password" class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
     </div>
-    {{ form.submit(class_='btn btn-primary w-100') }}
+    <button type="submit" class="btn btn-primary w-100">Log In</button>
   </form>
   <hr class="my-4">
   <a class="btn btn-outline-danger w-100" href="{{ url_for('google_login') }}">
