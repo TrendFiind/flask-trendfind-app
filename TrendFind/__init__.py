@@ -1,4 +1,7 @@
 import os
+import logging
+from logging.handlers import RotatingFileHandler
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -11,7 +14,7 @@ from redis import Redis
 from celery import Celery
 
 from .celery_app import make_celery
-from .google_oauth import google_bp, init_oauth, register_custom_routes
+from .google_oauth import google_bp, init_oauth
 
 # ───── Extension instances ─────────────────────────────
 db = SQLAlchemy()
@@ -66,6 +69,13 @@ def create_app(config="config.Development"):
 
     init_oauth(app, url_prefix="/tfauth")
     csrf.exempt(google_bp)
-    register_custom_routes(app)
+    # ─── Logging ───
+    log_handler = RotatingFileHandler("trendfind.log", maxBytes=1_000_000, backupCount=10)
+    log_handler.setLevel(logging.INFO)
+    log_handler.setFormatter(logging.Formatter(
+        "%(asctime)s %(levelname)s: %(message)s [in %(module)s:%(lineno)d]"
+    ))
+    app.logger.addHandler(log_handler)
+    app.logger.setLevel(logging.INFO)
 
     return app
