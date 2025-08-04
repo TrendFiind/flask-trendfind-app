@@ -32,7 +32,7 @@ bp = Blueprint("auth", __name__, url_prefix="/")
 @bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("profile"))
 
     form = RegisterForm()
     if form.validate_on_submit():
@@ -46,10 +46,11 @@ def register():
         db.session.commit()
 
         login_user(user)
+        session.update(user_id=user.id, user_name=user.name, user_email=user.email)
         current_app.logger.info("new user registered: %s", user.email)
         send_welcome_email.delay(user.email, user.name)
         flash("Account created!", "success")
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("profile"))
 
     return render_template("register.html", form=form)
 
@@ -57,16 +58,17 @@ def register():
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("profile"))
 
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user)
+            session.update(user_id=user.id, user_name=user.name, user_email=user.email)
             current_app.logger.info("user login via password: %s", user.email)
             flash("Logged in", "success")
-            return redirect(url_for("main.profile"))
+            return redirect(url_for("profile"))
         current_app.logger.warning("failed login attempt for %s", form.email.data.lower())
         flash("Invalid credentials", "danger")
 
@@ -77,8 +79,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    session.pop('uid', None)
-    session.pop('email', None)
+    session.clear()
     current_app.logger.info("user logged out: %s", current_user.email)
     flash("Logged out", "info")
     return redirect(url_for("auth.login"))
@@ -111,8 +112,9 @@ def login_google():
         current_app.logger.info("new user created via google oauth: %s", email)
 
     login_user(user)
+    session.update(user_id=user.id, user_name=user.name, user_email=user.email)
     current_app.logger.info("user login via google: %s", email)
-    return redirect(url_for("main.profile"))
+    return redirect(url_for("profile"))
 
 
 # ✅ Firebase-based login endpoint
@@ -143,6 +145,7 @@ def firebase_login():
 
         # Use Flask-Login to set login session
         login_user(user)
+        session.update(user_id=user.id, user_name=user.name, user_email=user.email)
 
         current_app.logger.info("user login via firebase: %s", email)
 
