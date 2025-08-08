@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Login – TrendFind{% endblock %}
 {% block content %}
 <style>
   .login-bg {
@@ -17,13 +17,8 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     padding: 40px 35px;
   }
-  .login-card .btn-primary {
-    background: #1f4037;
-    border: none;
-  }
-  .login-card .btn-primary:hover {
-    background: #163329;
-  }
+  .login-card .btn-primary { background: #1f4037; border: none; }
+  .login-card .btn-primary:hover { background: #163329; }
 </style>
 
 <div class="login-bg">
@@ -64,7 +59,7 @@
     </div>
 
     <p class="text-center mt-4">
-      Don't have an account? <a href="{{ url_for('register') }}">Register</a>
+      Don’t have an account? <a href="{{ url_for('register') }}">Register</a>
     </p>
   </div>
 </div>
