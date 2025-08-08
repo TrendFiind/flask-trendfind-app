@@ -1,37 +1,44 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Login – TrendFind{% endblock %}
 {% block content %}
+
 <style>
-  .login-bg {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1f4037, #99f2c8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* Same vibe as FAQ hero */
+  .auth-hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background: linear-gradient(135deg, rgba(0,0,0,.9) 0%, rgba(0,20,30,.85) 100%);
+    overflow:hidden;
+    padding: 120px 16px 80px; /* space for fixed header */
   }
-  .login-card {
-    width: 100%;
-    max-width: 420px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    padding: 40px 35px;
+  .auth-hero::before{
+    content:'';
+    position:absolute; inset:0;
+    background:url('{{ url_for('static', filename='images/background.jpg') }}') center/cover no-repeat;
+    opacity:.1; z-index:0;
   }
-  .login-card .btn-primary {
-    background: #1f4037;
-    border: none;
+
+  /* Login card (keep your existing look) */
+  .login-card{
+    position:relative; z-index:1;
+    width:100%; max-width:420px;
+    background:#fff; border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+    padding:40px 35px;
   }
-  .login-card .btn-primary:hover {
-    background: #163329;
-  }
+  .login-card .btn-primary{ background:#1f4037; border:none; }
+  .login-card .btn-primary:hover{ background:#163329; }
 </style>
 
-<div class="login-bg">
+<section class="auth-hero">
   <div class="login-card">
-    <div class="text-center mb-4">
-      <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="mb-3" style="width:120px;">
-      <h2 class="fw-bold">Welcome Back</h2>
-    </div>
+    <!-- removed the small logo at the top ON PURPOSE -->
+
+    <h2 class="fw-bold text-center mb-4">Welcome Back</h2>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -63,9 +70,9 @@
       </a>
     </div>
 
-    <p class="text-center mt-4">
-      Don't have an account? <a href="{{ url_for('register') }}">Register</a>
+    <p class="text-center mt-4 mb-0">
+      Don’t have an account? <a href="{{ url_for('register') }}">Register</a>
     </p>
   </div>
-</div>
+</section>
 {% endblock %}
