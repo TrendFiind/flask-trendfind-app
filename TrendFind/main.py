@@ -13,7 +13,7 @@ import sqlite3
 import stripe
 import logging
 import secrets
-from datetime import datetime, timedelta 
+from datetime import datetime, timedelta
 from functools import wraps
 from typing import Any, Dict, Optional, Sequence
 from urllib.parse import urlparse
@@ -40,9 +40,8 @@ from logging.handlers import RotatingFileHandler
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import StringField, TextAreaField
 from wtforms.validators import DataRequired, Email, ValidationError
-import firebase_admin  # 🔥 This is missing and causing the crash
+import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
-
 
 # ---------------------------------------------------------------------------
 #  Environment & configuration
@@ -59,7 +58,7 @@ class Config:
     PERMANENT_SESSION_LIFETIME = timedelta(hours=1)
 
     # CSRF
-    WTF_CSRF_ENABLED     = True        
+    WTF_CSRF_ENABLED     = True
     WTF_CSRF_SECRET_KEY  = SECRET_KEY
 
     # Database (SQLite fallback)
@@ -76,11 +75,10 @@ class Config:
     # Rate limiting
     RATE_LIMITS = ["200 per day", "50 per hour"]
 
-
 # ---------------------------------------------------------------------------
 #  App & extensions
 # ---------------------------------------------------------------------------
-app = Flask(__name__)                      # ✅ define app first
+app = Flask(__name__)
 app.config.from_object(Config)
 app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
 
@@ -94,7 +92,7 @@ limiter = Limiter(
     default_limits=Config.RATE_LIMITS,
     storage_uri="memory://"
 )
-limiter.init_app(app)          # ← this attaches the limiter to your Flask app
+limiter.init_app(app)
 oauth    = OAuth(app)
 
 google = oauth.register(
@@ -104,7 +102,6 @@ google = oauth.register(
     server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
     client_kwargs={"scope": "openid email profile", "prompt": "select_account"}
 )
-
 
 @app.template_filter("date_only")
 def date_only(value):
@@ -140,13 +137,11 @@ class DBWrapper:
     def _cursor(self):
         if self.is_sqlite:
             return self.conn.cursor()
-        # RealDictCursor → rows behave like dicts (column names as keys)
         return self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     # ─── Execute (auto-converts “?” → “%s” for Postgres) ───────────────
     def execute(self, sql: str, params: Sequence[Any] | None = None):
         if not self.is_sqlite:
-            # psycopg2 expects %s placeholders; SQLite uses ?
             sql = sql.replace("?", "%s")
         cur = self._cursor()
         cur.execute(sql, params or ())
@@ -200,7 +195,7 @@ def init_db() -> None:
     is_sqlite = db.is_sqlite
 
     pk = "INTEGER PRIMARY KEY AUTOINCREMENT" if is_sqlite else "SERIAL PRIMARY KEY"
-    now = "CURRENT_TIMESTAMP"                # both engines accept this
+    now = "CURRENT_TIMESTAMP"
 
     # Users -----------------------------------------------------------------
     db.execute(f"""
@@ -301,6 +296,8 @@ def clean(s: Optional[str]) -> str:
     return "" if s is None else bleach.clean(str(s).strip())
 
 def flash_and_redirect(message: str, category: str, endpoint: str):
+    # normalize categories to Bootstrap
+    category = {"error": "danger"}.get(category, category)
     flash(message, category)
     return redirect(url_for(endpoint))
 
@@ -308,7 +305,7 @@ def login_required(fn):
     @wraps(fn)
     def _wrapped(*a, **kw):
         if "user_id" not in session:
-            return flash_and_redirect("Please log in to access that page.", "error", "login")
+            return flash_and_redirect("Please log in to access that page.", "danger", "login")
         return fn(*a, **kw)
     return _wrapped
 
@@ -325,7 +322,6 @@ def track_activity(user_id: int, kind: str, details: str | None = None):
 
 def update_stats(user_id: int, field: str):
     db = get_db()
-    # ensure row exists
     db.execute("INSERT OR IGNORE INTO user_stats (user_id) VALUES (?)", (user_id,))
     db.execute(f"UPDATE user_stats SET {field} = {field} + 1 WHERE user_id = ?", (user_id,))
     db.commit()
@@ -367,7 +363,7 @@ def _500(err):
 
 @app.errorhandler(CSRFError)
 def _csrf(err):
-    flash("Form expired – please try again.", "error")
+    flash("Form expired – please try again.", "danger")
     return redirect(request.referrer or url_for("home"))
 
 # ---------------------------------------------------------------------------
@@ -378,7 +374,7 @@ def home():
     if request.method == "POST":
         q = clean(request.form.get("query"))
         if not q:
-            return flash_and_redirect("Enter a search term.", "error", "home")
+            return flash_and_redirect("Enter a search term.", "danger", "home")
         return redirect(url_for("results", query=q))
     return render_template("index.html")
 
@@ -386,35 +382,50 @@ def home():
 def results():
     query    = clean(request.args.get("query"))
     retailer = clean(request.args.get("retailer", "All"))
-    # TODO: plug in real search engine
-    products = []   # ← placeholder
+    products = []   # TODO: plug in real search engine
     return render_template("results.html", products=products, query=query, retailer=retailer)
 
 # ---------------------------------------------------------------------------
 #  Authentication
 # ---------------------------------------------------------------------------
-# Registration – replaced PBKDF2 with argon2
 @csrf.exempt
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    session.pop('_flashes', None)  # ✅ clear the "please log in" flash
-    if request.method=="POST":
-        email=clean(request.form.get("email")).lower()
-        pw=request.form.get("password",""); name=clean(request.form.get("name"))
-        if not (email and pw): return flash_redirect("Email & password required.","error","register")
-        db=get_db()
-        if db.fetchone("SELECT 1 FROM users WHERE email = ?",(email,)):
-           return flash_and_redirect("Email already registered.","error","register")
-        db.execute("INSERT INTO users (email,password,name) VALUES (?,?,?)",
-                   (email, generate_password_hash(pw), name))                   # default pbkdf2:sha256
-        db.commit()
-        flash("Registration successful – please log in.","success")
-        return redirect(url_for("login"))
+    session.pop('_flashes', None)  # clear "please log in" flash
+    if request.method == "POST":
+        email = clean(request.form.get("email")).lower()
+        pw    = request.form.get("password", "")
+        cpw   = request.form.get("confirm_password", "")
+        name  = clean(request.form.get("name"))
+
+        if not email or not pw:
+            return flash_and_redirect("Email & password are required.", "danger", "register")
+
+        if len(pw) < 6:
+            return flash_and_redirect("Password must be at least 6 characters.", "danger", "register")
+
+        if cpw and pw != cpw:
+            return flash_and_redirect("Passwords do not match.", "danger", "register")
+
+        db = get_db()
+        if db.fetchone("SELECT 1 FROM users WHERE email = ?", (email,)):
+            return flash_and_redirect("This email is already registered. Please log in.", "danger", "register")
+
+        try:
+            db.execute("INSERT INTO users (email,password,name) VALUES (?,?,?)",
+                       (email, generate_password_hash(pw), name))
+            db.commit()
+            flash("Registration successful – you can now log in.", "success")
+            return redirect(url_for("login"))
+        except Exception as exc:
+            app.logger.error("Registration failed: %s", exc)
+            return flash_and_redirect("Could not register. Please try again.", "danger", "register")
+
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    session.pop('_flashes', None)  # clear previous flash message
+    session.pop('_flashes', None)
     if request.method == "POST":
         email = clean(request.form.get("email")).lower()
         pw    = request.form.get("password", "")
@@ -422,56 +433,62 @@ def login():
         db   = get_db()
         user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
 
-        # 1. Account exists but was created via Google OAuth (no password stored)
         if user and not user["password"]:
-            flash("That account was created with Google login. "
-                  "Click “Log in with Google” or set a password on your profile page.",
-                  "error")
+            flash("That account was created with Google. Use “Sign in with Google”.", "danger")
             return redirect(url_for("login"))
 
-        # 2. Standard email-and-password check (only if a hash exists)
-        if user and user["password"] and check_password_hash(user["password"], pw):
-            session.update(
-                user_id    = user["id"],
-                user_name  = user["name"] or "User",
-                user_email = user["email"],
-            )
-            db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?",
-                       (user["id"],))
-            db.commit()
-            track_activity(user["id"], "login", "email/pw")
-            return redirect(url_for("profile"))
+        if not user:
+            flash("No account found with that email.", "danger")
+            return redirect(url_for("login"))
 
-        # 3. Anything else → invalid
-        flash("Invalid credentials.", "error")
-        return redirect(url_for("login"))
+        if not check_password_hash(user["password"], pw):
+            flash("Incorrect password. Please try again.", "danger")
+            return redirect(url_for("login"))
 
-    # GET request → render form
+        # Success
+        session.update(
+            user_id    = user["id"],
+            user_name  = user["name"] or "User",
+            user_email = user["email"],
+        )
+        db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
+        db.commit()
+        track_activity(user["id"], "login", "email/pw")
+        flash("Login successful!", "success")
+        return redirect(url_for("profile"))
+
     return render_template("login.html")
 
 @app.route("/login/google")
 def google_login():
     if not google.client_id:
-        return flash_and_redirect("Google login isn’t configured.", "error", "login")
+        return flash_and_redirect("Google login isn’t configured.", "danger", "login")
     nonce = secrets.token_urlsafe(16)
     session["oauth_nonce"] = nonce
     return google.authorize_redirect(url_for("google_callback", _external=True), nonce=nonce)
 
 # Initialize Firebase Admin SDK (only once at startup)
-if not firebase_admin._apps:
-    cred = credentials.Certificate("firebase-service-account.json")  # Your Firebase credentials
-    initialize_app(cred)
+try:
+    if not firebase_admin._apps:
+        cred = credentials.Certificate("firebase-service-account.json")  # path to your service account
+        firebase_admin.initialize_app(cred)
+except Exception as exc:
+    app.logger.warning("Firebase admin init skipped/failed: %s", exc)
 
 @app.route('/firebase-login', methods=['POST'])
 def firebase_login():
-    id_token = request.json.get('idToken')
+    # accept either 'idToken' (common) or 'token'
+    id_token = (request.json or {}).get('idToken') or (request.json or {}).get('token')
     if not id_token:
         return jsonify({'error': 'Missing ID token'}), 400
 
     try:
         decoded = firebase_auth.verify_id_token(id_token)
-        email = decoded.get("email")
-        name = decoded.get("name", "User")
+        email = (decoded.get("email") or "").lower()
+        name  = decoded.get("name", "User")
+
+        if not email:
+            return jsonify({'error': 'No email in token'}), 400
 
         db = get_db()
         user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
@@ -492,12 +509,12 @@ def firebase_login():
     except Exception as e:
         app.logger.error(f"Firebase login failed: {e}")
         return jsonify({'error': 'Invalid ID token'}), 401
-        
+
 @app.route("/login/google/authorize")
 def google_callback():
     try:
-        token  = google.authorize_access_token()
-        nonce = session.pop("oauth_nonce", None)
+        token   = google.authorize_access_token()
+        nonce   = session.pop("oauth_nonce", None)
         userinfo = google.parse_id_token(token, nonce=nonce)
         if not (token and userinfo):
             abort(400)
@@ -519,11 +536,12 @@ def google_callback():
         db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
         db.commit()
         track_activity(user["id"], "login", "Google OAuth")
+        flash("Logged in with Google.", "success")
         return redirect(url_for("profile"))
 
     except Exception as exc:
         app.logger.error("Google OAuth failed: %s", exc)
-        return flash_and_redirect("Google authentication failed.", "error", "login")
+        return flash_and_redirect("Google authentication failed.", "danger", "login")
 
 @app.route("/logout")
 def logout():
@@ -542,7 +560,7 @@ def profile():
     db   = get_db()
     user = db.fetchone("SELECT * FROM users WHERE id = ?", (session["user_id"],))
     if not user:
-        return flash_and_redirect("User not found.", "error", "logout")
+        return flash_and_redirect("User not found.", "danger", "logout")
 
     stats       = db.fetchone("SELECT * FROM user_stats WHERE user_id = ?", (user["id"],))
     billing     = db.fetchone(
@@ -554,7 +572,6 @@ def profile():
         (user["id"],)
     )
 
-    # simple success-rate calc
     rate = 0
     if stats and stats["products_saved"]:
         rate = round((stats["winning_finds"] / stats["products_saved"]) * 100, 1)
@@ -576,14 +593,14 @@ def update_profile():
     phone = clean(request.form.get("phone"))
 
     if not email:
-        return flash_and_redirect("Email is required.", "error", "profile")
+        return flash_and_redirect("Email is required.", "danger", "profile")
 
     db = get_db()
     conflict = db.fetchone(
         "SELECT 1 FROM users WHERE email = ? AND id != ?", (email, session["user_id"])
     )
     if conflict:
-        return flash_and_redirect("Email already in use.", "error", "profile")
+        return flash_and_redirect("Email already in use.", "danger", "profile")
 
     db.execute(
         "UPDATE users SET name = ?, email = ?, phone = ? WHERE id = ?",
@@ -607,7 +624,7 @@ def update_avatar():
     if ext not in {"png", "jpg", "jpeg", "gif"}:
         return jsonify(success=False, message="Invalid file type"), 400
 
-    if file.content_length and file.content_length > 2 * 1024 * 1024:
+    if getattr(file, "content_length", None) and file.content_length > 2 * 1024 * 1024:
         return jsonify(success=False, message="File > 2 MB"), 400
 
     filename   = f"user_{session['user_id']}.{ext}"
@@ -636,9 +653,9 @@ def update_security():
 
     if new_pw:
         if not (cur_pw and check_password_hash(user["password"], cur_pw)):
-            return flash_and_redirect("Current password incorrect.", "error", "profile")
+            return flash_and_redirect("Current password incorrect.", "danger", "profile")
         if len(new_pw) < 8:
-            return flash_and_redirect("Password must be ≥ 8 chars.", "error", "profile")
+            return flash_and_redirect("Password must be ≥ 8 chars.", "danger", "profile")
         db.execute("UPDATE users SET password = ? WHERE id = ?",
                    (generate_password_hash(new_pw), session["user_id"]))
     db.execute("UPDATE users SET two_factor = ? WHERE id = ?", (twofac, session["user_id"]))
@@ -649,7 +666,6 @@ def update_security():
 
 # ---------------------------------------------------------------------------
 #  Billing, products, contact, misc.
-#  (All routes are unchanged from your original code except minor refactors.)
 # ---------------------------------------------------------------------------
 @app.route("/update-billing", methods=["POST"])
 @login_required
@@ -662,7 +678,7 @@ def update_billing():
     price  = float(request.form.get("plan_price") or 29.00)
 
     if not (card and expiry and addr):
-        return flash_and_redirect("Missing billing fields.", "error", "profile")
+        return flash_and_redirect("Missing billing fields.", "danger", "profile")
 
     last4 = card[-4:]
     brand = "visa" if card.startswith("4") else "mastercard"
@@ -724,7 +740,7 @@ def remove_product(product_id: int):
         (product_id, session["user_id"])
     )
     if not product:
-        return flash_and_redirect("Product not found.", "error", "saved_products")
+        return flash_and_redirect("Product not found.", "danger", "saved_products")
 
     db.execute("DELETE FROM saved_products WHERE id = ? AND user_id = ?",
                (product_id, session["user_id"]))
@@ -752,7 +768,6 @@ def contact_us():
         """, (name, email, subject, message, ip))
         db.commit()
 
-        # Fire off email (best-effort)
         try:
             mail.send(Message(
                 subject=f"TrendFind Contact: {subject or 'No subject'}",
@@ -767,7 +782,6 @@ def contact_us():
     return render_template("contact-us.html", form=form)
 
 # Static pages
-# ── Static pages ──────────────────────────────────────────────────────────
 @app.route("/about-us")
 def about_us():
     return render_template("about-us.html")
@@ -803,10 +817,3 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
-
-
-
-
-
-
-
