@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Login – TrendFind{% endblock %}
+
+{# Hide the dark/light toggle ONLY on this page #}
+{% block dark_toggle %}{% endblock %}
+
 {% block content %}
 
 <style>
@@ -32,11 +36,22 @@
   }
   .login-card .btn-primary{ background:#1f4037; border:none; }
   .login-card .btn-primary:hover{ background:#163329; }
+
+  /* Center the Google button label perfectly */
+  .btn-google{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+    line-height:1.2;
+    padding:.75rem 1rem;
+  }
+  .btn-google i{ margin:0; }
 </style>
 
 <section class="auth-hero">
   <div class="login-card">
-    <!-- removed the small logo at the top ON PURPOSE -->
+    <!-- No small logo at the top (intentionally removed) -->
 
     <h2 class="fw-bold text-center mb-4">Welcome Back</h2>
 
@@ -65,7 +80,7 @@
     </form>
 
     <div class="d-grid mt-3">
-      <a class="btn btn-outline-danger btn-lg" href="{{ url_for('google_login') }}">
+      <a class="btn btn-outline-danger btn-lg btn-google" href="{{ url_for('google_login') }}">
         <i class="fab fa-google me-2"></i> Sign in with Google
       </a>
     </div>
