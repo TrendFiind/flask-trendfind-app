@@ -12,6 +12,7 @@ import re
 import sqlite3
 import stripe
 import logging
+import secrets
 from datetime import datetime, timedelta 
 from functools import wraps
 from typing import Any, Dict, Optional, Sequence
@@ -452,7 +453,9 @@ def login():
 def google_login():
     if not google.client_id:
         return flash_and_redirect("Google login isn’t configured.", "error", "login")
-    return google.authorize_redirect(url_for("google_callback", _external=True))
+    nonce = secrets.token_urlsafe(16)
+    session["oauth_nonce"] = nonce
+    return google.authorize_redirect(url_for("google_callback", _external=True), nonce=nonce)
 
 # Initialize Firebase Admin SDK (only once at startup)
 if not firebase_admin._apps:
@@ -494,7 +497,8 @@ def firebase_login():
 def google_callback():
     try:
         token  = google.authorize_access_token()
-        userinfo = google.parse_id_token(token)
+        nonce = session.pop("oauth_nonce", None)
+        userinfo = google.parse_id_token(token, nonce=nonce)
         if not (token and userinfo):
             abort(400)
 
