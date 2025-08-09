@@ -589,9 +589,15 @@ body.dark-mode .futuristic-box p {
 .footer {
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
-    padding: 20px 0;
+    padding: 10px 0;
     text-align: center;
     margin-top: auto;
+}
+
+.footer-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 8px;
 }
 
 .footer p {
