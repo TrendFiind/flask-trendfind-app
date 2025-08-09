@@ -1,113 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}TrendFind{% endblock %}</title>
+{% extends "bootstrap/base.html" %}
+{% block title %}TrendFind{% endblock %}
 
-  <!-- Core CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://kit.fontawesome.com/2b03a9d240.js" crossorigin="anonymous"></script>
+{% endblock %}
 
-  <!-- Site-wide styles -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-  <style>
-    /* Logo matches index.html positioning */
-    .header-content {
-      display: flex; align-items: center; justify-content: space-between;
-      width: 100%; max-width: 1200px; margin: 0 auto; position: relative;
-    }
-    .logo-container { flex: 1; text-align: center; }
-    .logo {
-      width: 250px; height: auto;
-      position: absolute; left: 50%; top: -72px;
-      transform: translateX(-50%);
-      transition: transform .3s ease-in-out;
-    }
-    .logo:hover { transform: translateX(-50%) scale(1.05); }
-  </style>
-</head>
-<body>
+{% block body %}
+    <header class="header">
+        <div class="header-content">
+            <!-- Sidebar Toggle -->
+            <button class="sidebar-toggle" aria-label="Toggle sidebar" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-<!-- ===== HEADER ===== -->
-<header class="header">
-  <div class="header-content">
-    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="logo-container">
-      <a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo"></a>
-    </div>
-    {% block dark_toggle %}
-    <button id="dark-mode-toggle" class="dark-mode-toggle"><i class="fas fa-moon"></i></button>
-    {% endblock %}
-  </div>
-</header>
+            <!-- Centered Logo -->
+            <div class="logo-container">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="logo">
+                </a>
+            </div>
 
-<!-- ===== SIDEBAR ===== -->
-<nav class="sidebar" id="sidebar" aria-label="Main Navigation">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/profile">Profile</a></li>
-    <li><a href="/saved-products">Saved Products</a></li>
-    <li><a href="/plan-details">Plan Details</a></li>
-    <li><a href="/faq">FAQ</a></li>
-    <li><a href="/about-us">About Us</a></li>
-    <li><a href="/contact-us">Contact Us</a></li>
-  </ul>
-</nav>
+            <!-- Dark/Light Mode Toggle -->
+            {% block dark_toggle %}
+            <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon"></i>
+            </button>
+            {% endblock %}
+        </div>
+    </header>
 
-<main>
-  {% block content %}{% endblock %}
-</main>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('profile') }}">Profile</a></li>
+            <li><a href="{{ url_for('saved_products') }}">Saved Products</a></li>
+            <li><a href="{{ url_for('plan_details') }}">Plan Details</a></li>
+            <li><a href="{{ url_for('subscription') }}">Subscribe</a></li>
+            <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+            <li><a href="{{ url_for('about_us') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact_us') }}">Contact Us</a></li>
+        </ul>
+    </nav>
 
-<footer class="footer">
-  <!-- Your footer -->
-</footer>
+    <!-- Main Content -->
+    <main id="main" class="page-main">
+        {% block content %}{% endblock %}
+    </main>
 
-<!-- ===== SCRIPTS ===== -->
-<script defer src="{{ url_for('static', filename='js/responsive.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-function toggleSidebar(){
-  const sb=document.getElementById('sidebar');
-  const btn=document.querySelector('.sidebar-toggle');
-  sb.classList.toggle('open');
-  const bars=btn.querySelectorAll('span');
-  if(sb.classList.contains('open')){
-    bars[0].style.transform='rotate(45deg) translate(5px,5px)';
-    bars[1].style.opacity='0';
-    bars[2].style.transform='rotate(-45deg) translate(5px,-5px)';
-  }else{
-    bars.forEach(b=>{b.style.transform='';b.style.opacity='';});
-  }
-}
-document.getElementById('dark-mode-toggle')?.addEventListener('click',function(){
-  document.body.classList.toggle('light-mode');
-  const icon=this.querySelector('i');
-  if(document.body.classList.contains('light-mode')){
-    icon.classList.replace('fa-moon','fa-sun');
-    localStorage.setItem('darkMode','disabled');
-  }else{
-    icon.classList.replace('fa-sun','fa-moon');
-    localStorage.setItem('darkMode','enabled');
-  }
-});
-document.addEventListener('DOMContentLoaded',()=>{
-  if(localStorage.getItem('darkMode')==='disabled'){
-    document.body.classList.add('light-mode');
-    const i=document.querySelector('#dark-mode-toggle i');
-    if(i) i.classList.replace('fa-moon','fa-sun');
-  }
-});
-document.addEventListener('click',e=>{
-  const sb=document.getElementById('sidebar');
-  const toggle=document.querySelector('.sidebar-toggle');
-  if(sb.classList.contains('open')&&!sb.contains(e.target)&&!toggle.contains(e.target)){
-    toggleSidebar();
-  }
-});
-</script>
-</body>
-</html>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind" class="footer-logo">
+            <div class="footer-links">
+                <a href="{{ url_for('faq') }}">FAQ</a>
+                <a href="{{ url_for('about_us') }}">About</a>
+                <a href="{{ url_for('contact_us') }}">Contact</a>
+                <a href="{{ url_for('subscription') }}">Plans</a>
+            </div>
+            <small>© {{ (now() if callable(globals().get('now')) else '') or '' }} TrendFind. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}
