@@ -794,6 +794,10 @@ def faq():
 def plan_details():
     return render_template("plan-details.html")
 
+@app.route("/subscription")
+def subscription():
+    return render_template("subscription.html")
+
 # Quick admin endpoint to (re)create DB
 @app.route("/initdb")
 def _initdb():
