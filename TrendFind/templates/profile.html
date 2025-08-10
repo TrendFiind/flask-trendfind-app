@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - TrendFind</title>
@@ -1741,6 +1742,161 @@
             }, 3000);
         }
 
+<!-- REQUIRED: place before </body> of your existing profile.html -->
+<script>
+(function() {
+  const CSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+  async function postForm(url, formData) {
+    formData.append("_csrf", CSRF);
+    const res = await fetch(url, { method: "POST", headers: {"X-CSRF-Token": CSRF}, body: formData });
+    return res.json();
+  }
+  async function postJSON(url, obj) {
+    obj._csrf = CSRF;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {"Content-Type":"application/x-www-form-urlencoded", "X-CSRF-Token": CSRF},
+      body: new URLSearchParams(obj)
+    });
+    return res.json();
+  }
+
+  // Map existing elements (ensure these IDs exist in your markup)
+  const el = (id) => document.getElementById(id);
+
+  // Messages (create these <div id="..."> if you don't already have them)
+  const basicMsg = el("basic-msg");
+  const avatarMsg = el("avatar-msg");
+  const verifyMsg = el("verify-msg");
+  const pwMsg = el("pw-msg");
+
+  // --- Basic name save ---
+  if (el("save-basic")) {
+    el("save-basic").onclick = async () => {
+      const name = el("name").value.trim();
+      const r = await postJSON("/profile/save-basic", { name });
+      if (basicMsg) {
+        basicMsg.textContent = r.ok ? "Saved." : (r.error || "Error");
+        basicMsg.className = r.ok ? "success" : "error";
+      }
+    };
+  }
+
+  // --- Email change ---
+  if (el("change-email")) {
+    el("change-email").onclick = async () => {
+      const new_email = el("email").value.trim();
+      const current_password = prompt("Confirm with your current password:");
+      if (!current_password) return;
+      const r = await postJSON("/profile/request-change", { type: "email", new_email, current_password });
+      if (verifyMsg) {
+        if (r.ok) {
+          verifyMsg.textContent = "Code sent to your new email. Enter code and press 'Confirm email'.";
+          el("confirm-email") && (el("confirm-email").disabled = false);
+        } else {
+          verifyMsg.textContent = r.error || "Error";
+          verifyMsg.className = "error";
+        }
+      }
+    };
+  }
+
+  // --- Phone change ---
+  if (el("change-phone")) {
+    el("change-phone").onclick = async () => {
+      const new_phone = el("phone").value.trim();
+      const current_password = prompt("Confirm with your current password:");
+      if (!current_password) return;
+      const r = await postJSON("/profile/request-change", { type: "phone", new_phone, current_password });
+      if (verifyMsg) {
+        if (r.ok) {
+          verifyMsg.textContent = "Code sent to your new phone. Enter code and press 'Confirm phone'.";
+          el("confirm-phone") && (el("confirm-phone").disabled = false);
+        } else {
+          verifyMsg.textContent = r.error || "Error";
+          verifyMsg.className = "error";
+        }
+      }
+    };
+  }
+
+  // --- Confirm email/phone ---
+  if (el("confirm-email")) {
+    el("confirm-email").onclick = async () => {
+      const code = el("verify-code").value.trim();
+      const r = await postJSON("/profile/confirm-change", { type: "email", code });
+      if (verifyMsg) {
+        verifyMsg.textContent = r.ok ? "Email updated." : (r.error || "Error");
+        verifyMsg.className = r.ok ? "success" : "error";
+      }
+    };
+  }
+  if (el("confirm-phone")) {
+    el("confirm-phone").onclick = async () => {
+      const code = el("verify-code").value.trim();
+      const r = await postJSON("/profile/confirm-change", { type: "phone", code });
+      if (verifyMsg) {
+        verifyMsg.textContent = r.ok ? "Phone updated." : (r.error || "Error");
+        verifyMsg.className = r.ok ? "success" : "error";
+      }
+    };
+  }
+
+  // --- Password flow ---
+  if (el("start-password")) {
+    el("start-password").onclick = async () => {
+      const current_password = el("current-pw").value;
+      const new_password = el("new-pw").value;
+      const r = await postJSON("/profile/request-change", { type: "password", current_password, new_password });
+      if (pwMsg) {
+        if (r.ok) {
+          pwMsg.textContent = "Codes sent. Enter them below.";
+          pwMsg.className = "success";
+          el("pw-step2") && (el("pw-step2").style.display = "block");
+        } else {
+          pwMsg.textContent = r.error || "Error";
+          pwMsg.className = "error";
+        }
+      }
+    };
+  }
+
+  if (el("confirm-password")) {
+    el("confirm-password").onclick = async () => {
+      const email_code = el("pw-email-code").value.trim();
+      const phone_code = el("pw-phone-code") ? el("pw-phone-code").value.trim() : "";
+      const new_password = el("new-pw").value;
+      const r = await postJSON("/profile/confirm-change", { type: "password", email_code, phone_code, new_password });
+      if (pwMsg) {
+        pwMsg.textContent = r.ok ? "Password updated." : (r.error || "Error");
+        pwMsg.className = r.ok ? "success" : "error";
+      }
+    };
+  }
+
+  // --- Avatar upload ---
+  if (el("avatar-file")) {
+    el("avatar-file").onchange = async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const fd = new FormData();
+      fd.append("avatar", f);
+      const r = await postForm("/profile/upload-avatar", fd);
+      if (r.ok) {
+        if (el("avatar-img")) el("avatar-img").src = r.url;
+        if (avatarMsg) {
+          avatarMsg.textContent = "Avatar updated.";
+          avatarMsg.className = "success";
+        }
+      } else if (avatarMsg) {
+        avatarMsg.textContent = r.error || "Error";
+        avatarMsg.className = "error";
+      }
+    };
+  }
+})();
+        
         // Form validation for account form
         accountForm.addEventListener('submit', function(e) {
             const email = emailInput.value;
