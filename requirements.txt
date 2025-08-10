@@ -29,7 +29,7 @@ redis==5.0.2
 
 # ───── Payments & external APIs ──────────────────────────────────
 stripe==9.7.0
-Authlib==1.3.0               # Google OAuth / any OAuth 2.0 flows88
+Authlib==1.3.0               # Google OAuth / any OAuth 2.0 flows
 requests==2.31.0
 
 # ───── Observability & error reporting ───────────────────────────
@@ -48,6 +48,7 @@ sendgrid==6.11.0    # or your SMTP; remove if not used
 twilio==9.2.3       # or your SMS provider; remove if not used
 Flask-Talisman==1.1.0
 phonenumbers==8.13.45  # optional but recommended
+
 
 
 
