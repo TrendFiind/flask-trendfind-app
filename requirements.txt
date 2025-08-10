@@ -11,7 +11,7 @@ email-validator==2.1.1
 # ───── Database & migrations ─────────────────────────────────────
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.5
-psycopg2-binary==2.9.9       # Postgres driver
+psycopg2-binary==2.9.9       # Postgres drivereee
 
 # ───── Auth & security ───────────────────────────────────────────
 Flask-Login==0.6.3
@@ -48,6 +48,7 @@ sendgrid==6.11.0    # or your SMTP; remove if not used
 twilio==9.2.3       # or your SMS provider; remove if not used
 Flask-Talisman==1.1.0
 phonenumbers==8.13.45  # optional but recommended
+
 
 
 
