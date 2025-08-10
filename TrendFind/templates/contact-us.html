@@ -216,14 +216,12 @@
             <div class="contact-card">
                 <h2 class="section-title">Send a Message</h2>
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ 'error' if category == 'error' else 'success' }} mb-4">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+                {% with messages = get_flashed_messages(with_categories=true, category_filter=['contact_success','contact_error']) %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category.endswith('error') else 'success' }} mb-4">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endwith %}
 
                 <form method="POST" action="{{ url_for('contact_us') }}" id="contactForm" class="contact-form">
