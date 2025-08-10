@@ -71,7 +71,8 @@ def create_app(config="config.Development"):
     limiter.init_app(app)
 
     # Bind Celery to app config/broker
-    make_celery(app)
+ from . import celery  # the Celery() instance you created in __init__.py
+make_celery(app, celery)
 
     # ─── Register Blueprints ───
     from .blueprints.auth import bp as auth_bp
