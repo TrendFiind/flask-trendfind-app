@@ -4,7 +4,7 @@ TrendFind – Full Application (Fixed & Refactored)
 Robust database layer, Google OAuth, CSRF, etc.
 """
 
-from __future__ import annotations          # ← line 6
+from __future__ import annotations  # ← line 6
 
 # ----------------- standard library -----------------
 import os
@@ -13,6 +13,7 @@ import sqlite3
 import stripe
 import logging
 import secrets
+from pathlib import Path
 from datetime import datetime, timedelta
 from functools import wraps
 from typing import Any, Dict, Optional, Sequence
@@ -32,8 +33,7 @@ from flask import (
 )
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from blueprints.auth import bp as auth_bp
-from flask_mail import Mail, Message
+from flask_mail import Message  # Mail instance comes from TrendFind.mail
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from logging.handlers import RotatingFileHandler
@@ -43,11 +43,21 @@ from wtforms.validators import DataRequired, Email, ValidationError
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
 
+# Use absolute package imports so they work when the app runs from repo root
+from TrendFind.blueprints.auth import bp as auth_bp
+from TrendFind.mail import mail  # expects TrendFind/mail.py defining `mail = Mail()`
+
 # ---------------------------------------------------------------------------
-#  Environment & configuration
+#  Environment & base paths
 # ---------------------------------------------------------------------------
 load_dotenv()  # .env for local dev
 
+# Anchor all file paths to the TrendFind/ folder, regardless of CWD
+BASE_DIR = Path(__file__).resolve().parent  # .../TrendFind
+
+# ---------------------------------------------------------------------------
+#  Configuration
+# ---------------------------------------------------------------------------
 class Config:
     """Flask configuration object."""
     # Core
@@ -61,8 +71,8 @@ class Config:
     WTF_CSRF_ENABLED     = True
     WTF_CSRF_SECRET_KEY  = SECRET_KEY
 
-    # Database (SQLite fallback)
-    LOCAL_SQLITE_PATH = "database.db"
+    # Database (SQLite fallback lives inside TrendFind/)
+    LOCAL_SQLITE_PATH = str(BASE_DIR / "database.db")
 
     # Mail
     MAIL_SERVER         = "smtp.gmail.com"
@@ -78,23 +88,26 @@ class Config:
 # ---------------------------------------------------------------------------
 #  App & extensions
 # ---------------------------------------------------------------------------
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=str(BASE_DIR / "templates"),
+    static_folder=str(BASE_DIR / "static")
+)
 app.config.from_object(Config)
-app.config["WTF_CSRF_TIME_LIMIT"] = None          # DEV ONLY ⚠️
+app.config["WTF_CSRF_TIME_LIMIT"] = None  # DEV ONLY ⚠️ remove/adjust in prod
 
-from mail import mail
+# Initialize shared extensions
 mail.init_app(app)
-
-csrf     = CSRFProtect(app)
-mail     = Mail(app)
+csrf = CSRFProtect(app)
 limiter = Limiter(
     key_func=get_remote_address,
     default_limits=Config.RATE_LIMITS,
     storage_uri="memory://"
 )
 limiter.init_app(app)
-oauth    = OAuth(app)
+oauth = OAuth(app)
 
+# Google OAuth client
 google = oauth.register(
     name="google",
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
@@ -102,6 +115,17 @@ google = oauth.register(
     server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
     client_kwargs={"scope": "openid email profile", "prompt": "select_account"}
 )
+
+# Optional: initialize Firebase Admin using FIREBASE_KEY env (preferred on Heroku)
+# If you instead keep a file, use: cred_path = BASE_DIR / "firebase-service-account.json"
+firebase_key = os.environ.get("FIREBASE_KEY")
+if firebase_key and not firebase_admin._apps:
+    import json
+    cred_dict = json.loads(firebase_key)
+    if "\\n" in cred_dict.get("private_key", ""):
+        cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
+    cred = credentials.Certificate(cred_dict)
+    firebase_admin.initialize_app(cred)
 
 @app.template_filter("date_only")
 def date_only(value):
@@ -169,7 +193,7 @@ def get_db() -> DBWrapper:
         # ── Local SQLite fallback ─────────────────────────────────────────
         else:
             conn = sqlite3.connect(
-                Config.LOCAL_SQLITE_PATH,
+                app.config["LOCAL_SQLITE_PATH"],  # now points inside TrendFind/
                 detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
             )
             conn.row_factory = sqlite3.Row
@@ -820,3 +844,4 @@ if __name__ == "__main__":
         app.logger.setLevel(logging.INFO)
 
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=app.debug)
+
