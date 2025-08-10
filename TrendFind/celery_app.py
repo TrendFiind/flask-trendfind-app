@@ -1,26 +1,32 @@
+# TrendFind/celery_app.py
 import os
-from celery import Celery
 
-# Construct Redis URL with SSL cert override
-raw_redis_url = os.environ.get("REDIS_URL", "rediss://localhost:6379/0")
-if "ssl_cert_reqs=none" not in raw_redis_url:
-    redis_url = raw_redis_url + ("?ssl_cert_reqs=none" if "?" not in raw_redis_url else "&ssl_cert_reqs=none")
-else:
-    redis_url = raw_redis_url
+def _redis_url():
+    raw = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
+    # Upgrade to TLS on Heroku if wanted
+    if raw.startswith("redis://") and os.environ.get("REDIS_TLS", "1") == "1":
+        raw = raw.replace("redis://", "rediss://", 1)
+    # Allow self-signed certs on Heroku Redis
+    if raw.startswith("rediss://") and "ssl_cert_reqs=none" not in raw:
+        raw += ("&" if "?" in raw else "?") + "ssl_cert_reqs=none"
+    return raw
 
-# Create Celery instance
-celery = Celery(__name__, include=["app.email_utils"])
-
-def make_celery(app):
+def make_celery(app, celery):
+    redis_url = _redis_url()
     celery.conf.update(
         broker_url=redis_url,
         result_backend=redis_url,
         task_serializer="json",
         accept_content=["json"],
         timezone="UTC",
+        broker_connection_retry_on_startup=True,
+        imports=[
+            "TrendFind.email_utils",   # <-- change/remove if your tasks live elsewhere
+            "TrendFind.tasks",         # <-- optional; safe to remove if you don't have it
+        ],
     )
 
-    # Bind Flask context to tasks
+    # Bind Flask app context to all tasks
     class ContextTask(celery.Task):
         abstract = True
         def __call__(self, *args, **kwargs):
