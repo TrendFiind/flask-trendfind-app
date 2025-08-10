@@ -47,7 +47,7 @@ limiter = Limiter(
     storage_uri=redis_url
 )
 
-# Celery base; make_celery(app) will finalize it
+# Celery single instance (configured in make_celery)
 celery = Celery(__name__, broker=redis_url)
 
 # ───── Application Factory ───────────────────
@@ -70,9 +70,8 @@ def create_app(config="config.Development"):
     mail.init_app(app)
     limiter.init_app(app)
 
-    # Bind Celery to app config/broker
- from . import celery  # the Celery() instance you created in __init__.py
-make_celery(app, celery)
+    # Bind Celery to this app (no import needed; celery is defined above)
+    make_celery(app, celery)
 
     # ─── Register Blueprints ───
     from .blueprints.auth import bp as auth_bp
