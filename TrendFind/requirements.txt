@@ -19,7 +19,7 @@ argon2-cffi==23.1.0          # strong password hashing
 firebase_admin>=6.0.0
 
 # ───── Rate limiting / security headers ──────────────────────────
-Flask-Limiter==3.5.0
+Flask-Limiter==3.8.0
 bleach==6.1.0                # optional HTML sanitiser
 
 # ───── Mail & async tasks ────────────────────────────────────────
@@ -43,3 +43,10 @@ gevent==24.2.1               # async worker class for gunicorn
 python-dotenv==1.0.1
 authlib
 flask-dance
+Pillow==10.4.0
+sendgrid==6.11.0    # or your SMTP; remove if not used
+twilio==9.2.3       # or your SMS provider; remove if not used
+Flask-Talisman==1.1.0
+phonenumbers==8.13.45  # optional but recommended
+
+
