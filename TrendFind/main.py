@@ -296,8 +296,7 @@ def clean(s: Optional[str]) -> str:
     return "" if s is None else bleach.clean(str(s).strip())
 
 def flash_and_redirect(message: str, category: str, endpoint: str):
-    # normalize categories to Bootstrap
-    category = {"error": "danger"}.get(category, category)
+    # preserve custom categories; templates map them to Bootstrap classes
     flash(message, category)
     return redirect(url_for(endpoint))
 
@@ -305,7 +304,7 @@ def login_required(fn):
     @wraps(fn)
     def _wrapped(*a, **kw):
         if "user_id" not in session:
-            return flash_and_redirect("Please log in to access that page.", "danger", "login")
+            return flash_and_redirect("Please log in to access that page.", "auth_error", "login")
         return fn(*a, **kw)
     return _wrapped
 
@@ -399,23 +398,23 @@ def register():
         name  = clean(request.form.get("name"))
 
         if not email or not pw:
-            return flash_and_redirect("Email & password are required.", "danger", "register")
+            return flash_and_redirect("Email & password are required.", "auth_error", "register")
 
         if len(pw) < 6:
-            return flash_and_redirect("Password must be at least 6 characters.", "danger", "register")
+            return flash_and_redirect("Password must be at least 6 characters.", "auth_error", "register")
 
         if cpw and pw != cpw:
-            return flash_and_redirect("Passwords do not match.", "danger", "register")
+            return flash_and_redirect("Passwords do not match.", "auth_error", "register")
 
         db = get_db()
         if db.fetchone("SELECT 1 FROM users WHERE email = ?", (email,)):
-            return flash_and_redirect("This email is already registered. Please log in.", "danger", "register")
+            return flash_and_redirect("This email is already registered. Please log in.", "auth_error", "register")
 
         try:
             db.execute("INSERT INTO users (email,password,name) VALUES (?,?,?)",
                        (email, generate_password_hash(pw), name))
             db.commit()
-            flash("Registration successful – you can now log in.", "success")
+            flash("Registration successful – you can now log in.", "auth_success")
             return redirect(url_for("login"))
         except Exception as exc:
             app.logger.error("Registration failed: %s", exc)
@@ -434,15 +433,15 @@ def login():
         user = db.fetchone("SELECT * FROM users WHERE email = ?", (email,))
 
         if user and not user["password"]:
-            flash("That account was created with Google. Use “Sign in with Google”.", "danger")
+            flash("That account was created with Google. Use “Sign in with Google”.", "auth_error")
             return redirect(url_for("login"))
 
         if not user:
-            flash("No account found with that email.", "danger")
+            flash("No account found with that email.", "auth_error")
             return redirect(url_for("login"))
 
         if not check_password_hash(user["password"], pw):
-            flash("Incorrect password. Please try again.", "danger")
+            flash("Incorrect password. Please try again.", "auth_error")
             return redirect(url_for("login"))
 
         # Success
@@ -454,7 +453,7 @@ def login():
         db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
         db.commit()
         track_activity(user["id"], "login", "email/pw")
-        flash("Login successful!", "success")
+        flash("Login successful!", "auth_success")
         return redirect(url_for("profile"))
 
     return render_template("login.html")
@@ -462,7 +461,7 @@ def login():
 @app.route("/login/google")
 def google_login():
     if not google.client_id:
-        return flash_and_redirect("Google login isn’t configured.", "danger", "login")
+        return flash_and_redirect("Google login isn’t configured.", "auth_error", "login")
     nonce = secrets.token_urlsafe(16)
     session["oauth_nonce"] = nonce
     return google.authorize_redirect(url_for("google_callback", _external=True), nonce=nonce)
@@ -536,7 +535,7 @@ def google_callback():
         db.execute("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?", (user["id"],))
         db.commit()
         track_activity(user["id"], "login", "Google OAuth")
-        flash("Logged in with Google.", "success")
+        flash("Logged in with Google.", "auth_success")
         return redirect(url_for("profile"))
 
     except Exception as exc:
@@ -548,7 +547,7 @@ def logout():
     if "user_id" in session:
         track_activity(session["user_id"], "logout", "User logged out")
     session.clear()
-    flash("Logged out.", "success")
+    flash("Logged out.", "auth_success")
     return redirect(url_for("home"))
 
 # ---------------------------------------------------------------------------
@@ -777,7 +776,7 @@ def contact_us():
         except Exception as exc:   # pragma: no cover
             app.logger.warning("Mail send failed: %s", exc)
 
-        flash("Message sent – we'll reply within 24 h.", "success")
+        flash("Message sent – we'll reply within 24 h.", "contact_success")
         return redirect(url_for("contact_us"))
     return render_template("contact-us.html", form=form)
 

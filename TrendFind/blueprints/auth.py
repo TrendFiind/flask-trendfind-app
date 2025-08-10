@@ -37,7 +37,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if User.query.filter_by(email=form.email.data.lower()).first():
-            flash("Email already registered", "warning")
+            flash("Email already registered", "auth_error")
             return redirect(url_for("auth.register"))
 
         user = User(name=form.name.data, email=form.email.data.lower())
@@ -49,7 +49,7 @@ def register():
         session.update(user_id=user.id, user_name=user.name, user_email=user.email)
         current_app.logger.info("new user registered: %s", user.email)
         send_welcome_email.delay(user.email, user.name)
-        flash("Account created!", "success")
+        flash("Account created!", "auth_success")
         return redirect(url_for("profile"))
 
     return render_template("register.html", form=form)
@@ -67,10 +67,10 @@ def login():
             login_user(user)
             session.update(user_id=user.id, user_name=user.name, user_email=user.email)
             current_app.logger.info("user login via password: %s", user.email)
-            flash("Logged in", "success")
+            flash("Logged in", "auth_success")
             return redirect(url_for("profile"))
         current_app.logger.warning("failed login attempt for %s", form.email.data.lower())
-        flash("Invalid credentials", "danger")
+        flash("Invalid credentials", "auth_error")
 
     return render_template("login.html", form=form)
 
@@ -81,7 +81,7 @@ def logout():
     logout_user()
     session.clear()
     current_app.logger.info("user logged out: %s", current_user.email)
-    flash("Logged out", "info")
+    flash("Logged out", "auth_success")
     return redirect(url_for("auth.login"))
 
 
@@ -93,14 +93,14 @@ def login_google():
 
     resp = google.get("/oauth2/v2/userinfo")
     if not resp.ok:
-        flash("Failed to fetch user info", "danger")
+        flash("Failed to fetch user info", "auth_error")
         return redirect(url_for("auth.login"))
 
     info = resp.json()
     email = info.get("email")
     name = info.get("name", "Google User")
     if not email:
-        flash("Email not available", "danger")
+        flash("Email not available", "auth_error")
         return redirect(url_for("auth.login"))
 
     user = User.query.filter_by(email=email).first()

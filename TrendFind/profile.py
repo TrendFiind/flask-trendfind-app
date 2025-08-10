@@ -1,6 +1,6 @@
 # profile.py
 import os, json
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Blueprint, render_template, request, jsonify, current_app
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
@@ -67,10 +67,27 @@ def per_user_key():
 @csrf_protect
 def save_basic():
     name = (request.form.get("name") or "").strip()
+    address = (request.form.get("address") or "").strip()
+    prefs = request.form.get("preferences") or current_user.preferences or "{}"
+    notify_email = request.form.get("notify_email") == "1"
+    notify_sms = request.form.get("notify_sms") == "1"
+
     if len(name) > 120:
         return jsonify({"ok": False, "error": "name_too_long"}), 400
+    if len(address) > 255:
+        return jsonify({"ok": False, "error": "address_too_long"}), 400
+    try:
+        json.loads(prefs or "{}")
+    except Exception:
+        return jsonify({"ok": False, "error": "bad_prefs"}), 400
+
     current_user.name = name or current_user.name
+    current_user.address = address
+    current_user.preferences = prefs
+    current_user.notify_email = notify_email
+    current_user.notify_sms = notify_sms
     db.session.commit()
+    current_app.logger.info("user %s updated basic profile", current_user.id)
     return jsonify({"ok": True, "message": "Saved."})
 
 # Avatar upload hardened
@@ -133,10 +150,22 @@ def request_change():
         if User.query.filter(User.email == new_email, User.id != current_user.id).first():
             return jsonify({"ok": False, "error": "email_in_use"}), 400
 
+        since = datetime.utcnow() - timedelta(hours=1)
+        recent = (VerificationCode.query
+                  .filter_by(user_id=current_user.id, purpose=Purpose.change_email, channel=Channel.email)
+                  .order_by(VerificationCode.created_at.desc()).first())
+        if recent and datetime.utcnow() - recent.created_at < timedelta(seconds=60):
+            return jsonify({"ok": False, "error": "cooldown"}), 429
+        if (VerificationCode.query
+                .filter_by(user_id=current_user.id, purpose=Purpose.change_email)
+                .filter(VerificationCode.created_at >= since).count() >= 5):
+            return jsonify({"ok": False, "error": "rate_limited"}), 429
+
         payload = {"apply": {"email": new_email, "email_verified": True}}
         try:
             code, _ = VerificationCode.create(current_user, Purpose.change_email, Channel.email, payload)
             send_email(new_email, f"{current_app.config['APP_NAME']} – Verify your new email", f"Your code: {code}. Valid for 10 minutes.")
+            current_app.logger.info("user %s requested email change", current_user.id)
         except Exception:
             return jsonify({"ok": False, "error": "send_failed"}), 500
         return jsonify({"ok": True, "requires": "email_code"})
@@ -152,10 +181,22 @@ def request_change():
         if User.query.filter(User.phone == new_phone, User.id != current_user.id).first():
             return jsonify({"ok": False, "error": "phone_in_use"}), 400
 
+        since = datetime.utcnow() - timedelta(hours=1)
+        recent = (VerificationCode.query
+                  .filter_by(user_id=current_user.id, purpose=Purpose.change_phone, channel=Channel.phone)
+                  .order_by(VerificationCode.created_at.desc()).first())
+        if recent and datetime.utcnow() - recent.created_at < timedelta(seconds=60):
+            return jsonify({"ok": False, "error": "cooldown"}), 429
+        if (VerificationCode.query
+                .filter_by(user_id=current_user.id, purpose=Purpose.change_phone)
+                .filter(VerificationCode.created_at >= since).count() >= 5):
+            return jsonify({"ok": False, "error": "rate_limited"}), 429
+
         payload = {"apply": {"phone": new_phone, "phone_verified": True}}
         try:
             code, _ = VerificationCode.create(current_user, Purpose.change_phone, Channel.phone, payload)
             send_sms(new_phone, f"{current_app.config['APP_NAME']} code: {code}. Valid 10 minutes.")
+            current_app.logger.info("user %s requested phone change", current_user.id)
         except Exception:
             return jsonify({"ok": False, "error": "send_failed"}), 500
         return jsonify({"ok": True, "requires": "phone_code"})
@@ -211,6 +252,7 @@ def confirm_change():
             send_email(old_email, f"{current_app.config['APP_NAME']} – Email changed", "Your email was changed. If this wasn't you, contact support immediately.")
         except Exception:
             pass
+        current_app.logger.info("user %s confirmed email change", current_user.id)
         return jsonify({"ok": True, "message": "Email updated."})
 
     elif change_type == "phone":
@@ -231,6 +273,7 @@ def confirm_change():
             send_email(current_user.email, f"{current_app.config['APP_NAME']} – Phone changed", "Your phone number was changed. If this wasn't you, contact support.")
         except Exception:
             pass
+        current_app.logger.info("user %s confirmed phone change", current_user.id)
         return jsonify({"ok": True, "message": "Phone updated."})
 
     elif change_type == "password":
@@ -265,6 +308,7 @@ def confirm_change():
             send_email(current_user.email, f"{current_app.config['APP_NAME']} – Password changed", "Your password was just changed. If this wasn't you, secure your account.")
         except Exception:
             pass
+        current_app.logger.info("user %s changed password", current_user.id)
         return jsonify({"ok": True, "message": "Password updated."})
 
     else:
