@@ -1,104 +1,112 @@
-# TrendFind/blueprints/auth.py
-
+## TrendFind/blueprints/auth.py
 from __future__ import annotations
 
 import os
 import json
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
+from jinja2 import TemplateNotFound
+from flask import (
+    Blueprint, render_template, redirect, url_for,
+    flash, request, jsonify, session, current_app
+)
 from flask_login import login_user, logout_user, login_required, current_user
 
-# Package-aware imports (avoid "ModuleNotFoundError")
+# ✅ use package-relative imports (your files live inside TrendFind/)
 from ..forms import RegisterForm, LoginForm
-from ..models import User          # your models module should bind to the shared db from TrendFind
-from .. import db, csrf            # reuse the one SQLAlchemy/CSRF instance created in TrendFind/__init__.py
+from ..models import User
+from .. import db, csrf
+from ..email_utils import send_welcome_email  # best-effort; wrapped with try/except
 
-# Celery task (adjust path if your task lives elsewhere)
-# e.g. if you actually defined it in TrendFind/tasks/email.py, import that instead.
-try:
-    from ..email_utils import send_welcome_email  # must exist inside TrendFind/
-except Exception:  # fall back: no async mail
-    send_welcome_email = None
+# ─── Firebase Admin (optional) ────────────────────────────────────────────────
+import firebase_admin
+from firebase_admin import credentials, auth as firebase_auth
 
-# ───────── Firebase Admin (init once, and only if key is present) ─────────
-FIREBASE_ENABLED = False
-try:
-    import firebase_admin
-    from firebase_admin import credentials, auth as firebase_auth
+bp = Blueprint("auth", __name__)  # no url_prefix so "/" is handled here
 
-    firebase_key = os.environ.get("FIREBASE_KEY")
-    if firebase_key:
-        cred_dict = json.loads(firebase_key)
-        pk = cred_dict.get("private_key", "")
-        if "\\n" in pk:
+def _ensure_firebase():
+    """Initialize Firebase Admin once, if FIREBASE_KEY is set."""
+    if firebase_admin._apps:
+        return
+    key_json = os.environ.get("FIREBASE_KEY")
+    if not key_json:
+        return
+    try:
+        cred_dict = json.loads(key_json)
+        pk = cred_dict.get("private_key")
+        if isinstance(pk, str) and "\\n" in pk:
             cred_dict["private_key"] = pk.replace("\\n", "\n")
+        firebase_admin.initialize_app(credentials.Certificate(cred_dict))
+    except Exception as e:
+        # Don't take the app down if Firebase isn't configured right
+        current_app.logger.warning("Firebase init skipped: %s", e)
 
-        try:
-            # Only initialize if there is no existing default app
-            firebase_admin.get_app()
-        except ValueError:
-            cred = credentials.Certificate(cred_dict)
-            firebase_admin.initialize_app(cred)
+# ─── Routes ───────────────────────────────────────────────────────────────────
 
-        FIREBASE_ENABLED = True
-except Exception:
-    # Leave disabled if import/env invalid
-    FIREBASE_ENABLED = False
-
-bp = Blueprint("auth", __name__, url_prefix="/")
-
+@bp.route("/")
+def index():
+    """Fixes your 404 at root by redirecting somewhere real."""
+    if current_user.is_authenticated:
+        return redirect(url_for("auth.profile"))
+    return redirect(url_for("auth.login"))
 
 @bp.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("auth.profile"))
 
     form = RegisterForm()
     if form.validate_on_submit():
-        existing = User.query.filter_by(email=form.email.data.lower()).first()
-        if existing:
-            flash("Email already registered", "warning")
+        email = (form.email.data or "").strip().lower()
+        if not email:
+            flash("Email is required.", "warning")
             return redirect(url_for("auth.register"))
 
-        user = User(name=form.name.data, email=form.email.data.lower())
+        if User.query.filter_by(email=email).first():
+            flash("Email already registered.", "warning")
+            return redirect(url_for("auth.register"))
+
+        user = User(name=form.name.data.strip(), email=email)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
 
         login_user(user)
 
-        # Send welcome email (async if celery task is available)
+        # Best-effort welcome email (async if Celery works, else sync, else skip)
         try:
-            if send_welcome_email:
-                if hasattr(send_welcome_email, "delay"):
-                    send_welcome_email.delay(user.email, user.name)
-                else:
-                    send_welcome_email(user.email, user.name)
+            send_welcome_email.delay(user.email, user.name)  # type: ignore[attr-defined]
         except Exception:
-            # Don't crash registration if email fails
-            pass
+            try:
+                send_welcome_email(user.email, user.name)
+            except Exception as e:
+                current_app.logger.warning("Welcome email failed: %s", e)
 
         flash("Account created!", "success")
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("auth.profile"))
 
-    return render_template("register.html", form=form)
-
+    try:
+        return render_template("register.html", form=form)
+    except TemplateNotFound:
+        return jsonify(message="register page", errors=form.errors), 200
 
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("main.profile"))
+        return redirect(url_for("auth.profile"))
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
+        email = (form.email.data or "").strip().lower()
+        user = User.query.filter_by(email=email).first()
         if user and user.check_password(form.password.data):
-            login_user(user)
-            flash("Logged in", "success")
-            return redirect(url_for("main.profile"))
-        flash("Invalid credentials", "danger")
+            login_user(user, remember=True)
+            flash("Logged in.", "success")
+            return redirect(url_for("auth.profile"))
+        flash("Invalid email or password.", "danger")
 
-    return render_template("login.html", form=form)
-
+    try:
+        return render_template("login.html", form=form)
+    except TemplateNotFound:
+        return jsonify(message="login page", errors=form.errors), 200
 
 @bp.route("/logout")
 @login_required
@@ -106,41 +114,47 @@ def logout():
     logout_user()
     session.pop("uid", None)
     session.pop("email", None)
-    flash("Logged out", "info")
+    flash("Logged out.", "info")
     return redirect(url_for("auth.login"))
 
+@bp.route("/profile")
+@login_required
+def profile():
+    """Simple profile; won’t 500 if you don’t have a template yet."""
+    try:
+        return render_template("profile.html", user=current_user)
+    except TemplateNotFound:
+        return jsonify(message=f"Welcome, {current_user.name}"), 200
 
-# If this endpoint is called from a frontend via fetch/XHR without CSRF token,
-# exempt it from CSRF (or supply the token from the client).
-@csrf.exempt
+# JSON endpoint for Firebase auth; must be CSRF-exempt when CSRFProtect is enabled
 @bp.route("/firebase-login", methods=["POST"])
+@csrf.exempt
 def firebase_login():
-    if not FIREBASE_ENABLED:
-        return jsonify({"status": "error", "message": "Firebase not configured"}), 503
+    _ensure_firebase()
 
     data = request.get_json(silent=True) or {}
     token = data.get("token")
     if not token:
-        return jsonify({"status": "error", "message": "No token provided"}), 400
+        return jsonify(status="error", message="No token provided"), 400
 
     try:
         decoded = firebase_auth.verify_id_token(token)
         uid = decoded.get("uid")
-        email = decoded.get("email")
+        email = (decoded.get("email") or "").lower()
         name = decoded.get("name") or "User"
-        if not email:
-            return jsonify({"status": "error", "message": "Invalid token (no email)"}), 400
 
-        user = User.query.filter_by(email=email.lower()).first()
+        if not email:
+            return jsonify(status="error", message="Invalid token: no email"), 400
+
+        user = User.query.filter_by(email=email).first()
         if not user:
-            user = User(name=name, email=email.lower())
+            user = User(name=name, email=email)
             db.session.add(user)
             db.session.commit()
 
         login_user(user)
         session["uid"] = uid
-        session["email"] = email.lower()
-        return jsonify({"status": "ok"}), 200
-
+        session["email"] = email
+        return jsonify(status="ok"), 200
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 401
+        return jsonify(status="error", message=str(e)), 401
