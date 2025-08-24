@@ -27,10 +27,6 @@ class User(UserMixin, db.Model):
     profile_pic_url   = db.Column(db.String(512), nullable=True)
     email_verified    = db.Column(db.Boolean, default=False, nullable=False)
     phone_verified    = db.Column(db.Boolean, default=False, nullable=False)
-    address           = db.Column(db.String(255))
-    preferences       = db.Column(db.Text, default="{}")
-    notify_email      = db.Column(db.Boolean, default=True, nullable=False)
-    notify_sms        = db.Column(db.Boolean, default=True, nullable=False)
     updated_at        = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     stripe_customer_id = db.Column(db.String(120))
@@ -52,7 +48,6 @@ class VerificationCode(db.Model):
     channel       = db.Column(db.Enum(Channel), nullable=False)
 
     code_hash     = db.Column(db.String(128), nullable=False)
-    salt          = db.Column(db.String(16), nullable=False)
     expires_at    = db.Column(db.DateTime, nullable=False)
     attempts_left = db.Column(db.Integer, default=5, nullable=False)
     pending_json  = db.Column(db.Text, nullable=False)
@@ -60,28 +55,21 @@ class VerificationCode(db.Model):
     created_at    = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     @staticmethod
-    def _hash(code: str, salt: str) -> str:
-        return hashlib.sha256((salt + code).encode("utf-8")).hexdigest()
+    def _hash(code: str) -> str:
+        return hashlib.sha256(code.encode("utf-8")).hexdigest()
 
     @classmethod
     def create(cls, user, purpose: Purpose, channel: Channel, pending: dict, ttl_minutes: int = 10):
         # Invalidate older unconsumed codes of same purpose/channel
-        db.session.query(cls).filter_by(
-            user_id=user.id,
-            purpose=purpose,
-            channel=channel,
-            consumed=False
-        ).update({"consumed": True})
+              db.session.query(cls).filter_by(user_id=user.id, purpose=purpose, channel=channel, consumed=False).delete(synchronize_session=False)
         db.session.commit()
-        # 6-digit code
-        code = f"{secrets.randbelow(1_000_000):06d}"
-        salt = secrets.token_hex(8)
+        # 6 or 8 digits; 8 is stronger
+        code = f"{secrets.randbelow(10_000_000):08d}"
         obj = cls(
             user=user,
             purpose=purpose,
             channel=channel,
-            code_hash=cls._hash(code, salt),
-            salt=salt,
+            code_hash=cls._hash(code),
             expires_at=datetime.utcnow() + timedelta(minutes=ttl_minutes),
             pending_json=json.dumps(pending),
         )
@@ -92,7 +80,7 @@ class VerificationCode(db.Model):
     def verify(self, code_input: str) -> bool:
         if self.consumed or datetime.utcnow() > self.expires_at or self.attempts_left <= 0:
             return False
-        ok = (self.code_hash == self._hash(code_input, self.salt))
+                ok = (self.code_hash == self._hash(code_input))
         if not ok:
             self.attempts_left -= 1
             db.session.commit()
