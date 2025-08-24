@@ -36,7 +36,7 @@ celery = Celery(__name__, broker=redis_url)
 def create_app(config_path: str | None = None):
     app = Flask(__name__, static_folder="static", template_folder="templates")
 
-    # Config (keep your existing class; just make sure the dotted path is correct)
+    # Config (adjust the dotted path if your config class differs)
     config_dotted = (
         config_path
         or os.getenv("FLASK_CONFIG")
@@ -51,32 +51,44 @@ def create_app(config_path: str | None = None):
     migrate.init_app(app, db)
     login_m.init_app(app)
     app.login_manager = login_m
-    # 👇 keep the old endpoint name for redirects like /login?next=...
-    login_m.login_view = "login"
+    login_m.login_view = "login"     # keep old endpoint name so redirects still hit /login
     csrf.init_app(app)
     mail.init_app(app)
     limiter.init_app(app)
     make_celery(app)
 
+    # ── Register the user_loader so current_user works ───────────────
+    # Import here to avoid circular imports
+    from .models import User
+
+    @login_m.user_loader
+    def load_user(user_id: str):
+        # Works with str IDs; SQLAlchemy 2.x style lookup
+        return db.session.get(User, user_id)
+
+    # (Optional) nice unauthorized handler
+    @login_m.unauthorized_handler
+    def _unauth():
+        return redirect(url_for("login", next=request.path))
+
     # Blueprints
     from .blueprints.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
-    # Google OAuth (your module handles creating/attaching the blueprint)
+    # Google OAuth
     init_oauth(app, url_prefix="/tfauth")
     csrf.exempt(google_bp)
     register_custom_routes(app)
 
     # ────────────────────────────────────────────────────────────────
-    # 1) Public pages defined directly (so templates can use url_for('faq') etc.)
-    #    Create simple handlers ONLY if those endpoints don't already exist.
-    #    This avoids changing templates or nav links.
+    # Public pages so old urls work without editing templates
     # ────────────────────────────────────────────────────────────────
     if "home" not in app.view_functions:
         @app.get("/", endpoint="home")
         def home():
+            # With user_loader registered, current_user is safe to access
             if current_user.is_authenticated:
-                return redirect(url_for("profile"))  # old endpoint name preserved below
+                return redirect(url_for("profile"))
             return redirect(url_for("login"))
 
     if "faq" not in app.view_functions:
@@ -97,44 +109,36 @@ def create_app(config_path: str | None = None):
     if "saved_products" not in app.view_functions:
         @app.get("/saved-products", endpoint="saved_products")
         def saved_products():
-            # Fill with real data later if needed
             return render_template("saved-products.html", products=[])
 
     # ────────────────────────────────────────────────────────────────
-    # 2) Alias endpoints so old names keep working (no template changes)
-    #    These map plain names -> auth blueprint views.
+    # Alias endpoints so url_for('login'), etc. keep working
     # ────────────────────────────────────────────────────────────────
     def _alias(path: str, alias_endpoint: str, target_endpoint: str, methods: tuple[str, ...]):
-        """Safely add an alias if it isn't already registered."""
         if alias_endpoint not in app.view_functions and target_endpoint in app.view_functions:
             app.add_url_rule(path, endpoint=alias_endpoint,
                              view_func=app.view_functions[target_endpoint],
                              methods=list(methods))
 
-    # auth routes (adjust paths if your auth blueprint uses different ones)
     _alias("/login",    "login",    "auth.login",    ("GET", "POST"))
     _alias("/register", "register", "auth.register", ("GET", "POST"))
     _alias("/logout",   "logout",   "auth.logout",   ("GET",))
     _alias("/profile",  "profile",  "auth.profile",  ("GET",))
 
-    # If your templates call `url_for('tfauth.login')`, ensure that alias exists.
-    # Try to map it to whatever the Google blueprint registered as its login view.
-    # Common names are 'google.login' or already 'tfauth.login'.
+    # If templates use 'tfauth.login', try to alias it to whatever the OAuth blueprint registered
     if "tfauth.login" not in app.view_functions:
-        for cand in ("google.login", "oauth.login", "google_bp.login"):
+        for cand in ("google.login", "oauth.login"):
             if cand in app.view_functions:
-                # make sure the route exists too
                 app.add_url_rule("/tfauth/login", endpoint="tfauth.login",
                                  view_func=app.view_functions[cand], methods=["GET"])
                 break
 
-    # Health + 404
     @app.get("/healthz")
     def healthz():
         return {"status": "ok"}, 200
 
     @app.errorhandler(404)
-    def _nf(e):  # minimal JSON 404 to aid debugging
+    def _nf(e):
         return jsonify(error="Not Found"), 404
 
     return app
