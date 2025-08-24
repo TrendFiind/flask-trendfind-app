@@ -34,7 +34,7 @@ def create_app(config_path: str | None = None):
 
     config_dotted = (
         config_path
-        or os.getenv("FLASK_CONFIG")          # e.g. "TrendFind.config.Production"
+        or os.getenv("FLASK_CONFIG")          # e.g. "TrendFind.config.Productio33n"
         or "TrendFind.config.Production"      # because your config.py is inside TrendFind/
     )
     try:
