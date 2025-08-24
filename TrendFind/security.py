@@ -14,13 +14,11 @@ def generate_csrf_token():
 def csrf_protect(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if current_app.config.get("TESTING"):
-            return fn(*args, **kwargs)
         token = request.headers.get("X-CSRF-Token") or request.form.get("_csrf")
         if not token:
             return jsonify({"ok": False, "error": "missing_csrf"}), 400
         try:
-            _serializer().loads(token, max_age=60*60)  # 1 hour
+            data = _serializer().loads(token, max_age=60*60)  # 1 hour
         except SignatureExpired:
             return jsonify({"ok": False, "error": "csrf_expired"}), 400
         except BadSignature:
