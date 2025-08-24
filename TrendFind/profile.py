@@ -1,6 +1,6 @@
 # profile.py
 import os, json
-from datetime import datetime, timedelta
+from datetime import datetime,
 from flask import Blueprint, render_template, request, jsonify, current_app
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
