@@ -1,25 +1,48 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
-from flask_login import login_user, logout_user, login_required, current_user
-from ..forms import RegisterForm, LoginForm
-from models import User, db
-from email_utils import send_welcome_email
+# TrendFind/blueprints/auth.py
 
-# 🔐 Firebase Admin
-import firebase_admin
-from firebase_admin import credentials, auth as firebase_auth
+from __future__ import annotations
 
 import os
 import json
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
+from flask_login import login_user, logout_user, login_required, current_user
 
-firebase_key = os.environ.get("FIREBASE_KEY")
-cred_dict = json.loads(firebase_key)
+# Package-aware imports (avoid "ModuleNotFoundError")
+from ..forms import RegisterForm, LoginForm
+from ..models import User          # your models module should bind to the shared db from TrendFind
+from .. import db, csrf            # reuse the one SQLAlchemy/CSRF instance created in TrendFind/__init__.py
 
-# 🔥 FIX the private_key to convert '\\n' into real newlines
-if "\\n" in cred_dict.get("private_key", ""):
-    cred_dict["private_key"] = cred_dict["private_key"].replace("\\n", "\n")
+# Celery task (adjust path if your task lives elsewhere)
+# e.g. if you actually defined it in TrendFind/tasks/email.py, import that instead.
+try:
+    from ..email_utils import send_welcome_email  # must exist inside TrendFind/
+except Exception:  # fall back: no async mail
+    send_welcome_email = None
 
-cred = credentials.Certificate(cred_dict)
-firebase_admin.initialize_app(cred)
+# ───────── Firebase Admin (init once, and only if key is present) ─────────
+FIREBASE_ENABLED = False
+try:
+    import firebase_admin
+    from firebase_admin import credentials, auth as firebase_auth
+
+    firebase_key = os.environ.get("FIREBASE_KEY")
+    if firebase_key:
+        cred_dict = json.loads(firebase_key)
+        pk = cred_dict.get("private_key", "")
+        if "\\n" in pk:
+            cred_dict["private_key"] = pk.replace("\\n", "\n")
+
+        try:
+            # Only initialize if there is no existing default app
+            firebase_admin.get_app()
+        except ValueError:
+            cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred)
+
+        FIREBASE_ENABLED = True
+except Exception:
+    # Leave disabled if import/env invalid
+    FIREBASE_ENABLED = False
 
 bp = Blueprint("auth", __name__, url_prefix="/")
 
@@ -31,7 +54,8 @@ def register():
 
     form = RegisterForm()
     if form.validate_on_submit():
-        if User.query.filter_by(email=form.email.data.lower()).first():
+        existing = User.query.filter_by(email=form.email.data.lower()).first()
+        if existing:
             flash("Email already registered", "warning")
             return redirect(url_for("auth.register"))
 
@@ -41,7 +65,18 @@ def register():
         db.session.commit()
 
         login_user(user)
-        send_welcome_email.delay(user.email, user.name)
+
+        # Send welcome email (async if celery task is available)
+        try:
+            if send_welcome_email:
+                if hasattr(send_welcome_email, "delay"):
+                    send_welcome_email.delay(user.email, user.name)
+                else:
+                    send_welcome_email(user.email, user.name)
+        except Exception:
+            # Don't crash registration if email fails
+            pass
+
         flash("Account created!", "success")
         return redirect(url_for("main.profile"))
 
@@ -69,45 +104,42 @@ def login():
 @login_required
 def logout():
     logout_user()
-    session.pop('uid', None)
-    session.pop('email', None)
+    session.pop("uid", None)
+    session.pop("email", None)
     flash("Logged out", "info")
     return redirect(url_for("auth.login"))
 
 
-# ✅ Firebase-based login endpoint
+# If this endpoint is called from a frontend via fetch/XHR without CSRF token,
+# exempt it from CSRF (or supply the token from the client).
+@csrf.exempt
 @bp.route("/firebase-login", methods=["POST"])
 def firebase_login():
-    token = request.json.get("token")
+    if not FIREBASE_ENABLED:
+        return jsonify({"status": "error", "message": "Firebase not configured"}), 503
 
+    data = request.get_json(silent=True) or {}
+    token = data.get("token")
     if not token:
         return jsonify({"status": "error", "message": "No token provided"}), 400
 
     try:
-        # Verify token using Firebase Admin SDK
-        decoded_token = firebase_auth.verify_id_token(token)
-        uid = decoded_token.get("uid")
-        email = decoded_token.get("email")
-        name = decoded_token.get("name", "User")
-
+        decoded = firebase_auth.verify_id_token(token)
+        uid = decoded.get("uid")
+        email = decoded.get("email")
+        name = decoded.get("name") or "User"
         if not email:
-            return jsonify({"status": "error", "message": "Invalid token - no email"}), 400
+            return jsonify({"status": "error", "message": "Invalid token (no email)"}), 400
 
-        # Optional: Store or fetch user from your database
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email.lower()).first()
         if not user:
-            # Auto-create user for Firebase login
-            user = User(name=name, email=email)
+            user = User(name=name, email=email.lower())
             db.session.add(user)
             db.session.commit()
 
-        # Use Flask-Login to set login session
         login_user(user)
-
-        # Optional: Store in Flask session (redundant if using Flask-Login)
-        session['uid'] = uid
-        session['email'] = email
-
+        session["uid"] = uid
+        session["email"] = email.lower()
         return jsonify({"status": "ok"}), 200
 
     except Exception as e:
