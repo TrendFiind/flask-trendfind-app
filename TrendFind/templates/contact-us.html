@@ -78,7 +78,6 @@
             -webkit-background-clip:text;background-clip:text;color:transparent}
         @media(max-width:768px){.section-title{font-size:2rem}}
 
-        /* contact methods, icons, form, map (unchanged) */
         .contact-method{display:flex;align-items:center;margin-bottom:2rem;padding-bottom:2rem;
             border-bottom:1px solid rgba(255,255,255,.1)}
         @media(max-width:576px){.contact-method{flex-direction:column;text-align:center}}
@@ -117,6 +116,7 @@
             transition:var(--transition);width:100%;font-family:'Rajdhani',sans-serif;position:relative;overflow:hidden}
         .btn-submit:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,255,234,.3)}
         .btn-submit:disabled{opacity:.7;cursor:not-allowed}
+        .submit-spinner{display:none;margin-left:.5rem}
 
         .success-message{display:none;background:rgba(0,255,234,.1);border:1px solid var(--primary);
             border-radius:10px;padding:2rem;margin-top:2rem;text-align:center}
@@ -153,6 +153,12 @@
         <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
             <span></span><span></span><span></span>
         </button>
+
+        <!-- Dark mode button (added so JS won't error) -->
+        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+
         <div class="logo-container">
             <a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo"></a>
         </div>
@@ -216,7 +222,7 @@
             <div class="contact-card">
                 <h2 class="section-title">Send a Message</h2>
 
-      {% with messages = get_flashed_messages(with_categories=true) %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}
                             <div class="alert alert-{{ 'error' if category == 'error' else 'success' }} mb-4">
@@ -224,6 +230,7 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+                {% endwith %}
 
                 <form method="POST" action="{{ url_for('contact_us') }}" id="contactForm" class="contact-form">
                     {{ form.hidden_tag() }}
@@ -257,7 +264,8 @@
                         {% endfor %}
                     </div>
 
-                    <div class="g-recaptcha mb-4" data-sitekey="{{ config.RECAPTCHA_SITE_KEY }}"></div>
+                    <!-- Pass your site key as 'recaptcha_site_key' from the view -->
+                    <div class="g-recaptcha mb-4" data-sitekey="{{ recaptcha_site_key|default('', true) }}"></div>
 
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <span id="submitText">Send Message</span>
@@ -344,24 +352,27 @@ function toggleSidebar(){
 }
 
 // ===== Dark Mode Toggle =====
-document.getElementById('dark-mode-toggle').addEventListener('click',function(){
-    document.body.classList.toggle('light-mode');
-    const icon=this.querySelector('i');
-    if(document.body.classList.contains('light-mode')){
-        icon.classList.replace('fa-moon','fa-sun');
-        localStorage.setItem('darkMode','disabled');
-    }else{
-        icon.classList.replace('fa-sun','fa-moon');
-        localStorage.setItem('darkMode','enabled');
-    }
-});
+const dmt = document.getElementById('dark-mode-toggle');
+if (dmt){
+  dmt.addEventListener('click',function(){
+      document.body.classList.toggle('light-mode');
+      const icon=this.querySelector('i');
+      if(document.body.classList.contains('light-mode')){
+          icon.classList.replace('fa-moon','fa-sun');
+          localStorage.setItem('darkMode','disabled');
+      }else{
+          icon.classList.replace('fa-sun','fa-moon');
+          localStorage.setItem('darkMode','enabled');
+      }
+  });
+}
 
 // Load saved preference
 document.addEventListener('DOMContentLoaded',function(){
     const icon=document.querySelector('#dark-mode-toggle i');
     if(localStorage.getItem('darkMode')==='disabled'){
         document.body.classList.add('light-mode');
-        icon.classList.replace('fa-moon','fa-sun');
+        if(icon) icon.classList.replace('fa-moon','fa-sun');
     }
 });
 
@@ -369,22 +380,26 @@ document.addEventListener('DOMContentLoaded',function(){
 document.addEventListener('click',function(e){
     const sidebar=document.getElementById('sidebar');
     const toggle=document.querySelector('.sidebar-toggle');
-    if(sidebar.classList.contains('open')&&!sidebar.contains(e.target)&&!toggle.contains(e.target)){
+    if(sidebar && toggle && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !toggle.contains(e.target)){
         toggleSidebar();
     }
 });
-// eee
+
 // ===== Form Handling =====
-document.getElementById('contactForm').addEventListener('submit',function(){
-    const btn=document.getElementById('submitBtn');
-    document.getElementById('submitText').textContent='Sending…';
-    document.getElementById('submitSpinner').style.display='inline-block';
-    btn.disabled=true;
-});
+const formEl = document.getElementById('contactForm');
+if(formEl){
+  formEl.addEventListener('submit',function(){
+      const btn=document.getElementById('submitBtn');
+      document.getElementById('submitText').textContent='Sending…';
+      document.getElementById('submitSpinner').style.display='inline-block';
+      btn.disabled=true;
+  });
+}
 
 // Show success banner if redirected with ?success=true
 if(window.location.search.includes('success=true')){
-    document.getElementById('successMessage').style.display='block';
+    const sm = document.getElementById('successMessage');
+    if (sm) sm.style.display='block';
 }
 
 // Floating labels interaction
@@ -412,17 +427,21 @@ document.querySelectorAll('.form-control').forEach(input=>{
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click',e=>{
         e.preventDefault();
-        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+        const t = document.querySelector(a.getAttribute('href'));
+        if(t) t.scrollIntoView({behavior:'smooth'});
     });
 });
 
 // Hide validation error text as user types
-document.getElementById('contactForm').querySelectorAll('.form-control').forEach(input=>{
-    input.addEventListener('input',()=>{
-        const err=input.parentElement.querySelector('.error-message');
-        if(err)err.style.display='none';
-    });
-});
+const cf = document.getElementById('contactForm');
+if (cf){
+  cf.querySelectorAll('.form-control').forEach(input=>{
+      input.addEventListener('input',()=>{
+          const err=input.parentElement.querySelector('.error-message');
+          if(err)err.style.display='none';
+      });
+  });
+}
 </script>
 </body>
 </html>
