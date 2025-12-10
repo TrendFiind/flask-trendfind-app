@@ -672,33 +672,35 @@ def remove_product(product_id: int):
 @limiter.limit("5/minute")
 def contact_us():
     form = ContactForm()
+
     if form.validate_on_submit():
-        name, email = clean(form.name.data), clean(form.email.data)
-        subject     = clean(form.subject.data or "")
-        message     = clean(form.message.data)
-        ip          = request.remote_addr
+        name    = clean(form.name.data)
+        email   = clean(form.email.data)
+        subject = clean(form.subject.data or "")
+        message = clean(form.message.data)
+        ip      = request.remote_addr
 
         db = get_db()
-db.execute("""
-    INSERT INTO contact_submissions
-        (name, email, subject, message, ip_address)
-    VALUES (%s, %s, %s, %s, %s)
-""", (name, email, subject, message, ip))
-
+        db.execute("""
+            INSERT INTO contact_submissions
+                (name, email, subject, message, ip_address)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (name, email, subject, message, ip))
         db.commit()
 
-        # Fire off email (best-effort)
+        # Send email (best effort)
         try:
             mail.send(Message(
                 subject=f"TrendFind Contact: {subject or 'No subject'}",
                 recipients=[Config.MAIL_USERNAME],
-                body=(f"From: {name} <{email}>\nIP: {ip}\n\n{message}")
+                body=f"From: {name} <{email}>\nIP: {ip}\n\n{message}"
             ))
-        except Exception as exc:   # pragma: no cover
+        except Exception as exc:
             app.logger.warning("Mail send failed: %s", exc)
 
         flash("Message sent – we'll reply within 24 h.", "success")
         return redirect(url_for("contact_us"))
+
     return render_template("contact-us.html", form=form)
 
 # Static pages
