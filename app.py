@@ -76,6 +76,13 @@ class Config:
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# --- FIX SECRET KEY LOADING ---
+# Use Heroku SECRET_KEY if provided
+heroku_key = os.environ.get("SECRET_KEY")
+if heroku_key:
+    app.config['SECRET_KEY'] = heroku_key
+    app.config['WTF_CSRF_SECRET_KEY'] = heroku_key
+    
 csrf     = CSRFProtect(app)
 mail     = Mail(app)
 limiter  = Limiter(app, key_func=get_remote_address,
