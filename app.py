@@ -679,11 +679,12 @@ def contact_us():
         ip          = request.remote_addr
 
         db = get_db()
-        db.execute("""
-            INSERT INTO contact_submissions
-                (name, email, subject, message, ip_address)
-            VALUES (?, ?, ?, ?, ?)
-        """, (name, email, subject, message, ip))
+db.execute("""
+    INSERT INTO contact_submissions
+        (name, email, subject, message, ip_address)
+    VALUES (%s, %s, %s, %s, %s)
+""", (name, email, subject, message, ip))
+
         db.commit()
 
         # Fire off email (best-effort)
