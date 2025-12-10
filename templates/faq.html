@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - TrendFind</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #eee;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .faq-section h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+            color: #000;
+            text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        body.dark-mode .faq-section h1 {
+            color: #00ffea;
+            text-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
+        }
+
+        .faq-accordion {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Accordion Items */
+        .accordion-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        body.dark-mode .accordion-item {
+            background: rgba(30, 30, 30, 0.95);
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.1);
+        }
+
+        .accordion-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+        }
+
+        body.dark-mode .accordion-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 255, 234, 0.2);
+        }
+
+        /* Accordion Button */
+        .accordion-button {
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #000; /* Black in light mode */
+            cursor: pointer;
+            padding: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Line effect for light mode */
+        .accordion-button::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: #000; /* Black line in light mode */
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .accordion-button:hover::after {
+            opacity: 1;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode .accordion-button {
+            color: #00ffea; /* Teal in dark mode */
+        }
+
+        /* Line effect for dark mode */
+        body.dark-mode .accordion-button::after {
+            background: #00ffea; /* Teal line in dark mode */
+        }
+
+        /* Active state - hide line */
+        .accordion-item.active .accordion-button::after {
+            opacity: 0 !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(0, 123, 255, 0.05);
+            color: #007bff;
+        }
+
+        body.dark-mode .accordion-button:not(.collapsed) {
+            background-color: rgba(0, 255, 234, 0.05);
+            color: #00ffea;
+        }
+
+        /* Accordion Content */
+        .accordion-body {
+            padding: 0 20px 20px;
+            color: #333; /* Dark gray in light mode */
+            line-height: 1.7;
+        }
+
+        body.dark-mode .accordion-body {
+            color: #ccc; /* Light gray in dark mode */
+        }
+
+        .accordion-body strong {
+            color: #007bff;
+        }
+
+        body.dark-mode .accordion-body strong {
+            color: #00ffea;
+        }
+
+        /* Category Badges */
+        .category-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 10px;
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        body.dark-mode .category-badge {
+            background: #2c2c2c;
+            color: #adb5bd;
+        }
+
+        /* Sidebar Font Weight Fix */
+        .sidebar ul li a {
+            font-weight: 700 !important; /* Bold for all sidebar links */
+        }
+
+        body.dark-mode .sidebar ul li a {
+            color: #fff !important; /* White in dark mode */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .faq-section {
+                padding: 60px 20px;
+            }
+            
+            .faq-section h1 {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+            
+            .accordion-button {
+                font-size: 1rem;
+                padding: 15px;
+            }
+            
+            .accordion-body {
+                padding: 0 15px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo-container">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+                </a>
+            </div>
+            <button id="dark-mode-toggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <div class="container">
+            <h1 class="text-center">Frequently Asked Questions</h1>
+            
+            <div class="faq-accordion">
+                <!-- General Questions -->
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">General</span> What is TrendFind?
+                    </button>
+                    <div class="accordion-body">
+                        <p>TrendFind is an <strong>AI-powered web/app tool</strong> that helps dropshippers and resellers discover trending products with real-time data from major retailers (Amazon, Walmart, eBay) and social media trends. Our system analyzes reviews, delivery times, profit margins, and regional availability to identify winning products.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">General</span> How does TrendFind work?
+                    </button>
+                    <div class="accordion-body">
+                        <p>The app scans <strong>top retailers and social media platforms</strong> (Instagram, TikTok, Twitter) for trending products, then uses machine learning to analyze:</p>
+                        <ul>
+                            <li>Ratings, reviews, and profit potential</li>
+                            <li>Delivery times and supplier reliability scores</li>
+                            <li>Country-specific availability checks</li>
+                            <li>Social media sentiment analysis (positive/negative buzz)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Subscription Plans -->
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">Subscriptions</span> What plans are available?
+                    </button>
+                    <div class="accordion-body">
+                        <div class="subscription-tier">
+                            <h5>Free Tier</h5>
+                            <p>10 searches/day • Basic trending data • No AI recommendations</p>
+                        </div>
+                        <div class="subscription-tier">
+                            <h5>Bronze ($25/month)</h5>
+                            <p>50 searches/day • Basic analytics • Supplier comparisons</p>
+                        </div>
+                        <div class="subscription-tier">
+                            <h5>Silver ($50/month)</h5>
+                            <p>100 searches/day • Advanced metrics • Social media trends</p>
+                        </div>
+                        <div class="subscription-tier">
+                            <h5>Gold ($75/month)</h5>
+                            <p>Unlimited searches • AI scoring • Profit margin forecasts</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Research -->
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">Research</span> How do you ensure product quality?
+                    </button>
+                    <div class="accordion-body">
+                        <p>Our AI tracks multiple quality indicators:</p>
+                        <ul>
+                            <li>Reviews mentioning defects or durability issues</li>
+                            <li>Social media complaints about product quality</li>
+                            <li>Supplier reliability scores to avoid scams</li>
+                            <li>Return rate analysis from historical data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">Research</span> What if a product isn't available in my country?
+                    </button>
+                    <div class="accordion-body">
+                        <p>TrendFind automatically checks <strong>local availability</strong> before recommending products. If an item isn't available in your region, we'll:</p>
+                        <ul>
+                            <li>Suggest comparable alternatives that are available</li>
+                            <li>Show you fulfillment centers that ship to your location</li>
+                            <li>Provide estimated import costs if applicable</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Technical -->
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">Technical</span> Is there a mobile app?
+                    </button>
+                    <div class="accordion-body">
+                        <p>Yes! TrendFind is available as a <strong>progressive web app (PWA)</strong> that works on all devices with full functionality. You can add it to your home screen for easy access.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-button" type="button">
+                        <span class="category-badge">Technical</span> How often is data updated?
+                    </button>
+                    <div class="accordion-body">
+                        <p>Our data refresh rates:</p>
+                        <ul>
+                            <li><strong>Real-time:</strong> Prices and availability from retailers</li>
+                            <li><strong>Every 15 minutes:</strong> Social media trend analysis</li>
+                            <li><strong>Daily:</strong> Supplier reliability scores</li>
+                            <li><strong>Weekly:</strong> Profit margin recalculations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Sidebar Toggle
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.sidebar-toggle');
+    
+    sidebar.classList.toggle('open');
+    
+    // Animate hamburger icon
+    const spans = toggle.querySelectorAll('span');
+    if (sidebar.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+    }
+}
+
+// Dark Mode Toggle
+document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+    document.body.classList.toggle('light-mode');
+    const icon = this.querySelector('i');
+    
+    if (document.body.classList.contains('light-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+        localStorage.setItem('darkMode', 'disabled');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+        localStorage.setItem('darkMode', 'enabled');
+    }
+});
+
+// Check for saved dark mode preference
+document.addEventListener('DOMContentLoaded', function() {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const icon = darkModeToggle.querySelector('i');
+    const darkMode = localStorage.getItem('darkMode');
+
+    if (darkMode === 'disabled') {
+        document.body.classList.add('light-mode');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    }
+});
+
+// Close sidebar when clicking outside
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.sidebar-toggle');
+    
+    if (sidebar.classList.contains('open') && 
+        !sidebar.contains(event.target) && 
+        !toggle.contains(event.target)) {
+        toggleSidebar();
+    }
+});
+        // Accordion Functionality
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const content = button.nextElementSibling;
+                
+                // Close all other items
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+                if (item.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = null;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

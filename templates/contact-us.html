@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | TrendFind</title>
+
+    <!-- Preload critical assets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <style>
+        :root {
+            --primary: #00ffea;
+            --primary-dark: #00c9b7;
+            --secondary: #007bff;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --card-bg: rgba(30, 30, 30, 0.7);
+            --card-border: rgba(0, 255, 234, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Light mode variables */
+        body.light-mode {
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 123, 255, 0.2);
+            --dark: #f8f9fa;
+            --darker: #e9ecef;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: url('/static/images/network-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Header (matches other pages exactly) */
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 35px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .header {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo-container {
+            flex: 1;
+            text-align: center;
+        }
+
+        .logo {
+            width: 250px;
+            height: auto;
+            position: absolute;
+            left: 50%;
+            top: -72px;
+            transform: translateX(-50%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .sidebar-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .sidebar-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #007bff;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sidebar-toggle:hover span {
+            background-color: #0056b3;
+        }
+
+        /* Sidebar Font Weight Fix */
+        .sidebar ul li a {
+            font-weight: 700 !important; /* Bold for all sidebar links */
+        }
+
+        body.dark-mode .sidebar ul li a {
+            color: #fff !important; /* White in dark mode */
+        }
+
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            z-index: 1001;
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.2rem;
+            color: #007bff;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover i {
+            color: #0056b3;
+        }
+
+        /* Main Content */
+        .contact-hero {
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contact Cards */
+        .contact-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .contact-card {
+                padding: 2rem;
+            }
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Contact Methods */
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 576px) {
+            .contact-method {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 576px) {
+            .contact-icon {
+                margin: 0 auto 1rem;
+            }
+        }
+
+        .contact-details h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .contact-details a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        body.light-mode .contact-details a {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .contact-details a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Map Container */
+        .contact-map {
+            height: 25.25%;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 2rem;
+            border: 1px solid var(--card-border);
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+
+        .contact-map iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-control {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            padding: 1rem 1.5rem;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        body.light-mode .form-control {
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(0, 255, 234, 0.25);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .form-label {
+            position: absolute;
+            left: 1.5rem;
+            top: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        body.light-mode .form-label {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .form-control:focus + .form-label,
+        .form-control:not(:placeholder-shown) + .form-label {
+            top: -0.8rem;
+            left: 1rem;
+            font-size: 0.8rem;
+            background: var(--dark);
+            padding: 0 0.5rem;
+            color: var(--primary);
+        }
+
+        body.light-mode .form-control:focus + .form-label,
+        body.light-mode .form-control:not(:placeholder-shown) + .form-label {
+            background: var(--light);
+        }
+
+        /* Button Styles */
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            width: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 255, 234, 0.3);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Messages */
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 234, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .success-icon {
+            color: var(--primary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .alert-error {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid #ff3232;
+            color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.8);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        body.light-mode footer {
+            background: rgba(0,0,0,0.1);
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.6);
+            margin: 0;
+        }
+
+        body.light-mode footer p {
+            color: rgba(0,0,0,0.6);
+        }
+
+        /* Loading spinner */
+        .submit-spinner {
+            display: none;
+            animation: spin 1s linear infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .contact-hero {
+                padding: 6rem 0 2rem;
+            }
+            
+            .contact-card {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .contact-method {
+                margin-bottom: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header (matches other pages exactly) -->
+<header class="header">
+    <div class="header-content">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="logo-container">
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/Logo.png') }}" alt="TrendFind Logo" class="logo">
+            </a>
+        </div>
+    </div>
+</header>
+
+    <!-- Sidebar (matches other pages exactly) -->
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/saved-products">Saved Products</a></li>
+            <li><a href="/plan-details">Plan Details</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="contact-hero">
+        <div class="contact-container">
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-card">
+                    <h2 class="section-title">Connect With Us</h2>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Our Headquarters</h3>
+                            <p>Coming Soon! In...<br>Perth, WA 6000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Direct Line</h3>
+                            <a href="tel:+61466518364">+61 466 518 364</a>
+                            <p>Mon-Fri: 9am-2pm AWST</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email Support</h3>
+                            <a href="mailto:kichkooffical@gmail.com">kichkooffical@gmail.com</a>
+                            <p>24-hour response time</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.147911372639!2d115.857846315625!3d-31.95268278122788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bad2aad309a9%3A0x9a7e7897a5df7b0!2sPerth%20WA!5e0!3m2!1sen!2sau!4v1620000000000!5m2!1sen!2sau" 
+                                allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="contact-card">
+                    <h2 class="section-title">Send a Message</h2>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'error' if category == 'error' else 'success' }} mb-4">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST" action="{{ url_for('contact_us') }}" id="contactForm" class="contact-form">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="form-group">
+                            {{ form.name(class="form-control", placeholder=" ", required=True) }}
+                            {{ form.name.label(class="form-label") }}
+                            {% for error in form.name.errors %}
+                                <span class="error-message">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.email(class="form-control", placeholder=" ", required=True) }}
+                            {{ form.email.label(class="form-label") }}
+                            {% for error in form.email.errors %}
+                                <span class="error-message">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.subject(class="form-control", placeholder=" ") }}
+                            {{ form.subject.label(class="form-label") }}
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.message(class="form-control", placeholder=" ", required=True) }}
+                            {{ form.message.label(class="form-label") }}
+                            {% for error in form.message.errors %}
+                                <span class="error-message">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- reCAPTCHA -->
+                        <div class="g-recaptcha mb-4" data-sitekey="{{ config.RECAPTCHA_SITE_KEY }}"></div>
+                        
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <span id="submitText">Send Message</span>
+                            <i class="fas fa-spinner submit-spinner" id="submitSpinner"></i>
+                        </button>
+                        
+                        <div class="success-message" id="successMessage">
+                            <div class="success-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3>Message Received!</h3>
+                            <p>Our team will get back to you within 24 hours.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <p>&copy; 2025 TrendFind. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+// ===== SIDEBAR FUNCTIONALITY (Works Across All Pages) =====
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.sidebar-toggle');
+    
+    sidebar.classList.toggle('open');
+    
+    // Animate hamburger icon
+    const spans = toggle.querySelectorAll('span');
+    if (sidebar.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+    }
+}
+
+// Dark Mode Toggle
+document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+    document.body.classList.toggle('light-mode');
+    const icon = this.querySelector('i');
+    
+    if (document.body.classList.contains('light-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+        localStorage.setItem('darkMode', 'disabled');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+        localStorage.setItem('darkMode', 'enabled');
+    }
+});
+
+// Check for saved dark mode preference
+document.addEventListener('DOMContentLoaded', function() {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const icon = darkModeToggle.querySelector('i');
+    const darkMode = localStorage.getItem('darkMode');
+
+    if (darkMode === 'disabled') {
+        document.body.classList.add('light-mode');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    }
+});
+
+// Close sidebar when clicking outside
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.querySelector('.sidebar-toggle');
+    
+    if (sidebar.classList.contains('open') && 
+        !sidebar.contains(event.target) && 
+        !toggle.contains(event.target)) {
+        toggleSidebar();
+    }
+});
+
+        // Form Submission Handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            
+            // Disable button and show spinner
+            submitBtn.disabled = true;
+            submitText.textContent = 'Sending...';
+            submitSpinner.style.display = 'inline-block';
+        });
+
+        // Show success message if URL has success parameter
+        if (window.location.search.includes('success=true')) {
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        // Floating Labels Enhancement
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                const label = this.nextElementSibling;
+                if (label.classList.contains('form-label')) {
+                    label.style.color = 'var(--primary)';
+                }
+            });
+            
+            input.addEventListener('blur', function() {
+                const label = this.nextElementSibling;
+                if (label.classList.contains('form-label') && !this.value) {
+                    label.style.color = 'rgba(255,255,255,0.6)';
+                    if (document.body.classList.contains('light-mode')) {
+                        label.style.color = 'rgba(0,0,0,0.6)';
+                    }
+                }
+            });
+
+            // Initialize labels for pre-filled values
+            if (input.value) {
+                const label = input.nextElementSibling;
+                if (label.classList.contains('form-label')) {
+                    label.style.top = '-0.8rem';
+                    label.style.left = '1rem';
+                    label.style.fontSize = '0.8rem';
+                    label.style.background = 'var(--dark)';
+                    label.style.color = 'var(--primary)';
+                    if (document.body.classList.contains('light-mode')) {
+                        label.style.background = 'var(--light)';
+                    }
+                }
+            }
+        });
+
+        // Add smooth scroll to all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Handle form validation errors
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contactForm');
+            const inputs = form.querySelectorAll('.form-control');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const errorElement = this.parentElement.querySelector('.error-message');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
