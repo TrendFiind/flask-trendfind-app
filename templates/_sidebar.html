@@ -1,0 +1,31 @@
+<div class="sidebar">
+    <ul>
+        <li class="{% if request.endpoint == 'home' %}active{% endif %}">
+            <a href="{{ url_for('home') }}">Home</a>
+        </li>
+
+        <li class="{% if request.endpoint == 'profile' %}active{% endif %}">
+            <a href="{{ url_for('profile') }}">Profile</a>
+        </li>
+
+        <li class="{% if request.endpoint in ['saved_products'] %}active{% endif %}">
+            <a href="{{ url_for('saved_products') }}">Saved Products</a>
+        </li>
+
+        <li class="{% if request.endpoint == 'contact_us' %}active{% endif %}">
+            <a href="{{ url_for('contact_us') }}">Contact Us</a>
+        </li>
+
+        <li class="{% if request.endpoint == 'about_us' %}active{% endif %}">
+            <a href="{{ url_for('about_us') }}">About Us</a>
+        </li>
+
+        <li class="{% if request.endpoint == 'faq' %}active{% endif %}">
+            <a href="{{ url_for('faq') }}">FAQ</a>
+        </li>
+
+        <li class="{% if request.endpoint == 'plan_details' %}active{% endif %}">
+            <a href="{{ url_for('plan_details') }}">Plans</a>
+        </li>
+    </ul>
+</div>
