@@ -1,5 +1,5 @@
 // ===== SIDEBAR FUNCTIONALITY =====
-function toggleSidebar() {
+window.toggleSidebar = function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const toggle = document.querySelector('.sidebar-toggle');
 
@@ -17,10 +17,17 @@ function toggleSidebar() {
         spans[1].style.opacity = '';
         spans[2].style.transform = '';
     }
-}
+};
 
-// Dark Mode Toggle
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Bind sidebar button click (NO inline onclick)
+    const sidebarBtn = document.querySelector('.sidebar-toggle');
+    if (sidebarBtn) {
+        sidebarBtn.addEventListener('click', window.toggleSidebar);
+    }
+
+    // Dark mode toggle
     const darkToggle = document.getElementById('dark-mode-toggle');
     if (darkToggle) {
         darkToggle.addEventListener('click', () => {
@@ -43,8 +50,4 @@ document.addEventListener('DOMContentLoaded', () => {
         const icon = darkToggle?.querySelector('i');
         icon?.classList.replace('fa-moon', 'fa-sun');
     }
-
-    // Sidebar click binding (NO inline onclick needed)
-    const sidebarBtn = document.querySelector('.sidebar-toggle');
-    if (sidebarBtn) sidebarBtn.addEventListener('click', toggleSidebar);
 });
