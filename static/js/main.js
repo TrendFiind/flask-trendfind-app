@@ -2,13 +2,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 // ===== SIDEBAR FUNCTIONALITY (Works Across All Pages) =====
-function toggleSidebar() {
+window.toggleSidebar = function () {
     const sidebar = document.getElementById('sidebar');
     const toggle = document.querySelector('.sidebar-toggle');
-    
+
+    if (!sidebar || !toggle) return;
+
     sidebar.classList.toggle('open');
-    
-    // Animate hamburger icon
+
     const spans = toggle.querySelectorAll('span');
     if (sidebar.classList.contains('open')) {
         spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
@@ -19,7 +20,7 @@ function toggleSidebar() {
         spans[1].style.opacity = '';
         spans[2].style.transform = '';
     }
-}
+};
 
 // Dark Mode Toggle
 document.getElementById('dark-mode-toggle').addEventListener('click', function() {
