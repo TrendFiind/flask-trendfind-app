@@ -1686,3 +1686,19 @@ body.dark-mode .dark-mode-toggle i {
         padding: 10px 15px;
     }
 }
+
+/* ===== ACTIVE SIDEBAR LINK STYLING ===== */
+.sidebar a.active {
+    background-color: rgba(0, 123, 255, 0.2);
+    color: #007bff !important;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.4);
+    transform: translateX(8px);
+    border-radius: 6px;
+}
+
+/* Dark mode version */
+body.dark-mode .sidebar a.active {
+    background-color: rgba(0, 255, 234, 0.15);
+    color: #00ffea !important;
+    box-shadow: 0 0 15px rgba(0, 255, 234, 0.4);
+}
